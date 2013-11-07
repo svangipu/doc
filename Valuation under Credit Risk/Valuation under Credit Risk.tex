@@ -1,0 +1,509 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{article}%
+%Options -- Point size:  10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper (default), a4paper, a5paper, b5paper
+%                        legalpaper, executivepaper
+%        -- Orientation  (portrait is the default)
+%                        landscape
+%        -- Print size:  oneside (default), twoside
+%        -- Quality      final(default), draft
+%        -- Title page   notitlepage, titlepage(default)
+%        -- Columns      onecolumn(default), twocolumn
+%        -- Equation numbering (equation numbers on the right is the default)
+%                        leqno
+%        -- Displayed equations (centered is the default)
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Open bibliography style (closed is the default)
+%                        openbib
+% For instance the command
+%           \documentclass[a4paper,12pt,leqno]{article}
+% ensures that the paper size is a4, the fonts are typeset at the size 12p
+% and the equation numbers are on the left side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+%-------------------------------------------
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+\begin{document}
+
+\title{Fixed Income Valuation under Static Credit Risk}
+\author{P. Caspers}
+\date{June 23, 2012}
+\maketitle
+
+\begin{abstract}
+blahblah
+\end{abstract}
+
+
+\section{Discounting Curve}
+
+\subsection{Default free interest rate curve}
+
+We assume that there is (at least a proxy) for an interest rate curve which does not include any credit risk. An entity $O$ with $\lambda_O=0$ i.e.
+without any risk to default can fund at the rates on this curve. We denote discount factors on this curve by $P(0,T)$.
+
+In the current market situation we take the OIS curves as these proxies, e.g. for EUR this will be the curve stripped from Eonia swaps.
+
+\section{Cases}
+We assume two parties $A$ and $B$ with default termstructures given by default intensities $\lambda_A$ and $\lambda_B$. A third entity $O$ is assumed
+to have no credit risk, i.e. $\lambda_O=0$.
+
+\subsection{$A$ receives a deterministic cashflow from $O$}
+
+Assume $A$ has the opportunity to enter into a deal where she receives a deterministic cashflow $C(T)>0$ at time $T$ from $O$. What amount $C(0)$ is $A$ willing to pay to enter in such a deal? $A$ can fund $P(0,T) \nu_A(T) C(T)$ at time $0$ repaying $C(T)$ at time $T$. This is possible at least if there are investors only requiring to be compensated for the credit risk of $A$, i.e. which can fund themselves on hte risk free curve.
+
+Therefore $C(0) \geq P(0,T) \nu_A(T) C(T)$, otherwise $A$ would make an instantaneous profit at $t=0$ and all future cashflows would cancel out. Since on the other hand $A$ has to fund the amount she has to pay $C(0) \leq P(0,T) \nu_A(T) C(T)$, otherwise $A$ has to repay more that she gets out of the deal she enters into. Therefore
+
+\begin{equation}
+C(0) = P(0,T) \nu_A(T) C(T)
+\end{equation}
+
+This valuation includes funding costs of $A$ and is therefore dependent on $A$, i.e. each market participant will have a different valuation of this deal.
+
+\subsection{$A$ receives a deterministic cashflow from $B$}
+
+Now we replace $O$ by a counterparty $B$ possibly bearing credit risk. $A$ now funds $P(0,T) \nu_A(T) \nu_B(T) C(T)$ repaying $1_{\tau_B > T} C(T)$ at time $T$, i.e. the repayment is credit linked to $B$. It follows with the same arguments as above that
+
+\begin{equation}
+C(0) = P(0,T) \nu_A(T) \nu_B(T) C(T)
+\end{equation}
+
+\subsection{$A$ receives a collaterized deterministic cashflow from $B$}
+
+Assume that the deal is cash collaterized now, which by definition means that at each time $t, t<T$ the market value of the deal is deposited by $B$ on a cash account. This cash account can freely be used by $A$. $A$ pays continuously the risk free interest rate on the amount on this account.  In a discretized setting
+at time $T-\Delta t$ it must be the case that the account balance which is the market value of C(T) at $T-\Delta t$ is
+
+\begin{equation}
+C(T-\Delta t) = e^{-r(T-\Delta t)\Delta t}C(T)
+\end{equation}
+
+where $r(t)$ denotes the risk free interest rate at time $t$ in order to have a balance of $C(T)$ at time $T$. Going back one more step we get
+
+\begin{equation}
+C(T-2\Delta t) = e^{-r(T-2\Delta t)\Delta t} E( e^{-r(T-\Delta t)\Delta t}C(T) | \mathcal{F}_{T-2\Delta t} )
+\end{equation}
+
+Repeating this argument and letting $\Delta t$ approach zero we get
+
+\begin{equation}
+C(0) = E( e^{-\int_{0}^{T} r(t) dt} C(T) )
+\end{equation}
+
+
+
+\section{Credit Risk Notions}
+
+We assume that a credit risk free basis curve is defined such that incoming cashflows not exposed to credit risk are valued in a reasonable way. The choice
+of this basis curve is discussed in ... (?).
+
+\subsection{Default Intensity and Non Default Probability}
+
+Credit risk can be represented by a deterministic function $\lambda: [0,T] \rightarrow [0,\infty)$ called
+the default intensity. The probability of non default before and including time $t$ is given by
+
+\begin{equation}\label{NdfProb}
+\nu(t) := P(\tau > t) = e^{-\int_{0}^{t} \lambda(s) ds}
+\end{equation}
+
+where $\tau$ is the (stochastic) default time. A risky cashflow $C(T)$ coming in at time $T$ hat a time $t$ value of
+
+\begin{equation}\label{riskyCfNpv}
+1_{\tau > t} P(\tau > T | \tau > t) N(t) E\left(\frac{C(T)}{N(T)}\right)
+\end{equation}
+
+where $N$ is a numeraire and the expectation taken in a suitable martingale measure. This means that the value is $0$
+if default has already occured and the default free value is weighted by the survival probability at payment time $T$
+conditional on survival up to valuation time $t$. Formula \ref{riskyCfNpv} can be rewritten using \ref{NdfProb} as
+
+\begin{equation}\label{riskyCfNpv2}
+1_{\tau > t} e^{-\int_{t}^{T} \lambda(s) ds} N(t) E\left( \frac{C(T)}{N(T)} \right)
+\end{equation}
+
+Note that zero recovery is assumed here, i.e. in case of default no payment is received.
+
+\subsection{Z-Spread}
+
+When the numeraire is chosen to be the bank account $B(t) = e^{\int_{0}^{t} r(s) ds}$ with a short rate $r(s)$, formula
+\ref{riskyCfNpv2} translates directly to
+
+\begin{equation}\label{zSpread}
+1_{\tau > t} E\left( C(T) e^{-\int_{t}^{T} (r(s)+\lambda(s))ds} \right)
+\end{equation}
+
+which means, that the default intensity $\lambda(s)$ can also be interpreted as a instantaneous credit spread that should be added
+to the risk free short rate. We call $\lambda(s)$ the instantaneous z-spread.
+Both $r$ and $\lambda$ are expressed with continuous compounding here and must use the same day count convention
+to be consistent. A risky discount factor can then be written as
+
+\begin{equation}\label{riskyDf}
+P(t,T) := E( e^{-\int_{t}^{T} (r(s)+\lambda(s)) ds } | \mathcal{F}_t )
+\end{equation}
+
+or also as 
+
+\begin{equation}\label{riskyDf2}
+P(t,T) = e^{-(z(t,T)+\Lambda(t,T))T}
+\end{equation}
+
+setting $\Lambda(t,T) := (T-t)^{-1} \int_{t}^{T} \lambda(s) ds$ and $z(t,T) = -(T-t)^{-1} \ln P(t,T)$ denoting the usual zero rate for maturity $T$ as seen from $t$. $\Lambda(t,T)$ is called z-spread for maturity $T$ as seen from $t$.
+
+The non default probability up to maturity $T$ given survival up to $t$ can be written as
+
+\begin{equation}\label{NdfProb2}
+P(\tau > T | \tau > t) = e^{-\Lambda(t,T)(T-t)}
+\end{equation}
+
+\subsection{Par Spread}
+
+Instead of defining a shift in zero rates as e.g. in equation \ref{riskyDf} one can also define shifts in par rates (i.e. par spreads) which through the boostrap procedure then implies a shift in the basis curves zero rates, i.e. z-spreads. Par rates here mean market instrument rates used for bootstrapping the curve. Alternatively par rates can also be defined to be swap rates for all maturities of the original curve instruments. This makes a difference e.g. if the basis curve is bootstrapped with FRAs.
+
+\subsection{Fair Floater Spread}
+
+Assume a floater on a specific Ibor index paying a margin $s$ with maturity $T$. Requiring that this floater is worth par defines a z-spread for this maturity
+(we allow either z-spreads for shorter maturities are already defined by some procedure, possibly but not necessarily also by fair floater spreads, we allow
+also for a flat z-spread to be deduced from the quote).
+
+We assume that the index is estimated on a forward curve different from the basis curve in general (and usually stripped relative to this basis curve). The 
+z-spread then has to be implied.
+
+
+\subsection{CDS Spread}
+
+
+
+\subsection{Asset Swap Spread}
+
+
+
+
+
+ 
+
+\noindent The front matter has various entries such as\\
+\hspace*{\fill}\verb" \title", \verb"\author", \verb"\date", and
+\verb"\thanks"\hspace*{\fill}\\
+You should replace their arguments with your own.
+
+This text is the body of your article. You may delete everything between the commands\\
+\hspace*{\fill} \verb"\begin{document}" \ldots \verb"\end{documant}"
+\hspace*{\fill}\\in this file to start with a blank document.
+
+
+\section{The Most Important Features}
+
+\noindent Sectioning commands. The first one is the\\
+\hspace*{\fill} \verb"\section{The Most Important Features}" \hspace*{\fill}\\
+command. Below you shall find examples for further sectioning commands:
+
+\subsection{Subsection}
+Subsection text.
+
+\subsubsection{Subsubsection}
+Subsubsection text.
+
+\paragraph{Paragraph}
+Paragraph text.
+
+\subparagraph{Subparagraph}Subparagraph text.\vspace{2mm}
+
+Select a part of the text then click on the button Emphasize (H!), or Bold (Fs), or
+Italic (Kt), or Slanted (Kt) to typeset \emph{Emphasize}, \textbf{Bold},
+\textit{Italics}, \textsl{Slanted} texts.
+
+You can also typeset \textrm{Roman}, \textsf{Sans Serif}, \textsc{Small Caps}, and
+\texttt{Typewriter} texts.
+
+You can also apply the special, mathematics only commands $\mathbb{BLACKBOARD}$
+$\mathbb{BOLD}$, $\mathcal{CALLIGRAPHIC}$, and $\mathfrak{fraktur}$. Note that
+blackboard bold and calligraphic are correct only when applied to uppercase letters A
+through Z.
+
+You can apply the size tags -- Format menu, Font size submenu -- {\tiny tiny},
+{\scriptsize scriptsize}, {\footnotesize footnotesize}, {\small small}, {\normalsize
+normalsize}, {\large large}, {\Large Large}, {\LARGE LARGE}, {\huge huge} and {\Huge
+Huge}.
+
+You can use the \verb"\begin{quote} etc. \end{quote}" environment for typesetting
+short quotations. Select the text then click on Insert, Quotations, Short Quotations:
+
+\begin{quote}
+The buck stops here. \emph{Harry Truman}
+
+Ask not what your country can do for you; ask what you can do for your
+country. \emph{John F Kennedy}
+
+I am not a crook. \emph{Richard Nixon}
+
+I did not have sexual relations with that woman, Miss Lewinsky. \emph{Bill Clinton}
+\end{quote}
+
+The Quotation environment is used for quotations of more than one paragraph. Following
+is the beginning of \emph{The Jungle Books} by Rudyard Kipling. (You should select
+the text first then click on Insert, Quotations, Quotation):
+
+\begin{quotation}
+It was seven o'clock of a very warm evening in the Seeonee Hills when Father Wolf woke
+up from his day's rest, scratched himself, yawned  and spread out his paws one after
+the other to get rid of sleepy feeling in their tips. Mother Wolf lay with her big gray
+nose dropped across her four tumbling, squealing cubs, and the moon shone into the
+mouth of the cave where they all lived. ``\emph{Augrh}'' said Father Wolf, ``it is time
+to hunt again.'' And he was going to spring down hill when a little shadow with a bushy
+tail crossed the threshold and whined: ``Good luck go with you, O Chief of the Wolves;
+and good luck and strong white teeth go with the noble children, that they may never
+forget the hungry in this world.''
+
+It was the jackal---Tabaqui the Dish-licker---and the wolves of India despise Tabaqui
+because he runs about making mischief, and telling tales, and eating rags and pieces of
+leather from the village rubbish-heaps. But they are afraid of him too, because
+Tabaqui, more than any one else in the jungle, is apt to go mad, and then he forgets
+that he was afraid of anyone, and runs through the forest biting everything in his way.
+\end{quotation}
+
+Use the Verbatim environment if you want \LaTeX\ to preserve spacing, perhaps when
+including a fragment from a program such as:
+\begin{verbatim}
+#include <iostream>         // < > is used for standard libraries.
+void main(void)             // ''main'' method always called first.
+{
+ cout << ''This is a message.'';
+                            // Send to output stream.
+}
+\end{verbatim}
+(After selecting the text click on Insert, Code Environments, Code.)
+
+
+\subsection{Mathematics and Text}
+
+It holds \cite{KarelRektorys} the following
+\begin{theorem}
+(The Currant minimax principle.) Let $T$ be completely continuous selfadjoint operator
+in a Hilbert space $H$. Let $n$ be an arbitrary integer and let $u_1,\ldots,u_{n-1}$ be
+an arbitrary system of $n-1$ linearly independent elements of $H$. Denote
+\begin{equation}
+\max_{\substack{v\in H, v\neq
+0\\(v,u_1)=0,\ldots,(v,u_n)=0}}\frac{(Tv,v)}{(v,v)}=m(u_1,\ldots, u_{n-1})
+\label{eqn10}
+\end{equation}
+Then the $n$-th eigenvalue of $T$ is equal to the minimum of these maxima, when
+minimizing over all linearly independent systems $u_1,\ldots u_{n-1}$ in $H$,
+\begin{equation}
+\mu_n = \min_{\substack{u_1,\ldots, u_{n-1}\in H}} m(u_1,\ldots, u_{n-1}) \label{eqn20}
+\end{equation}
+\end{theorem}
+The above equations are automatically numbered as equation (\ref{eqn10}) and
+(\ref{eqn20}).
+
+\subsection{List Environments}
+
+You can create numbered, bulleted, and description lists using the tag popup
+at the bottom left of the screen.
+
+\begin{enumerate}
+\item List item 1
+
+\item List item 2
+
+\begin{enumerate}
+\item A list item under a list item.
+
+The typeset style for this level is different than the screen style. \ The
+screen shows a lower case alphabetic character followed by a period while the
+typeset style uses a lower case alphabetic character surrounded by parentheses.
+
+\item Just another list item under a list item.
+
+\begin{enumerate}
+\item Third level list item under a list item.
+
+\begin{enumerate}
+\item Fourth and final level of list items allowed.
+\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+\end{enumerate}
+
+\begin{itemize}
+\item Bullet item 1
+
+\item Bullet item 2
+
+\begin{itemize}
+\item Second level bullet item.
+
+\begin{itemize}
+\item Third level bullet item.
+
+\begin{itemize}
+\item Fourth (and final) level bullet item.
+\end{itemize}
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+\begin{description}
+\item[Description List] Each description list item has a term followed by the
+description of that term. Double click the term box to enter the term, or to
+change it.
+
+\item[Bunyip] Mythical beast of Australian Aboriginal legends.
+\end{description}
+
+\subsection{Theorem-like Environments}
+
+The following theorem-like environments (in alphabetical order) are available
+in this style.
+
+\begin{acknowledgement}
+This is an acknowledgement
+\end{acknowledgement}
+
+\begin{algorithm}
+This is an algorithm
+\end{algorithm}
+
+\begin{axiom}
+This is an axiom
+\end{axiom}
+
+\begin{case}
+This is a case
+\end{case}
+
+\begin{claim}
+This is a claim
+\end{claim}
+
+\begin{conclusion}
+This is a conclusion
+\end{conclusion}
+
+\begin{condition}
+This is a condition
+\end{condition}
+
+\begin{conjecture}
+This is a conjecture
+\end{conjecture}
+
+\begin{corollary}
+This is a corollary
+\end{corollary}
+
+\begin{criterion}
+This is a criterion
+\end{criterion}
+
+\begin{definition}
+This is a definition
+\end{definition}
+
+\begin{example}
+This is an example
+\end{example}
+
+\begin{exercise}
+This is an exercise
+\end{exercise}
+
+\begin{lemma}
+This is a lemma
+\end{lemma}
+
+\begin{proof}
+This is the proof of the lemma.
+\end{proof}
+
+\begin{notation}
+This is notation
+\end{notation}
+
+\begin{problem}
+This is a problem
+\end{problem}
+
+\begin{proposition}
+This is a proposition
+\end{proposition}
+
+\begin{remark}
+This is a remark
+\end{remark}
+
+\begin{solution}
+This is a solution
+\end{solution}
+
+\begin{summary}
+This is a summary
+\end{summary}
+
+\begin{theorem}
+This is a theorem
+\end{theorem}
+
+\begin{proof}
+[Proof of the Main Theorem]This is the proof.
+\end{proof}
+\medskip
+
+This text is a sample for a short bibliography. You can cite a book by making use of
+the command \verb"\cite{KarelRektorys}": \cite{KarelRektorys}. Papers can be cited
+similarly: \cite{Bertoti97}. If you want multiple citations to appear in a single set
+of square brackets you must type all of the citation keys inside a single citation,
+separating each with a comma. Here is an example: \cite{Bertoti97, Szeidl2001,
+Carlson67}.
+
+\begin{thebibliography}{9}                                                                                                %
+\bibitem {KarelRektorys}Rektorys, K., \textit{Variational methods in Mathematics,
+Science and Engineering}, D. Reidel Publishing Company,
+Dordrecht-Hollanf/Boston-U.S.A., 2th edition, 1975
+
+\bibitem {Bertoti97} \textsc{Bert\'{o}ti, E.}:\ \textit{On mixed variational formulation
+of linear elasticity using nonsymmetric stresses and displacements}, International
+Journal for Numerical Methods in Engineering., \textbf{42}, (1997), 561-578.
+
+\bibitem {Szeidl2001} \textsc{Szeidl, G.}:\ \textit{Boundary integral equations for
+plane problems in terms of stress functions of order one}, Journal of Computational and
+Applied Mechanics, \textbf{2}(2), (2001), 237-261.
+
+\bibitem {Carlson67}  \textsc{Carlson D. E.}:\ \textit{On G\"{u}nther's stress functions
+for couple stresses}, Quart. Appl. Math., \textbf{25}, (1967), 139-146.
+\end{thebibliography}
+
+
+\appendix
+
+\section{The First Appendix}
+
+The appendix fragment is used only once. Subsequent appendices can be created
+using the Section Section/Body Tag.
+\end{document}

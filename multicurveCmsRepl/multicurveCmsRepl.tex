@@ -1,0 +1,158 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%--------------------------------------------------------
+\begin{document}
+\title[Multicurve Replication of Cms Coupons]{Multicurve Replication of Cms Coupons}
+\author{P. Caspers}
+\email[P. Caspers]{pcaspers1973@googlemail.com}
+\date{June 1, 2013}
+\dedicatory{First Version June 1, 2013 - This Version June 1, 2013}
+\begin{abstract}
+We summarize formulas for the replication and pricing of Cms coupons in a multicurve setting.
+\end{abstract}
+
+\maketitle
+
+\section{Notation}
+We assume a two curve setting consisting of a discount curve $D$ and a forward curve $F$. All quantities computed on 
+these curves are denoted with a respective subscript $D$ or $F$.
+
+A swap rate fixed on $t_f$ may be written as
+
+\begin{equation}
+S(t_f) = \frac{\sum \tau_i L_F(t_f,t_i) P_D(t_f,s_i)}{\sum \tau^*_j P_D(t_f, s^*_j)}
+\end{equation}
+
+with $\tau$ denoting yearfractions, $t, s$ fixing and payment times, $L(u,v)$ the Libor rate fixed at $v$ as seen from u and $P$ a discount factor.
+
+A swaption price $p$ for a swaption withh expiry on $t_f$ is given by the usual Black formula $B$
+
+\begin{equation}
+p = \sum \tau^*_j P_D(0,s^*_j) B( S(0), K, \sigma, t_f ) 
+\end{equation}
+
+\section{Curve Scenarios}
+We use curve scenarios generated from a Hull White model to determine the replication basket. In a single curve setup we can write
+
+\begin{equation}\label{curvescen}
+P(t,t') = \frac{P(0,t')}{P(0,t)} e^{ -h G(t,t') }
+\end{equation}
+
+with $h = x + \phi$ derived from the normalized short rate $x(t) = r(t)-f(0,t)$ by a constant $\phi$ which only depends on the Hull White model parameters. Here
+
+\begin{equation}
+G(t,t') = \int_t^{t'} e^{-(u-t)\kappa} du = \frac{1-e^{-(t'-t)\kappa}}{\kappa}
+\end{equation}
+
+and for $\kappa=0$
+
+\begin{equation}
+G(t,t') = t' - t
+\end{equation}
+
+For our two curve setup we assume a static instantaneous forward spread between the curves, thus both curves have the same $x(t)$ and therefore equation \ref{curvescen} can be used for both curves $P_D$ and $P_F$. 
+
+\section{Replication Basket}
+
+\subsection{CMS Caplet}
+
+We wish to replicate a CMS caplet with fixing time $t_f$, payment time $t_p$ and strike $K$. We assume a discretization $h_i, i=0,...,n$ with $h_0=K$.
+
+The payoff of the caplet in scneario $i=1$ is $S(t_f,h_1)-K$ which discounts back to $t_f$ by $P_D(t_f,t_p,h_1)$. The npv of a physical settled call swaption with expiry on $t_f$ and strike $K$ is on the other hand $\Delta_1A(t_f,h_1)(S(t_f,h_1)-K)$ where $A$ denotes the annuity as written out explicitly above. Here $\Delta_1$ denotes the hedge weight. Equating the npv of the cms caplet payoff and the call swaption yields the first hedge weight
+
+\begin{equation}
+\Delta_1 = \frac{P_D(t_f,t_p,h_1)}{A(t_f,h_1)}
+\end{equation}
+
+We note here that it is possible to use a swaption price w.r.t. cash settlement where the annuity is replaced by
+
+\begin{equation}
+\sum_j \frac{\tau}{(1+\tau S(t_f))^ j}
+\end{equation}
+
+with a uniform $\tau$ corresponding to the frequency on the fixed leg.
+
+For the second scenario we have to revalue the first hedge instrument as $\Delta_1A(t_f,h_2)(S(t_f,h_2)-K)$, subtract this from the npv of a cms caplet in scenario two which is $P_D(t_f,t_p,h_2)(S(t_f,h_2)-K)$ and solve for the weight $\Delta_2$ of the second hedge instrument which is a call swaption with strike $S(t_f,h_1)$ (therefore contributing nothing in the first scenario):
+
+\begin{equation}
+\Delta_2 = \frac{P_D(t_f,t_p,h_2)(S(t_f,h_2)-K) - \Delta_1A(t_f,h_2)(S(t_f,h_2)-K)}{A(t_f,h_2)(S(t_f,h_2)-S(t_f,h_1))}
+\end{equation} 
+
+We continue until the last scenario $i=n$.
+
+\subsection{CMS Floorlet}
+
+The case of a floorlet is handled analoguous to the caplet case.
+
+\subsection{CMS Swaplet}
+
+A swaplet is priced via parity.
+
+
+\end{document}

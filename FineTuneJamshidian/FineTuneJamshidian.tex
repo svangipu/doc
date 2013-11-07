@@ -1,0 +1,221 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+\usepackage{gnuplottex}
+\usepackage{epstopdf}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%--------------------------------------------------------
+
+\begin{document}
+\title[Jamshidian Swaption Formula Fine Tuned]{Jamshidian Swaption Formula Fine Tuned}
+\author{Peter Caspers}
+\email[Peter Caspers]{pcaspers1973@gmail.com}
+\date{May 4, 2013}
+\dedicatory{First Version March 28, 2013 - This Version May 4, 2013}
+\begin{abstract}
+The Jamshidian swaption formula a.k.a. the Jamshidian trick reduces the pricing of an european swaption to the pricing of a series of
+zerbond options. This works in a one factor interest rate model in which zerobond prices are monotonic in the state variable. We review
+the method and write it down taking into account the start delay of the underlying swap which is usually ignored in the literature.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+Consider an (physical settled) european swaption with expiry $t_e$ giving the holder the right to enter into a swap starting at $t_s \geq t_e$. Usually $t_s-t_e$
+is positive, e.g. $2$ business days. We want to price this swaption in an interest rate model driven by one factor, e.g. the Hull White 1 factor model.
+The method is however not restricted to this particular model. It rather works for every model in which zerobond prices satisfy
+
+\begin{equation}\label{monoton}
+P(t,t',T,x(t)) \leq P(t,t',T,x'(t)) \textnormal{ whenever } x'(t) \geq x(t)
+\end{equation}
+
+where we write $x$ for the driving state variable and $P(t,t',T)$ for the $t-$ price of a forward zerobond starting at $t'$ and maturing at $T$ . We shall assume such a model for the rest of this paper. We note that \ref{monoton} holds for every affine one factor model with monotonically increasing $A(t,\cdot)$ function, since $P(t,T,x)=\exp(-A(t,T)x+B(t,T))$ here and hence
+
+\begin{equation}
+P(t,t',T,x(t)) = e^{(A(t,t')-A(t,T))x(t)+B(t,T)-B(t,t')}
+\end{equation}
+
+In particular for the Hull White model it is immediately verified, that $A(t,\cdot)$ is increasing.
+
+In section \ref{delay} we review the method allowing explicitly for a start delay of the underlying swap, which is usually ignored in the literature. Section \ref{numerical} gives numerical examples using the open source library QuantLib \cite{ql}. 
+
+\section{Start Delay}\label{delay}
+
+With notations as above at time $t_e$ the value of a payer swaption is
+
+\begin{equation}\label{payoff}
+P(t_e,t_e,t_s,x(t_e)) \left( 1 - \sum_{i=1}^n c_i P(t_e,t_s,t_i,x(t_e)) \right)^+
+\end{equation}
+
+where the $c_i$ represent the fixed coupons with $c_n$ including a final capital payment. The $t_s$-forward price of the float leg observed at $t_e$ is $1$. Here we assume a monocurve setup as well as some simplifications on the estimation of the float coupons.
+
+The first step in Jamshidians method is to find a value $x^*$ for which
+
+\begin{equation}
+1 - \sum_{i} c_i P(t_e,t_s,t_i,x^*) = 0
+\end{equation}
+
+which is usually done by a one dimensional numerical zero search. Now set
+
+\begin{equation}\label{strikes}
+K_i := P(t_e,t_s,t_i,x^*)
+\end{equation}
+
+which allows to rewrite the swaption payoff \ref{payoff} as
+
+\begin{equation}
+P(t_e,t_e,t_s,x(t_e)) \left( \sum_i c_i K_i - \sum_i c_i P(t_e,t_s,t_i,x(t_e)) \right)^+
+\end{equation}
+
+Since we are working under the general assumption of $P(t,T,\cdot)$ being monotonically decreasing this expression is non negative if and only if $x\geq x^*$. This is also true for each summand $K_i - c_iP(t_e,t_s,t_i,x)$ for the same reason and therefore the payoff can be written
+
+\begin{equation}\label{zerobondoption}
+P(t_e,t_e,t_s,x(t_e)) \sum_i c_i \left( K_i - P(t_e,t_s,t_i,x(t_e)) \right)^+
+\end{equation}
+
+This shows that the swaption payoff at time $t_e$ is the same as the sum of zerobond option payoffs at time $t_e$ with strikes as defined in \ref{strikes} and call and put reversed in comparision to the swaption.
+
+The zerobond option we are looking at here is in more detail an option with expiry $t_e$, on which the $t_s$-forward zerobond price is marked against the strike $K_i$ and the difference, if positive, is paid out on $t_s$.
+
+What remains to do is to extend the usual zerobond option pricing formula by a pricing formula allowing for an expiry date different from the start date of the underlying bond. This is however easy to do. For example we can refer to \cite{piterbarg} and note that Proposition 4.5.1 can be generalized to our situation by choosing the $t_s$-forward measure for pricing, replacing $P(T,T^*)$ by $P(t_e,t_s,T)$ in our notation, and setting the upper integral bound of $v$ to $t_e$. More formal:
+
+\begin{proposition}
+(slight generalization of Propostion 4.5.1 in \cite{piterbarg}) Consider a European call option with expiry $t_e$ and paying at $t_s$ the amount
+
+\begin{equation}
+(P(t_e,t_s,T)-K)^+
+\end{equation}
+
+In a Gaussian HJM model we have
+
+\begin{equation}
+V(t) = P(t,T)\Phi(d_+) - P(t,t_s)K\Phi(d_-)
+\end{equation}
+
+with
+
+\begin{eqnarray}
+d_{\pm} = \frac{\ln(P(t,T))/(KP(t,t_s)) \pm v/2}{\sqrt{v}} \\
+v = \int_t^{t_e} | \sigma_P(u,T) - \sigma_P(u,t_s) |^2 du
+\end{eqnarray}
+
+where $\sigma_P(\cdot,t)$ is the volatility of the zero coupon bond process $P(\cdot,t)$.
+
+\end{proposition}
+
+\begin{proof}
+In the $t_s$ - forward measure $Q^{t_s}$ we have
+\begin{equation}
+V(t) = P(t,t_s) E^{t_s}_t \left( (P(t_s,t_s,T)-K)^+ \right)
+\end{equation}
+Since $P(\cdot,t_s,T)$ is a $Q^{t_s}$ - martingale with dynamics
+\begin{equation}
+dP(t,t_s,T)/P(t,t_s,T) = - ( \sigma_P(t,t_s) - \sigma_P(t,T) ) dW(t)
+\end{equation}
+we can apply the usual Black formula to get $V(t)$.
+\end{proof}
+
+\section{Numerical Examples}\label{numerical}
+
+We give two numerical examples in this section. The computations have been carried out using the QuantLib library \cite{ql}. The pricing date is 27-03-2013 and the swaption is a standard payer swaption on a 10y swap versus Euribor 6m with expiry 27-03-2018 and value date 29-03-2018. The interest rate curve is assumed to be flat forward at 3\% (continously compounded rate). We are using a Hull White model with 1\% reversion and 1\% model volatility. Table \ref{ex1} shows pricing results with different engines: The original Jamshidian engine ignores start delays and assumes the start date to be equal to the expiry date. The new Jamshidian engine takes into account the start delay as described in section \ref{delay}. The last two engines are numerical engines respecting the start delay too. While the new Jamshidian engine and the two numerical engines agree up to 0.06 bp, the original engine deviates by 0.24bp.
+
+\begin{table}[ht]
+\caption{Pricing example with 2 open days start delay}
+\begin{tabular}{l | l}
+Pricing Engine & NPV \\ \hline
+Original Jamshidian Engine & 0.062566446 \\
+New Jamshidian Engine & 0.062590737  \\
+Tree Swaption Engine & 0.062596428 \\
+Proprietary Integral Engine & 0.062588027 \\
+\end{tabular}
+\label{ex1}
+\end{table}
+
+The picture becomes even clearer when doing the same pricing with an (artificial) settlement delay of 42 open days instead of 2, leaving all other parameters as before. Table \ref{ex2} shows the results for this case, now the original engine being off by over 7bp while the other three engines still agree up to 0.08bp.
+
+\begin{table}[ht]
+\caption{Pricing example with 42 open days start delay}
+\begin{tabular}{l | l}
+Pricing Engine & NPV \\ \hline
+Original Jamshidian Engine & 0.061439389 \\
+New Jamshidian Engine & 0.062174228  \\
+Tree Swaption Engine & 0.062182501 \\
+Proprietary Integral Engine & 0.062168930 \\
+\end{tabular}
+\label{ex2}
+\end{table}
+
+\begin{thebibliography}{3}
+
+\bibitem{ql}QuantLib A free/open-source library for quantitative finance, http://www.quantlib.org
+
+\bibitem{piterbarg} Piterbarg, Andersen: Interest Rate Modeling, Volume I, Atlantic Financial Press, 2010
+
+\end{thebibliography}
+
+\end{document}

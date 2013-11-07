@@ -1,0 +1,612 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+\usepackage{gnuplottex}
+\usepackage{epstopdf}
+%\usepackage[pdf]{pstricks}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%-----------------------------------------------------------------
+\begin{document}
+
+\title{Implementation of the ZABR model}
+\author{Peter Caspers}
+\date{September 7, 2013}
+\dedicatory{First Version July 17, 2012 - This Version September 7, 2013}
+\maketitle
+
+\begin{abstract}
+We describe the implementation of the ZABR model \cite{zabr} and give numerical examples.
+\end{abstract}
+
+\section{Model description}
+We follow \cite{zabr}. The general model description is given by
+
+\begin{eqnarray}\label{generalmodeldef}
+df(t) &=& \sigma(f(t)) v(t) dW(t) \\
+dv(t) &=& \epsilon(v(t)) dV(t) \\
+dW(t) dV(t) &=& \rho dt \\
+v(0) &=& \alpha > 0
+\end{eqnarray}
+
+where the local volatility function $\sigma$ only depends on the forward $f$ (not on the time $t$) and is multiplied by a
+stochastic volatility factor $v$, which is driven by a correlated brownian motion $V$, again with a space but not time dependent local volatility function $\epsilon$.
+
+The SABR model is recoverd as a special case by setting
+
+\begin{eqnarray}
+\sigma(f) &=& f^{\beta} \\
+\epsilon(v) &=& \eta v
+\end{eqnarray}
+
+with CEV parameter $\beta \in [0,1]$ and volatility of volatility $\eta \geq 0$.
+
+\section{Implied normal volatility}
+
+The aim is to derive a formula for european call option prices in the general model given by the general formula
+
+\begin{equation}
+c(t) = E( (f(T)-K)^+ | \mathcal{F}_t )
+\end{equation}
+
+where $T$ is the maturity, $K$ is the strike and $c(t)$ is the (non discounted) call price at time $t$.
+
+We define the normal implied volatility $\nu(t)$ by
+
+\begin{equation} \label{impliedvol}
+B(f(t),\nu(t),\tau,K) = c(t)
+\end{equation}
+
+where $\tau := T-t$ is the time to maturity and $B$ is the normal Black Formula
+
+\begin{equation}
+B(f,\nu,\tau,K) = (f-K) \Phi \left( \frac{f-K}{\nu\sqrt{\tau}} \right) + 
+                                   \nu\sqrt{\tau} \phi \left( \frac{f-K}{\nu\sqrt{\tau}} \right)
+\end{equation}
+
+The Ito formula applied to \ref{impliedvol} yields
+
+\begin{equation} \label{cdynamic}
+dc = -B_\tau dt + B_f df + B_\nu d\nu + \frac{1}{2} \left( B_{\nu\nu} d\nu d\nu + B_{ff} df df \right) + B_{f\nu} df d\nu 
+\end{equation}
+
+Setting 
+
+\begin{equation}
+x(t) := \frac{f(t)-K}{\nu(t)}
+\end{equation}
+
+the ito formula gives
+
+\begin{equation}
+dx = \frac{1}{\nu} df - \frac{f-K}{\nu^2} d\nu + \frac{f-K}{\nu^3} d\nu d\nu - \frac{1}{\nu^2} dfd\nu
+ = \frac{1}{\nu} ( df - x d\nu ) + \textnormal{... }dt
+\end{equation} 
+
+because $dZ dt = dt dt = 0$ for every brownian $Z$. Therefore the quadratic variation of $x$ evaluates to
+
+\begin{equation} \label{quadVarX}
+dx dx = \frac{1}{\nu^2} ( df df - 2 x df d\nu + x^2 d\nu d\nu )
+\end{equation}
+
+The following equations are verified by direct computation
+
+\begin{eqnarray} \label{propB}
+B_\nu &=& \nu \tau B_{ff} \\
+B_{\nu\nu} &=& \left( \frac{f-K}{\nu} \right) ^2 B_{ff} \\
+B_{f \nu} &=& - \left( \frac{f-K}{\nu} \right) B_{ff} \\
+0 &=& -B_\tau + \frac{1}{2} \nu^2 B_{ff}
+\end{eqnarray}
+
+Since $c$ and $f$ are martingales, taking expectations in \ref{cdynamic} and using \ref{propB} yields
+
+\begin{equation}
+0 = -\frac{1}{2} \nu^2 B_{ff} dt + \nu \tau B_{ff} d\nu  + \frac{1}{2} \left( x^2 B_{ff} d\nu d\nu + B_{ff} df df \right)
+       - x B_{ff} df d\nu
+\end{equation}
+
+Dividing by $B_{ff}$ and using \ref{quadVarX} gives
+
+\begin{equation}
+0 = -\frac{1}{2} \nu^2 dt + \nu \tau E(d\nu) + \frac{1}{2} \nu^2 dx dx 
+\end{equation}
+
+which for $\tau \rightarrow 0$ becomes
+
+\begin{equation}
+0 = - \nu^2 ( dt - dx dx )
+\end{equation}
+
+or
+
+\begin{equation}
+\sigma_x := \frac{dx dx}{dt} = 1
+\end{equation}
+
+The aim is to find $x(t)$, then the normal implied volatility is given by
+
+\begin{equation}
+\nu(t) = \frac{f-K}{x(t)} 
+\end{equation}
+
+Setting $x(t) = x(f(t),v(t))$, one gets $dx=x_fdf+x_vdv+\textnormal{... }dt$, therefore
+
+\begin{equation}\label{pde}
+1 = \sigma_x = \frac{dx dx}{dt} = x_f^2\sigma(f)^2v^2+x_v^2\epsilon(v)^2+2x_fx_v\rho\sigma(f) v \epsilon(v)
+\end{equation}
+
+This is a nonlinear partial differential equation in the dummy variables $(fv)$, which can be solved using boundary condition
+
+\begin{equation}
+x(f=K,v) = 0
+\end{equation}
+
+\section{Deterministic case}
+
+If $\epsilon(v)=0$, i.e. there is no stochastic volatility, the PDE \ref{pde} becomes
+
+\begin{equation}
+1 = x_s^2\sigma(f)^2v^2
+\end{equation}
+
+We can set $v=1$, taking the root and get
+
+\begin{equation}
+x_f = \sigma(f)^{-1}
+\end{equation}
+
+with solution under the boundary condition $x(K) = 0$
+
+\begin{equation}
+x = \int_{K}^f \sigma(u)^{-1} du
+\end{equation}
+
+thereby yielding the normal volatility
+
+\begin{equation}
+\nu = \frac{f-K}{\int_{K}^f \sigma(u)^{-1} du}
+\end{equation}
+
+Note that in the case $f=K$, $\nu=\sigma(f)$. In the lognormal case
+
+\begin{equation}
+\nu = \frac{\ln \frac{f}{K}} {\int_{K}^f \sigma(u)^{-1} du}
+\end{equation}
+
+where we have to take $\nu = \sigma(f) f^{-1}$ for $f=K$. The local volatility function $\sigma(f)$ can obviously reconstructed from $x$ by
+
+\begin{equation}\label{localvolfromx}
+\sigma(f) = - \left( \frac{\partial x}{\partial K}(f) \right) ^{-1}
+\end{equation}
+
+
+\section{The SABR model}
+
+The SABR model is recovered by setting $\sigma(f)=f^\beta$ and $\epsilon(v)=\eta v$ with $\beta \in [0,1]$ and a volatility of volatility parameter $\eta \geq 0$.
+The pde \ref{pde} now takes the form
+
+\begin{equation}\label{pdesabr}
+1 = x_f^2 f^{2\beta} v^2 + x_v^2 \eta^2 v^2 + 2 x_f x_v \rho f^\beta \eta v
+\end{equation}
+
+We define a new variable $y$ by setting
+
+\begin{equation}\label{defsabry}
+y(t) := v(t)^{-1}\int_{K}^{f(t)} \sigma(u)^{-1} du
+\end{equation}
+
+Ito gives
+
+\begin{eqnarray}
+dy = y_f df + y_v dv + \textnormal{... } dt = \\
+ dW - \eta y(t) dV + \textnormal{... } dt = \\
+ \sqrt{ 1 + \eta^2 y(t)^2 - 2 \rho\eta y(t) }  dB + \textnormal{... } dt =: \\
+ J(y(t)) dB + \textnormal{... } dt
+\end{eqnarray}
+
+It should be noted that
+
+\begin{equation}
+1+\eta^2 y(t)^2 - 2\rho\eta y(t) = (\eta y(t) - \rho)^2 + (\rho^2-1) > 0
+\end{equation}
+
+whenever $\rho \in (-1,1)$ what we assume in the following. Now set
+
+\begin{equation}\label{defsabrx}
+x(t):=\int_0^{y(t)} J(u)^{-1} du
+\end{equation}
+
+We aim to show that $x$ satisfies pde \ref{pdesabr}. We compute
+
+\begin{eqnarray}
+y_f(t) &=& v(t)^{-1} \sigma(f(t))^{-1} \\
+y_v(t) &=& -v(t)^{-1} y(t) \\
+x_f(t) &=& J(y(t))^{-1} v(t)^{-1} \sigma(f(t))^{-1} \\
+x_v(t) &=& -J(y(t))^{-1} v(t)^{-1} y(t)
+\end{eqnarray}
+
+Putting this into the rhs of \ref{pdesabr} we get
+
+\begin{eqnarray}
+J(y(t))^{-2} + J(y(t))^{-2} v(t)^{-2} y(t)^2 \epsilon(v)^2 - \\
+2 J(y(t))^{-2} v(t)^{-2} y(t) \rho v(t) \epsilon(v) = \\
+J(y(t))^{-2} ( 1 + \eta^2 y(t)^2 - 2 \eta \rho y(t) ) = 1 
+\end{eqnarray} 
+
+which means that $x(t)$ is a solution of \ref{pdesabr}. We note that only the special form of
+$\epsilon(v) = \eta v$ was used to arrive here, whereas $\sigma(f)$ could have been arbitrary.
+
+We explicity compute $x(t)$ from its definition \ref{defsabrx}. Using the elementary identity
+
+\begin{equation}
+\int \frac{dh}{\sqrt{z^2+a}} = \ln \frac{\sqrt{z^2+a}+z}{\sqrt{a}}
+\end{equation}
+
+which holds for $a>0$ we get by a simple change of variable $\eta y(t) - \rho =: z$
+
+\begin{equation}
+x(t) = \frac{1}{\eta} \ln \frac{J(y(t))+\eta y(t) - \rho}{1-\rho}
+\end{equation}
+
+where $y(t)$ is directly computed from its definition as
+
+\begin{equation}
+y(t) = \frac{f(t)^{1-\beta}-K^{1-\beta}}{v(t)(1-\beta)}
+\end{equation}
+
+if $\beta < 1$ and
+
+\begin{equation}
+y(t) = \frac{1}{v(t)} \ln \frac{f(t)}{K}
+\end{equation}
+
+if $\beta=1$, where $v(0)=\alpha$. The implied normal volatility is then retrieved as above as
+
+\begin{equation}
+\nu(t) = \frac{f(t)-K}{x(t)}
+\end{equation}
+
+This formula only holds for $K \neq f(t)$. The at the money case can be retrieved by differentiating the nominator
+and denominator by $K$ and evaluating the result at $K=f(t)$. The derivative of the nominator is clearly $-1$ (in the
+lognormal case $-K^{-1}$). The denominator is handled as follows (subscripts denoting partial derivatives and omitting
+independent variables):
+
+\begin{eqnarray}\label{sabrder}
+\frac{\partial x}{\partial K} &=& \frac{ (1-\rho)(J_y y_K + \eta y_K) }{ \eta (J + \eta y - \rho)(1-\rho) } = 
+\frac{(J_y+\eta)y_K}{\eta(J+\eta y-\rho)} \\
+J_y &=& \frac{2\eta^2y-2\rho\eta}{2\sqrt{1+\eta^2y^2-2\rho\eta y}} \\
+y_K &=& -K^{-\beta}v^{-1}
+\end{eqnarray}
+
+Therefore
+
+\begin{eqnarray}\label{sabrdxdk}
+\frac{\partial x}{\partial K} \left( f(t) \right) = -f(t)^{-\beta} v(t)^{-1} 
+\end{eqnarray}
+
+and in the normal case
+
+\begin{equation}
+\nu(t) = f(t)^{\beta} v(t)
+\end{equation}
+
+where again $v(0)=\alpha$. In the lognormal case the rhs is replaced by $f(t)^{\beta-1}v(t)$. The same formulas hold for $\beta=1$ as well.
+
+The equivalent deterministic local volatility function \ref{localvolfromx} is computed using the definition of $x$ and \ref{sabrder} as
+
+\begin{equation}\label{sabrlocalvol}
+- \left( \frac{\partial x}{\partial K} (f) \right)^{-1} = J(y) f^{\beta} v
+\end{equation}
+
+We note that $y$ has to be evaluated at $K=f$ here, while $f(t)$ in the definition of $y$ in \ref{defsabry} stays the forward rate at time $t=0$. Also, $v$ means $v(t=0)$ here.
+
+\section{The ZABR model}
+We generalize the SABR model by introducing a parameter $\gamma \in [0,\infty)$ and setting $\epsilon(v) = \eta v^\gamma$. For $\gamma=1$ the original
+SABR model is reproduced.
+
+An important note is that in \cite{zabr} for the model formulation $v(0)=1$ is assumed, while here we assume $v(0)=\alpha$. It is straightforward to see that the volvol parameter $\eta'$ from \cite{zabr} has to be transformed by
+
+\begin{equation}
+\eta = \eta' \alpha^{1-\gamma}
+\end{equation}
+
+to get the volvol parameter $\eta$ here.
+
+As in the case of the SABR model we define a new variable $y$ by setting
+
+\begin{equation}\label{defzabry}
+y(t) := v(t)^{\gamma-2}\int_{K}^{f(t)} \sigma(u)^{-1} du
+\end{equation}
+
+and applying Ito to get
+
+\begin{eqnarray}
+dy = y_f df + y_v dv + \textnormal{ ... } dt = \\
+v(t)^{\gamma -1} dW + (\gamma -2) \eta v(t)^{\gamma-1} y dV + \textnormal{ ... } dt
+\end{eqnarray}
+
+Setting $x(t) := v(t)^{1-\gamma}u(y(t))$ and again applying Ito yields
+
+\begin{eqnarray}
+dx = x_y dy + x_v dv + \textnormal{ ... } dt = \\
+v(t)^{1-\gamma} u'(y) dy + (1-\gamma) \eta u(y) dV + \textnormal{ ... } dt = \\
+u'(y) dW + ((\gamma-2)y \eta u'(y)+(1-\gamma)\eta u(y)) dV + \textnormal{ ... } dt
+\end{eqnarray}
+
+Now
+
+\begin{eqnarray}
+\frac{dx dx}{dt} = u'(y)^2 + ((\gamma-2)y \eta u'(y)+(1-\gamma)\eta u(y))^2 + \\
+2 \rho u'(y) ((\gamma-2)y \eta u'(y)+(1-\gamma)\eta u(y))
+\end{eqnarray}
+
+which is equal to 1 if $u$ is a solution to the following ordinary differential equation:
+
+\begin{eqnarray}
+1 &=& A(y) u'(y)^2 + B(y) u'(y)u(y) + C u(y)^2 \\
+A(y) &=& 1+(\gamma -2)^2 \eta^2 y^2 + 2\rho(\gamma-2)\eta y \\
+B(y) &=& 2\rho(1-\gamma)\eta + 2(1-\gamma)(\gamma-2)\eta^2 y \\
+C &=& (1-\gamma)^2\eta^2
+\end{eqnarray}
+
+subject to the initial condition $u(0)=0$. This equation can be made explicit in $u'$:
+
+\begin{equation}\label{zabrode}
+u'(y) = F(y,u(y)) := \frac{-B(y)u(y)+\sqrt{B(y)^2u(y)^2-4A(y)(Cu(y)^2-1)}}{2A(y)}
+\end{equation}
+
+( ... why do we discard the other solution here ... )
+
+Suppose we have solved \ref{zabrode} then we can compute $x(t)$ directly from its
+definition $x(t) = v(t)^{1-\gamma}u(y(t))$ for all strikes $K$ (note that $y(t)$ depends on $K$).
+
+Also the equivalent deterministic local volatility function \ref{localvolfromx} is computed
+easily  from $u(y(t))$ via
+
+\begin{equation}
+-\left(\frac{\partial x}{\partial K}(f)\right)^{-1}
+\end{equation}
+
+with
+
+\begin{eqnarray}
+\frac{\partial x}{\partial K}(f) = - v(t)^{1-\gamma} u'(y(t)) v(t)^{\gamma -2} \sigma(f)^{-1}
+= \\ -v(t)^{-1}\sigma(f)^{-1} F(y,v(t)^{\gamma-1}x(t))
+\end{eqnarray}
+
+using \ref{zabrode}, which leads to
+
+\begin{equation}\label{zabrlocalvol}
+-\left(\frac{\partial x}{\partial K}(f)\right)^{-1} = v\sigma(f)F(y,v^{\gamma-1}x)^{-1}
+\end{equation}
+
+We note that the special case formula \ref{sabrdxdk} stays the same for the ZABR model as for the SABR model,
+because $F(0,0) = 1$, therefore $\partial{x} / \partial{K} = -v(t)^{-1}\sigma(f)^{-1}$. Also the same remarks
+concerning the evaluation of $y$ and $v$ as given for \ref{sabrlocalvol} apply here.
+
+\section{Dupire pricing}
+
+Given a model (which in this context here will be an equivalent deterministic local volatility model generated
+from a SABR or ZABR model, see above) of the form
+
+\begin{equation}
+df(t) = \theta(f(t)) dW
+\end{equation}
+
+it is possible to use the following pde derived by Dupire to price a european call option $c(T,K)$ with strike $K$ and maturity $T$,
+
+\begin{equation}\label{DupirePde}
+\frac{\partial c}{\partial T} = \frac{\partial^2 c}{\partial K^2} \frac{\theta(K)^2}{2}
+\end{equation}
+
+with initial condition $c(0,K)=(f(0)-K)^+$. For fixed maturity $T$ this will give simultaneously call prices for all strikes $K$.
+
+\section{Exact finite difference prices}
+
+In this section we derive the pde to price a single european call in the ZABR model. The derivation is independent in the sense
+that it does not make use of any of the approximations in the previous sections. The result can be used to produce benchmark
+prices, which are exact apart from errors introduced in the numerical procedures.
+
+Starting with definition \ref{generalmodeldef} consider a derivative price $c(t,f(t),v(t))$ which expands to
+
+\begin{eqnarray}
+dc = c_t dt + c_f df + c_v dv + \frac{1}{2} ( c_{ff} df df + c_{vv} dv dv ) + c_{fv} df dv\\
+= (c_t + \frac{1}{2} \left( c_{ff}\sigma(f)^2v^2 +  c_{vv}\epsilon(v)^2 \right) + c_{fv}\sigma(f) v \epsilon(v) \rho) dt \\
++ \textnormal{ ... } dW + \textnormal{ ... } dV
+\end{eqnarray}
+
+Using $dc=0$ this yields to the pde for $c(t,f,v)$
+
+\begin{equation}
+c_t +\frac{1}{2}(c_{ff}\sigma(f)^2v^2+c_{vv}\epsilon(v)^2)+c_{fv}\sigma(f)v\epsilon(v)\rho = 0
+\end{equation}
+
+with conditions
+
+\begin{eqnarray}
+c(T,f,\cdot) = ( f - K ) ^+
+\end{eqnarray}
+
+\section{Numerical Examples}
+
+\subsection{Classic Hagan and short maturity expansions}
+
+We recompute the example from \cite{zabr} (page 7, figure 1) with parameters $\alpha=0.0873, \beta=0.7, \nu=0.47, \rho=-0.47$, forward
+rate $f=0.0325$ (the forward is actually not mentioned in \cite{zabr}, but we believe this value was used there) and expiry time $t=10.0$. The resulting lognormal implied volatilities are displayed in figure \ref{ImplVol}. The corresponding densities are plotted in figure \ref{Dens}
+
+\begin{figure}[htbp]
+\caption{Implied Volatility, Classic Hagan formula and short maturity expansion}
+\label{ImplVol}
+	\begin{gnuplot}
+		set terminal epslatex color
+        set style line 1 linecolor rgb "blue"
+        set style line 2 linecolor rgb "red"
+        set style line 3 linecolor rgb "green"
+        set xrange [0:0.20]
+		set yrange [0:0.70]
+		set xlabel "strike"
+		set ylabel "implied ln vol"
+        set grid
+        plot 'smiles.dat' using 1:2 with lines ls 1 title "Classic Hagan",'smiles.dat' using 1:6 with lines ls 2 title "sme lognormal", 'smiles.dat' using 1:($10>0?$10:1/0) with lines ls 3 title "sme normal"
+	\end{gnuplot}
+\end{figure}
+
+\begin{figure}[htbp]
+\caption{Densities, Classic Hagan formula and short maturity expansion}
+\label{Dens}
+	\begin{gnuplot}
+		set terminal epslatex color
+        set style line 1 linecolor rgb "blue"
+        set style line 2 linecolor rgb "red"
+        set style line 3 linecolor rgb "green"
+        set xrange [0:0.20]
+		set yrange [-30:30]
+		set xlabel "strike"
+		set ylabel "density"
+        set grid
+        plot 'smiles.dat' using 1:5 with lines ls 1 title "Classic Hagan",'smiles.dat' using 1:9 with lines ls 2 title "sme lognormal", 'smiles.dat' using 1:($10>0?$13:1/0) with lines ls 3 title "sme normal"
+	\end{gnuplot}
+\end{figure}
+
+We reproduce figure 3 from \cite{zabr}. We believe the short maturity expansion for normal volatility was used. Our result is depicted in figure \ref{Zabrgamma}
+
+\begin{figure}[htbp]
+\caption{Normal Short Maturity Expansion ZABR model with different gammas}
+\label{Zabrgamma}
+	\begin{gnuplot}
+		set terminal epslatex colorb
+        set style line 1 linecolor rgb "blue"
+        set style line 2 linecolor rgb "red"
+        set style line 3 linecolor rgb "green"
+        set style line 4 linecolor rgb "black"
+        set style line 5 linecolor rgb "orange"
+        set xrange [0:0.20]
+		set yrange [0:1]
+		set xlabel "strike"
+		set ylabel "implied lognormal vol"
+        set grid
+        set ytics 0,0.1,1
+        plot 'smiles.dat' using 1:($10>0?$10:1/0) with lines ls 1 title "sme gamma=1.0",'smiles.dat' using 1:($20>0?$20:1/0) with lines ls 2 title "sme gamma=0.0",'smiles.dat' using 1:($21>0?$21:1/0) with lines ls 3 title "sme gamma=0.5",'smiles.dat' using 1:($22>0?$22:1/0) with lines ls 4 title "sme gamma=1.5",'smiles.dat' using 1:($23>0?$23:1/0) with lines ls 5 title "sme gamma=1.7"
+	\end{gnuplot}
+\end{figure}
+
+
+
+
+\subsection{Equivalent deterministic local volatility}
+
+We use \ref{sabrlocalvol} or \ref{zabrlocalvol} to compute the equivalent deterministic local volatility (with the same parameters as in the previous section). The result is displayed in figure \ref{LocalVol} which compares to \cite{zabr}, figure 2.
+
+\begin{figure}[htbp]
+\caption{Equivalent Local volatility for SABR model}
+\label{LocalVol}
+	\begin{gnuplot}
+		set terminal epslatex color
+        set style line 1 linecolor rgb "blue"
+        set style line 2 linecolor rgb "red"
+        set style line 3 linecolor rgb "green"
+        set xrange [0:0.10]
+		set yrange [0:0.045]
+		set xlabel "strike k"
+		set ylabel "local vol \theta(k)"
+        set grid
+        plot 'smiles.dat' using 1:14 with lines ls 1 title "Equivalent local vol"
+	\end{gnuplot}
+\end{figure}
+
+Next we use this local vol and \ref{DupirePde} to produce a volatility smile. The result in terms of densitites is shown in \ref{LocalVolDensity} together with the classic Hagan formula implied density. Clearly the local volatility approach removes the defect of the Hagan formula for strikes near zero and produces a globally arbitrage free smile.
+
+\begin{figure}[htbp]
+\caption{Densities from Dupire pricing and Classic Hagan formula}
+\label{LocalVolDensity}
+	\begin{gnuplot}
+		set terminal epslatex color
+        set style line 1 linecolor rgb "blue"
+        set style line 2 linecolor rgb "red"
+        set style line 3 linecolor rgb "green"
+        set xrange [0:0.20]
+		set yrange [-30:30]
+		set xlabel "strike"
+		set ylabel "density"
+        set grid
+        plot 'smiles.dat' using 1:5 with lines ls 1 title "Classic Hagan", 'smiles.dat' using 1:19 with lines ls 2 title "Dupire"
+	\end{gnuplot}
+\end{figure}
+
+
+
+
+
+\begin{thebibliography}{1}
+
+\bibitem{zabr}Andreasen, Jesper and Huge, Brian: ZABR -- Expansions for the Masses, SSRN id 1980726, December 2011
+
+\end{thebibliography}
+
+\end{document}
+
+
+

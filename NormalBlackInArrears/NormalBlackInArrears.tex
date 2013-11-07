@@ -1,0 +1,203 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%--------------------------------------------------------
+
+\begin{document}
+\title[Normal Libor in arrears]{Normal Libor in arrears}
+\author{Peter Caspers}
+\email[Peter Caspers]{pcaspers1973@gmail.com}
+\date{December 10, 2012}
+\dedicatory{First Version December 10, 2012 - This Version December 10, 2012}
+\begin{abstract}
+We derive the in arrears covexity adjustment in a normal black model.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+Consider a Libor rate $F$ with fixing time $t_f$, index start date $t_s$ and index end date $t_e$ which is paid at $t_p$. We are interested in the valuation of a coupon involving such a Libor rate fixed in arrears, i.e. $t_f = t_p - \Delta$ with $\Delta$ denoting the settlement lag (e.g. 2 business days). For the following derivations we assume $\Delta=0$. We also assume $t_s = t_p =:t, t_e = t_s + \tau$ with $\tau=\tau_{\textnormal{accr}}$ the accrual period of the coupon to be valued. These are typically all minor approximations to the reality.
+
+\section{The model}
+
+We assume a normal black model for $F$, i.e.
+
+\begin{equation}
+dF = \nu dW
+\end{equation}
+
+with $\nu$ denoting the normal volatility. 
+
+\section{The adjustment}
+
+The Libor coupon can then be valued (working in the $t+\tau$ forward measure) as 
+
+\begin{equation}\label{generaladjustment}
+C = P(0,t+\tau) E^{t+\tau} \left( \frac{F(t)\tau }{P(t,t+\tau)} \right) 
+\end{equation}
+
+with $P(t,T)$ denoting the price at time $t$ of a zero bond with maturity $T$ and the expectation being taken in the $t+\tau$-forward measure $\mathbb{Q}^{t+\tau}$.  We note here that our derivation will be done in a single curve setup for the moment, i.e. with identical forwading and discounting curves.
+
+We write
+
+\begin{equation}
+F(t) = \frac{F(t)}{1+F(t)\tau} (1+F(t)\tau)
+\end{equation}
+
+and get
+
+\begin{equation}
+C = P(0,t+\tau) E^{t+\tau}(\tau F(t) + \tau^2 F^2(t))
+\end{equation}
+
+Now $F(\cdot)$ is a $\mathbb{Q}^{t+\tau}$ - martingale. Furhtermore by Ito
+
+\begin{equation}
+dF^2 = 2 F dF + \nu dF dF = 2F\nu dW + \nu^2 dt
+\end{equation}
+
+hence 
+
+\begin{equation}
+E^{t+\tau}(F^2(t)) = F^2(0) + \nu^2 t
+\end{equation}
+
+and therefore
+
+\begin{equation}
+C = P(0,t+\tau) (\tau F(0) + \tau^2 F^2(0) + \tau^2 \nu^2 t )
+\end{equation}
+
+which can be written as 
+
+\begin{equation}
+P(0,t) \tau \left( F(0) + \frac{\tau \nu^2 t}{1+\tau F(0)}\right)
+\end{equation}
+
+since $P(0,t+\tau) = P(0,t) (1+\tau F(0))$. It is interesting to note that this adjustment is the same as the in arrears limit case in (3.14) of \cite{LiborTimingAdjustments} which is derived in a lognormal model if one relates the normal volatility $\nu$ and the lognormal volatility $\sigma$ by $\nu := F(0) \sigma$, i.e. the drift freezing \textit{approximation} in \cite{LiborTimingAdjustments} effectively means to compute the convexity adjustment \textit{exactly} in a normal black model when connecting the parameters of the two models appropriately.
+
+\section{Caplets}
+
+Now we consider an in arrears caplet. Just as above it can be valued
+
+\begin{equation}
+C = P(0,t+\tau)E^{t+\tau} \left( \frac{ (F(t)-K)^+ \tau } { P(t, t+\tau)} \right)
+\end{equation}
+
+We write
+
+\begin{equation}
+(F(t)-K)^+ = \frac{(F(t)-K)^+}{1+F(t)\tau}(1+F(t)\tau)
+\end{equation}
+
+to arrive at
+
+\begin{equation}
+C=P(0,t+\tau)E^{t+\tau} ( \tau(F(t)-K)^+ + \tau^2 F(t)(F(t)-K)^+ )
+\end{equation}
+
+We know from above that $F(t)$ is normally distributed with mean $F(0)$ and standard deviation $\nu\sqrt{t}$. Introducing a new variable
+
+\begin{equation}
+X = \frac{F(t)-F(0)}{\nu\sqrt{t}}
+\end{equation}
+
+which is obviously standard normal we can evaluate the components from the expectation above as
+
+\begin{equation}
+A :=\frac{1}{\sqrt{2\pi}} \int_{(K-F(0))/\nu\sqrt{t}}^\infty (X\nu\sqrt{t}+F(0)-K) e^{-X^2/2} dX
+\end{equation}
+
+and
+
+\begin{equation}
+B := \frac{1}{\sqrt{2\pi}} \int_{(K-F(0))/\nu\sqrt{t}}^\infty (X\nu\sqrt{t}+F(0))(X\nu\sqrt{t}+F(0)-K) e^{-X^2/2} dX
+\end{equation}
+
+These integrals can be computed using the general identity
+
+\begin{equation}
+\frac{1}{\sqrt{2\pi}} \int (aX^2+bX+c)e^{-X^2/2}dX = \frac{a+c}{2} \textnormal{erf}\left(\frac{X}{\sqrt{2}}\right) - \frac{1}{\sqrt{2\pi}}e^{-X^2/2}(aX+b)
+\end{equation}
+
+and putting all together we retrieve the caplet price as
+
+\begin{equation}
+C=P(0,t+\tau) ( \tau A + \tau^2 B )
+\end{equation}
+
+
+\begin{thebibliography}{2}
+
+\bibitem {LiborTimingAdjustments}Caspers Peter, \textit{Libor Timing Adjustments},
+Electronic copy available at: http://ssrn.com/abstract=2170721
+
+\end{thebibliography}
+
+\end{document}

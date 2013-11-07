@@ -1,0 +1,233 @@
+\message{ !name(CallProbabilities.tex)}%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+\usepackage[miktex]{gnuplottex}
+\usepackage{epstopdf}
+%\usepackage[pdf]{pstricks}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%--------------------------------------------------------
+
+\begin{document}
+
+\message{ !name(CallProbabilities.tex) !offset(-3) }
+
+
+\title[Call Probabilities]{Extracting call probabilities from pricing models}
+\author{Peter Caspers}
+\email[Peter Caspers]{pcaspers1973@gmail.com}
+\date{May 1, 2013}
+\dedicatory{First Version May 1, 2013 - This Version May 1, 2013}
+\begin{abstract}
+We demonstrate the strong dependency of call probabilities on the pricing measure taking the example
+of an european swaption in a Hull White one factor model under different $T$ forward measures. As a remedy we suggest a definition
+that makes these probabilities well defined and unique.
+\end{abstract}
+\maketitle
+
+\section{Introduction}
+
+It is common practice to extract exercise probabilities from pricing models directly under the repective pricing measure. For pricing purposes
+very different measures may be used however, such as the risk neutral measure, the $T$-forward measure,
+the spot measure, the swap annuity measure. It is known from the general theory that these measures are equivalent
+meaning that they share the same sets with probability zero (or one). The probabilities of all events not sure or impossible
+however may differ significantly.
+
+This paper is meant to demonstrate this on the example of the exercise probability of an european swaption in a Hull
+White one factor model under different $T$-forward measures. The lesson learnt here is that probabilities should not extracted from a pricing model directly,
+because they are measure dependent thus not well defined.
+
+We instead suggest to define exercise probabilities in terms of forward pricies of certain digital options. This definition
+coincides with the naive probabilities in the $T$-forward measure with $T$ being the exercise time.
+
+\section{Hull White forward dynamics}
+
+The dynamics of the Hull White one factor model with short rate $r$ under the $T$-forward measure may be written as 
+
+\begin{equation}\label{hwdyn}
+dx(t) = (y(t)-\sigma_r(t)^2G(t,T)-\kappa(t)x(t))dt+\sigma_r(t)dW^T(t)
+\end{equation}
+
+with $x(t) := r(t) - f(0,t)$ and $\sigma$ and $\kappa$ denoting the model volatility and reversion speed and
+
+\begin{eqnarray}
+y(t) = \int_0^t e^{-2 \int_u^t \kappa(s) ds} \sigma_r(u)^2 du \\
+G(t,t') = \int_t^{t'} e^{-\int_t^u\kappa(s)ds} du
+\end{eqnarray}
+
+see e.g. \cite{piterbarg} for more details. The general pricing formula for a payoff $\Pi$ occuring at time $t$ in this setting reads
+
+\begin{equation}
+\nu = P(0,T) E^T \left( \frac{\Pi(t)}{P(t,T)} \right)
+\end{equation}
+
+The price $\nu$ itself does not depend on the choice of $T$, but the random variable inside the expectation does and hence 
+in particular the (naive) exercise probability $P(\Pi(t) > 0 )$ (in case $\Pi$ represents a long option). In the following we display our example results in terms of the normalized state
+variable
+
+\begin{equation}
+z(t) := \frac{x(t) - E(x(t))}{\sqrt{V(x(t))}}
+\end{equation}
+
+with $E, V$ denoting the expecation and variance operators. $z$ is by construction a standard normal distributed variable.
+
+\section{Well defined exercise probabilities}
+
+Instead of using naive, measure dependent exercise probabilities we suggest to use certain forward digital prices. To do so we define (for an arbitrary numeraire $N$)
+
+\begin{equation}\label{defpi}
+\pi := \frac{N(0)}{P(0,t)} E^N \left( \frac{1_{\Pi(t)>0}}{N(t)} \right)
+\end{equation}
+
+and interpret $\pi$ to be an exercise probability at time $t$ (where exercise as above is triggerd if and only if $\Pi(t)>0$). 
+
+The naive exercise probability in contrast is defined as
+
+\begin{equation}\label{defp}
+p = p_N := E^N(1_{\Pi(t)>0})
+\end{equation}
+
+and dependent on the measure associated to $N$ as indicated by the subscript.
+
+Since $\pi$ is a price it is well defined, i.e. measure independent. Furthermore $\pi$ conincides with the naive exercise probability for the special case of $N(\cdot)=P(\cdot,t)$, i.e.
+
+\begin{equation}
+\pi = E^t ( 1_{\Pi(t)>0} )
+\end{equation}
+
+where $t$ is the exercise time.
+
+\section{Numerical examples}
+
+We consider the valuation date 30-04-2013 and price an european at the money payer swaption with expiry in $5$ years and underlying swap of $10$ years.
+The implied volatility is $20\%$ and the yield curve is flat forward at $2\%$ (continously compounded rate). The mean reversion in the Hull White
+model is set to $1\%$ and the volatility is calibrated to $0.00422515$ in order to reprice the market swaption.
+
+We compute the vanilla price $\nu$, the (naive) exercise probability $p$ within the pricing measure as defined in \ref{defp} and the forward digital price $\pi$ as defined in \ref{defpi}.
+
+The computations are done using the libraries \cite{ql} and \cite{ntl}. Prices are computed using numerical integration covering $10$ standard deviations of the normal density.
+
+Figure \ref{payoff} shows the functional dependency of the (undeflated) underlying payoff to the normalized state variable $z$ as defined above. The option is exercised if and only if the payoff is positive. With $T$ growing the crossing point of the payoff with the $z$ - axis shifts to the right. This is due to the $T$ dependent drift term $\sigma_r^2 G(\cdot,T)$ in \ref{hwdyn} and is in direct correspondence to the observation that the naive exercise probability is decreasing for increasing $T$. For pricing this is compensated by the factor $P(0,T)/P(t,T)$ as can be seen in figure \ref{payofffactor}.
+
+\begin{table}[ht]
+\caption{Numerical Example with vanilla price $\nu$, naive exercise probability $p$ and forward digital $\pi$}
+\begin{tabular}{l | l | l | l}
+$T$ & $\nu$ & $p$ & $\pi$ \\ \hline
+16 & 0.0290412 & 0.478684 & 0.481185 \\
+30 & 0.0290385 & 0.435909 & 0.484888 \\
+60 & 0.0290381 & 0.364131 & 0.480800 \\
+100 & 0.0290412 & 0.30056 & 0.480948 \\
+250 & 0.0290415 & 0.211921 & 0.479532
+\end{tabular}
+\label{numex}
+\end{table}
+
+\begin{figure}[htbp]
+\caption{Undeflated underlying payoff within $3$ standard deviations for $T=16$ (red) and $T=250$ (green)}
+\label{payoff}
+	\begin{gnuplot}
+		set terminal epslatex color
+		set xrange [-3:3]
+		set yrange [-0.5:0.5]
+		unset key
+		set grid
+		set xlabel "z"
+		set ylabel "undeflated payoff"
+		plot 'example.txt' using 1:2 with line, 'example.txt' using 1:6 with line
+	\end{gnuplot}
+\end{figure}
+
+\begin{figure}[htbp]
+\caption{$P(0,T)/P(t,T)$ within $3$ standard deviations for $T=16$ (red) and $T=250$ (green)}
+\label{payofffactor}
+	\begin{gnuplot}
+		set terminal epslatex color
+		set xrange [-3:3]
+		set yrange [-0:10]
+		unset key
+		set grid
+		set xlabel "z"
+		set ylabel "P(0,T)/P(t,T)"
+		plot 'example2.txt' using 1:2 with line, 'example2.txt' using 1:6 with line
+	\end{gnuplot}
+\end{figure}
+
+\begin{thebibliography}{2}
+
+\bibitem{ql}QuantLib A free/open-source library for quantitative finance, http://www.quantlib.org
+
+\bibitem{ntl}Shoup, Victor: NTL A Library for doing Number theory, http://www.shoup.net/ntl/
+
+\bibitem{piterbarg} Piterbarg, Andersen: Interest Rate Modeling, Volume I, Atlantic Financial Press, 2010
+
+
+\end{thebibliography}
+
+\end{document}
+
+
+
+\message{ !name(CallProbabilities.tex) !offset(-233) }

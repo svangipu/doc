@@ -1,0 +1,631 @@
+\documentclass{beamer}
+
+\usetheme{CambridgeUS}
+\usefonttheme{professionalfonts}
+
+\begin{document}
+\title{Murex Rate Curve Setup IKB}  
+\author{Peter Caspers}
+\institute{Risk}
+\date{June 20, 2012} 
+
+\frame{\titlepage} 
+
+\frame{\frametitle{Table of contents}\tableofcontents[hideallsubsections]} 
+
+\section{Market Data}
+
+\subsection{Generators}
+
+\frame{\frametitle{Instrument Generators}
+A generator is a template summarizing standard market conventions for deals. Generators are grouped by deal types such as
+
+\begin{itemize}
+\item Loan / Deposit
+\item Interest Rate Swap
+\item Bond
+\item FRA
+\item CDS
+\end{itemize}
+
+and some more.
+}
+
+\frame{\frametitle{Deals with mandatory Generator}
+There are deals requiring a generator, for example Interest Rate Swaps.
+\newline\newline
+At best (from a valuation point of view) a fair plain vanilla swap can be entered just by
+its generator and maturity (plus collaterization flag, nominal and side).
+\newline\newline
+If required all default values of a generator can be overwritten.
+\newline\newline
+Note: When booking a deal, if \itshape one \upshape value in the generator is changed, \itshape all \upshape values of the modified generator are stored in the database.
+}
+
+\frame{\frametitle{Deals with optional Generators}
+There are also deal types that can be entered on basis of a generator, but alternatively based on an index or generically.
+\newline\newline
+Examples are FRAs or Caps.
+}
+
+\frame{\frametitle{Deals without Generators}
+Finally there are deal types without generators.
+\newline\newline
+Examples are FX Spots, FX Forwards, FX Swaps, FX Options. These deal types are based on currency pairs.
+}
+
+\subsection{Rate Sheets}
+
+\frame{\frametitle{Rate Sheets}
+All interest rate market data except fixings and future closing prices coming in from the RTBS interface is represented in rate sheets in the application.
+\newline\newline
+Each datum is recognized by a generator and a maturity and may contain several fields, typically bid and ask. Note that all interest rate products are - at least optionally - based on generators, so this is possible.
+\newline\newline
+The rate sheets are grouped by currency and by pages. Each page may contain several screens. Each screen corresponds to one generator and therefore contains all maturities available for this generator.
+}
+
+\frame{\frametitle{Pseudo Deposits for FX Forwards}
+FX Forwards with maturity $T$ are quoted as Swap Points $P$ which are the difference between FX Forward $F$ and FX Spot $S$ (where 
+$F_{\textnormal{bid}}=S_{\textnormal{bid}}+P_{\textnormal{bid}}$ and $F_{\textnormal{ask}}=S_{\textnormal{ask}}+P_{\textnormal{ask}}$).
+\newline\newline
+By no arbitrage\footnote{relative to FX pricing curves (see later), not money market curves} the information $(S,F;T)$ is the same as $(S, r_{\textnormal{dom}}, r_{\textnormal{for}};T)$ via one of the following equivalent equations
+
+\begin{eqnarray*}
+e^{r_{\textnormal{dom}} T} S/F &=& e^{r_{\textnormal{for}} T} \\
+F &=& S e^{(r_{\textnormal{dom}}-r_{\textnormal{for}})T} \\
+F &=& S \frac{e^{-r_{\textnormal{for}}T}}{e^{-r_{\textnormal{dom}}T}}
+\end{eqnarray*}
+}
+
+\frame{\frametitle{Pseudo Deposits for FX Forwards}
+FX Forward quoatations are transformed on the fly into their equivalent $r_\textnormal{for}$ rates and stored in the rate sheets as deposit rates. This representation only
+makes sense if the domestic rate curve is fixed which is done via rate curve assignments (see below). Note that in addition the FX Spot is needed to recover the FX Forward.
+\newline\newline
+The domestic currency in IKB setup is always USD, the associated rate curve USD:STD.
+}
+
+\frame{\frametitle{Post Crisis Money Market and FX Market}
+Important: FX Forwards can not be replicated on money market curves anymore. Therefore artificial cash curves have to be introduced to do recover market FX Forward prices via the formulas above.
+\newline\newline
+No arbitrage is therefore not meant as relative to the real money market cash curves, but only relaitve to the new artificial cash curves.
+}
+
+\section{Rate Curve Definition}
+
+\subsection{General Remarks}
+
+\frame{\frametitle{Post Crisis Types of Rate Curves}
+We need to distinguish different types of rate curves in the 'modern' context
+\begin{itemize}
+\item Discounting / Funding curves used to value a future cashflow as of today
+\item Forward curves used to project index fixings of different tenors
+\item FX curves used as discounting curves to (technically) replicate FX forwards
+\end{itemize}
+}
+
+\frame{\frametitle{One discounting curve approach}
+It is important to use one unique discounting curve, if credit risk / funding costs and currency is the same across a class of deals. Otherwise direct system arbitrage becomes possible, see  the following example.
+\newline\newline
+Furthermore CSA discounting prescribes one discount curve for all collaterized deals within a currency. Therefore it can only be implemented within this framework.
+\newline\newline
+It is non trivial to provide functionality for the one discounting curve approach. Murex was able to do that long before the crisis caused direct demand for that!
+}
+
+\frame{\frametitle{Basis swap example}
+ A 3m-6m EUR basis swap where a 3m curve $A$ is used to discount and forward the 6m leg and a 3m curve $B$ similarly for the 6m leg has two very different
+prices depending on whether
+\begin{itemize}
+\item a capital exchange at maturity is defined
+\item no capital exchange is defined 
+\end{itemize}
+In the first case the fair spread is 0 bp. In the second case the fiar spread is the market spread. The deal is the same however, since the capital exchange (assumed to be netted) is irrelevant.
+}
+
+\frame{\frametitle{Discounting curves used in IKB}
+By default in all currencies the STD curve is used as the discounting curve. This is typically bootstrapped on Deposits, FRAs and Swaps on the most liquid index in the respective currency, e.g. 6m FRAs and Swaps for EUR.
+\newline\newline
+For collaterized deals it is market standard to use OIS curves as discounting curves. IKB introduces that for EUR at the moment. More details are given later.
+}
+
+\frame{\frametitle{Modeling forward curves}
+Since interest indices of different tenors bear different credit ( / liquidity) risk premia, they are in general not matching the discounting curve any more.
+\newline\newline
+To get a consistent modeling framework, one can interpret the curves used for forwarding the different index tenors as belonging to different currencies, e.g.
+\begin{itemize}
+\item Eonia curve = discounting curve, currency EUR
+\item Euribor 3M curve = forward curve for 3M index, currency EUR$^{3M}$
+\item Euribor 6M curve = forward curve for 6M index, currency EUR$^{6M}$
+\end{itemize}
+}
+
+\frame{\frametitle{Quanto adjustments}
+In a fully dynamic model for the curves, this yields very naturally to quanto adjustments which account for the 'foreign' index payouts actually paid in EUR.
+The quanto adjustment in general depends on the volatility of the discount / forward basis and the correlation of this basis and the forward rate.
+\newline\newline
+In IKB we use a simplified approach, where we assume a zero quanto effect, e.g. justifyable by a zero correlation assumption or deterministic basis assumption.
+\newline\newline
+There is no implied market information on this correlation and volatility anyway. In addition, Murex does not support this kind of adjustments (though workarounds could be thought of ...)
+\newline\newline
+References: Bianchetti: Two curves, one price\newline
+Piterbarg: Funding beyond discounting
+}
+
+\frame{\frametitle{Dependency of curves}
+In the one discount curve approach, a dependency between discounting and forwarding curves arises: When the forwarding curve is calibrated to market instruments
+this is dependent on the discounting curve, because swap valuation includes discounting of cashflows.
+\newline\newline
+Note that FRAs do not imply this dependency (in the simplified approach without quanto adjustments at least).
+}
+
+\subsection{Instruments}
+
+\frame{\frametitle{Instruments used for curve construction}
+For interest rate derivative pricing curves are usually constructed using market quotes for
+\begin{itemize}
+\item Cash Deposits
+\item Ibor Index Futures
+\item FRAs
+\item Interest Rate Swaps (including single and cross currency basis swaps) 
+\end{itemize}
+Cross Currency Swaps with short maturities (below 2y) require in addition curves built from FX Forwards.
+}
+
+\frame{\frametitle{Revaluation Rate Curve Definition}
+The rate curves are grouped by currency. A rate curve defition consists of
+\begin{itemize}
+\item The instruments defining the curve by requiring that their market value is repriced on the curve
+\item Details about interpolation 
+\item Priorities (see later)
+\item A static spread (credit spread or convexity adjustment for futures)
+\item some more details
+\end{itemize}
+Instruments can be unticked then being deactivated for curve building. All the settings mentioned are historized in Murex 3.1.x.
+}
+
+\frame{\frametitle{Calibration modes}
+Rate curves can be calibrated using three modes:
+\begin{itemize}
+\item Autocalibration (Standard) $\Rightarrow$ Discounting = Forwarding = Curve to be calibrated, no forward estimation
+\item Autocalibration (Estimation yes) $\Rightarrow$ as before, but forwards are estimated on the Curve to be calibrated
+\item Curve Assignments $\Rightarrow$ Curve Assignments are used 
+\end{itemize}
+The third option makes it possible to use external discounting curves against which forward curves can be calibrated.
+Also external forwarding curves can be used to calibrate discount curves (as in the case of FX Basis Curves).
+}
+
+\frame{\frametitle{Priorities}
+If two instruments share the same maturity date only the one with higher priority (=lower number) is used for curve building, the other one is ignored.
+\newline\newline
+In the current IKB setup priorities are irrelevant since Futures are not used and no two instruments with same maturity are active (ticked in the rate
+curve definition) at the same time.
+}
+
+\frame{\frametitle{Issue: Low distance instruments}
+There is currently no way of excluding instruments (e.g. by priority) with different but close maturity.
+\newline\newline
+Typical use case: Futures vs. FRA, Swaps. Also applicable to Ccy Basis Swap Curves built on top of Single Currency Swaps, where different calendars
+may result exactly in this issue.
+}
+
+\frame{\frametitle{Blocks consistency}
+If active, an instrument with lower priority of type $A$ between two instruments with higher priority of type $B$, $A\neq B$ is ignored in curve building.
+\newline\newline
+Blocks consistency is disabled in the IKB setup in all curves. A typical use case would be to exclude deposits lying between futures.
+}
+
+\subsection{Bootstrapping}
+
+\frame{\frametitle{Zero rates}
+A rate curve can be represented by zero rates $r=r(T)$ which must be given for each maturity $T\geq0$ (and therefore is in principle of infinite dimension!).
+In Murex the convention for zero rates is usually continuous compounding with day counter Act365, i.e. the discount factor $P$ for a date $d$ is given by
+\begin{equation}
+P(0,\tau) = e^{-r \tau}
+\end{equation}
+where $\tau = \textnormal{Act365}(\textnormal{today},d)$.
+}
+
+\frame{\frametitle{Calibration pillars}
+When we have $n$ instruments for curve construction this defines $r(t_i)$ on $n$ points $t_i$. For all other $t\neq t_i$ we need an interpolation scheme to
+specify $r(t)$.
+\newline\newline
+The $t_i$ are usually chosen to be the maturity dates of the instruments. Murex allows to choose between the last flow date and index end date.\newline\newline
+It is even possible to move the calibration points within the instruments livetime, e.g. to the start date of an instrument (this is however buggy in 3.1.22). This can help smoothing the forward curve.
+}
+
+\frame{\frametitle{Curve Calibration / Bootstrapping}
+The procedure of finding $r(t_i)$ such that the prices of all instruments are equal to their market prices is called Curve Calibration. Depending on the choice
+of calibration pillars and interpolation scheme it is possible to determine
+\begin{itemize}
+\item $r(t_1)$ using instrument \#1, after that 
+\item $r(t_2)$ using instrument \#2, ... and so on ... , finally 
+\item $r(t_n)$ using instrument \#n,
+\end{itemize}
+where the instruments are ordered by maturity. This is called bootstrapping.
+\newline\newline
+In Murex usually a global solver is used to determine the $r(t_i)$ simultaneously. This works for all interpolation schemes and pillar choice.
+}
+
+\frame{\frametitle{Arbitrage free curves}
+A rate curve is arbitrage free if and only if 
+\begin{equation*}
+P(0,S) \geq P(0,T) \textnormal{ for } S < T
+\end{equation*}
+Murex allows for non arbitrage free curves, i.e. negative forwards (and also negative zero rates) may occur.
+\newline\newline
+Given arbitrage free market instruments, arbitrage in a curve can be introduced solely by a poor interpolation. 
+}
+
+\subsection{Interpolation}
+
+\frame{\frametitle{Interpolation}
+The interpolation scheme is crucial for arbitrage freeness, forward curve stability and smoothness, sensitivities. Two basic schemes used in IKB are
+\begin{itemize}
+\item linear in zero rate
+\item linear in zero rate * maturity 
+\end{itemize}
+the latter being equivalent to linear in log discount interpolation or having piecewise constant instanteneous forwards.
+\newline\newline
+There are better interpolation schemes in terms of forward curve smoothness... yet not available in Mx.\newline\newline
+Reference: Hagan, West: Methods for constructing a yield curve.
+}
+
+\frame{\frametitle{Linear in zero rate interpolation}
+This is very common and was used in IKB Mx setup for all interest rate curves. However, it does not guarantee arbitrage freeness (given arbitrage free input) and is probable to produce zig zag forwards. Appearently very much standard amongst traders ("producing good risk figures").
+}
+
+\frame{\frametitle{Linear in zero rate * maturity interpolation}
+Now used in IKB for EUR forward curves. Guarantees arbitrage free curve if input is arbitrage free. Forward curve is not smooth, but stable.
+\newline\newline
+Totally standard for CDS curves (with the hazard rate playing the role of the zero rate). Very important to build proper curves out of CDS quotes from 2008, 2009 onwards, because of high short term hazard rates rapidly decreasing in the mid and long term.
+}
+
+\frame{\frametitle{Caveat: DV01(zero) and interpolation}
+Depending on the setting, the DV01(zero) is displayed assuming
+\begin{itemize}
+\item linear in zero interpolation
+\item the actual interpolation defined in the curve details
+\end{itemize}
+The latter can be achieved by choosing 'hedge curve' as the curve setting in the DV01(zero) field.
+}
+
+\frame{\frametitle{Interpolator}
+The interpolator can be used to check rates for all maturities in any curve. \newline\newline
+This is a very simple but powerful tool in testing and analyzing issues in curves.
+}
+
+\subsection{Forward Curves}
+
+\frame{\frametitle{Forward Curve construction}
+Since a forward curve is used in pricing to compute $T$-Forward Expectations of Libor rates with specific tenor, the curve should be calibrated using
+instruments only depending on exactly this index.\newline\newline
+Therefore e.g. the forward curve for Euribor 6m estimation should not contain 1m, 2m, 3m, ... deposits.
+\newline\newline
+The instruments in the short end of the curve can be instead be taken to be 0d and 1d FRAs (if available for the index). This smoothes the curve considerably.
+}
+
+\frame{\frametitle{Mx Interpolated Index Issue}
+The quoted 15m swap on EURIBOR 6m contains a first 3m stub period, paying the EURIBOR 3m index. For 6m curve building this is not necessarily a problem
+provided that this period is estimated on the respective 3m forward curve.
+\newline\newline
+Mx does not respect interpolated indices in choosing the estimation curve, but always uses the main index estimation curve. This is not only true for
+curve calibration but also in pricing !
+\newline\newline
+Therefore the 15m swap is not suitable for the 6m forward curve calibration (at least before the Euribor 3m fixing @11h)
+}
+
+\section{Rate Curve Assignments}
+
+\frame{\frametitle{Rate Curve Assignments}
+The rate curve assinment table defines the rate curves used for pricing depending on 
+\begin{itemize}
+\item the instrument type of deals, 
+\item currency, 
+\item usage (discounting, forwarding) 
+\end{itemize}
+and many more possible criteria. The table is historized in 3.1.x.
+}
+
+\frame{\frametitle{Types}
+Discounting and Forward are the only types used in IKB setup and have the obvious meaning.
+\newline\newline
+Note that for FX Forwards both Discounting and Forward must be set (though Discounting should be enough).
+}
+
+\frame{\frametitle{Instruments}
+The instrument classification refers to the type of deal. This is not 
+\begin{itemize}
+\item the typology (may also be used as a criterion) nor
+\item the family / group / type classification nor 
+\item the model assignment label.
+\end{itemize}
+It is just another, hardcoded classification.
+}
+
+\frame{\frametitle{Index}
+Forward curves are very naturally assigned via the Index criterion.\newline\newline
+There is yet another way to do this...
+}
+
+\frame{\frametitle{Index Level Assignments}
+Rate curves may also be assigned on the index definition level. These assignments are overruled by rate curve assignment table.
+\newline\newline
+In IKB all assignments are done in the rate curve assignment table.
+}
+
+\frame{\frametitle{Generator Assignments}
+One important criterion excessively used for the Eonia Discounting setup is the generator. However for the Eonia setup it is used only for bootstrapping purposes not on actual deal level.
+\newline\newline
+The usage of real deal generators to choose the rate curve is dangerous because all generator settings may be overwritten, i.e. the generator does not necessarily have much to do with the actual deal.
+}
+
+\frame{\frametitle{CSA Assignments}
+From 3.1.x assignments can be done using a deal level field containing information on the CSA. In IKB setup the following values are possible:
+\begin{itemize}
+\item \itshape null \upshape
+\item EMPTY
+\item OIS\_DFLT
+\item COLLMGMT
+\end{itemize}
+The first two mean 'uncollaterized'. The third one means 'collaterized'. The last one is depricated and should not be used any more.
+\newline\newline
+Withough this assignment type it is very hard to implement CSA discounting.
+}
+
+\frame{\frametitle{CMS Estimation Curves}
+A CMS index is defined by a swap generator. The forward curve used for the estimation of the CMS fixings is chosen as the one
+that would be used for forwarding this swaps floating coupons which in turn is usually assigned via the index in this generator.
+\newline\newline
+Note that EUR CMS 1y is against 3m, the longer maturities against 6m.
+\newline\newline
+The CSA Flag is inherited to the underlying swap, i.e. the swap rate estimation is done on discount and forward curve of an collaterized swap, too.
+}
+
+\frame{\frametitle{FX Curves}
+FX Curves are calibrated as discounting curves to reproduce quoted FX Forwards against USD. E.g. the EUR FX curve is used to discount the
+EUR amount of an FX Forward EUR-USD. The USD amount is discounted on USD:STD. 
+\newline\newline
+The FX curve is calibrated such that quoted FX Forwards are reproduced.
+\newline\newline
+FX Curves are rate curves, not FX Forward curves !
+}
+
+\frame{\frametitle{Triangulation of FX Forwards}
+For an EUR-JPY FX Forward we price each leg separately as if against USD, i.e. on the EUR FX and JPY FX curve.
+\newline\newline
+To understand that the pricing is correct
+insert an arbitrary USD leg to both legs, one short and one long.
+\newline\newline
+Both contracts are obviously priced correctly and the sum of both contracts is the original
+contract since the USD legs cancel out.
+}
+
+\frame{\frametitle{FX Basis Curves}
+FX Forward Point quotations are only used up to and including 2y. From 3y on the FX curve is calibrated to match Cross Currency Basis Swaps. 
+\newline\newline
+However the
+FX curve is not calibrated directly, but continued with standard single currency swaps (with same tenor as the basis swaps) and a spread curve is added
+to the FX curve such that the sum of both curves reproduces Cross Currency Basis Swap quotes.
+\newline\newline
+The sum is to be understood as sum of zero coupon rates here. 
+\newline\newline
+The sum curve is recognized by the same name as the spread curve, i.e. EUR USD BASIS refers
+to the spread curve or to the sum EUR FX + EUR USD BASIS depending on the context.
+}
+
+\frame{\frametitle{Base currencies other than USD}
+There are Basis Curves like CHF-EUR which are calibrated using Basis spread quotes against different currencies than USD. In this case the CHF side is
+discounted using the CHF-EUR Basis Curve (which is to be calibrated). The EUR side is discounted the EUR-USD Basis Curve.
+\newline\newline
+Therefore CHF-EUR is also a Basis Curve against USD, but using CHF-EUR Basis Quotes for calibration. 
+\newline\newline
+Maybe this was not meant like this, but rather discount
+the EUR side on EUR:Std ? Tbd...
+}
+
+\section{Eonia discounting setup}
+
+\frame{\frametitle{Eonia discounting scope}
+Only single currency EUR interest rate products are in scope for CSA discounting for the first step.
+\newline\newline
+It is assumed (although not true) that the collateral for these swaps is posted in EUR.
+\newline\newline
+Other currencies may have to follow shortly because of CCP requirements.
+}
+
+\frame{\frametitle{Eonia discounting requirements}
+The quoted swap rates refer to collaterized swaps. We want to exactly reproduce these swap rates in Mx. For this we need the forwarding curves
+to be calibrated w.r.t. the Eonia discounting curve.
+\newline\newline
+Since we want to reproduce the same swap rates for fair uncollaterized swaps, too, we need additional forwarding curves calibrated w.r.t. the
+EUR:STD curve as the discounting curve.
+\newline\newline
+Note that the second requirement is not supported by market information. Also it is not obvious standard market practice. In fact there are appearently banks using only one calibrated forward curve.
+}
+
+\frame{\frametitle{Sister curves}
+We introduce pairs of forwarding curves for each tenor, i.e.
+\begin{itemize}
+\item EUR EURIBOR 1M, EUR EURIBOR 1M VS EONIA
+\item EUR EURIBOR 3M, EUR EURIBOR 3M VS EONIA
+\item EUR EURIBOR 6M, EUR EURIBOR 6M VS EONIA
+\item EUR EURIBOR 1Y, EUR EURIBOR 1Y VS EONIA
+\end{itemize}
+The respective discounting curves are
+\begin{itemize}
+\item EUR:STD (uncollaterized) and 
+\item EUR EONIA (collaterized).
+\end{itemize}
+}
+
+\frame{\frametitle{How similar are two sisters?}
+The sister pairs live in different numeraire worlds (see above), but are feeded exactly with the same market data.
+\newline\newline
+The difference is (maybe surprisingly) small, typically only a few basis points in the forward rates. This is much less than the Eonia - Forward spread.
+\newline\newline
+}
+
+\frame{\frametitle{Calibration of sister curves}
+Since Mx always assumes swaps entering into curve calibration to be uncollaterized, we need a workaround to calibrate the sister pairs.
+\newline\newline
+For this we introduce new generators which are exact copies of the original generators, but labeled with 'VS EONIA' suffix. 
+\newline\newline
+We assign the EONIA
+forward curves to these generators and use swaps based on these generators for curve calibration. This requires doubling the rate sheets, too.
+}
+
+\frame{\frametitle{Check against quoted forward swap rates}
+ICAP quotes forward swap rates vs. Eonia in connection with their european swaption quotes.
+\newline\newline
+These are particularly suited to check the correctness of the Eonia setup, because they are dependent on the discounting curve used (other than simple swap quotes which are always matched exactly by construction).
+}
+
+\frame{\frametitle{Check against quoted swaption prices}
+The setup can also be checked against the quoted Eonia discounted swaption prices. Note that these quotes are for cash settled swaptions not physical settled ones, which makes a substantial difference in pricing.
+\newline\newline
+In the payoff of a cash settled swaption the usual annuity term for $p$ fixed periods of length $\tau$ is replaced by the formula
+\begin{equation*}
+\sum_{j=1}^{p} \frac{\tau}{(1+\tau S)^j}
+\end{equation*}
+where $S$ is the underlying swap rate.
+}
+
+\section{Propagation}
+
+\frame{\frametitle{Sensitivities in Multi Curve Setups}
+If a curve $B$ depends on a curve $A$ (e.g. a forward curve on its discounting curve) then a deal whose NPV $\nu$ depends on both curves will have
+a DV01 sensitivity of (using the multi dimensional chain rule)
+\begin{equation}
+\frac{\partial \nu(Z_A,Z_B(Z_A)) }{ \partial Z_A } =
+\frac{\partial \nu(Z_A,Z_B)}{\partial Z_A}+\frac{\partial \nu(Z_A,Z_B)}{\partial Z_B }\frac{\partial Z_B(Z_A) }{\partial Z_A }
+\end{equation}
+where Z denotes some zero rate on the respective curve. The first part may be called direct DV01, the second part remote DV01.
+}
+
+\frame{\frametitle{Mx direct and remote DV01}
+Murex always computes the sum of direct and remote DV01. There is no way of getting both figures separately.
+\newline\newline
+However there are ways of isolating the direct DV01 thereby also being able to imply the remote DV01. See below.
+}
+
+\frame{\frametitle{Propagation}
+The term Propagation stands for the way a shift on one specific rate curve impacts other rate curves
+\begin{itemize}
+\item of the same currency ot
+\item of dependent curves
+\end{itemize}
+within the 'application' (i.e. sensitivity computation and manual scenario application within simulation) and within the 'VaR module'. \newline\newline
+There is a separation
+between these two areas and in fact the way shifts are propagated is different in IKB setup.
+}
+
+\frame{\frametitle{Slash Options}
+Slash options are command line options used in the launchers for end user sessions or for batch processes.\newline\newline
+There are typically 40 to 50 options
+set and they are different per launcher (e.g. for Nicknames MX and MX\_VAR) and process. Due to this complexity these options are organized in XML files.
+\newline\newline
+In the end, the only reliable way of finding out which options are set is using the pargs command applied to the process ID of the session or batch process.
+\newline\newline
+Slash options are a dark corner of Mx: Though being relevant for computation modes, they are hard to identify, possibly different per session or batch process and not historized in IKB.
+}
+
+\frame{\frametitle{Propagation Slashes}
+There are two slash options relevant for propagation that will be explained in the following:
+\begin{itemize}
+\item /NEW\_PROPAGATION
+\item /VAR\_FLAG:NO\_CURVES\_PROPAGATION
+\end{itemize}
+}
+
+\frame{\frametitle{'Old' Propagation}
+Old propagation was a mechanism to propagate rate shifts on one curve $A$ to other curves $B$ of the same currency. \newline\newline
+For this the instruments of curve $B$ were
+valued on curve $A$ yielding a spread to the fair market quote. The shift on curve $B$ induced by a shift on curve $A$ was then defined to be the shift such
+that these spreads stay the same.
+\newline\newline
+Old propagation is disabled in IKB setup.
+}
+
+\frame{\frametitle{'New' Propagation}
+New propagation is much more straightforward: If one curve is shifted, the resulting zero coupon shifts are applied to all curves of the same currency.
+\newline\newline
+When market quotes are shifted, the resulting zero coupon shift is propagated to the other curves.
+\newline\newline
+This is the default behaviour of the new propagation mode. There are two more modes however, where Propagation is disabled.
+}
+
+\frame{\frametitle{'New' Propagation / No Propagation}
+No Propagation means that shifts on one curve are not propagated to other curves directly, but in case of dependent curves either
+\begin{itemize}
+\item Zero Rates or
+\item Market Rates
+\end{itemize}
+on the dependent curve are kept constant.\newline\newline
+In the first case actually nothing happens with the dependent curve. In terms of the formula above, $\frac{\partial Z_B}{\partial Z_A }=0$ since
+$Z_B$ does not depend on $Z_A$. The remote DV01 is therefore zero in this mode.
+\newline\newline
+In the second case, the zero rates recalibrated such that the market rates are preserved.
+}
+
+\frame{\frametitle{Example: Euribor 3M Swap}
+If uncollaterized, two curves are relevant for pricing:
+\begin{itemize}
+\item EUR:STD acting as the Discounting Curve
+\item EUR EURIBOR 3M acting as the Forwarding Curve, bootstrapped with EUR:STD as the discounting curve
+\end{itemize}
+If the EUR:STD curve is shifted, what happens with the Euribor 3M curve?
+}
+
+\frame{\frametitle{Keep market rates constant}
+The EUR EURIBOR 3M curves zero rates are recalibrated such that the original market quotes in the 3M curve stay the same as before the shift.
+\newline\newline
+Test case: A fair swap will stay fair after the shift (i.e. the NPV is $0$ before and after the shift). The DV01(zero) and DV01(par) is $0$.
+\newline\newline
+The direct DV01 and remote DV01 exactly offset each other in this case.
+\newline\newline
+(Note that the exact offset only occurs in the case of a fair swap, not in general of course!)
+}
+
+\frame{\frametitle{Keep zero rates constant}
+The EUR EURIBOR 3M curves zero rates are left unchanged.
+\newline\newline
+Test case: A fair swap will not stay fair after the shift (i.e. the NPV changes from $0$ to a value $\neq 0$. The DV01(zero) and DV01(par) ist $\neq 0$.
+\newline\newline
+The direct DV01 is not zero, the remote DV01 is zero.
+}
+
+\frame{\frametitle{Default New Propagation}
+The EUR EURIBOR 3M curves zero rates are shifted by the same amount as the EUR:STD curve.
+\newline\newline
+DV01(zero) and DV01(par) are however the same as in the 'keep zero rates constant'.
+}
+
+\frame{\frametitle{VaR Module Configuration}
+The VaR Module configuration in IKB is set with slash option \/VAR\_FLAG:NO\_CURVES\_PROPAGATION with Propagation deactivated in the revaluation assumptions.\newline\newline
+This corresponds to the application setting 'Keep zero rates constant'.
+}
+
+\frame{\frametitle{Shared Pillars}
+If zero rates are shifted in one curve $A$ (e.g. EUR:STD) and another curve $B$ shares some identical market instruments (e.g. the deposits up to 3M in EUR EURIBOR), then curve $B$ is not affected in these pillars. This is achieved by an internal adjustment spread compensating for the shift.
+\newline\newline
+If market rates in $A$ are shifted, then this shift is also done for shared pillars in curve $B$. 
+}
+
+\frame{\frametitle{Basis propagation}
+There are similar mechanisms for the dependencies in the (FX) Basis Curves construction.\newline\newline
+The treatment is similar to the rate/rate case explained above,
+but the setting is done under rate/basis separately.
+}
+
+\section{Questions}
+
+\frame{\frametitle{Thank you}
+Questions?
+\begin{figure}
+	\centering
+		\includegraphics{../../../Downloads/Beaker2.png}
+\end{figure}
+
+}
+
+\end{document}
+

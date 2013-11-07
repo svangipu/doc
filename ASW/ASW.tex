@@ -1,0 +1,230 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+\usepackage{gnuplottex}
+\usepackage{epstopdf}
+%\usepackage[pdf]{pstricks}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%-----------------------------------------------------------------
+\begin{document}
+
+\title{Zero Yield and Asset Swap Spreads}
+\author{Peter Caspers}
+\date{October 12, 2013}
+\dedicatory{First Version October 12, 2013 - This Version October 12, 2013}
+\maketitle
+
+\begin{abstract}
+We compare zero yield and asset swap spreads both being used to specify the credit
+risk component in bond pricing. We investigate how these both figures are related
+and how the asset swap spread depends on other pricing factors such as the riskfree
+yield, all in terms of numerical examples calculated using \cite{ql}.
+\end{abstract}
+
+\section{Introduction}
+
+A fixed rate bond with future cashflows $C_i$ being paid at times $t_i$ can be priced relative to a risk free yield term structure given by discount factors $P(s,t)$ using a zero yield spread $z$ by writing
+
+\begin{equation}\label{zSpreadPricing}
+\pi(s) = \sum P(s,t_i) e^{-z t_i}  C_i
+\end{equation}
+
+where $\pi(s)$ denotes the bond price at time $t=s$ (settlement). To give a specific setting we assume the $t_i$ mesaured w.r.t. the Actual365(Fixed) day count convention.
+
+As a side note the quantity $z$ is also called zero volatility spread and applied to callable bond pricing such that the market price is matched in \ref{zSpreadPricing} without taking into account the callability on the right hand side of \ref{zSpreadPricing}. This is contrary to the option adjusted spread $z^*$ which is the corresponding spread one has to feed into an appropriate rate pricing model (which prices the callability option in as well) to get the market price. Thus the option adjusted spread is clearly model dependent while the zero volatility spread is not (assuming that a market price a given and the respective spread is implied). In formulas the option adjusted spread reads
+
+\begin{equation}
+\pi(s) = N(s) \int \left( \sum e^{-z^* t_i} C_i(\omega) / N(t_i, \omega) \right) d\mu(\omega)
+\end{equation}
+
+with a numeraire $N$ and the expectation taken in the associated numeraire measure $\mu$. 
+
+The zero yield spread $z$ measures the credit risk to be included in pricing. If it is set to zero formula \ref{zSpreadPricing} collapses to the usual risk neutral pricing formula where no default events are considered.
+
+A second way of measuring credit risk in bond pricing is by the asset swap spread $a$. This is defined to be the spread on the floating leg of a swap paying exactly the same cashflows as the bond and receiving a standard ibor index coupon like Euribor 6m or USD Libor 3M plus a margin equal to the asset swap spread (the floating leg of this swap starting on the settlement $s$ of the bond purchase), such that a long position in the bond together with the swap values to $100\%$ at settlement time $s$.
+
+At this point it is essential to note that the standard asset swap if traded in a package with an associated bond does not terminate in case of the default of the bond. It is interesting to note that There is another type of asset swap called credit linked asset swap which has exactly this feature. This latter type of asset swap is less usual, however has ``better'' properties w.r.t. what we look at in what follows. Obviously it is a more suitable hedge than the usual asset swap, since the credit linked asset swap package is indeed a synthetic floater while the usual package differs from the credit linked one by a swaption triggered by the bond default event.
+
+Again to note for callable bond the asset swap has the same callability structure as the bond, in case of a callable zero bond with accreting nominal.
+
+In this short note we aim to compare $z$ and $a$ under different perspectives. For this we fix the case of a fixed rate bond and look at
+
+\begin{enumerate}
+\item the functional dependency $a(z)$ to see in particular to which extend this dependency is linear over a range of practically relevant zero yield levels
+\item the first derivative $\partial a / \partial z (z) $ to see how changes in the zero yield spread correspond to changes in the asset swap spread on different zero yield spread levels, all other pricing factors held constant
+\item the first derivative $\partial a / \partial y (z) $ to see how changes in the risk free yield $y$ impact the asset swap spread, again on different zero yield spread levels
+\end{enumerate}
+
+The third point addresses the fact the the asset swap spread is not a pure measure of credit risk, but includes all other factors influencing the pricing of the bond as well.
+
+\section{Asset Swap Spread and Zero Yield Spread Levels}
+
+To give a numerical example we fix the evaluation date 14-Oct-2013 and assume the settlement date to be 16-Oct-2013. The bond in our example is a fixed rate bond with yearly $4\%$ coupon starting on 16-Oct-2013 and maturing on 17-Oct-2033. The asset swap is against Euribor 6M with the usual standard conventions.
+
+We picture the dependency of the asset swap spread $a$ and the zero yield spread $z$ for three cases, namely
+
+\begin{enumerate}
+\item a flat yield term structure at $4\%$ (i.e. the bond values par), both used for the Euribor estimation and discounting
+\item a flat yield term structure at $3\%$, again both for estimation and discounting
+\item a flat yield term structure at $2.5\%$ for swap discounting and $3\%$ for bond discounting and Euribor estimation
+\end{enumerate}
+
+The third scenario corresponds to the realistic set up of multiple curves for OIS discounting of collaterized deals (under which asset swaps usually fall) and tenor forwarding of Euribor indices. The risk free benchmark curve for bond disocunting is also set to the 6m Euribor level here.
+
+Figure \ref{aByz} shows the results. For low levels of $z$ (say below $100$bp) the asset swap spread $a$ and the zero yield spread $a$ are close, while for higher levels the asset swap spread is more and more significantly lower than the zero yield spread. In the limit case where the bond is worth zero ($z\rightarrow \infty$) the asset swap spread is still finite, because it has only to offset the fix side of the swap. This property is strongly linked to the fact that the asset swap does not terminate upon bond default.
+
+\begin{figure}[htbp]
+\caption{The dependency $a(z)$, yts flat@4\% (blue), flat@3\% (green), flat@2.5\%/3\% (red)}
+\label{aByz}
+	\begin{gnuplot}
+		set terminal epslatex color
+		set xrange [0:1000]
+		set yrange [*:*]
+		unset key
+		set xlabel "z (bp)"
+		set ylabel "a(z) (bp)"
+        set grid
+        set xtics 0,100
+        #set ytics 0,100
+		plot 'spreads1c.dat' using 1:2 with line, 'spreads1b.dat' using 1:2 with line, 'spreads1a.dat' using 1:2 with line, 'spreads1c.dat' using 1:1 with line
+	\end{gnuplot}
+\end{figure}
+
+\section{Changes in Asset Swap Spread and Zero Yield Spread Levels}
+
+Using the same example as before we are now interested in how the asset swap spread $a$ changes when the zero yield spread $z$ changes, the risk free yield $y$ held constant.
+
+Figure \ref{daBydz} shows the results. For the par bond / single curve setup example the derivative $\partial a / \partial z$ is $1$ for $z=0$. In the other scearios the derivative is near $1.1$, resp. $1.05$ meaning that if $z$ changes by $1$bp then $a$ changes by $1.1$, resp. $1.05$ basispoints.
+
+For higher asset swap spread levels the correspondence gets weaker in the sense that e.g. a $1$bp shift implies only a $0.7$ bp shift in the first scenario for $z=200$bp. This also means that only $70\%$ of the volaility of $z$ is captured by $a$, which has to be taken into account if asset swap spread movements are used directly as a proxy for zero yield spread movements in risk scenario calculations.
+
+\begin{figure}[htbp]
+\caption{The dependency $\partial a / \partial z (z)$, yts flat@4\% (blue), flat@3\% (green), flat@2.5\%/3\% (red)}
+\label{daBydz}
+	\begin{gnuplot}
+		set terminal epslatex color
+		set xrange [0:1000]
+		set yrange [*:*]
+		unset key
+		set xlabel "z (bp)"
+		set ylabel "da / dz (z) (bp / bp)"
+        set grid
+        set xtics 0,100
+        #set ytics 0,0.1
+		plot 'spreads2c.dat' using 1:2 with line, 'spreads2b.dat' using 1:2 with line, 'spreads2a.dat' using 1:2 with line
+	\end{gnuplot}
+\end{figure}
+
+\section{Changes in Asset Swap Spread Levels induced by Risk Free Yield changes}
+
+Finally we look at the changes in asset swap spreads when the risk free yield $y$ changes. This effect is not desirable in the sense that even if the credit risk stays constant, but the risk free yield moves, the asset swap spread also moves though it is mainly understood as a creedit risk measure.
+
+Figure \ref{daBydy} shows the results. For the two scenarios in the mono curve setup for $z=0$ a change in $y$ will not induce a change in the asset swap spread $a$. For the two curve setup however a $1$bp upshift in $y$ will imply a downshift of $0.05$bp in the asset swap spread. Here a shift in $y$ means a shift both in the discounting and forwarding (OIS and Euribor) curve simultaneously by the same amount.
+
+For higher levels of $z$ the impact gets bigger. For $z=200$bp we have e.g. a $0.15$bp downshift in the asset swap spread when $y$ moves up by $1$bp. In the two curve setup the asset swap spread even moves down by almost $0.2$bp. Again this has implications if asset swap spread movements are used directly as a proxy for zero yield spread movements in risk scenario calculations. Both the volatility and this time also the correlation between $z$ and $a$ is pertubed by the risk free yield shift $y$.
+
+To give a simple example for this, assume that shifts $(\Delta z,\Delta y)$ are normally distributed with mean zero and covariance matrix diag$(\sigma_z^2,\sigma_y^2)$, i.e. the correlation between $\Delta z$ and $\Delta y$ is zero. Then $(\Delta a, \Delta y)$ is also normally distributed and if $\Delta a = \alpha \Delta z + \beta \Delta y$, its covariance matrix reads
+
+\begin{equation}
+\left( 
+\begin{matrix}
+\alpha^2 \sigma_z^2 + \beta^2 \sigma_y^2 & \beta \sigma_y^2 \\
+\beta \sigma_y^2 & \sigma_y^2
+\end{matrix}
+\right)
+\end{equation}
+
+To give a concrete example assume $(\sigma_z^2, \sigma_y^2) = ( (10\textnormal{bp})^2, (10\textnormal{bp})^2 )$ and $\alpha=0.7, \beta=-0.2$ (cf. the figures from the example above). With these numbers we get variances of $((7.28\textnormal{bp})^2, (10\textnormal{bp})^2)$ for $(\Delta a, \Delta y)$ and a correlation $-27.47\%$ between $\Delta a$ and $\Delta y$. This means that if we take asset swap spread movements as a direct proxy for zero yield spread movements we underestimate the volatlity ($7.28$bp vs $10$bp) and also introduce a correlation bias between credit and rates of $-27.47\%$.
+
+\begin{figure}[htbp]
+\caption{The dependency $\partial a / \partial y (z)$, yts flat@4\% (blue), flat@3\% (green), flat@2.5\%/3\% (red)}
+\label{daBydy}
+	\begin{gnuplot}
+		set terminal epslatex color
+		set xrange [0:1000]
+		set yrange [*:*]
+		unset key
+		set xlabel "z (bp)"
+		set ylabel "da / dy (z) (bp / bp)"
+        set grid
+        set xtics 0,100
+        #set ytics -10,-0.1
+		plot 'spreads3c.dat' using 1:2 with line, 'spreads3b.dat' using 1:2 with line, 'spreads3a.dat' using 1:2 with line
+	\end{gnuplot}
+\end{figure}
+
+
+\begin{thebibliography}{1}
+
+\bibitem{ql}QuantLib A free/open-source library for quantitative finance, http://www.quantlib.org
+
+\end{thebibliography}
+
+\end{document}
+
+
+

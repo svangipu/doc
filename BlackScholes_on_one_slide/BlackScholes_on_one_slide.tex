@@ -1,0 +1,174 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%--------------------------------------------------------
+\begin{document}
+\title[Black Scholes on one slide]{Black Scholes on one slide}
+\author{P. Caspers}
+\email[P. Caspers]{pcaspers@vodafone.de}
+\date{March 10, 2012}
+\dedicatory{Elaboration of a nice slide by Iain J. Clark}
+\begin{abstract}
+We derive the black scholes formula in FX context in a very simple way using measure change techniques. Of course, the final result can be used for all asset classes, though the derivation itself relies heavily on the symmetries prevailing in FX. The idea goes back to a presentation held by Iain J. Clark where he did the derivation on just one slide. Here we repeat the derivation trying to fill in some technical details.
+\end{abstract}
+
+\maketitle
+
+
+\section{FX Black Scholes}
+
+We aim to compute $e^{-r_dT}\mathrm{\mathbb{Q}^{dom}}((S(T)-K)^+)$ where
+
+\begin{equation} \label{bsprocess}
+\frac{dS}{S} = (r_d - r_f) dt + \sigma dW
+\end{equation}
+
+is the process of a FX Spot rate $S$ under the domestic risk neutral measure. $S$ is the price in domestic (i.e. numeraire) currency of one unit of foreign (i.e. asset) currency. 
+
+Investing in one unit of foreign currency, we have $B_f(t)$ units of foreign currency at time $t$, where $B_f$ is the bank account in the foreign currency. Under the domestic risk neutral measure $\frac{B_f(t)S(t)}{B_d(t)}$ is clearly a martingale. The same investment can be seen from the perspective of a foreign investor, yielding a martingale $\frac{B_f(t)S(t)}{S(t)B_f(t)} (=1)$ under the foreign risk neutral measure. Hence
+
+\begin{equation}
+B_f(0)S(0) = \mathrm{E^{dom}}\left( B_d(0) \frac{B_f(T)S(T)}{B_d(T)} \right) = \mathrm{E^{for}}\left( S(0)B_f(0) \frac{B_f(T)S(T)}{S(T)B_f(T)}\right)
+\end{equation}
+
+This gives us the Radon-Nikodym derivative of the measure change from domestic to foreign risk neutral measure:
+
+\begin{equation}\label{radonnikodym}
+Z(t) = \frac{d\mathbb{Q}^{for}}{d\mathbb{Q}^{dom}} \bigg|_{\mathcal{F}_t} = \frac{B_d(t)B_f(0)S(0)}{B_d(0)B_f(t)S(t)}
+\end{equation}
+
+Furthermore from \eqref{bsprocess} we get (using Itos formula)
+
+\begin{equation}\label{lnbsprocess}
+d \mathrm{ln}(S) = \frac{1}{S} dS - \frac{1}{2S^2} dS dS = \left(r_d - r_f - \frac{1}{2}\sigma^2\right) dt + \sigma dW
+\end{equation}
+
+We wish to compute the dynamics of $S$ under the foreign measure. For this we need the dynamics of $Z$ first:
+
+\begin{eqnarray*}
+d\mathrm{ln}(Z) = d\mathrm{ln}(B_d)-d\mathrm{ln}(B_f)-d\mathrm{ln}(S) = \\
+r_d dt - r_f dt - \left(r_d-r_f-\frac{1}{2}\sigma^2\right)dt-\sigma dW = \\
+\frac{1}{2}\sigma^2 dt - \sigma dW
+\end{eqnarray*}
+
+from which we get the drift adjustment
+
+\begin{equation*}
+<d\mathrm{ln(S)}, d\mathrm{ln(Z)}> = \sigma^2 dt
+\end{equation*}
+
+and arrive at
+
+\begin{equation}
+\frac{dS}{S} = (r_d - r_f + \sigma^2) dt + \sigma d\widetilde{W}
+\end{equation}
+
+under the foreign risk neutral measure, from which we get (just as in \ref{lnbsprocess})
+
+\begin{equation}\label{lnbsprocess2}
+d \mathrm{ln}(S) = \left(r_d - r_f + \frac{1}{2}\sigma^2\right) dt + \sigma d\widetilde{W}
+\end{equation}
+
+
+Now, $(S(T)-K)^+ = (S(T)-K)\mathrm{1}_{S(T)\geq K}$ and the expectation can be split into $\mathbb{Q}^{dom}(S(T)\mathrm{1}_{S(T)\geq K})$ and
+$\mathbb{Q}^{dom}(-K{1}_{S(T)\geq K})$. Now use \ref{radonnikodym} to rewrite the first expectation as
+
+\begin{equation}
+\mathbb{Q}^{for}\left(\frac{B_d(T)S(0)}{B_f(T)}\mathrm{1}_{S(T)\geq K}\right)
+\end{equation}
+
+which is, using \eqref{lnbsprocess2}, and remembering $1-\Phi(x) = \Phi(-x)$
+
+\begin{equation}
+S(0)e^{(r_d-r_f)T} \Phi \left( \frac{\mathrm{ln}(S(0)/K)+(r_d-r_f+\frac{1}{2}\sigma^2T)}{\sigma\sqrt{T}} \right)
+\end{equation}
+
+The second expecation is, using \eqref{lnbsprocess}
+
+\begin{equation}
+-K\Phi\left(\frac{ln(S(0)/K)+(r_d-r_f-\frac{1}{2}\sigma^2T)}{\sigma\sqrt{T}}\right)
+\end{equation}
+
+Putting all together we get
+
+\begin{equation}
+e^{-r_dT}\mathrm{\mathbb{Q}^{dom}}((S(T)-K)^+) = S(0)e^{-r_f T}\Phi\left(d1\right)
+-e^{-r_dT}K\Phi\left(d2\right)
+\end{equation}
+
+with
+
+\begin{eqnarray}
+d1 = \frac{\mathrm{ln}(S(0)/K)+(r_d-r_f+\frac{1}{2}\sigma^2T)}{\sigma\sqrt{T}} \\
+d2 = \frac{\mathrm{ln}(S(0)/K)+(r_d-r_f-\frac{1}{2}\sigma^2T)}{\sigma\sqrt{T}}
+\end{eqnarray}
+
+which is the desired result.
+
+
+\end{document}

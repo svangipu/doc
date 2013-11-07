@@ -1,0 +1,677 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=prv_SplineDensity 2013.9.18)  21 SEP 2013 18:36
+entering extended mode
+ %&-line parsing enabled.
+**&prv_SplineDensity _region_.tex
+(./_region_.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, loaded.
+CUSTOMISED FORMAT. Preloaded files:
+        .
+  amsart.cls    2009/07/02 v2.20.1
+ amsmath.sty    2000/07/18 v2.13 AMS math features
+ amstext.sty    2000/06/29 v2.01
+  amsgen.sty    1999/11/30 v2.0
+  amsbsy.sty    1999/11/29 v1.2d
+  amsopn.sty    1999/12/14 v2.01 operator names
+    umsa.fd    2009/06/22 v3.00 AMS symbols A
+amsfonts.sty    2009/06/22 v3.00 Basic AMSFonts support
+ amssymb.sty    2009/06/22 v3.00
+graphicx.sty    1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+  keyval.sty    1999/03/16 v1.13 key=value parser (DPC)
+graphics.sty    2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+    trig.sty    1999/03/16 v1.09 sin cos tan (DPC)
+graphics.cfg    2009/08/28 v1.8 graphics configuration of TeX Live
+  pdftex.def    2010/03/12 v0.04p Graphics/color for pdfTeX
+gnuplottex.sty    2013/06/03 v0.5 gnuplot graphs in LaTeX
+latexsym.sty    1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+moreverb.sty    2008/06/03 v2.3a `more' verbatim facilities
+verbatim.sty    2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
+  ifthen.sty    2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+epstopdf.sty    2009/10/17 v2.4 Conversion with epstopdf on the fly (HO)
+epstopdf-base.sty    2009/10/17 v2.4 Base part for package epstopdf
+infwarerr.sty    2007/09/09 v1.2 Providing info/warning/message (HO)
+  grfext.sty    2007/09/30 v1.0 Managing graphics extensions (HO)
+kvoptions.sty    2009/08/13 v3.4 Keyval support for LaTeX options (HO)
+kvsetkeys.sty    2009/07/30 v1.5 Key value parser with default handler support 
+(HO)
+etexcmds.sty    2007/12/12 v1.2 Prefix for e-TeX command names (HO)
+pdftexcmds.sty    2009/09/23 v0.6 LuaTeX support for pdfTeX utility functions (
+HO)
+ifluatex.sty    2009/04/17 v1.2 Provides the ifluatex switch (HO)
+ ltxcmds.sty    2009/08/05 v1.0 Some LaTeX kernel commands for general use (HO)
+
+epstopdf-sys.cfg    2009/10/26 v1.1 Configuration of epstopdf for TeX Live
+    umsa.fd    2009/06/22 v3.00 AMS symbols A
+    umsb.fd    2009/06/22 v3.00 AMS symbols B
+   ulasy.fd    1998/08/17 v2.2e LaTeX symbol font definitions
+        .
+No file _region_.aux.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+(/usr/local/share/texmf/tex/latex/preview/preview.sty
+Package: preview 2010/02/14 11.87 (AUCTeX/preview-latex)
+
+(/usr/local/share/texmf/tex/latex/preview/prtightpage.def
+\PreviewBorder=\dimen116
+)
+(/usr/local/share/texmf/tex/latex/preview/prauctex.def
+No auxiliary output files.
+
+
+\hbadness=\count125
+\hfuzz=\dimen117
+(/usr/local/share/texmf/tex/latex/preview/prauctex.cfg))
+(/usr/local/share/texmf/tex/latex/preview/prfootnotes.def)
+\pr@snippet=\count126
+\pr@box=\box29
+\pr@output=\toks28
+
+Preview: Fontsize 10pt
+Preview: PDFoutput 1
+) (/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count127
+\scratchdimen=\dimen118
+\scratchbox=\box30
+\nofMPsegments=\count128
+\nofMParguments=\count129
+\everyMPshowfont=\toks29
+\MPscratchCnt=\count130
+\MPscratchDim=\dimen119
+\MPnumerator=\count131
+\everyMPtoPDFconversion=\toks30
+)  !name(SplineDensity.tex) !offset(-3) 
+
+Class amsart Warning: Abstract should precede \maketitle in AMS document classe
+s; reported on input line 84.
+
+! Preview: Snippet 1 started.
+<-><->
+      
+l.88 \section
+             {Method}
+Not a real error.
+
+Preview: Tightpage -32891 -32891 32891 32891
+! Preview: Snippet 1 ended.(447828+0x23592960).
+<-><->
+      
+l.88 \section{Method}
+                     
+Not a real error.
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+]
+! Preview: Snippet 2 started.
+<-><->
+      
+l.90 We assume a strike grid $
+                              l=k_0 < ... < k_n=u$ and arbitrage free, non d...
+
+Not a real error.
+
+! Preview: Snippet 2 ended.(455111+98303x5958070).
+<-><->
+      
+l.90 We assume a strike grid $l=k_0 < ... < k_n=u$
+                                                   and arbitrage free, non d...
+
+Not a real error.
+
+[2]
+! Preview: Snippet 3 started.
+<-><->
+      
+l.90 ...bitrage free, non discounted call prices $
+                                                  f-l = c_0 < ... < c_n = 0$...
+
+Not a real error.
+
+! Preview: Snippet 3 ended.(455111+127431x6987829).
+<-><->
+      
+l.90 ...ed call prices $f-l = c_0 < ... < c_n = 0$
+                                                  , where $f$ denotes the un...
+
+Not a real error.
+
+[3]
+! Preview: Snippet 4 started.
+<-><->
+      
+l.90 ...rices $f-l = c_0 < ... < c_n = 0$, where $
+                                                  f$ denotes the underlying ...
+
+Not a real error.
+
+! Preview: Snippet 4 ended.(455111+127431x391398).
+<-><->
+      
+l.90 ...ces $f-l = c_0 < ... < c_n = 0$, where $f$
+                                                   denotes the underlying fo...
+
+Not a real error.
+
+[4]
+! Preview: Snippet 5 started.
+<-><->
+      
+l.90 .... We aim to construct a density function $
+                                                  \phi$ which is smooth and ...
+
+Not a real error.
+
+! Preview: Snippet 5 ended.(455111+127431x390486).
+<-><->
+      
+l.90 ...aim to construct a density function $\phi$
+                                                   which is smooth and match...
+
+Not a real error.
+
+[5]
+! Preview: Snippet 6 started.
+<-><->
+      
+l.90 ...The idea is to use a cubic spline within $
+                                                  [l,u]$ using the given str...
+
+Not a real error.
+
+! Preview: Snippet 6 ended.(491520+163840x1238967).
+<-><->
+      
+l.90 ...ea is to use a cubic spline within $[l,u]$
+                                                   using the given strike gr...
+
+Not a real error.
+
+[6]
+! Preview: Snippet 7 started.
+<-><->
+      
+l.90 ...nterval. As additional conditions we set $
+                                                  \phi'(l) = \phi'(u) = 0$, ...
+
+Not a real error.
+
+! Preview: Snippet 7 ended.(492688+163840x4827055).
+<-><->
+      
+l.90 ...onditions we set $\phi'(l) = \phi'(u) = 0$
+                                                  , which ensures that the d...
+
+Not a real error.
+
+[7]
+! Preview: Snippet 8 started.
+<-><->
+      
+l.90 ... = 0$, which ensures that the density is $
+                                                  C^1(\mathcal{R})$ globally...
+
+Not a real error.
+
+! Preview: Snippet 8 ended.(533465+163840x1874425).
+<-><->
+      
+l.90 ...res that the density is $C^1(\mathcal{R})$
+                                                   globally on the real line...
+
+Not a real error.
+
+[8]
+! Preview: Snippet 9 started.
+<-><->
+      
+l.90 ...thcal{R})$ globally on the real line and $
+                                                  C^2(l,u)$.
+Not a real error.
+
+! Preview: Snippet 9 ended.(533465+163840x2193882).
+<-><->
+      
+l.90 ...$ globally on the real line and $C^2(l,u)$
+                                                  .
+Not a real error.
+
+[9]
+! Preview: Snippet 10 started.
+<-><->
+      
+l.92 Denoting the call price function by $
+                                          c:\mathcal{R}\rightarrow[0,f]$ we ...
+
+Not a real error.
+
+! Preview: Snippet 10 ended.(491520+163840x3779035).
+<-><->
+      
+l.92 ...unction by $c:\mathcal{R}\rightarrow[0,f]$
+                                                   we have the relation
+Not a real error.
+
+[10]
+! Preview: Snippet 11 started.
+<-><->
+      
+l.94 \begin{equation}
+                     
+Not a real error.
+
+! Preview: Snippet 11 ended.(1426366+0x13773732).
+<-><->
+      
+l.96 \end{equation}
+                   
+Not a real error.
+
+[11]
+! Preview: Snippet 12 started.
+<-><->
+      
+l.100 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 12 ended.(1524638+0x15104095).
+<-><->
+      
+l.102 \end{equation}
+                    
+Not a real error.
+
+[12]
+! Preview: Snippet 13 started.
+<-><->
+      
+l.106 \begin{equation}
+                      \label{integralC}
+Not a real error.
+
+! Preview: Snippet 13 ended.(1634776+0x17255303).
+<-><->
+      
+l.108 \end{equation}
+                    
+Not a real error.
+
+[13
+
+]
+! Preview: Snippet 14 started.
+<-><->
+      
+l.112 The density $
+                   \phi$ is given by cubic polynomials
+Not a real error.
+
+! Preview: Snippet 14 ended.(455111+127431x390486).
+<-><->
+      
+l.112 The density $\phi$
+                         is given by cubic polynomials
+Not a real error.
+
+[14]
+! Preview: Snippet 15 started.
+<-><->
+      
+l.114 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 15 ended.(730073+0x18739794).
+<-><->
+      
+l.116 \end{equation}
+                    
+Not a real error.
+
+[15]
+! Preview: Snippet 16 started.
+<-><->
+      
+l.118 on each interval $
+                        [k_i,k_{i+1}], i=0,...,n-1$. We start with the compu...
+
+Not a real error.
+
+! Preview: Snippet 16 ended.(491520+163840x6806906).
+<-><->
+      
+l.118 ...ach interval $[k_i,k_{i+1}], i=0,...,n-1$
+                                                  . We start with the comput...
+
+Not a real error.
+
+[16]
+
+LaTeX Warning: Reference `integralC' on page 1 undefined on input line 118.
+
+! Preview: Snippet 17 started.
+<-><->
+      
+l.118 ...r integral in \ref{integralC}. For each $
+                                                  i$ we can compute
+Not a real error.
+
+! Preview: Snippet 17 ended.(432226+0x225780).
+<-><->
+      
+l.118 ...integral in \ref{integralC}. For each $i$
+                                                   we can compute
+Not a real error.
+
+[17]
+! Preview: Snippet 18 started.
+<-><->
+      
+l.120 \begin{equation}
+                      \label{intpi}
+Not a real error.
+
+! Preview: Snippet 18 ended.(1590174+0x22197456).
+<-><->
+      
+l.122 \end{equation}
+                    
+Not a real error.
+
+[18
+
+]
+! Preview: Snippet 19 started.
+<-><->
+      
+l.126 \begin{equation}
+                      \label{intpifull}
+Not a real error.
+
+! Preview: Snippet 19 ended.(1711233+0x14433435).
+<-><->
+      
+l.128 \end{equation}
+                    
+Not a real error.
+
+[19
+
+]
+
+LaTeX Warning: Reference `integralC' on page 1 undefined on input line 130.
+
+! Preview: Snippet 20 started.
+<-><->
+      
+l.130 ...ntegration in \ref{integralC}. We write $
+                                                  c(t)-f$ as
+Not a real error.
+
+! Preview: Snippet 20 ended.(491520+163840x2222383).
+<-><->
+      
+l.130 ...ion in \ref{integralC}. We write $c(t)-f$
+                                                   as
+Not a real error.
+
+[20]
+! Preview: Snippet 21 started.
+<-><->
+      
+l.132 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 21 ended.(2359318+0x19288911).
+<-><->
+      
+l.134 \end{equation}
+                    
+Not a real error.
+
+[21]
+! Preview: Snippet 22 started.
+<-><->
+      
+l.136 with $
+            m(t)$ such that $t \in [k_{m(t)} , k_{m(t)+1} )$. The left integ...
+
+Not a real error.
+
+! Preview: Snippet 22 ended.(491520+163840x1321799).
+<-><->
+      
+l.136 with $m(t)$
+                  such that $t \in [k_{m(t)} , k_{m(t)+1} )$. The left integ...
+
+Not a real error.
+
+[22]
+! Preview: Snippet 23 started.
+<-><->
+      
+l.136 with $m(t)$ such that $
+                             t \in [k_{m(t)} , k_{m(t)+1} )$. The left integ...
+
+Not a real error.
+
+! Preview: Snippet 23 ended.(491520+233018x5322534).
+<-><->
+      
+l.136 ...uch that $t \in [k_{m(t)} , k_{m(t)+1} )$
+                                                  . The left integral is ind...
+
+Not a real error.
+
+[23]
+! Preview: Snippet 24 started.
+<-><->
+      
+l.136 ...)$. The left integral is independent of $
+                                                  v$ and was computed in \re...
+
+Not a real error.
+
+! Preview: Snippet 24 ended.(282168+0x341181).
+<-><->
+      
+l.136 .... The left integral is independent of $v$
+                                                   and was computed in \ref{...
+
+Not a real error.
+
+[24]
+
+LaTeX Warning: Reference `intpifull' on page 1 undefined on input line 136.
+
+
+LaTeX Warning: Reference `intpi' on page 1 undefined on input line 136.
+
+! Preview: Snippet 25 started.
+<-><->
+      
+l.138 \begin{eqnarray}
+                      
+Not a real error.
+
+! Preview: Snippet 25 ended.(2359318+0x23592960).
+<-><->
+      
+l.140 \end{eqnarray}
+                    
+Not a real error.
+
+[25]
+! Preview: Snippet 26 started.
+<-><->
+      
+l.144 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 26 ended.(2213211+0x19713859).
+<-><->
+      
+l.146 \end{equation}
+                    
+Not a real error.
+
+[26]
+! Preview: Snippet 27 started.
+<-><->
+      
+l.150 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 27 ended.(2934107+0x23070627).
+<-><->
+      
+l.152 \end{equation}
+                    
+Not a real error.
+
+[27]
+! Preview: Snippet 28 started.
+<-><->
+      
+l.154 with $
+            \mu_j := \min(k_{j+1},t)$ and $\lambda_j := \sum_{i=0}^{j-1} \et...
+
+Not a real error.
+
+! Preview: Snippet 28 ended.(491520+187504x5137678).
+<-><->
+      
+l.154 with $\mu_j := \min(k_{j+1},t)$
+                                      and $\lambda_j := \sum_{i=0}^{j-1} \et...
+
+Not a real error.
+
+[28]
+! Preview: Snippet 29 started.
+<-><->
+      
+l.154 with $\mu_j := \min(k_{j+1},t)$ and $
+                                           \lambda_j := \sum_{i=0}^{j-1} \et...
+
+Not a real error.
+
+! Preview: Snippet 29 ended.(633064+196611x4005851).
+<-><->
+      
+l.154 ...nd $\lambda_j := \sum_{i=0}^{j-1} \eta_i$
+                                                  .
+Not a real error.
+
+[29]
+! Preview: Snippet 30 started.
+<-><->
+      
+l.158 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 30 ended.(1711233+0x19737367).
+<-><->
+      
+l.160 \end{equation}
+                    
+Not a real error.
+
+[30]
+! Preview: Snippet 31 started.
+<-><->
+      
+l.162 for $
+           i=0,...,n-1$ where $\delta_i = k_{i+1} - k_i$.
+Not a real error.
+
+! Preview: Snippet 31 ended.(432226+127431x4077981).
+<-><->
+      
+l.162 for $i=0,...,n-1$
+                        where $\delta_i = k_{i+1} - k_i$.
+Not a real error.
+
+[31]
+! Preview: Snippet 32 started.
+<-><->
+      
+l.162 for $i=0,...,n-1$ where $
+                               \delta_i = k_{i+1} - k_i$.
+Not a real error.
+
+! Preview: Snippet 32 ended.(455111+152917x3966552).
+<-><->
+      
+l.162 ......,n-1$ where $\delta_i = k_{i+1} - k_i$
+                                                  .
+Not a real error.
+
+[32]
+! Preview: Snippet 33 started.
+<-><->
+      
+l.165 \begin{thebibliography}{0}
+                                
+Not a real error.
+
+! Preview: Snippet 33 ended.(447828+0x23592960).
+<-><->
+      
+l.165 \begin{thebibliography}{0}
+                                
+Not a real error.
+
+[33
+
+]
+
+LaTeX Warning: Empty `thebibliography' environment on input line 167.
+
+\newlabel{tocindent-1}{0pt}
+\newlabel{tocindent0}{12.7778pt}
+\newlabel{tocindent1}{17.77782pt}
+\newlabel{tocindent2}{0pt}
+\newlabel{tocindent3}{0pt}
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 500 strings out of 492462
+ 6640 string characters out of 1150165
+ 91845 words of memory out of 3000000
+ 6037 multiletter control sequences out of 15000+50000
+ 11709 words of font info for 48 fonts, out of 3000000 for 9000
+ 189 hyphenation exceptions out of 8191
+ 22i,9n,33p,591b,171s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/sh
+are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-t
+exlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/font
+s/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texmf-texlive/fonts/type1/publ
+ic/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/
+cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr5.pfb>
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/t
+exmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texliv
+e/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
+Output written on _region_.pdf (33 pages, 119769 bytes).
+PDF statistics:
+ 148 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

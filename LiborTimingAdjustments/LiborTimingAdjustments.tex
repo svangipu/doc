@@ -1,0 +1,250 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%--------------------------------------------------------
+
+\begin{document}
+\title[Libor Timing Adjustments]{Libor Timing Adjustments}
+\author{Peter Caspers}
+\email[Peter Caspers]{pcaspers1973@gmail.com}
+\date{December 10, 2012}
+\dedicatory{First Version November 1, 2012 - This Version December 10, 2012}
+\begin{abstract}
+We derive a closed form expression for the convexity adjustment to be applied to a Libor coupon with non natural
+payment time. The model is a two dimensional lognormal model for the Libor rate and a forward rate
+naturally associated to this rate and the payment time of the coupon. In particular we recover the in arrears
+fixing adjustment as a special case.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+Consider a Libor rate with fixing time $t_f$, index start date $t_s$ and index end date $t_e$. For Euribor indices
+$t_f$ is e.g. deduced from $t_s$ by subtracting two target business days while $t_e$ is obatained by adding
+the Libor index tenor to $t_s$ and adjusting to a business day using the rolling convention modified following (following in case of weekly tenors).
+Note that it is quite usual e.g. in a vanilla interest rate swap to have $t_e > t_p$ for some floating coupons in the schedule where $t_p$ denotes the payment
+time of the Libor coupon, though the swap has natural payment lags. The convexity adjustment to be applied in this case
+is of course very small, because $t_e - t_p$ is at most a few days. Therefore the adjustment usually is ignored. However
+if the payment is made in arrears, i.e. $t_p = t_s$ or is delayed significantly (more than a few days), i.e. $t_p \gg t_e$, or if an index is
+averaged over some fixings, i.e. $t_s < t_p < t_e$ for (some of the) contributions to the average, then the adjustment
+becomes usually non negligible and should therefore be included in the coupon pricing. We derive an easy closed form expression for this timing adjustment
+applicable to all cases mentioned above based on a simple two dimensional lognormal model for the rate to be adjusted and a forward rate associated
+to this rate and the payment time $t_p$.
+
+\section{A general adjustment formula}
+
+With notations as above and $\tau_{\textnormal{accr}}$ denoting the year fraction of the accrual period (usually starting on $t_s$ and
+ending on $t_p$, which is however completely unimportant for the following derivations) we can price the coupon using
+the general pricing formula
+
+\begin{equation}\label{generaladjustment}
+C = P(0,t_p) E^{t_p} \left( \frac{F(t_f)\tau_{\textnormal{accr}} P(t_f,t_p)}{P(t_f,t_p)} \right) = P(0,t_p) E^{t_p} ( F(t_f) \tau_{\textnormal{accr}} )
+\end{equation}
+
+with $F(t)$ denoting the forward Libor rate, $P(t,T)$ denoting the price at time $t$ of a zero bond with maturity $T$
+and the expectation being taken in the $t_p$-forward measure $\mathbb{Q}^{t_p}$. We note here that our derivation will be done in a single
+curve setup for the moment, i.e. with identical forwading and discounting curves.
+
+We see that the adjusted rate is simply given by the $t_p$-forward expectation of the rate evaluated on the fixing time. It is
+then clear, that this is equal to the time zero forward rate F(0) if (and only if) $t_p = t_e$, because $F(t)$ is an $\mathbb{Q}^{t_e}$-martingale.
+The latter is true since
+
+\begin{equation}\label{forward1}
+F(t) = \frac{1}{\tau} \left( \frac{P(t,t_s)}{P(t,t_e)} -1 \right)   
+\end{equation}
+
+with $F$ simply compounding and $\tau$ now (and in the following) refering to the year fraction from $t_s$ to $t_e$, i.e. the index estimation period (and not the accrual period as the $\tau$ above).
+
+The convexity adjustment is obviously model dependent. We will now derive a closed
+form expression for the convexity adjustment in a particularly basic model.
+
+\section{Lognormal adjustment}
+
+In addition to \ref{forward1} we introduce a second forward rate $F^*$ with estimation start date $t_s^*$ and estimation end
+date $t_e^* = t_p$ equal to the payment time of our coupon in question. We choose $t_s^* = t_e$ if $t_p > t_e$ (i.e. if we have
+a \textit{delayed} payment) and $t_s^* = t_s$ otherwise (i.e. if we have an \textit{early} payment).
+
+We let these two forward rates evolve according to 
+
+\begin{eqnarray}\label{model}
+dF &=& \sigma F dW \\
+dF^* &=& \sigma^* F^* dW^* \\
+dW dW^* &=& \rho dt
+\end{eqnarray}
+
+where $dW$ and $dW^*$ are brownian motions in the respective forward measures associated to $F$ and $F^*$ denoted by $\mathbb{Q}$ and $\mathbb{Q}^*$
+in the following. To compute the adjusted forward we follow \ref{generaladjustment} and therefore aim to compute
+
+\begin{equation}
+E^*( F(t_f) )
+\end{equation}
+
+with the expectation taken in the measure $\mathbb{Q}^*$. The derivation is now following the (very nice) elaboration on the Girsanov Theorem in \cite{Papa}.
+Since
+
+\begin{equation}
+P(0,t_e) E\left( \frac{C(t)}{P(t,t_e)} \right) = P(0,t_p) E^*\left( \frac{C(t)}{P(t,t_p)} \right)
+\end{equation}
+
+for an arbitrary payoff $C$ we get the Radon Nikodym derivative
+
+\begin{equation}
+Z(t) = \left. \frac{d\mathbb{Q}^*}{d\mathbb{Q}} \right|_{\mathcal{F}_t} = \frac{P(0,t_e)P(t,t_p)}{ P(0,t_p)P(t,t_e)}
+\end{equation}
+
+which in terms of forward rates reads
+
+\begin{equation}
+Z(t) = \frac{P(0,t_e)}{P(0,t_p)} \frac{(1+\tau_F F(t))\textbf{1}_{t_p < t_e}}{1+\tau_{F^*} F^*(t)}
+\end{equation}
+
+with $\textbf{1}_A$ denoting the indicator function. We stress again that $\tau_X$ is the year fraction belonging to the index estimation period
+of the respective forward $X$.
+
+%It is useful at this stage to switch to log forwards through which formulas \ref{model} and following become (thanks to Ito)
+%
+%\begin{eqnarray}
+%d \ln{f} = \sigma dW - \frac{1}{2} \sigma^2 dt \\
+%d \ln{f^*} = \sigma^* dW^* - \frac{1}{2} \sigma^{*2} dt \\
+%dW dW^* = \rho dt
+%\end{eqnarray}
+
+We get $d\ln{Z}$ from that as
+
+\begin{equation}
+d\ln{Z(t)} = d\ln{(1+\tau_F F(t))}\textbf{1}_{t_p < t_e} - d\ln{(1+\tau_{F^*} F^*(t))}
+\end{equation}
+
+so the instantaneous quadratic covariation between $d\ln{Z}$ and $d\ln{F}$ is given by
+
+\begin{equation}
+\sigma dW (d\ln{(1+\tau_F F(t))}\textbf{1}_{t_p < t_e} - d\ln{(1+\tau_{F^*} F^*(t))})
+\end{equation}
+
+Observing that
+
+\begin{equation}
+d\ln(1+\tau_F F(t)) = \frac{d(1+\tau_F F(t))}{1+\tau_F F(t)} + \ldots dt
+\end{equation}
+
+which holds similarly for $F^*$ the covariation expression becomes
+
+\begin{equation}
+\sigma dW \left( \frac{d(1+\tau_F F(t))}{1+\tau_F F(t)}\textbf{1}_{t_p < t_e} - \frac{d(1+\tau_F^* F^*(t))}{1+\tau_F^* F^*(t)} \right) 
+\end{equation}
+
+which evaluates to
+
+\begin{equation}
+\left(\frac{\tau_F \sigma^2 F(t)}{1+\tau_F F(t)} \textbf{1}_{t_p<t_e} - \frac{\tau_F^* \rho\sigma\sigma^* F^*(t)}{1+\tau_F^* F^*(t)}\right) dt
+\end{equation}
+
+and finally yielding the dynamics of $F$ under the measure $\mathbb{Q}^*$
+
+\begin{equation}\label{tpdynamic}
+dF(t) = F(t) \left(\frac{\tau_F \sigma^2 F(t)}{1+\tau_F F(t)} \textbf{1}_{t_p<t_e} - \frac{\tau_{F^*} \rho\sigma\sigma^* F^*(t)}{1+\tau_{F^*} F^*(t)}\right) dt + F(t) \sigma dW^\prime
+\end{equation}
+
+with a $\mathbb{Q^*}$ - Brownian motion $W^\prime$.
+
+To get a closed formula for the adjusted rate we have to make the drift term in formula \ref{tpdynamic} deterministic. A standard approach to do this
+is to freeze the forwards at time zero. Doing so we get the convexity adjustment
+
+\begin{equation}
+E^*(F(t_f)) - F(0) \approx t_f \left(\frac{\tau_F \sigma^2 F^2(0)}{1+\tau_F F(0)} \textbf{1}_{t_p<t_e} - \frac{\tau_{F^*} \rho\sigma\sigma^*F(0) F^*(0)}{1+\tau_{F^*} F^*(0)}\right)
+\end{equation}
+
+The Libor in arrears adjustment from \cite{Hfb} is recovered as a special case with $t_p=t_s$, the second term inside the brackets then vanishing (because $\tau_{F^*}=0$).
+
+It should be noted that there is a restriction for the model parameter $\rho$ in the case $t_p < t_e$ which we not further investigate here for now. In particular we note that $\rho \rightarrow 1$ necessarily if $t_p \rightarrow t_e$ from the left. Since if $t_p < t_e$ implies that the forward rates $F$ and
+$F^*$ are overlapping with same start date and a low distance between their end dates, most likely one will choose $\rho$ near or equal $1$ anyway.
+
+Furthermore obviously the convexity adjustment converges to zero both for $t_p \rightarrow t_e$ from the left and from the right. As a result the convexity
+adjustment is a continuous function in $t_p$ (with all other variables fixed) with a zero at $t_p = t_e$. This is both expected and a good property.
+
+Concerning the model parameter $\sigma$ the obvious choice is the ATM caplet volatility for the index associated with $F$. For $\sigma^*$ some average
+over the same index caplet volatilities spanning the period of $F^*$ can be choosen, possibly accounting for correlations between the respective forward rates. Similarly the model parameter $\rho$ can be taken from some market model with swaption and / or cms spread option calibrated correlation structure. Again, we do not go into details here for now.
+
+\section{Open Points / To Do}
+
+What is the restriction on $\rho$ if $t_p < t_e$  to ensure an arbitrage free model dynamics in \ref{model} ? What is a good choice for $\sigma^*$ and $\rho$  ? Can a replication adjustment be calculated in the general setting of this paper taking into account the volatility smile ? Generalize the derivation to the case of multicurve curve stripping, i.e. with two distinct curves for discounting and forwarding.
+
+
+
+
+\begin{thebibliography}{2}
+
+\bibitem {Papa}Papaioannou Denis, \textit{Applied Multidimensional Girsanov Theorem},
+Electronic copy available at: http://ssrn.com/abstract=1805984
+
+\bibitem {Hfb}Heidorn, Schmidt, \textit{LIBOR in Arrears}, 1998, Frankfurt School of Finance
+
+\end{thebibliography}
+
+\end{document}

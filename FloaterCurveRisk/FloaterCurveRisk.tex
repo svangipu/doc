@@ -1,0 +1,260 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+\usepackage[miktex]{gnuplottex}
+\usepackage{epstopdf}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%--------------------------------------------------------
+
+\begin{document}
+\title[Risky Floater Curve Risk]{Risky Floater Curve Risk}
+\author{Peter Caspers}
+\email[Peter Caspers]{pcaspers1973@gmail.com}
+\date{February 16, 2013}
+\dedicatory{First Version February 16, 2013 - This Version February 16, 2013}
+\begin{abstract}
+It is well known that a plain riskless floater is worth par and has zero interest rate delta immediately before a fixing in a classic one curve setup. We investigate the structure of the delta under credit risk, a first fixing and a margin added to the payoff. We decompose the delta into three parts representing the different sources of risk.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+We consider a plain vanilla floating rate note paying an index (like Euribor 6m, USD Libor 3m) plus possibly a spread $m$. The valuation of the note
+is done by estimating the float coupons on a curve $C$ and by discounting the cashflows on the same curve plus a (termstructure of) spread $s$. Note that this
+setup is quite general because the spread effectively allows for an arbitrary distinction between discounting and forwarding curve as
+required in a modern curve setup.
+
+We are interested in the DV01, i.e. the change in the npv $\nu$ of the note when the curve $C$ is shifted in parallel by 1 basis point.
+Technically we will work with the derivative of $\nu$ by continuous zero rates on the relevant maturities of the note. We call this derivative
+delta. In particular (different from DV01) delta is normalized to the unit.
+
+For the ease of presentation we make some minor simplifying assumptions, namely that there is no fixing delay, i.e. the fixing date is equal to the
+start date of an interest rate period and that each index estimation period is equal to the corresponding interest rate period. 
+
+We start with a simple special case before moving to the general case.
+
+\section{No margin, no first fixing}
+
+We assume a flat coupon, i.e. $m=0$, and the valuation time $0$ to be immediately before the first coupon fixing. We then have a time grid $\{t_0, t_1, ... , t_n\}$ with fixing times $0+ = t_0 < t_1 < ... < t_{n-1}$, accrual periods $\tau_i = t_i - t_{i-1}$ for $i=1,...,n$ and payment times $t_1, ... , t_n$. The npv of the floater is
+
+\begin{equation}
+\nu = \sum_{i=1}^n \tau_i \left( \frac{P(0,t_{i-1})-P(0,t_i)}{\tau_i P(0,t_i)} \right) P^D(0,t_i) + P^D(0,t_n)
+\end{equation}
+
+with $P$ denoting the discount factor on curve $C$ and $P_D$ the discount factor on the spreaded curve $C+s$. Note that the notional is normalized to $1$ here and henceforth. Using continuous zero rates we can write
+
+\begin{equation}\label{npva}
+\nu = \sum_{i=1}^n (e^{-r_{i-1} t_{i-1}} - e^{-r_i t_i}) e^{-s_i t_i} + e^{-(r_n+s_n) t_n}
+\end{equation}
+
+with $r_i = r(t_i)$ the zero rate for maturity $t_i$ and likewise $s_i=s(t_i)$ the spread to be applied on maturity $t_i$.  We assume non negative spreads for the following derivations, but the results can be adapted for negative spreads in a straightforward way. 
+
+The parallel delta i.e. the delta corresponding to a parallel shift of the curve is given by
+
+\begin{equation}\label{dv01a}
+\frac{\partial \nu}{\partial r} =  \sum_{i=1}^n ( t_i e^{- r_i t_i} - t_{i-1} e^{- r_{i-1} t_{i-1}}) e^{-s_i t_i} - t_n e^{-(r_n+s_n) t_n}   
+\end{equation}
+
+Here $\partial / \partial r$ denotes the directional derivative along the vector $(1,...,1)$. Bucket deltas can be computed likewise as partial derivatives $\partial / \partial r_j$ 
+
+\begin{equation}\label{dv01b}
+\frac{\partial \nu}{\partial r_j} =  t_je^{-r_jt_j} ( e^{-s_jt_j} - e^{-s_{j+1} t_{j+1}})
+\end{equation}
+
+for $j = 0,...,n-1$. For $j=0$ and $j=n$ we get a partial derivative of zero. Of course by direct comparision of \ref{dv01a} and \ref{dv01b} or more generally by applying the basic calculus of total derivatives we have
+
+\begin{equation}
+\sum_{j=1}^{n-1} \frac{\partial \nu}{\partial r_j} = \frac{\partial \nu}{\partial r}
+\end{equation}
+
+From \ref{npva} we see directly that in the case of $s_i \equiv 0$ the npv of the floater is exactly par $=1$. From \ref{dv01a} and \ref{dv01b} on the other hand it is clear that the parallel delta as well as all bucket deltas are zero in this limit case. It it also clear that if $s_i \rightarrow \infty$ for all $i$ the parallel delta and the bucket deltas will converge to $0$.
+
+We shall impose an additional restriction on $s_i$ from now on, namely that
+
+\begin{equation}\label{afs}
+e^{-s_i t_i} \leq e^{-s_{i-1} t_{i-1}}
+\end{equation}
+
+If the $s_i$ represent pure credit spreads this is just the condition for an arbitrage free credit spread term structure. If (a portion of) the $s_i$ represent the basis between the benchmark discounting curve and forwarding curve, \ref{afs} becomes a real restriction on the basis / credit spread termstructure. If \ref{afs} is fulfilled from \ref{dv01a} we get that
+
+\begin{equation}
+\frac{\partial \nu}{\partial r} \geq  \sum_{i=1}^n ( t_i e^{- (r_i+s_i) t_i} - t_{i-1} e^{- (r_{i-1}+s_{i-1}) t_{i-1}}) - t_n e^{-(r_n+s_n) t_n}  = 0
+\end{equation}
+
+i.e. the parallel delta is non negative. For the bucket deltas we see from \ref{dv01b} that $\partial \nu / \partial r_j$ is non negative for $j=1,...,n-1$.
+
+Summarizing we see that delta is zero at zero and infinite spread and non negative in between. Figure \ref{deltaFig} shows an example of the shape of this dependency.
+
+\begin{figure}[htbp]
+\caption{delta of a 5y note with semiannual payments, no margin, no first fixing, delta is plotted for different spread levels from 0\% to 1000\%, yield term structure is flat @3\%, spread is flat}
+\label{deltaFig}
+	\begin{gnuplot}
+		set terminal epslatex color
+		set xrange [0:10.0]
+		set yrange [0:1.5]
+		unset key
+		set xlabel "spread s"
+		set ylabel "delta"
+		plot 'spreadex.txt' with line
+	\end{gnuplot}
+\end{figure}
+
+\section{First Fixing and/or non zero margin}
+
+Next we generalize the setup allowing for a first fixing making the first coupon a fixed coupon and thus no longer estimated on the rate curve $C$. We also include the case of non zero, positive margins. The resulting cashflows of the note can be split into a fixed part
+
+\begin{equation}
+\nu_f = \sum_{i=1}^n \alpha_i \tau_i e^{-(r_i+s_i) t_i}
+\end{equation}
+
+with $\alpha_1 = m + f$, the sum of the margin $m$ and the index fixing $f$ (we assume both non negative), and $\alpha_i = m$ for $i\geq2$, and a float part (including the terminal capital payment)
+
+\begin{equation}
+\nu_e = \sum_{i=2}^n (e^{-r_{i-1} t_{i-1}} - e^{-r_i t_i}) e^{-s_i t_i} + e^{-(r_n+s_n) t_n}
+\end{equation}
+
+To make use of the results in the previous section we set $t'_i := t_i-t_1$ for $i\geq2$ and write
+
+\begin{equation}
+\nu_e = e^{-(r_1+s_1) t_1} \left( \sum_{i=2}^n (e^{-r'_{i-1} t'_{i-1}} - e^{-r'_i t'_i}) e^{-s'_i t'_i} + e^{-(r'_n+s'_n) t'_n} \right)
+\end{equation}
+
+with forward rates $r'_i$ and forward spreads $s'_i$ defined by the relations
+
+\begin{eqnarray}
+e^{-r'_i (t_i-t_1)}e^{-r_1 t_1} = e^{-r_i t_i}  \\
+e^{-s'_i (t_i-t_1)}e^{-s_1 t_1} = e^{-s_i t_i}
+\end{eqnarray}
+
+The npv $\nu$ of the note is obviously given by the sum
+
+\begin{equation}
+\nu = \nu_f + \nu_e
+\end{equation}
+
+The (parallel) delta of the fixed part is easily derived as
+
+\begin{equation}\label{dv01f}
+\frac{\partial \nu_f}{\partial r} = -\sum_{i=1}^{n} t_i \alpha_i \tau_i e^{-(r_i+s_i) t_i}
+\end{equation}
+
+Clearly, this is a negative number always which tends to zero if $s_i\rightarrow\infty$. It is also clear that the single terms in the sum constitute the
+partial derivatives, i.e. the bucket deltas. We call this part of the delta the fixed delta.
+
+The delta of the float part is given by
+
+\begin{equation}\label{dv01e}
+\frac{\partial \nu_e}{\partial r} = -t_1 e^{-(r_1+s_1)t_1} \nu'_e +  e^{-(r_1+s_1) t_1} \Delta_e
+\end{equation}
+
+with $\nu'_e$ denoting the $t_1$-forward npv of the float part of the note, i.e.
+
+\begin{equation}
+\nu'_e = \left( \sum_{i=2}^n (e^{-r'_{i-1} t'_{i-1}} - e^{-r'_i t'_i}) e^{-s'_i t'_i} + e^{-(r'_n+s'_n) t'_n} \right)
+\end{equation}
+
+and $\Delta_e$ being the $t_1$-forward delta, i.e. the derivative of the $t_1$-forward npv by parallel shifts of the curve (cf. \ref{dv01a}):
+
+\begin{equation}
+\Delta_e =  \sum_{i=2}^n ( t'_i e^{- r'_i t'_i} - t'_{i-1} e^{- r'_{i-1} t'_{i-1}}) e^{-s'_i t'_i} - t'_n e^{-(r'_n+s'_n) t'_n} 
+\end{equation}
+
+The delta of the float part therefore decomposes into a negative part represented by the first term in \ref{dv01e} which we call floater discounting delta
+and into a positive part which was investigated in the previous section represented by the second term in \ref{dv01e} which we call pure floater delta.
+
+The bucket deltas of the float part are given as follows
+
+\begin{equation}\label{dv01g}
+\frac{\partial \nu_e}{\partial r_j} = -t_1 e^{-(r_1+s_1)t_1} \nu'_e \delta_{i1} +  e^{-(r_1+s_1) t_1} \Delta_e^j
+\end{equation}
+
+with $\delta_{i1} = 1$ for $i=1$ and zero otherwise and $\Delta_e^j$ analogous to $\ref{dv01b}$ 
+
+\begin{equation}\label{dv01h}
+\Delta_e^j =  t'_je^{-r'_jt'_j} ( e^{-s'_jt'_j} - e^{-s'_{j+1} t'_{j+1}})
+\end{equation}
+
+for $j=0,...,n-1$ and $\Delta_e^n = 0$. That means that the discounting delta is on bucket $1$ always while the pure floater delta spreads over all buckets except $n$ where it is zero.
+
+Whether delta is positive or negative is dependent on the deal structure, the market data and in particular on the credit spread. Figure \ref{deltaFig2} shows an example including a first fixing and a margin. The parallel delta is negative for small spreads $s$ and gets positive as soon as the fixed part delta and the floater discounting delta is supercompensated by the pure floater delta, which in the example happens around $s=5\%$.
+
+\begin{figure}[htbp]
+\caption{delta of a 5y note with semiannual payments, 120bp margin, first fixing 3.2\% at time t=-0.25, delta (pink) is decomposed into fixed part (red), floater discounting part (green) and pure floater part (blue), plotted for different spread levels from 0\% to 100\%, yield term structure is flat @3\%, spread is flat}
+\label{deltaFig2}
+	\begin{gnuplot}
+		set terminal epslatex color
+		set xrange [0:1.0]
+		set yrange [-0.5:1.5]
+		unset key
+		set xlabel "spread s"
+		set ylabel "delta"
+		plot 'spreadex2.txt' using 1:2 with line, 'spreadex2.txt' using 1:3 with line, 'spreadex2.txt' using 1:4 with line, 'spreadex2.txt' using 1:5 with line
+	\end{gnuplot}
+\end{figure}
+
+\end{document}

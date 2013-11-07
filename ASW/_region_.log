@@ -1,0 +1,2087 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.5.29)  14 OCT 2013 08:33
+entering extended mode
+ \write18 enabled.
+ %&-line parsing enabled.
+**\nonstopmode\nofiles\PassOptionsToPackage{active,tightpage,auctex}{preview}\A
+tBeginDocument{\ifx\ifPreview\undefined\RequirePackage[displaymath,floats,graph
+ics,textmath,sections,footnotes]{preview}[2004/11/05]\fi} \input _region_.tex
+(./_region_.tex  !name(ASW.tex)
+(/usr/share/texmf-texlive/tex/latex/amscls/amsart.cls
+Document Class: amsart 2009/07/02 v2.20.1
+\linespacing=\dimen102
+\normalparindent=\dimen103
+\normaltopskip=\skip41
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2000/07/18 v2.13 AMS math features
+\@mathmargin=\skip42
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf-texlive/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks14
+\ex@=\dimen104
+))
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen105
+)
+(/usr/share/texmf-texlive/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count79
+LaTeX Info: Redefining \frac on input line 211.
+\uproot@=\count80
+\leftroot@=\count81
+LaTeX Info: Redefining \overline on input line 307.
+\classnum@=\count82
+\DOTSCASE@=\count83
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen106
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+\macc@depth=\count84
+\c@MaxMatrixCols=\count85
+\dotsspace@=\muskip10
+\c@parentequation=\count86
+\dspbrk@lvl=\count87
+\tag@help=\toks15
+\row@=\count88
+\column@=\count89
+\maxfields@=\count90
+\andhelp@=\toks16
+\eqnshift@=\dimen107
+\alignsep@=\dimen108
+\tagshift@=\dimen109
+\tagwidth@=\dimen110
+\totwidth@=\dimen111
+\lineht@=\dimen112
+\@envbody=\toks17
+\multlinegap=\skip43
+\multlinetaggap=\skip44
+\mathdisplay@stack=\toks18
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
+)
+LaTeX Font Info:    Try loading font information for U+msa on input line 388.
+
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
+)
+(/usr/share/texmf-texlive/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
+)
+\copyins=\insert233
+\abstractbox=\box28
+\listisep=\skip45
+\c@part=\count91
+\c@section=\count92
+\c@subsection=\count93
+\c@subsubsection=\count94
+\c@paragraph=\count95
+\c@subparagraph=\count96
+\c@figure=\count97
+\c@table=\count98
+\abovecaptionskip=\skip46
+\belowcaptionskip=\skip47
+\captionindent=\dimen113
+\thm@style=\toks19
+\thm@bodyfont=\toks20
+\thm@headfont=\toks21
+\thm@notefont=\toks22
+\thm@headpunct=\toks23
+\thm@preskip=\skip48
+\thm@postskip=\skip49
+\thm@headsep=\skip50
+\dth@everypar=\toks24
+)
+(/usr/share/texmf-texlive/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2009/06/22 v3.00
+)
+(/usr/share/texmf-texlive/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks25
+)
+(/usr/share/texmf-texlive/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf-texlive/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/etc/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2009/08/28 v1.8 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
+\Gread@gobject=\count99
+))
+\Gin@req@height=\dimen114
+\Gin@req@width=\dimen115
+)
+(/usr/share/texmf/tex/latex/gnuplottex/gnuplottex.sty
+Package: gnuplottex 2013/06/03 v0.5 gnuplot graphs in LaTeX
+
+(/usr/share/texmf-texlive/tex/latex/base/latexsym.sty
+Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+\symlasy=\mathgroup6
+LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
+(Font)                  U/lasy/m/n --> U/lasy/b/n on input line 47.
+)
+(/usr/share/texmf/tex/latex/moreverb/moreverb.sty
+Package: moreverb 2008/06/03 v2.3a `more' verbatim facilities
+
+(/usr/share/texmf-texlive/tex/latex/tools/verbatim.sty
+Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks26
+\verbatim@line=\toks27
+\verbatim@in@stream=\read1
+)
+\tab@position=\count100
+\tab@size=\count101
+\listing@line=\count102
+)
+(/usr/share/texmf-texlive/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\verbatim@out=\write3
+runsystem(touch /tmp/w18-test-20131014513.tex)...executed.
+
+runsystem(rm -f /tmp/w18-test-20131014513.tex)...executed.
+
+Package gnuplottex Info: Automatically converting gnuplot files. on input line 
+77.
+\c@fignum=\count103
+)
+(/usr/share/texmf-texlive/tex/latex/oberdiek/epstopdf.sty
+Package: epstopdf 2009/10/17 v2.4 Conversion with epstopdf on the fly (HO)
+
+(/usr/share/texmf-texlive/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2009/10/17 v2.4 Base part for package epstopdf
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2007/09/09 v1.2 Providing info/warning/message (HO)
+)
+(/usr/share/texmf-texlive/tex/latex/oberdiek/grfext.sty
+Package: grfext 2007/09/30 v1.0 Managing graphics extensions (HO)
+)
+(/usr/share/texmf-texlive/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2009/08/13 v3.4 Keyval support for LaTeX options (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2009/07/30 v1.5 Key value parser with default handler suppor
+t (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2007/12/12 v1.2 Prefix for e-TeX command names (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+(/usr/share/texmf-texlive/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2009/09/23 v0.6 LuaTeX support for pdfTeX utility functions
+ (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2009/04/17 v1.2 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2009/08/05 v1.0 Some LaTeX kernel commands for general use (HO
+)
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+)
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 433.
+
+(/usr/share/texmf-texlive/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2009/10/26 v1.1 Configuration of epstopdf for TeX Live
+)))
+\c@theorem=\count104
+\c@acknowledgement=\count105
+\c@algorithm=\count106
+\c@axiom=\count107
+\c@case=\count108
+\c@claim=\count109
+\c@conclusion=\count110
+\c@condition=\count111
+\c@conjecture=\count112
+\c@corollary=\count113
+\c@criterion=\count114
+\c@definition=\count115
+\c@example=\count116
+\c@exercise=\count117
+\c@lemma=\count118
+\c@notation=\count119
+\c@problem=\count120
+\c@proposition=\count121
+\c@remark=\count122
+\c@solution=\count123
+\c@summary=\count124
+
+No file _region_.aux.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+(/usr/local/share/texmf/tex/latex/preview/preview.sty
+Package: preview 2010/02/14 11.87 (AUCTeX/preview-latex)
+
+(/usr/local/share/texmf/tex/latex/preview/prtightpage.def
+\PreviewBorder=\dimen116
+)
+(/usr/local/share/texmf/tex/latex/preview/prauctex.def
+No auxiliary output files.
+
+
+\hbadness=\count125
+\hfuzz=\dimen117
+(/usr/local/share/texmf/tex/latex/preview/prauctex.cfg))
+(/usr/local/share/texmf/tex/latex/preview/prfootnotes.def)
+\pr@snippet=\count126
+\pr@box=\box29
+\pr@output=\toks28
+
+Preview: Fontsize 10pt
+Preview: PDFoutput 1
+)
+LaTeX Font Info:    Try loading font information for U+msa on input line 73.
+ (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 73.
+
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2009/06/22 v3.00 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for U+lasy on input line 73.
+
+(/usr/share/texmf-texlive/tex/latex/base/ulasy.fd
+File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
+)
+(/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count127
+\scratchdimen=\dimen118
+\scratchbox=\box30
+\nofMPsegments=\count128
+\nofMParguments=\count129
+\everyMPshowfont=\toks29
+\MPscratchCnt=\count130
+\MPscratchDim=\dimen119
+\MPnumerator=\count131
+\everyMPtoPDFconversion=\toks30
+)  !name(ASW.tex) !offset(-3) 
+
+Class amsart Warning: Abstract should precede \maketitle in AMS document classe
+s; reported on input line 84.
+
+
+LaTeX Warning: Citation `ql' on page 1 undefined on input line 88.
+
+! Preview: Snippet 1 started.
+<-><->
+      
+l.91 \section
+             {Introduction}
+Not a real error.
+
+Preview: Tightpage -32891 -32891 32891 32891
+! Preview: Snippet 1 ended.(447828+0x23592960).
+<-><->
+      
+l.91 \section{Introduction}
+                           
+Not a real error.
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+]
+! Preview: Snippet 2 started.
+<-><->
+      
+l.93 A fixed rate bond with future cashflows $
+                                              C_i$ being paid at times $t_i$...
+
+Not a real error.
+
+! Preview: Snippet 2 ended.(447828+98303x686588).
+<-><->
+      
+l.93 A fixed rate bond with future cashflows $C_i$
+                                                   being paid at times $t_i$...
+
+Not a real error.
+
+[2]
+! Preview: Snippet 3 started.
+<-><->
+      
+l.93 ...ture cashflows $C_i$ being paid at times $
+                                                  t_i$ can be priced relativ...
+
+Not a real error.
+
+! Preview: Snippet 3 ended.(403098+98303x454846).
+<-><->
+      
+l.93 ... cashflows $C_i$ being paid at times $t_i$
+                                                   can be priced relative to...
+
+Not a real error.
+
+[3]
+! Preview: Snippet 4 started.
+<-><->
+      
+l.93 ...term structure given by discount factors $
+                                                  P(s,t)$ using a zero yield...
+
+Not a real error.
+
+! Preview: Snippet 4 ended.(491520+163840x1856626).
+<-><->
+      
+l.93 ...ructure given by discount factors $P(s,t)$
+                                                   using a zero yield spread...
+
+Not a real error.
+
+[4]
+! Preview: Snippet 5 started.
+<-><->
+      
+l.93 ...ctors $P(s,t)$ using a zero yield spread $
+                                                  z$ by writing
+Not a real error.
+
+! Preview: Snippet 5 ended.(282168+0x333598).
+<-><->
+      
+l.93 ...ors $P(s,t)$ using a zero yield spread $z$
+                                                   by writing
+Not a real error.
+
+[5]
+! Preview: Snippet 6 started.
+<-><->
+      
+l.95 \begin{equation}
+                     \label{zSpreadPricing}
+Not a real error.
+
+! Preview: Snippet 6 ended.(1048584+0x15460171).
+<-><->
+      
+l.97 \end{equation}
+                   
+Not a real error.
+
+[6
+
+]
+! Preview: Snippet 7 started.
+<-><->
+      
+l.99 where $
+            \pi(s)$ denotes the bond price at time $t=s$ (settlement). To gi...
+
+Not a real error.
+
+! Preview: Snippet 7 ended.(491520+163840x1214012).
+<-><->
+      
+l.99 where $\pi(s)$
+                    denotes the bond price at time $t=s$ (settlement). To gi...
+
+Not a real error.
+
+[7]
+! Preview: Snippet 8 started.
+<-><->
+      
+l.99 ... $\pi(s)$ denotes the bond price at time $
+                                                  t=s$ (settlement). To give...
+
+Not a real error.
+
+! Preview: Snippet 8 ended.(403098+0x1417664).
+<-><->
+      
+l.99 ...i(s)$ denotes the bond price at time $t=s$
+                                                   (settlement). To give a s...
+
+Not a real error.
+
+[8]
+! Preview: Snippet 9 started.
+<-><->
+      
+l.99 ...To give a specific setting we assume the $
+                                                  t_i$ mesaured w.r.t. the A...
+
+Not a real error.
+
+! Preview: Snippet 9 ended.(403098+98303x454846).
+<-><->
+      
+l.99 ...ive a specific setting we assume the $t_i$
+                                                   mesaured w.r.t. the Actua...
+
+Not a real error.
+
+[9]
+! Preview: Snippet 10 started.
+<-><->
+      
+l.101 As a side note the quantity $
+                                   z$ is also called zero volatility spread ...
+
+Not a real error.
+
+! Preview: Snippet 10 ended.(282168+0x333598).
+<-><->
+      
+l.101 As a side note the quantity $z$
+                                      is also called zero volatility spread ...
+
+Not a real error.
+
+[10]
+
+LaTeX Warning: Reference `zSpreadPricing' on page 1 undefined on input line 101
+.
+
+
+LaTeX Warning: Reference `zSpreadPricing' on page 1 undefined on input line 101
+.
+
+! Preview: Snippet 11 started.
+<-><->
+      
+l.101 ... contrary to the option adjusted spread $
+                                                  z^*$ which is the correspo...
+
+Not a real error.
+
+! Preview: Snippet 11 ended.(451272+0x634882).
+<-><->
+      
+l.101 ...trary to the option adjusted spread $z^*$
+                                                   which is the correspondin...
+
+Not a real error.
+
+[11]
+! Preview: Snippet 12 started.
+<-><->
+      
+l.103 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 12 ended.(1456371+0x18747587).
+<-><->
+      
+l.105 \end{equation}
+                    
+Not a real error.
+
+[12]
+! Preview: Snippet 13 started.
+<-><->
+      
+l.107 with a numeraire $
+                        N$ and the expectation taken in the associated numer...
+
+Not a real error.
+
+! Preview: Snippet 13 ended.(447828+0x598014).
+<-><->
+      
+l.107 with a numeraire $N$
+                           and the expectation taken in the associated numer...
+
+Not a real error.
+
+[13]
+! Preview: Snippet 14 started.
+<-><->
+      
+l.107 ...ken in the associated numeraire measure $
+                                                  \mu$.
+Not a real error.
+
+! Preview: Snippet 14 ended.(282168+127431x394886).
+<-><->
+      
+l.107 ...in the associated numeraire measure $\mu$
+                                                  .
+Not a real error.
+
+[14]
+! Preview: Snippet 15 started.
+<-><->
+      
+l.109 The zero yield spread $
+                             z$ measures the credit risk to be included in p...
+
+Not a real error.
+
+! Preview: Snippet 15 ended.(282168+0x333598).
+<-><->
+      
+l.109 The zero yield spread $z$
+                                measures the credit risk to be included in p...
+
+Not a real error.
+
+[15]
+
+LaTeX Warning: Reference `zSpreadPricing' on page 1 undefined on input line 109
+.
+
+! Preview: Snippet 16 started.
+<-><->
+      
+l.111 ...ond pricing is by the asset swap spread $
+                                                  a$. This is defined to be ...
+
+Not a real error.
+
+! Preview: Snippet 16 ended.(282168+0x346416).
+<-><->
+      
+l.111 ...d pricing is by the asset swap spread $a$
+                                                  . This is defined to be th...
+
+Not a real error.
+
+[16]
+! Preview: Snippet 17 started.
+<-><->
+      
+l.111 ...of this swap starting on the settlement $
+                                                  s$ of the bond purchase), ...
+
+Not a real error.
+
+! Preview: Snippet 17 ended.(282168+0x307200).
+<-><->
+      
+l.111 ... this swap starting on the settlement $s$
+                                                   of the bond purchase), su...
+
+Not a real error.
+
+[17]
+! Preview: Snippet 18 started.
+<-><->
+      
+l.111 ...e bond together with the swap values to $
+                                                  100\%$ at settlement time ...
+
+Not a real error.
+
+! Preview: Snippet 18 ended.(491520+36408x1529178).
+<-><->
+      
+l.111 ... together with the swap values to $100\%$
+                                                   at settlement time $s$.
+Not a real error.
+
+[18]
+! Preview: Snippet 19 started.
+<-><->
+      
+l.111 ...ap values to $100\%$ at settlement time $
+                                                  s$.
+Not a real error.
+
+! Preview: Snippet 19 ended.(282168+0x307200).
+<-><->
+      
+l.111 ... values to $100\%$ at settlement time $s$
+                                                  .
+Not a real error.
+
+[19]
+! Preview: Snippet 20 started.
+<-><->
+      
+l.117 In this short note we aim to compare $
+                                            z$ and $a$ under different persp...
+
+Not a real error.
+
+! Preview: Snippet 20 ended.(282168+0x333598).
+<-><->
+      
+l.117 In this short note we aim to compare $z$
+                                               and $a$ under different persp...
+
+Not a real error.
+
+[20]
+! Preview: Snippet 21 started.
+<-><->
+      
+l.117 ...is short note we aim to compare $z$ and $
+                                                  a$ under different perspec...
+
+Not a real error.
+
+! Preview: Snippet 21 ended.(282168+0x346416).
+<-><->
+      
+l.117 ... short note we aim to compare $z$ and $a$
+                                                   under different perspecti...
+
+Not a real error.
+
+[21]
+! Preview: Snippet 22 started.
+<-><->
+      
+l.120 \item the functional dependency $
+                                       a(z)$ to see in particular to which e...
+
+Not a real error.
+
+! Preview: Snippet 22 ended.(491520+163840x1189740).
+<-><->
+      
+l.120 \item the functional dependency $a(z)$
+                                             to see in particular to which e...
+
+Not a real error.
+
+[22]
+! Preview: Snippet 23 started.
+<-><->
+      
+l.121 \item the first derivative $
+                                  \partial a / \partial z (z) $ to see how c...
+
+Not a real error.
+
+! Preview: Snippet 23 ended.(491520+163840x2619701).
+<-><->
+      
+l.121 ...derivative $\partial a / \partial z (z) $
+                                                   to see how changes in the...
+
+Not a real error.
+
+[23]
+! Preview: Snippet 24 started.
+<-><->
+      
+l.122 \item the first derivative $
+                                  \partial a / \partial y (z) $ to see how c...
+
+Not a real error.
+
+! Preview: Snippet 24 ended.(491520+163840x2630927).
+<-><->
+      
+l.122 ...derivative $\partial a / \partial y (z) $
+                                                   to see how changes in the...
+
+Not a real error.
+
+[24]
+! Preview: Snippet 25 started.
+<-><->
+      
+l.122 ... see how changes in the risk free yield $
+                                                  y$ impact the asset swap s...
+
+Not a real error.
+
+! Preview: Snippet 25 ended.(282168+127431x344824).
+<-><->
+      
+l.122 ...ee how changes in the risk free yield $y$
+                                                   impact the asset swap spr...
+
+Not a real error.
+
+[25]
+! Preview: Snippet 26 started.
+<-><->
+      
+l.127 \section
+              {Asset Swap Spread and Zero Yield Spread Levels}
+Not a real error.
+
+! Preview: Snippet 26 ended.(447828+0x23592960).
+<-><->
+      
+l.127 ...Swap Spread and Zero Yield Spread Levels}
+                                                  
+Not a real error.
+
+[26
+
+]
+! Preview: Snippet 27 started.
+<-><->
+      
+l.129 ...xample is a fixed rate bond with yearly $
+                                                  4\%$ coupon starting on 16...
+
+Not a real error.
+
+! Preview: Snippet 27 ended.(491520+36408x873816).
+<-><->
+      
+l.129 ...le is a fixed rate bond with yearly $4\%$
+                                                   coupon starting on 16-Oct...
+
+Not a real error.
+
+[27]
+! Preview: Snippet 28 started.
+<-><->
+      
+l.131 ...the dependency of the asset swap spread $
+                                                  a$ and the zero yield spre...
+
+Not a real error.
+
+! Preview: Snippet 28 ended.(282168+0x346416).
+<-><->
+      
+l.131 ...e dependency of the asset swap spread $a$
+                                                   and the zero yield spread...
+
+Not a real error.
+
+[28]
+! Preview: Snippet 29 started.
+<-><->
+      
+l.131 ...ap spread $a$ and the zero yield spread $
+                                                  z$ for three cases, namely
+Not a real error.
+
+! Preview: Snippet 29 ended.(282168+0x333598).
+<-><->
+      
+l.131 ... spread $a$ and the zero yield spread $z$
+                                                   for three cases, namely
+Not a real error.
+
+[29]
+! Preview: Snippet 30 started.
+<-><->
+      
+l.134 \item a flat yield term structure at $
+                                            4\%$ (i.e. the bond values par),...
+
+Not a real error.
+
+! Preview: Snippet 30 ended.(491520+36408x873816).
+<-><->
+      
+l.134 \item a flat yield term structure at $4\%$
+                                                 (i.e. the bond values par),...
+
+Not a real error.
+
+[30]
+! Preview: Snippet 31 started.
+<-><->
+      
+l.135 \item a flat yield term structure at $
+                                            3\%$, again both for estimation ...
+
+Not a real error.
+
+! Preview: Snippet 31 ended.(491520+36408x873816).
+<-><->
+      
+l.135 \item a flat yield term structure at $3\%$
+                                                , again both for estimation ...
+
+Not a real error.
+
+[31]
+! Preview: Snippet 32 started.
+<-><->
+      
+l.136 \item a flat yield term structure at $
+                                            2.5\%$ for swap discounting and ...
+
+Not a real error.
+
+! Preview: Snippet 32 ended.(491520+36408x1383542).
+<-><->
+      
+l.136 \item a flat yield term structure at $2.5\%$
+                                                   for swap discounting and ...
+
+Not a real error.
+
+[32]
+! Preview: Snippet 33 started.
+<-><->
+      
+l.136 ...ure at $2.5\%$ for swap discounting and $
+                                                  3\%$ for bond discounting ...
+
+Not a real error.
+
+! Preview: Snippet 33 ended.(491520+36408x873816).
+<-><->
+      
+l.136 ...at $2.5\%$ for swap discounting and $3\%$
+                                                   for bond discounting and ...
+
+Not a real error.
+
+[33]
+
+LaTeX Warning: Reference `aByz' on page 2 undefined on input line 141.
+
+! Preview: Snippet 34 started.
+<-><->
+      
+l.141 ...z} shows the results. For low levels of $
+                                                  z$ (say below $100$bp) the...
+
+Not a real error.
+
+! Preview: Snippet 34 ended.(282168+0x333598).
+<-><->
+      
+l.141 ... shows the results. For low levels of $z$
+                                                   (say below $100$bp) the a...
+
+Not a real error.
+
+[34]
+! Preview: Snippet 35 started.
+<-><->
+      
+l.141 ...sults. For low levels of $z$ (say below $
+                                                  100$bp) the asset swap spr...
+
+Not a real error.
+
+! Preview: Snippet 35 ended.(422343+0x983043).
+<-><->
+      
+l.141 ...s. For low levels of $z$ (say below $100$
+                                                  bp) the asset swap spread ...
+
+Not a real error.
+
+[35]
+! Preview: Snippet 36 started.
+<-><->
+      
+l.141 ...ay below $100$bp) the asset swap spread $
+                                                  a$ and the zero yield spre...
+
+Not a real error.
+
+! Preview: Snippet 36 ended.(282168+0x346416).
+<-><->
+      
+l.141 ... below $100$bp) the asset swap spread $a$
+                                                   and the zero yield spread...
+
+Not a real error.
+
+[36]
+! Preview: Snippet 37 started.
+<-><->
+      
+l.141 ...ap spread $a$ and the zero yield spread $
+                                                  a$ are close, while for hi...
+
+Not a real error.
+
+! Preview: Snippet 37 ended.(282168+0x346416).
+<-><->
+      
+l.141 ... spread $a$ and the zero yield spread $a$
+                                                   are close, while for high...
+
+Not a real error.
+
+[37]
+! Preview: Snippet 38 started.
+<-><->
+      
+l.141 ...imit case where the bond is worth zero ($
+                                                  z\rightarrow \infty$) the ...
+
+Not a real error.
+
+! Preview: Snippet 38 ended.(282168+0x2008400).
+<-><->
+      
+l.141 ...bond is worth zero ($z\rightarrow \infty$
+                                                  ) the asset swap spread is...
+
+Not a real error.
+
+[38]
+! Preview: Snippet 39 started.
+<-><->
+      
+l.143 \begin{figure}
+                    [htbp]
+Not a real error.
+
+\openout3 = `_region_-gnuplottex-fig1.gnuplot'.
+
+Opening gnuplot stream _region_-gnuplottex-fig1.gnuplot
+runsystem(gnuplot _region_-gnuplottex-fig1.gnuplot)...executed.
+
+Package gnuplottex Info: _region_-gnuplottex-fig1.gnuplot converted on input li
+ne 157.
+
+(./_region_-gnuplottex-fig1.tex
+Package epstopdf Info: Source file: <_region_-gnuplottex-fig1.eps>
+(epstopdf)                    date: 2013-10-14 08:33:41
+(epstopdf)                    size: 43438 bytes
+(epstopdf)             Output file: <_region_-gnuplottex-fig1-eps-converted-to.
+pdf>
+(epstopdf)                    date: 2013-10-14 08:32:46
+(epstopdf)                    size: 21534 bytes
+(epstopdf)             Command: <epstopdf --outfile=_region_-gnuplottex-fig1-ep
+s-converted-to.pdf _region_-gnuplottex-fig1.eps>
+(epstopdf)             \includegraphics on input line 129.
+runsystem(epstopdf --outfile=_region_-gnuplottex-fig1-eps-converted-to.pdf _reg
+ion_-gnuplottex-fig1.eps)...executed.
+
+Package epstopdf Info: Result file: <_region_-gnuplottex-fig1-eps-converted-to.
+pdf>
+(epstopdf)                    date: 2013-10-14 08:33:41
+(epstopdf)                    size: 21534 bytes.
+
+<_region_-gnuplottex-fig1-eps-converted-to.pdf, id=131, 361.35pt x 252.945pt>
+File: _region_-gnuplottex-fig1-eps-converted-to.pdf Graphic file (type pdf)
+
+<use _region_-gnuplottex-fig1-eps-converted-to.pdf>)
+! Preview: Snippet 39 ended.(18870320+0x23592960).
+<-><->
+      
+l.158 \end{figure}
+                  
+Not a real error.
+
+[39
+
+
+ <./_region_-gnuplottex-fig1-eps-converted-to.pdf>]
+! Preview: Snippet 40 started.
+<-><->
+      
+l.160 \section
+              {Changes in Asset Swap Spread and Zero Yield Spread Levels}
+Not a real error.
+
+! Preview: Snippet 40 ended.(447828+0x23592960).
+<-><->
+      
+l.160 ...Swap Spread and Zero Yield Spread Levels}
+                                                  
+Not a real error.
+
+[40
+
+]
+! Preview: Snippet 41 started.
+<-><->
+      
+l.162 ...interested in how the asset swap spread $
+                                                  a$ changes when the zero y...
+
+Not a real error.
+
+! Preview: Snippet 41 ended.(282168+0x346416).
+<-><->
+      
+l.162 ...terested in how the asset swap spread $a$
+                                                   changes when the zero yie...
+
+Not a real error.
+
+[41]
+! Preview: Snippet 42 started.
+<-><->
+      
+l.162 ... $a$ changes when the zero yield spread $
+                                                  z$ changes, the risk free ...
+
+Not a real error.
+
+! Preview: Snippet 42 ended.(282168+0x333598).
+<-><->
+      
+l.162 ...a$ changes when the zero yield spread $z$
+                                                   changes, the risk free yi...
+
+Not a real error.
+
+[42]
+! Preview: Snippet 43 started.
+<-><->
+      
+l.162 ...spread $z$ changes, the risk free yield $
+                                                  y$ held constant.
+Not a real error.
+
+! Preview: Snippet 43 ended.(282168+127431x344824).
+<-><->
+      
+l.162 ...read $z$ changes, the risk free yield $y$
+                                                   held constant.
+Not a real error.
+
+[43]
+
+LaTeX Warning: Reference `daBydz' on page 2 undefined on input line 164.
+
+! Preview: Snippet 44 started.
+<-><->
+      
+l.164 ...ngle curve setup example the derivative $
+                                                  \partial a / \partial z$ i...
+
+Not a real error.
+
+! Preview: Snippet 44 ended.(491520+163840x1776377).
+<-><->
+      
+l.164 ... the derivative $\partial a / \partial z$
+                                                   is $1$ for $z=0$. In the ...
+
+Not a real error.
+
+[44]
+! Preview: Snippet 45 started.
+<-><->
+      
+l.164 ...derivative $\partial a / \partial z$ is $
+                                                  1$ for $z=0$. In the other...
+
+Not a real error.
+
+! Preview: Snippet 45 ended.(422343+0x327681).
+<-><->
+      
+l.164 ...rivative $\partial a / \partial z$ is $1$
+                                                   for $z=0$. In the other s...
+
+Not a real error.
+
+[45]
+! Preview: Snippet 46 started.
+<-><->
+      
+l.164 ...ve $\partial a / \partial z$ is $1$ for $
+                                                  z=0$. In the other sceario...
+
+Not a real error.
+
+! Preview: Snippet 46 ended.(422343+0x1535085).
+<-><->
+      
+l.164 ...\partial a / \partial z$ is $1$ for $z=0$
+                                                  . In the other scearios th...
+
+Not a real error.
+
+[46]
+! Preview: Snippet 47 started.
+<-><->
+      
+l.164 ...e other scearios the derivative is near $
+                                                  1.1$, resp. $1.05$ meaning...
+
+Not a real error.
+
+! Preview: Snippet 47 ended.(422343+0x837407).
+<-><->
+      
+l.164 ...her scearios the derivative is near $1.1$
+                                                  , resp. $1.05$ meaning tha...
+
+Not a real error.
+
+[47]
+! Preview: Snippet 48 started.
+<-><->
+      
+l.164 ...ios the derivative is near $1.1$, resp. $
+                                                  1.05$ meaning that if $z$ ...
+
+Not a real error.
+
+! Preview: Snippet 48 ended.(422343+0x1165088).
+<-><->
+      
+l.164 ...he derivative is near $1.1$, resp. $1.05$
+                                                   meaning that if $z$ chang...
+
+Not a real error.
+
+[48]
+! Preview: Snippet 49 started.
+<-><->
+      
+l.164 ...ear $1.1$, resp. $1.05$ meaning that if $
+                                                  z$ changes by $1$bp then $...
+
+Not a real error.
+
+! Preview: Snippet 49 ended.(282168+0x333598).
+<-><->
+      
+l.164 ...r $1.1$, resp. $1.05$ meaning that if $z$
+                                                   changes by $1$bp then $a$...
+
+Not a real error.
+
+[49]
+! Preview: Snippet 50 started.
+<-><->
+      
+l.164 .... $1.05$ meaning that if $z$ changes by $
+                                                  1$bp then $a$ changes by $...
+
+Not a real error.
+
+! Preview: Snippet 50 ended.(422343+0x327681).
+<-><->
+      
+l.164 ...$1.05$ meaning that if $z$ changes by $1$
+                                                  bp then $a$ changes by $1....
+
+Not a real error.
+
+[50]
+! Preview: Snippet 51 started.
+<-><->
+      
+l.164 ...aning that if $z$ changes by $1$bp then $
+                                                  a$ changes by $1.1$, resp....
+
+Not a real error.
+
+! Preview: Snippet 51 ended.(282168+0x346416).
+<-><->
+      
+l.164 ...ing that if $z$ changes by $1$bp then $a$
+                                                   changes by $1.1$, resp. $...
+
+Not a real error.
+
+[51]
+! Preview: Snippet 52 started.
+<-><->
+      
+l.164 ...z$ changes by $1$bp then $a$ changes by $
+                                                  1.1$, resp. $1.05$ basispo...
+
+Not a real error.
+
+! Preview: Snippet 52 ended.(422343+0x837407).
+<-><->
+      
+l.164 ...hanges by $1$bp then $a$ changes by $1.1$
+                                                  , resp. $1.05$ basispoints.
+Not a real error.
+
+[52]
+! Preview: Snippet 53 started.
+<-><->
+      
+l.164 ... $1$bp then $a$ changes by $1.1$, resp. $
+                                                  1.05$ basispoints.
+Not a real error.
+
+! Preview: Snippet 53 ended.(422343+0x1165088).
+<-><->
+      
+l.164 ...p then $a$ changes by $1.1$, resp. $1.05$
+                                                   basispoints.
+Not a real error.
+
+[53]
+! Preview: Snippet 54 started.
+<-><->
+      
+l.166 ...ce gets weaker in the sense that e.g. a $
+                                                  1$bp shift implies only a ...
+
+Not a real error.
+
+! Preview: Snippet 54 ended.(422343+0x327681).
+<-><->
+      
+l.166 ... gets weaker in the sense that e.g. a $1$
+                                                  bp shift implies only a $0...
+
+Not a real error.
+
+[54]
+! Preview: Snippet 55 started.
+<-><->
+      
+l.166 ... that e.g. a $1$bp shift implies only a $
+                                                  0.7$ bp shift in the first...
+
+Not a real error.
+
+! Preview: Snippet 55 ended.(422343+0x837407).
+<-><->
+      
+l.166 ...t e.g. a $1$bp shift implies only a $0.7$
+                                                   bp shift in the first sce...
+
+Not a real error.
+
+[55]
+! Preview: Snippet 56 started.
+<-><->
+      
+l.166 ...0.7$ bp shift in the first scenario for $
+                                                  z=200$bp. This also means ...
+
+Not a real error.
+
+! Preview: Snippet 56 ended.(422343+0x2190447).
+<-><->
+      
+l.166 ...p shift in the first scenario for $z=200$
+                                                  bp. This also means that o...
+
+Not a real error.
+
+[56]
+! Preview: Snippet 57 started.
+<-><->
+      
+l.166 ...or $z=200$bp. This also means that only $
+                                                  70\%$ of the volaility of ...
+
+Not a real error.
+
+! Preview: Snippet 57 ended.(491520+36408x1201497).
+<-><->
+      
+l.166 ...=200$bp. This also means that only $70\%$
+                                                   of the volaility of $z$ i...
+
+Not a real error.
+
+[57]
+! Preview: Snippet 58 started.
+<-><->
+      
+l.166 ...ns that only $70\%$ of the volaility of $
+                                                  z$ is captured by $a$, whi...
+
+Not a real error.
+
+! Preview: Snippet 58 ended.(282168+0x333598).
+<-><->
+      
+l.166 ... that only $70\%$ of the volaility of $z$
+                                                   is captured by $a$, which...
+
+Not a real error.
+
+[58]
+! Preview: Snippet 59 started.
+<-><->
+      
+l.166 ... of the volaility of $z$ is captured by $
+                                                  a$, which has to be taken ...
+
+Not a real error.
+
+! Preview: Snippet 59 ended.(282168+0x346416).
+<-><->
+      
+l.166 ...f the volaility of $z$ is captured by $a$
+                                                  , which has to be taken in...
+
+Not a real error.
+
+[59]
+! Preview: Snippet 60 started.
+<-><->
+      
+l.168 \begin{figure}
+                    [htbp]
+Not a real error.
+
+\openout3 = `_region_-gnuplottex-fig2.gnuplot'.
+
+Opening gnuplot stream _region_-gnuplottex-fig2.gnuplot
+runsystem(gnuplot _region_-gnuplottex-fig2.gnuplot)...executed.
+
+Package gnuplottex Info: _region_-gnuplottex-fig2.gnuplot converted on input li
+ne 182.
+
+(./_region_-gnuplottex-fig2.tex
+Package epstopdf Info: Source file: <_region_-gnuplottex-fig2.eps>
+(epstopdf)                    date: 2013-10-14 08:33:41
+(epstopdf)                    size: 39978 bytes
+(epstopdf)             Output file: <_region_-gnuplottex-fig2-eps-converted-to.
+pdf>
+(epstopdf)                    date: 2013-10-14 08:32:46
+(epstopdf)                    size: 17120 bytes
+(epstopdf)             Command: <epstopdf --outfile=_region_-gnuplottex-fig2-ep
+s-converted-to.pdf _region_-gnuplottex-fig2.eps>
+(epstopdf)             \includegraphics on input line 125.
+runsystem(epstopdf --outfile=_region_-gnuplottex-fig2-eps-converted-to.pdf _reg
+ion_-gnuplottex-fig2.eps)...executed.
+
+Package epstopdf Info: Result file: <_region_-gnuplottex-fig2-eps-converted-to.
+pdf>
+(epstopdf)                    date: 2013-10-14 08:33:41
+(epstopdf)                    size: 17120 bytes.
+
+<_region_-gnuplottex-fig2-eps-converted-to.pdf, id=200, 361.35pt x 252.945pt>
+File: _region_-gnuplottex-fig2-eps-converted-to.pdf Graphic file (type pdf)
+
+<use _region_-gnuplottex-fig2-eps-converted-to.pdf>)
+! Preview: Snippet 60 ended.(18870320+0x23592960).
+<-><->
+      
+l.183 \end{figure}
+                  
+Not a real error.
+
+[60
+
+
+ <./_region_-gnuplottex-fig2-eps-converted-to.pdf>]
+! Preview: Snippet 61 started.
+<-><->
+      
+l.185 \section
+              {Changes in Asset Swap Spread Levels induced by Risk Free Yiel...
+
+Not a real error.
+
+! Preview: Snippet 61 ended.(1234260+0x23592960).
+<-><->
+      
+l.185 ...evels induced by Risk Free Yield changes}
+                                                  
+Not a real error.
+
+[61
+
+]
+! Preview: Snippet 62 started.
+<-><->
+      
+l.187 ...t swap spreads when the risk free yield $
+                                                  y$ changes. This effect is...
+
+Not a real error.
+
+! Preview: Snippet 62 ended.(282168+127431x344824).
+<-><->
+      
+l.187 ...swap spreads when the risk free yield $y$
+                                                   changes. This effect is n...
+
+Not a real error.
+
+[62]
+
+LaTeX Warning: Reference `daBydy' on page 3 undefined on input line 189.
+
+! Preview: Snippet 63 started.
+<-><->
+      
+l.189 ...o scenarios in the mono curve setup for $
+                                                  z=0$ a change in $y$ will ...
+
+Not a real error.
+
+! Preview: Snippet 63 ended.(422343+0x1535085).
+<-><->
+      
+l.189 ...enarios in the mono curve setup for $z=0$
+                                                   a change in $y$ will not ...
+
+Not a real error.
+
+[63]
+! Preview: Snippet 64 started.
+<-><->
+      
+l.189 ... mono curve setup for $z=0$ a change in $
+                                                  y$ will not induce a chang...
+
+Not a real error.
+
+! Preview: Snippet 64 ended.(282168+127431x344824).
+<-><->
+      
+l.189 ...ono curve setup for $z=0$ a change in $y$
+                                                   will not induce a change ...
+
+Not a real error.
+
+[64]
+! Preview: Snippet 65 started.
+<-><->
+      
+l.189 ...nduce a change in the asset swap spread $
+                                                  a$. For the two curve setu...
+
+Not a real error.
+
+! Preview: Snippet 65 ended.(282168+0x346416).
+<-><->
+      
+l.189 ...uce a change in the asset swap spread $a$
+                                                  . For the two curve setup ...
+
+Not a real error.
+
+[65]
+! Preview: Snippet 66 started.
+<-><->
+      
+l.189 ... $a$. For the two curve setup however a $
+                                                  1$bp upshift in $y$ will i...
+
+Not a real error.
+
+! Preview: Snippet 66 ended.(422343+0x327681).
+<-><->
+      
+l.189 ...a$. For the two curve setup however a $1$
+                                                  bp upshift in $y$ will imp...
+
+Not a real error.
+
+[66]
+! Preview: Snippet 67 started.
+<-><->
+      
+l.189 ... curve setup however a $1$bp upshift in $
+                                                  y$ will imply a downshift ...
+
+Not a real error.
+
+! Preview: Snippet 67 ended.(282168+127431x344824).
+<-><->
+      
+l.189 ...urve setup however a $1$bp upshift in $y$
+                                                   will imply a downshift of...
+
+Not a real error.
+
+[67]
+! Preview: Snippet 68 started.
+<-><->
+      
+l.189 ...pshift in $y$ will imply a downshift of $
+                                                  0.05$bp in the asset swap ...
+
+Not a real error.
+
+! Preview: Snippet 68 ended.(422343+0x1165088).
+<-><->
+      
+l.189 ...t in $y$ will imply a downshift of $0.05$
+                                                  bp in the asset swap sprea...
+
+Not a real error.
+
+[68]
+! Preview: Snippet 69 started.
+<-><->
+      
+l.189 ... the asset swap spread. Here a shift in $
+                                                  y$ means a shift both in t...
+
+Not a real error.
+
+! Preview: Snippet 69 ended.(282168+127431x344824).
+<-><->
+      
+l.189 ...he asset swap spread. Here a shift in $y$
+                                                   means a shift both in the...
+
+Not a real error.
+
+[69]
+! Preview: Snippet 70 started.
+<-><->
+      
+l.191 For higher levels of $
+                            z$ the impact gets bigger. For $z=200$bp we have...
+
+Not a real error.
+
+! Preview: Snippet 70 ended.(282168+0x333598).
+<-><->
+      
+l.191 For higher levels of $z$
+                               the impact gets bigger. For $z=200$bp we have...
+
+Not a real error.
+
+[70]
+! Preview: Snippet 71 started.
+<-><->
+      
+l.191 ...vels of $z$ the impact gets bigger. For $
+                                                  z=200$bp we have e.g. a $0...
+
+Not a real error.
+
+! Preview: Snippet 71 ended.(422343+0x2190447).
+<-><->
+      
+l.191 ...f $z$ the impact gets bigger. For $z=200$
+                                                  bp we have e.g. a $0.15$bp...
+
+Not a real error.
+
+[71]
+! Preview: Snippet 72 started.
+<-><->
+      
+l.191 ...ts bigger. For $z=200$bp we have e.g. a $
+                                                  0.15$bp downshift in the a...
+
+Not a real error.
+
+! Preview: Snippet 72 ended.(422343+0x1165088).
+<-><->
+      
+l.191 ...gger. For $z=200$bp we have e.g. a $0.15$
+                                                  bp downshift in the asset ...
+
+Not a real error.
+
+[72]
+! Preview: Snippet 73 started.
+<-><->
+      
+l.191 ...downshift in the asset swap spread when $
+                                                  y$ moves up by $1$bp. In t...
+
+Not a real error.
+
+! Preview: Snippet 73 ended.(282168+127431x344824).
+<-><->
+      
+l.191 ...wnshift in the asset swap spread when $y$
+                                                   moves up by $1$bp. In the...
+
+Not a real error.
+
+[73]
+! Preview: Snippet 74 started.
+<-><->
+      
+l.191 ... asset swap spread when $y$ moves up by $
+                                                  1$bp. In the two curve set...
+
+Not a real error.
+
+! Preview: Snippet 74 ended.(422343+0x327681).
+<-><->
+      
+l.191 ...sset swap spread when $y$ moves up by $1$
+                                                  bp. In the two curve setup...
+
+Not a real error.
+
+[74]
+! Preview: Snippet 75 started.
+<-><->
+      
+l.191 ...t swap spread even moves down by almost $
+                                                  0.2$bp. Again this has imp...
+
+Not a real error.
+
+! Preview: Snippet 75 ended.(422343+0x837407).
+<-><->
+      
+l.191 ...ap spread even moves down by almost $0.2$
+                                                  bp. Again this has implica...
+
+Not a real error.
+
+[75]
+! Preview: Snippet 76 started.
+<-><->
+      
+l.191 ... this time also the correlation between $
+                                                  z$ and $a$ is pertubed by ...
+
+Not a real error.
+
+! Preview: Snippet 76 ended.(282168+0x333598).
+<-><->
+      
+l.191 ...his time also the correlation between $z$
+                                                   and $a$ is pertubed by th...
+
+Not a real error.
+
+[76]
+! Preview: Snippet 77 started.
+<-><->
+      
+l.191 ...me also the correlation between $z$ and $
+                                                  a$ is pertubed by the risk...
+
+Not a real error.
+
+! Preview: Snippet 77 ended.(282168+0x346416).
+<-><->
+      
+l.191 ... also the correlation between $z$ and $a$
+                                                   is pertubed by the risk f...
+
+Not a real error.
+
+[77]
+! Preview: Snippet 78 started.
+<-><->
+      
+l.191 ...s pertubed by the risk free yield shift $
+                                                  y$.
+Not a real error.
+
+! Preview: Snippet 78 ended.(282168+127431x344824).
+<-><->
+      
+l.191 ...pertubed by the risk free yield shift $y$
+                                                  .
+Not a real error.
+
+[78]
+! Preview: Snippet 79 started.
+<-><->
+      
+l.193 ...le example for this, assume that shifts $
+                                                  (\Delta z,\Delta y)$ are n...
+
+Not a real error.
+
+! Preview: Snippet 79 ended.(491520+163840x2571687).
+<-><->
+      
+l.193 ... assume that shifts $(\Delta z,\Delta y)$
+                                                   are normally distributed ...
+
+Not a real error.
+
+[79]
+! Preview: Snippet 80 started.
+<-><->
+      
+l.193 ...ith mean zero and covariance matrix diag$
+                                                  (\sigma_z^2,\sigma_y^2)$, ...
+
+Not a real error.
+
+! Preview: Snippet 80 ended.(533465+251217x2184989).
+<-><->
+      
+l.193 ...ance matrix diag$(\sigma_z^2,\sigma_y^2)$
+                                                  , i.e. the correlation bet...
+
+Not a real error.
+
+[80]
+! Preview: Snippet 81 started.
+<-><->
+      
+l.193 ...gma_y^2)$, i.e. the correlation between $
+                                                  \Delta z$ and $\Delta y$ i...
+
+Not a real error.
+
+! Preview: Snippet 81 ended.(447828+0x879733).
+<-><->
+      
+l.193 ..., i.e. the correlation between $\Delta z$
+                                                   and $\Delta y$ is zero. T...
+
+Not a real error.
+
+[81]
+! Preview: Snippet 82 started.
+<-><->
+      
+l.193 ... the correlation between $\Delta z$ and $
+                                                  \Delta y$ is zero. Then $(...
+
+Not a real error.
+
+! Preview: Snippet 82 ended.(447828+127431x890959).
+<-><->
+      
+l.193 ...elation between $\Delta z$ and $\Delta y$
+                                                   is zero. Then $(\Delta a,...
+
+Not a real error.
+
+[82]
+! Preview: Snippet 83 started.
+<-><->
+      
+l.193 ...$\Delta z$ and $\Delta y$ is zero. Then $
+                                                  (\Delta a, \Delta y)$ is a...
+
+Not a real error.
+
+! Preview: Snippet 83 ended.(491520+163840x2584505).
+<-><->
+      
+l.193 ...a y$ is zero. Then $(\Delta a, \Delta y)$
+                                                   is also normally distribu...
+
+Not a real error.
+
+[83]
+! Preview: Snippet 84 started.
+<-><->
+      
+l.193 ...y)$ is also normally distributed and if $
+                                                  \Delta a = \alpha \Delta z...
+
+Not a real error.
+
+! Preview: Snippet 84 ended.(455111+127431x5164976).
+<-><->
+      
+l.193 ...lta a = \alpha \Delta z + \beta \Delta y$
+                                                  , its covariance matrix reads
+
+Not a real error.
+
+[84]
+! Preview: Snippet 85 started.
+<-><->
+      
+l.195 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 85 ended.(1603434+0x14955180).
+<-><->
+      
+l.202 \end{equation}
+                    
+Not a real error.
+
+[85]
+! Preview: Snippet 86 started.
+<-><->
+      
+l.204 To give a concrete example assume $
+                                         (\sigma_z^2, \sigma_y^2) = ( (10\te...
+
+Not a real error.
+
+! Preview: Snippet 86 ended.(533465+251217x8234332).
+<-><->
+      
+l.204 ...xtnormal{bp})^2, (10\textnormal{bp})^2 )$
+                                                   and $\alpha=0.7, \beta=-0...
+
+Not a real error.
+
+[86]
+! Preview: Snippet 87 started.
+<-><->
+      
+l.204 ...al{bp})^2, (10\textnormal{bp})^2 )$ and $
+                                                  \alpha=0.7, \beta=-0.2$ (c...
+
+Not a real error.
+
+! Preview: Snippet 87 ended.(455111+127431x5050358).
+<-><->
+      
+l.204 ...al{bp})^2 )$ and $\alpha=0.7, \beta=-0.2$
+                                                   (cf. the figures from the...
+
+Not a real error.
+
+[87]
+! Preview: Snippet 88 started.
+<-><->
+      
+l.204 ... With these numbers we get variances of $
+                                                  ((7.28\textnormal{bp})^2, ...
+
+Not a real error.
+
+! Preview: Snippet 88 ended.(533465+163840x5685263).
+<-><->
+      
+l.204 ...extnormal{bp})^2, (10\textnormal{bp})^2)$
+                                                   for $(\Delta a, \Delta y)...
+
+Not a real error.
+
+[88]
+! Preview: Snippet 89 started.
+<-><->
+      
+l.204 ...mal{bp})^2, (10\textnormal{bp})^2)$ for $
+                                                  (\Delta a, \Delta y)$ and ...
+
+Not a real error.
+
+! Preview: Snippet 89 ended.(491520+163840x2584505).
+<-><->
+      
+l.204 ...ormal{bp})^2)$ for $(\Delta a, \Delta y)$
+                                                   and a correlation $-27.47...
+
+Not a real error.
+
+[89]
+! Preview: Snippet 90 started.
+<-><->
+      
+l.204 ...(\Delta a, \Delta y)$ and a correlation $
+                                                  -27.47\%$ between $\Delta ...
+
+Not a real error.
+
+! Preview: Snippet 90 ended.(491520+54613x2548630).
+<-><->
+      
+l.204 ..., \Delta y)$ and a correlation $-27.47\%$
+                                                   between $\Delta a$ and $\...
+
+Not a real error.
+
+[90]
+! Preview: Snippet 91 started.
+<-><->
+      
+l.204 ...)$ and a correlation $-27.47\%$ between $
+                                                  \Delta a$ and $\Delta y$. ...
+
+Not a real error.
+
+! Preview: Snippet 91 ended.(447828+0x892551).
+<-><->
+      
+l.204 ...correlation $-27.47\%$ between $\Delta a$
+                                                   and $\Delta y$. This mean...
+
+Not a real error.
+
+[91]
+! Preview: Snippet 92 started.
+<-><->
+      
+l.204 ...ation $-27.47\%$ between $\Delta a$ and $
+                                                  \Delta y$. This means that...
+
+Not a real error.
+
+! Preview: Snippet 92 ended.(447828+127431x890959).
+<-><->
+      
+l.204 ...7.47\%$ between $\Delta a$ and $\Delta y$
+                                                  . This means that if we ta...
+
+Not a real error.
+
+[92]
+! Preview: Snippet 93 started.
+<-><->
+      
+l.204 ...vements we underestimate the volatlity ($
+                                                  7.28$bp vs $10$bp) and als...
+
+Not a real error.
+
+! Preview: Snippet 93 ended.(422343+0x1165088).
+<-><->
+      
+l.204 ...ts we underestimate the volatlity ($7.28$
+                                                  bp vs $10$bp) and also int...
+
+Not a real error.
+
+[93]
+! Preview: Snippet 94 started.
+<-><->
+      
+l.204 ...nderestimate the volatlity ($7.28$bp vs $
+                                                  10$bp) and also introduce ...
+
+Not a real error.
+
+! Preview: Snippet 94 ended.(422343+0x655362).
+<-><->
+      
+l.204 ...restimate the volatlity ($7.28$bp vs $10$
+                                                  bp) and also introduce a c...
+
+Not a real error.
+
+[94]
+! Preview: Snippet 95 started.
+<-><->
+      
+l.204 ...lation bias between credit and rates of $
+                                                  -27.47\%$.
+Not a real error.
+
+! Preview: Snippet 95 ended.(491520+54613x2548630).
+<-><->
+      
+l.204 ...as between credit and rates of $-27.47\%$
+                                                  .
+Not a real error.
+
+[95]
+! Preview: Snippet 96 started.
+<-><->
+      
+l.206 \begin{figure}
+                    [htbp]
+Not a real error.
+
+\openout3 = `_region_-gnuplottex-fig3.gnuplot'.
+
+Opening gnuplot stream _region_-gnuplottex-fig3.gnuplot
+runsystem(gnuplot _region_-gnuplottex-fig3.gnuplot)...executed.
+
+Package gnuplottex Info: _region_-gnuplottex-fig3.gnuplot converted on input li
+ne 220.
+
+(./_region_-gnuplottex-fig3.tex
+Package epstopdf Info: Source file: <_region_-gnuplottex-fig3.eps>
+(epstopdf)                    date: 2013-10-14 08:33:41
+(epstopdf)                    size: 40101 bytes
+(epstopdf)             Output file: <_region_-gnuplottex-fig3-eps-converted-to.
+pdf>
+(epstopdf)                    date: 2013-10-14 08:32:46
+(epstopdf)                    size: 17524 bytes
+(epstopdf)             Command: <epstopdf --outfile=_region_-gnuplottex-fig3-ep
+s-converted-to.pdf _region_-gnuplottex-fig3.eps>
+(epstopdf)             \includegraphics on input line 127.
+runsystem(epstopdf --outfile=_region_-gnuplottex-fig3-eps-converted-to.pdf _reg
+ion_-gnuplottex-fig3.eps)...executed.
+
+Package epstopdf Info: Result file: <_region_-gnuplottex-fig3-eps-converted-to.
+pdf>
+(epstopdf)                    date: 2013-10-14 08:33:41
+(epstopdf)                    size: 17524 bytes.
+
+<_region_-gnuplottex-fig3-eps-converted-to.pdf, id=318, 361.35pt x 252.945pt>
+File: _region_-gnuplottex-fig3-eps-converted-to.pdf Graphic file (type pdf)
+
+<use _region_-gnuplottex-fig3-eps-converted-to.pdf>)
+! Preview: Snippet 96 ended.(18870320+0x23592960).
+<-><->
+      
+l.221 \end{figure}
+                  
+Not a real error.
+
+[96
+
+
+ <./_region_-gnuplottex-fig3-eps-converted-to.pdf>]
+! Preview: Snippet 97 started.
+<-><->
+      
+l.224 \begin{thebibliography}{1}
+                                
+Not a real error.
+
+! Preview: Snippet 97 ended.(447828+0x23592960).
+<-><->
+      
+l.224 \begin{thebibliography}{1}
+                                
+Not a real error.
+
+[97
+
+]
+\newlabel{tocindent-1}{0pt}
+\newlabel{tocindent0}{12.7778pt}
+\newlabel{tocindent1}{17.77782pt}
+\newlabel{tocindent2}{0pt}
+\newlabel{tocindent3}{0pt}
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 3122 strings out of 495061
+ 39497 string characters out of 1182621
+ 96736 words of memory out of 3000000
+ 6055 multiletter control sequences out of 15000+50000
+ 10540 words of font info for 44 fonts, out of 3000000 for 9000
+ 189 hyphenation exceptions out of 8191
+ 41i,10n,33p,950b,356s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/sh
+are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-t
+exlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/font
+s/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texmf-texlive/fonts/type1/publ
+ic/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/
+cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb>
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share
+/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texmf-texli
+ve/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
+Output written on _region_.pdf (97 pages, 194490 bytes).
+PDF statistics:
+ 363 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+

@@ -1,0 +1,169 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+\usepackage{gnuplottex}
+\usepackage{epstopdf}
+%\usepackage[pdf]{pstricks}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%-----------------------------------------------------------------
+\begin{document}
+
+\title{Modelling Volatility Smiles with Spline Densities}
+\author{Peter Caspers}
+\date{September 18, 2013}
+\dedicatory{First Version September 18, 2013 - This Version September 18, 2013}
+\maketitle
+
+\begin{abstract}
+todo...
+\end{abstract}
+
+\section{Method}
+
+We assume a strike grid $l=k_0 < ... < k_n=u$ and arbitrage free, non discounted call prices $f-l = c_0 < ... < c_n = 0$, where $f$ denotes the underlying forward. We aim to construct a density function $\phi$ which is smooth and matches the call prices exactly. The idea is to use a cubic spline within $[l,u]$ using the given strike grid and set the density zero outside this interval. As additional conditions we set $\phi'(l) = \phi'(u) = 0$, which ensures that the density is $C^1(\mathcal{R})$ globally on the real line and $C^2(l,u)$.
+
+Denoting the call price function by $c:\mathcal{R}\rightarrow[0,f]$ we have the relation
+
+\begin{equation}
+\frac{\partial^2 c}{\partial k^2} (t) = \phi(t)
+\end{equation}
+
+for the density, as well as
+
+\begin{equation}
+\frac{\partial c}{\partial k} (t) = \int_{l}^{u} \phi(s) ds - 1
+\end{equation}
+
+for the distribution / negative digital prices and finally
+
+\begin{equation}\label{integralC}
+c(t) = f - l + \int_{l}^{t} \left( \int_{l}^{v} \phi(s) ds -1 \right) dv
+\end{equation}
+
+for the call price function itself.
+
+The density $\phi$ is given by cubic polynomials
+
+\begin{equation}
+p_i(s) = a_i (s-k_i)^3 + b_i (s-k_i)^2 + c_i (s-k_i) + d_i
+\end{equation}
+
+on each interval $[k_i,k_{i+1}], i=0,...,n-1$. We start with the computation of the inner integral in \ref{integralC}. For each $i$ we can compute
+
+\begin{equation}\label{intpi}
+\int_{k_i}^{v} p_i(s) ds = \frac{1}{4}a_i(v-k_i)^4 + \frac{1}{3} b_i (v-k_i)^3 + \frac{1}{2} c_i (v-k_i)^2 + d(v-k_i)
+\end{equation}
+
+For the integral over a full subinterval we introduce the notation
+
+\begin{equation}\label{intpifull}
+\int_{k_i}^{k_{i+1}} p_i(s) ds = \eta_{i}
+\end{equation}
+
+We continue with the outer integration in \ref{integralC}. We write $c(t)-f$ as
+
+\begin{equation}
+\int_{l}^{t} \left[ \left( \sum_{i=0}^{m(v)-1} \int_{k_i}^{k_{i+1}} \phi(s) ds \right) + \int_{k_{m(t)}}^v \phi(s) ds - 1 \right] dv
+\end{equation}
+
+with $m(t)$ such that $t \in [k_{m(t)} , k_{m(t)+1} )$. The left integral is independent of $v$ and was computed in \ref{intpifull}.  For the right integral we have a closed form expression \ref{intpi}. Therefore we can continue to write
+
+\begin{eqnarray}
+\int_{l}^{t} \left[ \left( \sum_{i=0}^{m(v)-1} \eta_i \right) + \frac{1}{4}a_{m(v)}(v-k_{m(v)})^4 + ... - 1 \right] dv
+\end{eqnarray}
+
+We decompose the outer integral as well on our strike grid and get 
+
+\begin{equation}
+\sum_{j=0}^{m(t)} \int_{k_j}^{\min(k_{j+1},t)} \left[\left( \sum_{i=0}^{j-1} \eta_i \right) + \frac{1}{4}a_{j}(v-k_{j})^4 + ... -1 \right] dv
+\end{equation}
+
+which leads to our final formula
+
+\begin{equation}
+c(t) = f - l + \sum_{j=0}^{m(t)} \left\{ (\mu_j-k_j) \left( \lambda_j -1 \right) + \frac{1}{20}a_j(\mu_j-k_j)^5 + ... + \frac{1}{2}d_j(\mu_j-k_j)^2 \right\}
+\end{equation}
+
+with $\mu_j := \min(k_{j+1},t)$ and $\lambda_j := \sum_{i=0}^{j-1} \eta_i$.
+
+In addition we need to compute the expectation, which is the sum over the expressions
+
+\begin{equation}
+\int_{k_i}^{k_{i+1}} s p_i(s) ds = k_{i+1} \eta_i - \left( \frac{1}{20}a_j(\delta_i)^5 + ... + \frac{1}{2}d_j(\delta_i)^2\right)
+\end{equation}
+
+for $i=0,...,n-1$ where $\delta_i = k_{i+1} - k_i$.
+
+
+\begin{thebibliography}{0}
+
+\end{thebibliography}
+
+\end{document}
+
+
+

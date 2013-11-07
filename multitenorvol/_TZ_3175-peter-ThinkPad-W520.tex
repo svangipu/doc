@@ -1,0 +1,220 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%--------------------------------------------------------
+\begin{document}
+\title[Multitenor Volatilities]{Multitenor Volatilities}
+\author{P. Caspers}
+\email[P. Caspers]{pcaspers1973@googlemail.com}
+\date{May 11, 2013}
+\dedicatory{First Version May 11, 2013 - This Version May 11, 2013}
+\begin{abstract}
+We propose  a possible approach for pricing interest rate options on underlyings that are not directly coded in the market due to their non standard index tenor. The idea is to keep the shape of the quoted density given by the market smile invariant only translating it by the basis spread. 
+\end{abstract}
+
+\maketitle
+
+\section{General approach}
+To fix a setting we assume a generic model for an underlying forward rate $f$ of the form
+
+\begin{eqnarray}\label{genmodel}
+df(t) &=& \sigma(t,f(t)) v(t) dW(t) \\
+dv(t) &=& \epsilon(t,v(t)) dV(t) \\
+dW(t) dV(t) &=& \rho(t) dt
+\end{eqnarray}
+
+under a suitable measure associated to a numeraire $N$. We assume to have a market price $\nu$ for an european option which fixes on $t$ and pays on $T$ the amount $(f(t)-k)^+$. We can assume the relation
+
+\begin{equation}
+\nu = N(0) E( (f(t)-k)^+ )
+\end{equation}
+
+$f(0)$ is todays forward projection for $f$. Now assume another rate $g$ exhibiting a basis relative to $f$ which should mean
+
+\begin{equation}
+g(0) = f(0) + \alpha
+\end{equation}
+
+with $\alpha$ denoting the basis spread of $g$ relative to $f$. 
+
+From \ref{genmodel} we can imply a dynamics for $g$ by setting
+
+\begin{equation}
+g(t) = f(t) + \alpha
+\end{equation}
+
+Obviously $g$ is a martingale with 
+
+\begin{equation}
+g(0) = f(0) + \alpha = E( g(t) )
+\end{equation}
+
+and 
+
+\begin{eqnarray}
+dg(t) &=& \eta(t,g(t)) v(t) dW(t) \\
+dv(t) &=& \epsilon(t,v(t)) dV(t) \\
+dW(t) dV(t) &=& \rho(t) dt
+\end{eqnarray}
+
+under the same measure as above and with a displaced local volatility 
+
+\begin{equation}
+\eta(t,g) := \sigma(t,g-\alpha)
+\end{equation}
+
+We have thus deduced a price for an option on $g$
+
+\begin{equation}
+\mu = M(0) E( (g(t)-l)^+ ) 
+\end{equation}
+
+with numeraire $M$.
+
+Note that it may well be $M=N$ e.g. for collaterized interest rate options, then $M$ and $N$ both being the zerobond numeraire on the OIS curve.
+
+We note also that obviously in terms of the density $f$ and $g$ share the same density only translated by the basis spread $\alpha$.
+
+Now assume we have a pricing formula for the original option on $f$ like
+
+\begin{equation}
+E( (f(t) - k)^+ ) = N(0) \Pi(f(0),k,\sigma(\cdot,\cdot),\epsilon(\cdot,\cdot),\rho(\cdot))
+\end{equation}
+
+Since 
+
+\begin{equation}
+E( (g(t)-l)^+ ) = E( (f(t)+\alpha-l)^+ )
+\end{equation}
+
+we get
+
+\begin{equation}
+E( (g(t)-l)^+ ) = M(0) \Pi(g(0)-\alpha,l-\alpha,\sigma(\cdot,\cdot),\epsilon(\cdot,\cdot),\rho(\cdot))
+\end{equation}
+
+i.e. we can use a displaced diffusion variant of the original pricing formula shifting the forward and
+the strike down by the basis spread $\alpha$.
+
+In the next sections we give special cases of the formulas developed here.
+
+\section{Lognormal model}
+
+Assume we use a lognormal Black pricing. Then we have
+
+\begin{equation}
+E( (f(t)-k)^+ ) = N(0) B_{\textnormal{ln}}(f(0),k,\sigma_{\textnormal{ln}}(k),\tau)
+\end{equation}
+
+for an option on $f$ with forward rate $f(0)$, strike $k$, lognormal implied volatility $\sigma_{ln}(k)$ and expiry time $\tau$. Here $B_{\textnormal{ln}}$ denotes the lognormal Black formula with discount factor equal to unity. 
+
+For the option on $g$ we get
+
+\begin{equation}
+E( (g(t)-l)^+ ) = N(0) B_{\textnormal{ln}}(g(0)-\alpha,l-\alpha,\sigma_{\textnormal{ln}}(l-\alpha),\tau)
+\end{equation}
+
+which is the displaced diffusion variant of the Black formula with $\sigma$ taken from the original smile for a displaced strike $l-\alpha$.
+
+\section{Normal model}
+
+Assume now we use a normal Black pricing. Then we have
+
+\begin{equation}
+E( (f(t)-k)^+ ) = N(0) B_{\textnormal{norm}}(f(0),k,\sigma_{\textnormal{norm}}(k),\tau)
+\end{equation}
+
+with notation as before, but a normal implied volatility $\sigma_{norm}(k)$ and the normal Black formula $B_{\textnormal{norm}}$, again with discounting $1$. Since the normal formula is translation invariant we can write in this case
+
+\begin{equation}
+E( (g(t)-l)^+ ) = M(0) B_{\textnormal{norm}}(g(0),l,\sigma_{\textnormal{norm}}(l-\alpha),\tau)
+\end{equation}
+
+This can be interpreted as translating the normal volatlility surface by the basis $\alpha$ and keeping the pricing formula itself as before. This reflects the intuition of ``keeping the normal volatlility constant'' when pricing non quoted tenor options.
+
+\section{SABR model}
+
+As a final example consider pricing on a SABR smile
+
+\begin{equation}
+E( (f(t)-k)^+ ) = N(0) S(f(0),k,\alpha,\beta,\nu,\rho)
+\end{equation}
+
+with $S$ denoting a (again non discounting) SABR pricing formula. From the discussion above the option on $g$ is priced
+
+\begin{equation}
+E( (g(t)-l)^+ ) = M(0) S(g(0)-\alpha, l-\alpha, \alpha, \beta, \nu, \rho)
+\end{equation}
+
+
+
+
+
+\end{document}
+
+\end{document}

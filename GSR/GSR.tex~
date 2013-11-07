@@ -1,0 +1,359 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%--------------------------------------------------------
+\begin{document}
+\title[One Factor Gaussian Short Rate Model Implementation]{One Factor Gaussian Short Rate Model Implementation}
+\author{P. Caspers}
+\email[P. Caspers]{pcaspers1973@googlemail.com}
+\date{April 29, 2013}
+\dedicatory{First Version March 1, 2013 - This Version April 29, 2013}
+\begin{abstract}
+We collect some results in Piterbarg, Interest Rate Modelling, needed for the implementation of a GSR model. We develop explicit formulas
+for piecewise constant volatility and reversion parameters under the forward measure.
+\end{abstract}
+
+\maketitle
+
+
+\section{model}
+The short rate dynamics is given by
+
+\begin{equation}
+dr(t) = \kappa(t) ( \theta(t) - r(t) ) dt + \sigma_r(t) dW(t)
+\end{equation}
+
+under the risk neutral measure. $\kappa, \sigma_r$ are piecewise constant. Setting $x(t) := r(t) - f(0,t)$ with $f(t,T)$ denoting
+the instanteous forward rate observed at $t$ for $T>t$, the dynamics can be rewritten
+
+\begin{equation}
+dx(t) = ( y(t) - \kappa(t) x(t) ) dt + \sigma_r(t) dW(t)
+\end{equation}
+
+with deterministic
+
+\begin{equation}\label{smallY}
+y(t) = \int_0^t e^{-2 \int_u^t \kappa(s) ds} \sigma_r(u)^2 du
+\end{equation}
+
+In the $T-$forward measure the dynamics becomes
+
+\begin{equation}
+dx(t) = (y(t)-\sigma_r(t)^2G(t,T)-\kappa(t)x(t))dt+\sigma_r(t)dW^T(t)
+\end{equation}
+
+with
+
+\begin{equation}\label{bigG}
+G(t,t') = \int_t^{t'} e^{-\int_t^u\kappa(s)ds} du
+\end{equation}
+
+This fits into the general treatment under \ref{generalSDE} with
+
+\begin{eqnarray}
+a(t) &=& -\kappa(t) \\
+b(t) &=& y(t)-\sigma_r(t)^2G(t,T) \\
+c(t) &=& \sigma_r(t)
+\end{eqnarray}
+
+Zero bond prices can be expressed as follows
+
+\begin{equation}
+P(t,t') = \frac{P(0,t')}{P(0,t)} e^{-x(t)G(t,t')-\frac{1}{2}y(t)G(t,t')^2}
+\end{equation}
+
+\section{Basic SDE Integration}
+Consider the SDE
+
+\begin{equation}\label{generalSDE}
+dx(t) = (a(t)x(t) + b(t)) dt + c(t) dW(t)
+\end{equation}
+
+with deterministic scalar functions $a, b, c$. The following is an explicit solution of \ref{generalSDE}.
+
+\begin{equation}
+x(t) = e^{\int_0^t a(u) du} \left( x(0)  + \int_0^t e^{-\int_0^s a(u) du} b(s) ds + \int_0^t e^{-\int_0^s a(u) du} c(s) dW(s) \right)
+\end{equation}
+
+That means that for $w<t$ $x(t)$ conditional on $x(w)$ is normally distributed with mean and variance given by
+
+\begin{eqnarray}\label{condExpectationVariance}
+E(x(t) | x(w)) = A(w,t) x(w) + \int_{w}^t A(s,t) b(s) ds  \\
+\textnormal{Var}(x(t) | x(w)) = \int_{w}^t A(s,t)^{2} c(s)^2 ds
+\end{eqnarray}
+
+with short hand notation
+
+\begin{equation}
+A(s,t) = e^{\int_s^t a(u) du}
+\end{equation}
+
+\section{Formulas for the piecewise constant case}
+
+Under the assumption of piecewise constant $\kappa, \sigma_r$ we are left with the computation of some integrals for which we derive
+closed form formulas here. We fix a grid $0=t_0 < t_1 < ... < t_n =T$ such that $\kappa$ and $\sigma_r$ are constant on each interval $[t_i,t_{i+1})$ and equal to $\kappa_i, \sigma_{r,i}$. We introduce the following notation: $l(t)$ denotes the largest index such that $t_{l(t)} \leq t$. Likewise $h(t)$ denotes the smallest index such that $t_{h(t)}\geq t$. Moreover we set $t_{i,s} := \max( t_i, s )$ and $t_{s,i} := \min( t_i, s)$.
+
+\subsection{Formula for $G(t,t')$}
+
+We start with \ref{bigG}, the formula for $G(t,t')$. The integrand is
+
+\begin{equation}
+e^{-\int_t^u \kappa(s) ds} = \prod_{i=l(t)}^{h(u)-1} e^{-\kappa_i\int_{t_{i,t}}^{t_{u,i+1}} ds } = \prod_{i=l(t)}^{h(u)-1} e^{-\kappa_i(t_{u,i+1}-t_{i,t})}
+\end{equation}
+
+By this
+
+\begin{equation}
+G(t,t') = \sum_{i=l(t)}^{h(t')-1} \int_{t_{i,t}}^{t_{t',i+1}} \left( \prod_{j=l(t)}^{i-1} e^{-\kappa_j(t_{j+1}-t_{j,t})} \right) e^{-\kappa_i(u-t_{i,t})} du
+\end{equation}
+
+which is
+
+\begin{equation}
+\sum_{i=l(t)}^{h(t')-1} \left( \frac{1- e^{-\kappa_i(t_{t',i+1}-t_{i,t})}}{\kappa_i} \right) \prod_{j=l(t)}^{i-1} e^{-\kappa_j(t_{j+1}-t_{j,t})} 
+\end{equation}
+
+We abbreviate this by
+
+\begin{equation}
+G(t,t') = \sum_{i=l(t)}^{h(t')-1} \eta_i \prod_{j=l(t)}^{i-1} \gamma_{j} 
+\end{equation}
+
+$\gamma_j$ is dependent on $t$ if and only if $j=l(t)$. In this case $i>l(t)$ necessarily. $\eta_i$ is dependent on $t$ if and only if $i=l(t)$. In these cases
+
+\begin{eqnarray}
+\int \gamma_{j} dt &=& \frac{e^{-\kappa_j(t_{j+1}-t)}}{\kappa_j} \\
+\int \eta_i dt &=& \frac{t\kappa_i-e^{-\kappa_i(t_{t',i+1}-t)}}{\kappa_i^2}
+\end{eqnarray} 
+
+If $j>l(t)$ resp. $i>l(t)$ these integrals can be computed trivially by multiplying $\gamma_j$ resp. $\eta_i$ by the interval length over which the integral is computed.
+
+\subsection{Formula for $y(t)$}
+
+We continue with \ref{smallY}. The integrand here is
+
+\begin{equation}
+e^{-2 \int_u^t \kappa(s) ds} \sigma_r(u)^2 = \prod_{i=l(u)}^{h(t)-1} \sigma_{r,i}^2 e^{-2\kappa_i(t_{t,i+1}-t_{i,u})}
+\end{equation}
+
+We get
+
+\begin{equation}
+y(t) = \sum_{i=0}^{h(t)-1} \int_{t_i}^{t_{t,i+1}} \left( e^{-2\kappa_i(t_{t,i+1}-u)} \prod_{j=i+1}^{h(t)-1} \sigma_{r,j}^2 e^{-2\kappa_j(t_{t,j+1}-t_j)} \right) du
+\end{equation}
+
+which is
+
+\begin{equation}\label{explicitY}
+\sum_{i=0}^{h(t)-1} \left( \frac{\sigma_ {r,i}^2}{2\kappa_i} \left[1-e^{-2\kappa_i(t_{t,i+1}-t_i)}\right] \prod_{j=i+1}^{h(t)-1} e^{-2\kappa_j(t_{t,j+1}-t_j)} \right)
+\end{equation}
+
+and which we abbreviate by
+
+\begin{equation}
+y(t) = \sum_{i=0}^{h(t)-1} \left( \alpha_i \prod_{j=i+1}^{h(t)-1} \beta_j \right)
+\end{equation}
+
+$\alpha_i$ resp. $\beta_j$ is dependent on $t$ if and only if $i=h(t)-1$ resp. $j=h(t)-1$. In the latter case $i<h(t)-1$ necessarily. In these cases
+
+\begin{eqnarray}
+\int \alpha_i dt = \frac{\sigma^2_{r,i}(t\kappa_i + e^{-2\kappa_i(t-t_i)})}{2\kappa_i^2}  \\
+\int \beta_j dt = - \frac {e^{-2\kappa_j(t-t_j)}} {2\kappa_j} 
+\end{eqnarray}
+
+If $i<h(t)-1$ resp. $j<h(t)-1$ these integrals can trivially computed by multiplying $\alpha_i$ resp. $\beta_j$ by the interval length over which the 
+integral is computed.
+
+\subsection{Formula for $A(s,t)$}
+
+Now we continue with the formulas for conditional expectation and variance \ref{condExpectationVariance}. First of all we notice that
+
+\begin{equation}
+A(s,t) = \prod_{i=l(s)}^{h(t)-1} e^{-\kappa_i(t_{t,i+1}-t_{i,s})} = \prod_{i=l(s)}^{h(t)-1} \zeta_i
+\end{equation}
+
+$\zeta_i$ is dependent on $s$ if and only if $i=l(s)$. In this case
+
+\begin{equation}
+\int \zeta_i ds = \frac{1}{\kappa_i}e^{-\kappa_i(t_{t,i+1}-s)}
+\end{equation}
+
+If $i>l(s)$ the integral can be computed trivially by multiplying $\zeta_i$ by the interval length over which the integral is computed.
+
+\subsection{Formula for $E(x(t)|x(w))$}
+
+\subsubsection{The easy part}
+
+The first term $A(w,t) x(w)$ in the conditional expectation can easily be computed with the result obtained so far. The second term is
+
+\begin{equation}
+\int_{w}^t A(s,t) ( y(s)-\sigma_r(s)^2G(s,T))  ds
+\end{equation}
+
+\subsubsection{First not so easy part of the integral}
+
+Let's start with the integral over $A(s,t)y(s)$, which is
+
+\begin{equation}
+\sum_{k=l(w)}^{h(t)-1} \int_{t_{k,w}}^{t_{t,k+1}} \sum_{l=0}^{k} \alpha_l  \left( \prod_{i=k}^{h(t)-1} \zeta_i \prod_{j=l+1}^{k} \beta_j \right) ds
+\end{equation}
+
+We integrate each single summand, i.e. we fix $k$ and $l$. $\zeta_i$ depends on $s$ iff $i=k$. $beta$ depends on $s$ iff $j=k$. $\alpha_l$ depends
+on $s$ iff $l=k$.
+
+Consider the case $l<k$ first. Then $\alpha_l$ does not depend on $s$. Amongst the factors in round brackets exactly $\zeta_k$ and $\beta_k$ are depending on $s$. In essence we are left with computation of
+
+\begin{equation}
+\int \zeta_k \beta_k ds
+\end{equation}
+
+which is
+
+\begin{equation}
+\int e^{-\kappa_k(t_{t,k+1}-s)} e^{-2\kappa_k(s-t_k)} ds 
+\end{equation}
+
+This again is explicitly
+
+\begin{equation}
+-\frac{1}{\kappa_k}e^{-\kappa_ks+\kappa_k(2t_k-t_{t,k+1})}
+\end{equation}
+
+Now consider the case $l=k$. In this case exactly the factors $alpha_k$ and $\zeta_k$ depend on $s$. Note that $\beta_k$ does not occur in the product in this case. We have therefore to evaluate
+
+\begin{equation}
+\int \zeta_k \alpha_k ds = \int e^{-\kappa_k(t_{t,k+1}-s)} \frac{\sigma_{r,k}^2}{2\kappa_k}\left[1-e^{-2\kappa_k(s-t_k)}\right] ds
+\end{equation}
+
+This simplifies to
+
+\begin{equation}
+\frac{\sigma_{r,k}^2}{2\kappa_k} \int e^{-\kappa_k(t_{t,k+1}-s)} - e^{-\kappa_k s + \kappa_k ( 2t_k - t_{t,k+1} ) } ds
+\end{equation}
+
+which is in explicit terms
+
+\begin{equation}
+\frac{\sigma_{r,k}^2}{2\kappa_k^2} \left( e^{-\kappa_k s + \kappa_k ( 2t_k - t_{t,k+1} ) } + e^{-\kappa_k(t_{t,k+1}-s)} \right)
+\end{equation}
+
+\subsubsection{Second not so easy part of the integral} 
+
+Similarly the integral over $-A(s,t)\sigma_r(s)^2G(s,T)$ can be written
+
+\begin{equation}
+-\sum_{k=l(w)}^{h(t)-1} \sigma_k^2 \int_{t_{k,w}}^{t_{t,k+1}} \sum_{l=k}^{h(T)-1} \eta_l \left( \prod_{i=k}^{h(t)-1} \zeta_i   
+   \prod_{j=k}^{l-1} \gamma_j  \right) ds
+\end{equation}
+
+As above, fix $k$ and $l$. $\eta_l$ is dependent on $s$ iff $l=k$, $\zeta_i$ is dependent on $s$ iff $i=k$, $\gamma_j$ is dependent on $s$ iff $j=k$. 
+
+Again we start wit the case $l>k$. As above we are left with $\int \zeta_k \gamma_k$, which is
+
+\begin{equation}
+\int e^{-\kappa_k(t_{t,k+1}-s)} e^{-\kappa_k(t_{k+1}-s)} ds
+\end{equation}
+
+and explicitly
+
+\begin{equation}
+\frac{e^{2\kappa_ks-\kappa_k(t_{t,k+1}+t_{k+1})}}{2\kappa_k}
+\end{equation}
+
+If on the other hand $l=k$, we face $\int \eta_k\zeta_k$ which can be computed as
+
+\begin{equation}
+\int e^{-\kappa_k(t_{t,k+1}-s)} \left( \frac{1- e^{-\kappa_k(t_{T,k+1}-s)}}{\kappa_k} \right) ds
+\end{equation}
+
+and further 
+
+\begin{equation}
+\frac{2e^{-\kappa_k(t_{t,k+1}-s)} - e^{2\kappa_ks -\kappa_k(t_{T,k+1}+t_{t,k+1})}} {2\kappa_k^2}
+\end{equation}
+
+\subsection{Formula for $\textnormal{Var}(x(t) | x(w)) $}
+Finally we analyze the integral representing the conditional variance, which is
+
+\begin{equation}
+\int_w^t A(s,t)^2 \sigma_r(t)^2 ds
+\end{equation}
+
+As before we write
+
+\begin{equation}
+\sum_{k=l(w)}^{h(t)-1} \sigma_{r,k}^2 \int_{t_{k,w}}^{t_{t,k+1}} \prod_{i=k}^{h(t)-1} \zeta_i^2 ds
+\end{equation}
+
+For fixed $k$ the term not covered yet is $\int \zeta_k^2 ds$, which is
+
+\begin{equation}
+\int e^{-2\kappa_k(t_{t,k+1}-s)} ds = \frac{e^{2\kappa_k(s-t_{t,k+1})} }{2\kappa_k}
+\end{equation}
+
+\end{document}

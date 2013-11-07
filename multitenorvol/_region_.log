@@ -1,0 +1,1796 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=prv_multitenorvol 2013.6.18)  18 JUN 2013 14:05
+entering extended mode
+ %&-line parsing enabled.
+**&prv_multitenorvol _region_.tex
+(./_region_.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, loaded.
+CUSTOMISED FORMAT. Preloaded files:
+        .
+  amsart.cls    2009/07/02 v2.20.1
+ amsmath.sty    2000/07/18 v2.13 AMS math features
+ amstext.sty    2000/06/29 v2.01
+  amsgen.sty    1999/11/30 v2.0
+  amsbsy.sty    1999/11/29 v1.2d
+  amsopn.sty    1999/12/14 v2.01 operator names
+    umsa.fd    2009/06/22 v3.00 AMS symbols A
+amsfonts.sty    2009/06/22 v3.00 Basic AMSFonts support
+ amssymb.sty    2009/06/22 v3.00
+graphicx.sty    1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+  keyval.sty    1999/03/16 v1.13 key=value parser (DPC)
+graphics.sty    2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+    trig.sty    1999/03/16 v1.09 sin cos tan (DPC)
+graphics.cfg    2009/08/28 v1.8 graphics configuration of TeX Live
+  pdftex.def    2010/03/12 v0.04p Graphics/color for pdfTeX
+gnuplottex.sty    2013/06/03 v0.5 gnuplot graphs in LaTeX
+latexsym.sty    1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+moreverb.sty    2008/06/03 v2.3a `more' verbatim facilities
+verbatim.sty    2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
+  ifthen.sty    2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+epstopdf.sty    2009/10/17 v2.4 Conversion with epstopdf on the fly (HO)
+epstopdf-base.sty    2009/10/17 v2.4 Base part for package epstopdf
+infwarerr.sty    2007/09/09 v1.2 Providing info/warning/message (HO)
+  grfext.sty    2007/09/30 v1.0 Managing graphics extensions (HO)
+kvoptions.sty    2009/08/13 v3.4 Keyval support for LaTeX options (HO)
+kvsetkeys.sty    2009/07/30 v1.5 Key value parser with default handler support 
+(HO)
+etexcmds.sty    2007/12/12 v1.2 Prefix for e-TeX command names (HO)
+pdftexcmds.sty    2009/09/23 v0.6 LuaTeX support for pdfTeX utility functions (
+HO)
+ifluatex.sty    2009/04/17 v1.2 Provides the ifluatex switch (HO)
+ ltxcmds.sty    2009/08/05 v1.0 Some LaTeX kernel commands for general use (HO)
+
+epstopdf-sys.cfg    2009/10/26 v1.1 Configuration of epstopdf for TeX Live
+    umsa.fd    2009/06/22 v3.00 AMS symbols A
+    umsb.fd    2009/06/22 v3.00 AMS symbols B
+   ulasy.fd    1998/08/17 v2.2e LaTeX symbol font definitions
+        .
+No file _region_.aux.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+(/usr/local/share/texmf/tex/latex/preview/preview.sty
+Package: preview 2010/02/14 11.87 (AUCTeX/preview-latex)
+
+(/usr/local/share/texmf/tex/latex/preview/prtightpage.def
+\PreviewBorder=\dimen116
+)
+(/usr/local/share/texmf/tex/latex/preview/prauctex.def
+No auxiliary output files.
+
+
+\hbadness=\count125
+\hfuzz=\dimen117
+(/usr/local/share/texmf/tex/latex/preview/prauctex.cfg))
+(/usr/local/share/texmf/tex/latex/preview/prfootnotes.def)
+\pr@snippet=\count126
+\pr@box=\box29
+\pr@output=\toks28
+
+Preview: Fontsize 10pt
+Preview: PDFoutput 1
+) (/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count127
+\scratchdimen=\dimen118
+\scratchbox=\box30
+\nofMPsegments=\count128
+\nofMParguments=\count129
+\everyMPshowfont=\toks29
+\MPscratchCnt=\count130
+\MPscratchDim=\dimen119
+\MPnumerator=\count131
+\everyMPtoPDFconversion=\toks30
+)  !name(multitenorvol.tex) !offset(-3) 
+! Preview: Snippet 1 started.
+<-><->
+      
+l.88 \section
+             {General approach}
+Not a real error.
+
+Preview: Tightpage -32891 -32891 32891 32891
+! Preview: Snippet 1 ended.(447828+0x23592960).
+<-><->
+      
+l.88 \section{General approach}
+                               
+Not a real error.
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+]
+! Preview: Snippet 2 started.
+<-><->
+      
+l.89 ...ric model for an underlying forward rate $
+                                                  f$ of the form
+Not a real error.
+
+! Preview: Snippet 2 ended.(455111+127431x391398).
+<-><->
+      
+l.89 ...c model for an underlying forward rate $f$
+                                                   of the form
+Not a real error.
+
+[2]
+! Preview: Snippet 3 started.
+<-><->
+      
+l.91 \begin{eqnarray}
+                     \label{genmodel}
+Not a real error.
+
+! Preview: Snippet 3 ended.(2621440+0x23592960).
+<-><->
+      
+l.95 \end{eqnarray}
+                   
+Not a real error.
+
+[3
+
+]
+! Preview: Snippet 4 started.
+<-><->
+      
+l.97 ...itable measure associated to a numeraire $
+                                                  N$. We assume to have a qu...
+
+Not a real error.
+
+! Preview: Snippet 4 ended.(447828+0x598014).
+<-><->
+      
+l.97 ...able measure associated to a numeraire $N$
+                                                  . We assume to have a quot...
+
+Not a real error.
+
+[4]
+! Preview: Snippet 5 started.
+<-><->
+      
+l.97 ... We assume to have a quoted market price $
+                                                  \nu$ for an european optio...
+
+Not a real error.
+
+! Preview: Snippet 5 ended.(282168+0x365454).
+<-><->
+      
+l.97 ...assume to have a quoted market price $\nu$
+                                                   for an european option wh...
+
+Not a real error.
+
+[5]
+! Preview: Snippet 6 started.
+<-><->
+      
+l.97 ...u$ for an european option which fixes on $
+                                                  t$ and pays on $T$ the amo...
+
+Not a real error.
+
+! Preview: Snippet 6 ended.(403098+0x236658).
+<-><->
+      
+l.97 ... for an european option which fixes on $t$
+                                                   and pays on $T$ the amoun...
+
+Not a real error.
+
+[6]
+! Preview: Snippet 7 started.
+<-><->
+      
+l.97 ...an option which fixes on $t$ and pays on $
+                                                  T$ the amount $(f(t)-k)^+$...
+
+Not a real error.
+
+! Preview: Snippet 7 ended.(447828+0x473999).
+<-><->
+      
+l.97 ... option which fixes on $t$ and pays on $T$
+                                                   the amount $(f(t)-k)^+$. ...
+
+Not a real error.
+
+[7]
+! Preview: Snippet 8 started.
+<-><->
+      
+l.97 ... fixes on $t$ and pays on $T$ the amount $
+                                                  (f(t)-k)^+$. We can assume...
+
+Not a real error.
+
+! Preview: Snippet 8 ended.(521815+163840x3245400).
+<-><->
+      
+l.97 ...t$ and pays on $T$ the amount $(f(t)-k)^+$
+                                                  . We can assume the relation
+Not a real error.
+
+[8]
+! Preview: Snippet 9 started.
+<-><->
+      
+l.99 \begin{equation}
+                     
+Not a real error.
+
+! Preview: Snippet 9 ended.(718423+0x15272161).
+<-><->
+      
+l.101 \end{equation}
+                    
+Not a real error.
+
+[9]
+! Preview: Snippet 10 started.
+<-><->
+      
+l.103 $
+       f(0)$ is todays forward projection for $f$. Now assume another rate $...
+
+Not a real error.
+
+! Preview: Snippet 10 ended.(491520+163840x1228805).
+<-><->
+      
+l.103 $f(0)$
+             is todays forward projection for $f$. Now assume another rate $...
+
+Not a real error.
+
+[10]
+! Preview: Snippet 11 started.
+<-><->
+      
+l.103 $f(0)$ is todays forward projection for $
+                                               f$. Now assume another rate $...
+
+Not a real error.
+
+! Preview: Snippet 11 ended.(455111+127431x391398).
+<-><->
+      
+l.103 $f(0)$ is todays forward projection for $f$
+                                                 . Now assume another rate $...
+
+Not a real error.
+
+[11]
+! Preview: Snippet 12 started.
+<-><->
+      
+l.103 ...ection for $f$. Now assume another rate $
+                                                  g$ exhibiting a basis rela...
+
+Not a real error.
+
+! Preview: Snippet 12 ended.(282168+127431x336099).
+<-><->
+      
+l.103 ...tion for $f$. Now assume another rate $g$
+                                                   exhibiting a basis relati...
+
+Not a real error.
+
+[12]
+! Preview: Snippet 13 started.
+<-><->
+      
+l.103 ...rate $g$ exhibiting a basis relative to $
+                                                  f$ which should mean
+Not a real error.
+
+! Preview: Snippet 13 ended.(455111+127431x391398).
+<-><->
+      
+l.103 ...te $g$ exhibiting a basis relative to $f$
+                                                   which should mean
+Not a real error.
+
+[13]
+! Preview: Snippet 14 started.
+<-><->
+      
+l.105 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 14 ended.(655360+0x14045864).
+<-><->
+      
+l.107 \end{equation}
+                    
+Not a real error.
+
+[14]
+! Preview: Snippet 15 started.
+<-><->
+      
+l.109 with $
+            \alpha$ denoting the basis spread of $g$ relative to $f$.
+Not a real error.
+
+! Preview: Snippet 15 ended.(282168+0x421661).
+<-><->
+      
+l.109 with $\alpha$
+                    denoting the basis spread of $g$ relative to $f$.
+Not a real error.
+
+[15]
+! Preview: Snippet 16 started.
+<-><->
+      
+l.109 with $\alpha$ denoting the basis spread of $
+                                                  g$ relative to $f$.
+Not a real error.
+
+! Preview: Snippet 16 ended.(282168+127431x336099).
+<-><->
+      
+l.109 ...$\alpha$ denoting the basis spread of $g$
+                                                   relative to $f$.
+Not a real error.
+
+[16]
+! Preview: Snippet 17 started.
+<-><->
+      
+l.109 ...ing the basis spread of $g$ relative to $
+                                                  f$.
+Not a real error.
+
+! Preview: Snippet 17 ended.(455111+127431x391398).
+<-><->
+      
+l.109 ...g the basis spread of $g$ relative to $f$
+                                                  .
+Not a real error.
+
+[17]
+
+LaTeX Warning: Reference `genmodel' on page 1 undefined on input line 111.
+
+! Preview: Snippet 18 started.
+<-><->
+      
+l.111 ...f{genmodel} we can imply a dynamics for $
+                                                  g$ by setting
+Not a real error.
+
+! Preview: Snippet 18 ended.(282168+127431x336099).
+<-><->
+      
+l.111 ...genmodel} we can imply a dynamics for $g$
+                                                   by setting
+Not a real error.
+
+[18]
+! Preview: Snippet 19 started.
+<-><->
+      
+l.113 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 19 ended.(655360+0x13954841).
+<-><->
+      
+l.115 \end{equation}
+                    
+Not a real error.
+
+[19]
+! Preview: Snippet 20 started.
+<-><->
+      
+l.117 Obviously $
+                 g$ is a martingale with
+Not a real error.
+
+! Preview: Snippet 20 ended.(282168+127431x336099).
+<-><->
+      
+l.117 Obviously $g$
+                    is a martingale with
+Not a real error.
+
+[20]
+! Preview: Snippet 21 started.
+<-><->
+      
+l.119 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 21 ended.(655360+0x15539649).
+<-><->
+      
+l.121 \end{equation}
+                    
+Not a real error.
+
+[21]
+! Preview: Snippet 22 started.
+<-><->
+      
+l.125 \begin{eqnarray}
+                      
+Not a real error.
+
+! Preview: Snippet 22 ended.(2621440+0x23592960).
+<-><->
+      
+l.129 \end{eqnarray}
+                    
+Not a real error.
+
+[22]
+! Preview: Snippet 23 started.
+<-><->
+      
+l.133 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 23 ended.(655360+0x14682939).
+<-><->
+      
+l.135 \end{equation}
+                    
+Not a real error.
+
+[23]
+! Preview: Snippet 24 started.
+<-><->
+      
+l.137 ...e thus deduced a price for an option on $
+                                                  g$
+Not a real error.
+
+! Preview: Snippet 24 ended.(282168+127431x336099).
+<-><->
+      
+l.137 ...thus deduced a price for an option on $g$
+                                                  
+Not a real error.
+
+[24]
+! Preview: Snippet 25 started.
+<-><->
+      
+l.139 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 25 ended.(718423+0x15237156).
+<-><->
+      
+l.141 \end{equation}
+                    
+Not a real error.
+
+[25]
+! Preview: Snippet 26 started.
+<-><->
+      
+l.143 with numeraire $
+                      M$.
+Not a real error.
+
+! Preview: Snippet 26 ended.(447828+0x707242).
+<-><->
+      
+l.143 with numeraire $M$
+                        .
+Not a real error.
+
+[26]
+! Preview: Snippet 27 started.
+<-><->
+      
+l.145 Note that it may well be $
+                                M=N$ e.g. for collaterized interest rate opt...
+
+Not a real error.
+
+! Preview: Snippet 27 ended.(447828+0x2179062).
+<-><->
+      
+l.145 Note that it may well be $M=N$
+                                     e.g. for collaterized interest rate opt...
+
+Not a real error.
+
+[27]
+! Preview: Snippet 28 started.
+<-><->
+      
+l.145 ...ollaterized interest rate options, then $
+                                                  M$ and $N$ both being the ...
+
+Not a real error.
+
+! Preview: Snippet 28 ended.(447828+0x707242).
+<-><->
+      
+l.145 ...laterized interest rate options, then $M$
+                                                   and $N$ both being the ze...
+
+Not a real error.
+
+[28]
+! Preview: Snippet 29 started.
+<-><->
+      
+l.145 ...zed interest rate options, then $M$ and $
+                                                  N$ both being the zerobond...
+
+Not a real error.
+
+! Preview: Snippet 29 ended.(447828+0x598014).
+<-><->
+      
+l.145 ...d interest rate options, then $M$ and $N$
+                                                   both being the zerobond n...
+
+Not a real error.
+
+[29]
+! Preview: Snippet 30 started.
+<-><->
+      
+l.147 We also note that $
+                         f$ and $g$ share the same density only translated b...
+
+Not a real error.
+
+! Preview: Snippet 30 ended.(455111+127431x391398).
+<-><->
+      
+l.147 We also note that $f$
+                            and $g$ share the same density only translated b...
+
+Not a real error.
+
+[30]
+! Preview: Snippet 31 started.
+<-><->
+      
+l.147 We also note that $f$ and $
+                                 g$ share the same density only translated b...
+
+Not a real error.
+
+! Preview: Snippet 31 ended.(282168+127431x336099).
+<-><->
+      
+l.147 We also note that $f$ and $g$
+                                    share the same density only translated b...
+
+Not a real error.
+
+[31]
+! Preview: Snippet 32 started.
+<-><->
+      
+l.147 ...ity only translated by the basis spread $
+                                                  \alpha$.
+Not a real error.
+
+! Preview: Snippet 32 ended.(282168+0x421661).
+<-><->
+      
+l.147 ...y translated by the basis spread $\alpha$
+                                                  .
+Not a real error.
+
+[32]
+! Preview: Snippet 33 started.
+<-><->
+      
+l.149 ...cing formula for the original option on $
+                                                  f$
+Not a real error.
+
+! Preview: Snippet 33 ended.(455111+127431x391398).
+<-><->
+      
+l.149 ...ng formula for the original option on $f$
+                                                  
+Not a real error.
+
+[33]
+! Preview: Snippet 34 started.
+<-><->
+      
+l.151 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 34 ended.(718423+0x18262584).
+<-><->
+      
+l.153 \end{equation}
+                    
+Not a real error.
+
+[34]
+! Preview: Snippet 35 started.
+<-><->
+      
+l.157 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 35 ended.(718423+0x16940369).
+<-><->
+      
+l.159 \end{equation}
+                    
+Not a real error.
+
+[35]
+! Preview: Snippet 36 started.
+<-><->
+      
+l.163 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 36 ended.(718423+0x19297310).
+<-><->
+      
+l.165 \end{equation}
+                    
+Not a real error.
+
+[36]
+! Preview: Snippet 37 started.
+<-><->
+      
+l.168 the strike down by the basis spread $
+                                           \alpha$.
+Not a real error.
+
+! Preview: Snippet 37 ended.(282168+0x421661).
+<-><->
+      
+l.168 the strike down by the basis spread $\alpha$
+                                                  .
+Not a real error.
+
+[37]
+! Preview: Snippet 38 started.
+<-><->
+      
+l.172 \section
+              {Lognormal model}
+Not a real error.
+
+! Preview: Snippet 38 ended.(447828+0x23592960).
+<-><->
+      
+l.172 \section{Lognormal model}
+                               
+Not a real error.
+
+[38
+
+]
+! Preview: Snippet 39 started.
+<-><->
+      
+l.176 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 39 ended.(718423+0x17381283).
+<-><->
+      
+l.178 \end{equation}
+                    
+Not a real error.
+
+[39]
+! Preview: Snippet 40 started.
+<-><->
+      
+l.180 for an option on $
+                        f$ with forward rate $f(0)$, strike $k$, lognormal i...
+
+Not a real error.
+
+! Preview: Snippet 40 ended.(455111+127431x391398).
+<-><->
+      
+l.180 for an option on $f$
+                           with forward rate $f(0)$, strike $k$, lognormal i...
+
+Not a real error.
+
+[40]
+! Preview: Snippet 41 started.
+<-><->
+      
+l.180 for an option on $f$ with forward rate $
+                                              f(0)$, strike $k$, lognormal i...
+
+Not a real error.
+
+! Preview: Snippet 41 ended.(491520+163840x1228805).
+<-><->
+      
+l.180 ...an option on $f$ with forward rate $f(0)$
+                                                  , strike $k$, lognormal im...
+
+Not a real error.
+
+[41]
+! Preview: Snippet 42 started.
+<-><->
+      
+l.180 ...on $f$ with forward rate $f(0)$, strike $
+                                                  k$, lognormal implied vola...
+
+Not a real error.
+
+! Preview: Snippet 42 ended.(455111+0x361814).
+<-><->
+      
+l.180 ... $f$ with forward rate $f(0)$, strike $k$
+                                                  , lognormal implied volati...
+
+Not a real error.
+
+[42]
+! Preview: Snippet 43 started.
+<-><->
+      
+l.180 ...trike $k$, lognormal implied volatility $
+                                                  \sigma_{ln}(k)$ and expiry...
+
+Not a real error.
+
+! Preview: Snippet 43 ended.(491520+163840x1771147).
+<-><->
+      
+l.180 ...ormal implied volatility $\sigma_{ln}(k)$
+                                                   and expiry time $\tau$. H...
+
+Not a real error.
+
+[43]
+! Preview: Snippet 44 started.
+<-><->
+      
+l.180 ...tility $\sigma_{ln}(k)$ and expiry time $
+                                                  \tau$. Here $B_{\textnorma...
+
+Not a real error.
+
+! Preview: Snippet 44 ended.(282168+0x360676).
+<-><->
+      
+l.180 ...y $\sigma_{ln}(k)$ and expiry time $\tau$
+                                                  . Here $B_{\textnormal{ln}...
+
+Not a real error.
+
+[44]
+! Preview: Snippet 45 started.
+<-><->
+      
+l.180 ...a_{ln}(k)$ and expiry time $\tau$. Here $
+                                                  B_{\textnormal{ln}}$ denot...
+
+Not a real error.
+
+! Preview: Snippet 45 ended.(447828+98303x967683).
+<-><->
+      
+l.180 ...y time $\tau$. Here $B_{\textnormal{ln}}$
+                                                   denotes the lognormal Bla...
+
+Not a real error.
+
+[45]
+! Preview: Snippet 46 started.
+<-><->
+      
+l.182 For the option on $
+                         g$ we get
+Not a real error.
+
+! Preview: Snippet 46 ended.(282168+127431x336099).
+<-><->
+      
+l.182 For the option on $g$
+                            we get
+Not a real error.
+
+[46]
+! Preview: Snippet 47 started.
+<-><->
+      
+l.184 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 47 ended.(718423+0x18929903).
+<-><->
+      
+l.186 \end{equation}
+                    
+Not a real error.
+
+[47]
+! Preview: Snippet 48 started.
+<-><->
+      
+l.188 ...usion variant of the Black formula with $
+                                                  \sigma$ taken from the ori...
+
+Not a real error.
+
+! Preview: Snippet 48 ended.(282168+0x397994).
+<-><->
+      
+l.188 ...ariant of the Black formula with $\sigma$
+                                                   taken from the original s...
+
+Not a real error.
+
+[48]
+! Preview: Snippet 49 started.
+<-><->
+      
+l.188 ...e original smile for a displaced strike $
+                                                  l-\alpha$.
+Not a real error.
+
+! Preview: Snippet 49 ended.(455111+54613x1431093).
+<-><->
+      
+l.188 ...l smile for a displaced strike $l-\alpha$
+                                                  .
+Not a real error.
+
+[49]
+! Preview: Snippet 50 started.
+<-><->
+      
+l.190 \section
+              {Normal model}
+Not a real error.
+
+! Preview: Snippet 50 ended.(447828+0x23592960).
+<-><->
+      
+l.190 \section{Normal model}
+                            
+Not a real error.
+
+[50
+
+]
+! Preview: Snippet 51 started.
+<-><->
+      
+l.194 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 51 ended.(718423+0x18129489).
+<-><->
+      
+l.196 \end{equation}
+                    
+Not a real error.
+
+[51]
+! Preview: Snippet 52 started.
+<-><->
+      
+l.198 ...before, but a normal implied volatility $
+                                                  \sigma_{norm}(k)$ and the ...
+
+Not a real error.
+
+! Preview: Snippet 52 ended.(491520+163840x2583933).
+<-><->
+      
+l.198 ...mal implied volatility $\sigma_{norm}(k)$
+                                                   and the normal Black form...
+
+Not a real error.
+
+[52]
+! Preview: Snippet 53 started.
+<-><->
+      
+l.198 ...{norm}(k)$ and the normal Black formula $
+                                                  B_{\textnormal{norm}}$, ag...
+
+Not a real error.
+
+! Preview: Snippet 53 ended.(447828+98303x1715889).
+<-><->
+      
+l.198 ...mal Black formula $B_{\textnormal{norm}}$
+                                                  , again with discounting $...
+
+Not a real error.
+
+[53]
+! Preview: Snippet 54 started.
+<-><->
+      
+l.198 ...tnormal{norm}}$, again with discounting $
+                                                  1$. Since the normal formu...
+
+Not a real error.
+
+! Preview: Snippet 54 ended.(422343+0x327681).
+<-><->
+      
+l.198 ...ormal{norm}}$, again with discounting $1$
+                                                  . Since the normal formula...
+
+Not a real error.
+
+[54]
+! Preview: Snippet 55 started.
+<-><->
+      
+l.200 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 55 ended.(718423+0x18455458).
+<-><->
+      
+l.202 \end{equation}
+                    
+Not a real error.
+
+[55]
+! Preview: Snippet 56 started.
+<-><->
+      
+l.204 ...normal volatlility surface by the basis $
+                                                  \alpha$ and keeping the pr...
+
+Not a real error.
+
+! Preview: Snippet 56 ended.(282168+0x421661).
+<-><->
+      
+l.204 ...volatlility surface by the basis $\alpha$
+                                                   and keeping the pricing f...
+
+Not a real error.
+
+[56]
+! Preview: Snippet 57 started.
+<-><->
+      
+l.206 \section
+              {SABR model}
+Not a real error.
+
+! Preview: Snippet 57 ended.(447828+0x23592960).
+<-><->
+      
+l.206 \section{SABR model}
+                          
+Not a real error.
+
+[57
+
+]
+! Preview: Snippet 58 started.
+<-><->
+      
+l.210 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 58 ended.(718423+0x17117293).
+<-><->
+      
+l.212 \end{equation}
+                    
+Not a real error.
+
+[58]
+! Preview: Snippet 59 started.
+<-><->
+      
+l.214 with $
+            S$ denoting a (again non discounting) SABR pricing formula. From...
+
+Not a real error.
+
+! Preview: Snippet 59 ended.(447828+0x439636).
+<-><->
+      
+l.214 with $S$
+               denoting a (again non discounting) SABR pricing formula. From...
+
+Not a real error.
+
+[59]
+! Preview: Snippet 60 started.
+<-><->
+      
+l.214 ...From the discussion above the option on $
+                                                  g$ is priced
+Not a real error.
+
+! Preview: Snippet 60 ended.(282168+127431x336099).
+<-><->
+      
+l.214 ...om the discussion above the option on $g$
+                                                   is priced
+Not a real error.
+
+[60]
+! Preview: Snippet 61 started.
+<-><->
+      
+l.216 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 61 ended.(718423+0x18131273).
+<-><->
+      
+l.218 \end{equation}
+                    
+Not a real error.
+
+[61]
+! Preview: Snippet 62 started.
+<-><->
+      
+l.220 \section
+              {Examples}
+Not a real error.
+
+! Preview: Snippet 62 ended.(447828+0x23592960).
+<-><->
+      
+l.220 \section{Examples}
+                        
+Not a real error.
+
+[62
+
+]
+! Preview: Snippet 63 started.
+<-><->
+      
+l.222 ...m, i.e. we assume generic forward rates $
+                                                  f$ and $g$ and options on ...
+
+Not a real error.
+
+! Preview: Snippet 63 ended.(455111+127431x391398).
+<-><->
+      
+l.222 ... i.e. we assume generic forward rates $f$
+                                                   and $g$ and options on th...
+
+Not a real error.
+
+[63]
+! Preview: Snippet 64 started.
+<-><->
+      
+l.222 ...we assume generic forward rates $f$ and $
+                                                  g$ and options on these ra...
+
+Not a real error.
+
+! Preview: Snippet 64 ended.(282168+127431x336099).
+<-><->
+      
+l.222 ... assume generic forward rates $f$ and $g$
+                                                   and options on these rates.
+Not a real error.
+
+[64]
+! Preview: Snippet 65 started.
+<-><->
+      
+l.223 ...r (or the annuity) to be one. Typically $
+                                                  f$ and $g$ wil be Libor or...
+
+Not a real error.
+
+! Preview: Snippet 65 ended.(455111+127431x391398).
+<-><->
+      
+l.223 ...(or the annuity) to be one. Typically $f$
+                                                   and $g$ wil be Libor or S...
+
+Not a real error.
+
+[65]
+! Preview: Snippet 66 started.
+<-><->
+      
+l.223 ...e annuity) to be one. Typically $f$ and $
+                                                  g$ wil be Libor or Swap ra...
+
+Not a real error.
+
+! Preview: Snippet 66 ended.(282168+127431x336099).
+<-><->
+      
+l.223 ...annuity) to be one. Typically $f$ and $g$
+                                                   wil be Libor or Swap rate...
+
+Not a real error.
+
+[66]
+! Preview: Snippet 67 started.
+<-><->
+      
+l.226 \subsection
+                 {Flat smile}
+Not a real error.
+
+! Preview: Snippet 67 ended.(455111+0x4840180).
+<-><->
+      
+l.226 \subsection{Flat smile}
+                             
+Not a real error.
+
+[67
+
+]
+! Preview: Snippet 68 started.
+<-><->
+      
+l.228 Let $
+           f$ be 2\% and $g$ be 2.2\%, i.e. the basis spread $\alpha$ is $20...
+
+Not a real error.
+
+! Preview: Snippet 68 ended.(455111+127431x391398).
+<-><->
+      
+l.228 Let $f$
+              be 2\% and $g$ be 2.2\%, i.e. the basis spread $\alpha$ is $20...
+
+Not a real error.
+
+[68]
+! Preview: Snippet 69 started.
+<-><->
+      
+l.228 Let $f$ be 2\% and $
+                          g$ be 2.2\%, i.e. the basis spread $\alpha$ is $20...
+
+Not a real error.
+
+! Preview: Snippet 69 ended.(282168+127431x336099).
+<-><->
+      
+l.228 Let $f$ be 2\% and $g$
+                             be 2.2\%, i.e. the basis spread $\alpha$ is $20...
+
+Not a real error.
+
+[69]
+! Preview: Snippet 70 started.
+<-><->
+      
+l.228 ...and $g$ be 2.2\%, i.e. the basis spread $
+                                                  \alpha$ is $20$ basis points.
+
+Not a real error.
+
+! Preview: Snippet 70 ended.(282168+0x421661).
+<-><->
+      
+l.228 ... be 2.2\%, i.e. the basis spread $\alpha$
+                                                   is $20$ basis points.
+Not a real error.
+
+[70]
+! Preview: Snippet 71 started.
+<-><->
+      
+l.228 ....2\%, i.e. the basis spread $\alpha$ is $
+                                                  20$ basis points.
+Not a real error.
+
+! Preview: Snippet 71 ended.(422343+0x655362).
+<-><->
+      
+l.228 ...%, i.e. the basis spread $\alpha$ is $20$
+                                                   basis points.
+Not a real error.
+
+[71]
+! Preview: Snippet 72 started.
+<-><->
+      
+l.229 ...implied (lognormal) volatility smile at $
+                                                  20\%$ quoted for options o...
+
+Not a real error.
+
+! Preview: Snippet 72 ended.(491520+36408x1201497).
+<-><->
+      
+l.229 ...ed (lognormal) volatility smile at $20\%$
+                                                   quoted for options on $g$...
+
+Not a real error.
+
+[72]
+! Preview: Snippet 73 started.
+<-><->
+      
+l.229 ...y smile at $20\%$ quoted for options on $
+                                                  g$ with expiry time $\tau ...
+
+Not a real error.
+
+! Preview: Snippet 73 ended.(282168+127431x336099).
+<-><->
+      
+l.229 ...smile at $20\%$ quoted for options on $g$
+                                                   with expiry time $\tau = 5$.
+
+Not a real error.
+
+[73]
+! Preview: Snippet 74 started.
+<-><->
+      
+l.229 ...ted for options on $g$ with expiry time $
+                                                  \tau = 5$.
+Not a real error.
+
+! Preview: Snippet 74 ended.(422343+0x1562163).
+<-><->
+      
+l.229 ...ptions on $g$ with expiry time $\tau = 5$
+                                                  .
+Not a real error.
+
+[74]
+! Preview: Snippet 75 started.
+<-><->
+      
+l.231 The premium for an atm call on $
+                                      g$ is then $38.93$ basis points.
+Not a real error.
+
+! Preview: Snippet 75 ended.(282168+127431x336099).
+<-><->
+      
+l.231 The premium for an atm call on $g$
+                                         is then $38.93$ basis points.
+Not a real error.
+
+[75]
+! Preview: Snippet 76 started.
+<-><->
+      
+l.231 The premium for an atm call on $g$ is then $
+                                                  38.93$ basis points.
+Not a real error.
+
+! Preview: Snippet 76 ended.(422343+0x1492769).
+<-><->
+      
+l.231 ...um for an atm call on $g$ is then $38.93$
+                                                   basis points.
+Not a real error.
+
+[76]
+! Preview: Snippet 77 started.
+<-><->
+      
+l.232 The premium for an atm call on $
+                                      f$ is the same by construction of the ...
+
+Not a real error.
+
+! Preview: Snippet 77 ended.(455111+127431x391398).
+<-><->
+      
+l.232 The premium for an atm call on $f$
+                                         is the same by construction of the ...
+
+Not a real error.
+
+[77]
+! Preview: Snippet 78 started.
+<-><->
+      
+l.233 ...l black formula using a displacement of $
+                                                  20$ basis points.
+Not a real error.
+
+! Preview: Snippet 78 ended.(422343+0x655362).
+<-><->
+      
+l.233 ...lack formula using a displacement of $20$
+                                                   basis points.
+Not a real error.
+
+[78]
+! Preview: Snippet 79 started.
+<-><->
+      
+l.234 ...ment implied volatility for the call on $
+                                                  f$ can be computed with nu...
+
+Not a real error.
+
+! Preview: Snippet 79 ended.(455111+127431x391398).
+<-><->
+      
+l.234 ...nt implied volatility for the call on $f$
+                                                   can be computed with nume...
+
+Not a real error.
+
+[79]
+! Preview: Snippet 80 started.
+<-><->
+      
+l.234 ...omputed with numerical inversion and is $
+                                                  22.0390\%$.
+Not a real error.
+
+! Preview: Snippet 80 ended.(491520+36408x2694266).
+<-><->
+      
+l.234 ...th numerical inversion and is $22.0390\%$
+                                                  .
+Not a real error.
+
+[80]
+! Preview: Snippet 81 started.
+<-><->
+      
+l.236 The smile for $
+                     f$ is shown in figure \ref{ex1}. It is not flat though ...
+
+Not a real error.
+
+! Preview: Snippet 81 ended.(455111+127431x391398).
+<-><->
+      
+l.236 The smile for $f$
+                        is shown in figure \ref{ex1}. It is not flat though ...
+
+Not a real error.
+
+[81]
+
+LaTeX Warning: Reference `ex1' on page 2 undefined on input line 236.
+
+! Preview: Snippet 82 started.
+<-><->
+      
+l.236 ...figure \ref{ex1}. It is not flat though $
+                                                  g$ has a flat smile. This ...
+
+Not a real error.
+
+! Preview: Snippet 82 ended.(282168+127431x336099).
+<-><->
+      
+l.236 ...gure \ref{ex1}. It is not flat though $g$
+                                                   has a flat smile. This ex...
+
+Not a real error.
+
+[82]
+! Preview: Snippet 83 started.
+<-><->
+      
+l.238 \begin{figure}
+                    [h]
+Not a real error.
+
+\openout3 = `_region_-gnuplottex-fig1.gnuplot'.
+
+Opening gnuplot stream _region_-gnuplottex-fig1.gnuplot
+(./_region_-gnuplottex-fig1.tex
+Package epstopdf Info: Source file: <_region_-gnuplottex-fig1.eps>
+(epstopdf)                    date: 2013-06-15 19:11:25
+(epstopdf)                    size: 18134 bytes
+(epstopdf)             Output file: <_region_-gnuplottex-fig1-eps-converted-to.
+pdf>
+(epstopdf)                    date: 2013-06-15 19:11:25
+(epstopdf)                    size: 3460 bytes
+(epstopdf)             Command: <epstopdf --outfile=_region_-gnuplottex-fig1-ep
+s-converted-to.pdf _region_-gnuplottex-fig1.eps>
+(epstopdf)             \includegraphics on input line 104.
+Package epstopdf Info: Output file is already uptodate.
+
+<_region_-gnuplottex-fig1-eps-converted-to.pdf, id=268, 361.35pt x 252.945pt>
+File: _region_-gnuplottex-fig1-eps-converted-to.pdf Graphic file (type pdf)
+
+<use _region_-gnuplottex-fig1-eps-converted-to.pdf>)
+! Preview: Snippet 83 ended.(18083888+0x23592960).
+<-><->
+      
+l.246 \end{figure}
+                  
+Not a real error.
+
+[83
+
+
+ <./_region_-gnuplottex-fig1-eps-converted-to.pdf>]
+! Preview: Snippet 84 started.
+<-><->
+      
+l.248 Now we assume that $
+                          g$ has a float volatility smile at $20\%$ and impl...
+
+Not a real error.
+
+! Preview: Snippet 84 ended.(282168+127431x336099).
+<-><->
+      
+l.248 Now we assume that $g$
+                             has a float volatility smile at $20\%$ and impl...
+
+Not a real error.
+
+[84]
+! Preview: Snippet 85 started.
+<-><->
+      
+l.248 ...hat $g$ has a float volatility smile at $
+                                                  20\%$ and imply the smile ...
+
+Not a real error.
+
+! Preview: Snippet 85 ended.(491520+36408x1201497).
+<-><->
+      
+l.248 ...g$ has a float volatility smile at $20\%$
+                                                   and imply the smile for $...
+
+Not a real error.
+
+[85]
+! Preview: Snippet 86 started.
+<-><->
+      
+l.248 ...smile at $20\%$ and imply the smile for $
+                                                  f$. The result is shown in...
+
+Not a real error.
+
+! Preview: Snippet 86 ended.(455111+127431x391398).
+<-><->
+      
+l.248 ...ile at $20\%$ and imply the smile for $f$
+                                                  . The result is shown in f...
+
+Not a real error.
+
+[86]
+
+LaTeX Warning: Reference `ex2' on page 2 undefined on input line 248.
+
+! Preview: Snippet 87 started.
+<-><->
+      
+l.250 \begin{figure}
+                    [h]
+Not a real error.
+
+\openout3 = `_region_-gnuplottex-fig2.gnuplot'.
+
+Opening gnuplot stream _region_-gnuplottex-fig2.gnuplot
+(./_region_-gnuplottex-fig2.tex
+Package epstopdf Info: Source file: <_region_-gnuplottex-fig2.eps>
+(epstopdf)                    date: 2013-06-15 19:11:25
+(epstopdf)                    size: 18022 bytes
+(epstopdf)             Output file: <_region_-gnuplottex-fig2-eps-converted-to.
+pdf>
+(epstopdf)                    date: 2013-06-15 19:11:25
+(epstopdf)                    size: 3444 bytes
+(epstopdf)             Command: <epstopdf --outfile=_region_-gnuplottex-fig2-ep
+s-converted-to.pdf _region_-gnuplottex-fig2.eps>
+(epstopdf)             \includegraphics on input line 104.
+Package epstopdf Info: Output file is already uptodate.
+
+<_region_-gnuplottex-fig2-eps-converted-to.pdf, id=284, 361.35pt x 252.945pt>
+File: _region_-gnuplottex-fig2-eps-converted-to.pdf Graphic file (type pdf)
+
+<use _region_-gnuplottex-fig2-eps-converted-to.pdf>)
+! Preview: Snippet 87 ended.(18083888+0x23592960).
+<-><->
+      
+l.258 \end{figure}
+                  
+Not a real error.
+
+[87
+
+
+ <./_region_-gnuplottex-fig2-eps-converted-to.pdf>]
+! Preview: Snippet 88 started.
+<-><->
+      
+l.261 \subsection
+                 {SABR smile}
+Not a real error.
+
+! Preview: Snippet 88 ended.(455111+0x5587015).
+<-><->
+      
+l.261 \subsection{SABR smile}
+                             
+Not a real error.
+
+[88
+
+]
+! Preview: Snippet 89 started.
+<-><->
+      
+l.263 With $
+            f$ and $g$ as above we now consider a SABR smile for $g$ with pa...
+
+Not a real error.
+
+! Preview: Snippet 89 ended.(455111+127431x391398).
+<-><->
+      
+l.263 With $f$
+               and $g$ as above we now consider a SABR smile for $g$ with pa...
+
+Not a real error.
+
+[89]
+! Preview: Snippet 90 started.
+<-><->
+      
+l.263 With $f$ and $
+                    g$ as above we now consider a SABR smile for $g$ with pa...
+
+Not a real error.
+
+! Preview: Snippet 90 ended.(282168+127431x336099).
+<-><->
+      
+l.263 With $f$ and $g$
+                       as above we now consider a SABR smile for $g$ with pa...
+
+Not a real error.
+
+[90]
+! Preview: Snippet 91 started.
+<-><->
+      
+l.263 ... above we now consider a SABR smile for $
+                                                  g$ with parameters $\alpha...
+
+Not a real error.
+
+! Preview: Snippet 91 ended.(282168+127431x336099).
+<-><->
+      
+l.263 ...bove we now consider a SABR smile for $g$
+                                                   with parameters $\alpha =...
+
+Not a real error.
+
+[91]
+! Preview: Snippet 92 started.
+<-><->
+      
+l.263 ...er a SABR smile for $g$ with parameters $
+                                                  \alpha = 0.07, \beta = 0.8...
+
+Not a real error.
+
+! Preview: Snippet 92 ended.(455111+127431x10087288).
+<-><->
+      
+l.263 ....07, \beta = 0.8, \nu = 0.6, \rho = -0.3$
+                                                   and imply the smile for $...
+
+Not a real error.
+
+[92]
+! Preview: Snippet 93 started.
+<-><->
+      
+l.263 ...6, \rho = -0.3$ and imply the smile for $
+                                                  f$. The result is shown in...
+
+Not a real error.
+
+! Preview: Snippet 93 ended.(455111+127431x391398).
+<-><->
+      
+l.263 ... \rho = -0.3$ and imply the smile for $f$
+                                                  . The result is shown in f...
+
+Not a real error.
+
+[93]
+
+LaTeX Warning: Reference `ex3' on page 2 undefined on input line 263.
+
+! Preview: Snippet 94 started.
+<-><->
+      
+l.265 \begin{figure}
+                    [h]
+Not a real error.
+
+\openout3 = `_region_-gnuplottex-fig3.gnuplot'.
+
+Opening gnuplot stream _region_-gnuplottex-fig3.gnuplot
+(./_region_-gnuplottex-fig3.tex
+Package epstopdf Info: Source file: <_region_-gnuplottex-fig3.eps>
+(epstopdf)                    date: 2013-06-15 19:11:25
+(epstopdf)                    size: 18118 bytes
+(epstopdf)             Output file: <_region_-gnuplottex-fig3-eps-converted-to.
+pdf>
+(epstopdf)                    date: 2013-06-15 19:11:26
+(epstopdf)                    size: 3888 bytes
+(epstopdf)             Command: <epstopdf --outfile=_region_-gnuplottex-fig3-ep
+s-converted-to.pdf _region_-gnuplottex-fig3.eps>
+(epstopdf)             \includegraphics on input line 101.
+Package epstopdf Info: Output file is already uptodate.
+
+<_region_-gnuplottex-fig3-eps-converted-to.pdf, id=309, 361.35pt x 252.945pt>
+File: _region_-gnuplottex-fig3-eps-converted-to.pdf Graphic file (type pdf)
+
+<use _region_-gnuplottex-fig3-eps-converted-to.pdf>)
+! Preview: Snippet 94 ended.(18870320+0x23592960).
+<-><->
+      
+l.272 \end{figure}
+                  
+Not a real error.
+
+[94
+
+
+ <./_region_-gnuplottex-fig3-eps-converted-to.pdf>]
+! Preview: Snippet 95 started.
+<-><->
+      
+l.274 ...h the same parameters as above, but for $
+                                                  f$ and imply the smile for...
+
+Not a real error.
+
+! Preview: Snippet 95 ended.(455111+127431x391398).
+<-><->
+      
+l.274 ...the same parameters as above, but for $f$
+                                                   and imply the smile for $...
+
+Not a real error.
+
+[95]
+! Preview: Snippet 96 started.
+<-><->
+      
+l.274 ...ve, but for $f$ and imply the smile for $
+                                                  g$. The result is shown in...
+
+Not a real error.
+
+! Preview: Snippet 96 ended.(282168+127431x336099).
+<-><->
+      
+l.274 ..., but for $f$ and imply the smile for $g$
+                                                  . The result is shown in f...
+
+Not a real error.
+
+[96]
+
+LaTeX Warning: Reference `ex4' on page 2 undefined on input line 274.
+
+! Preview: Snippet 97 started.
+<-><->
+      
+l.276 \begin{figure}
+                    [h]
+Not a real error.
+
+\openout3 = `_region_-gnuplottex-fig4.gnuplot'.
+
+Opening gnuplot stream _region_-gnuplottex-fig4.gnuplot
+(./_region_-gnuplottex-fig4.tex
+Package epstopdf Info: Source file: <_region_-gnuplottex-fig4.eps>
+(epstopdf)                    date: 2013-06-15 19:11:26
+(epstopdf)                    size: 18087 bytes
+(epstopdf)             Output file: <_region_-gnuplottex-fig4-eps-converted-to.
+pdf>
+(epstopdf)                    date: 2013-06-15 19:11:26
+(epstopdf)                    size: 3875 bytes
+(epstopdf)             Command: <epstopdf --outfile=_region_-gnuplottex-fig4-ep
+s-converted-to.pdf _region_-gnuplottex-fig4.eps>
+(epstopdf)             \includegraphics on input line 101.
+Package epstopdf Info: Output file is already uptodate.
+
+<_region_-gnuplottex-fig4-eps-converted-to.pdf, id=321, 361.35pt x 252.945pt>
+File: _region_-gnuplottex-fig4-eps-converted-to.pdf Graphic file (type pdf)
+
+<use _region_-gnuplottex-fig4-eps-converted-to.pdf>)
+! Preview: Snippet 97 ended.(18870320+0x23592960).
+<-><->
+      
+l.283 \end{figure}
+                  
+Not a real error.
+
+[97
+
+
+ <./_region_-gnuplottex-fig4-eps-converted-to.pdf>]
+\newlabel{tocindent-1}{0pt}
+\newlabel{tocindent0}{0pt}
+\newlabel{tocindent1}{17.77782pt}
+\newlabel{tocindent2}{29.38873pt}
+\newlabel{tocindent3}{0pt}
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 561 strings out of 492462
+ 8021 string characters out of 1150166
+ 94845 words of memory out of 3000000
+ 6071 multiletter control sequences out of 15000+50000
+ 11877 words of font info for 49 fonts, out of 3000000 for 9000
+ 189 hyphenation exceptions out of 8191
+ 22i,10n,32p,299b,358s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
+re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-t
+exlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/font
+s/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/publ
+ic/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/
+cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb
+>
+Output written on _region_.pdf (97 pages, 134427 bytes).
+PDF statistics:
+ 354 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+

@@ -1,0 +1,964 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=prv_multicurveCmsRepl 2013.6.2)  2 JUN 2013 18:59
+entering extended mode
+ %&-line parsing enabled.
+**&prv_multicurveCmsRepl _region_.tex
+(./_region_.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, loaded.
+CUSTOMISED FORMAT. Preloaded files:
+        .
+  amsart.cls    2009/07/02 v2.20.1
+ amsmath.sty    2000/07/18 v2.13 AMS math features
+ amstext.sty    2000/06/29 v2.01
+  amsgen.sty    1999/11/30 v2.0
+  amsbsy.sty    1999/11/29 v1.2d
+  amsopn.sty    1999/12/14 v2.01 operator names
+    umsa.fd    2009/06/22 v3.00 AMS symbols A
+amsfonts.sty    2009/06/22 v3.00 Basic AMSFonts support
+ amssymb.sty    2009/06/22 v3.00
+graphicx.sty    1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+  keyval.sty    1999/03/16 v1.13 key=value parser (DPC)
+graphics.sty    2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+    trig.sty    1999/03/16 v1.09 sin cos tan (DPC)
+graphics.cfg    2009/08/28 v1.8 graphics configuration of TeX Live
+   dvips.def    1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+    umsa.fd    2009/06/22 v3.00 AMS symbols A
+    umsb.fd    2009/06/22 v3.00 AMS symbols B
+        .
+No file _region_.aux.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 70.
+LaTeX Font Info:    ... okay on input line 70.
+(/usr/local/share/texmf/tex/latex/preview/preview.sty
+Package: preview 2010/02/14 11.87 (AUCTeX/preview-latex)
+
+(/usr/local/share/texmf/tex/latex/preview/prtightpage.def
+\PreviewBorder=\dimen116
+)
+(/usr/local/share/texmf/tex/latex/preview/prauctex.def
+No auxiliary output files.
+
+
+\hbadness=\count120
+\hfuzz=\dimen117
+(/usr/local/share/texmf/tex/latex/preview/prauctex.cfg))
+(/usr/local/share/texmf/tex/latex/preview/prfootnotes.def)
+\pr@snippet=\count121
+\pr@box=\box29
+\pr@output=\toks26
+
+Preview: Fontsize 10pt
+)  !name(multicurveCmsRepl.tex) !offset(-3) 
+! Preview: Snippet 1 started.
+<-><->
+      
+l.85 \section
+             {Notation}
+Not a real error.
+
+Preview: Tightpage -32891 -32891 32891 32891
+! Preview: Snippet 1 ended.(447828+0x23592960).
+<-><->
+      
+l.85 \section{Notation}
+                       
+Not a real error.
+
+[1
+
+]
+! Preview: Snippet 2 started.
+<-><->
+      
+l.86 ...e setting consisting of a discount curve $
+                                                  D$ and a forward curve $F$...
+
+Not a real error.
+
+! Preview: Snippet 2 ended.(447828+0x560788).
+<-><->
+      
+l.86 ...setting consisting of a discount curve $D$
+                                                   and a forward curve $F$. ...
+
+Not a real error.
+
+[2]
+! Preview: Snippet 3 started.
+<-><->
+      
+l.86 ...a discount curve $D$ and a forward curve $
+                                                  F$. All quantities compute...
+
+Not a real error.
+
+! Preview: Snippet 3 ended.(447828+0x512456).
+<-><->
+      
+l.86 ...discount curve $D$ and a forward curve $F$
+                                                  . All quantities computed on
+Not a real error.
+
+[3]
+! Preview: Snippet 4 started.
+<-><->
+      
+l.87 ... are denoted with a respective subscript $
+                                                  D$ or $F$.
+Not a real error.
+
+! Preview: Snippet 4 ended.(447828+0x560788).
+<-><->
+      
+l.87 ...re denoted with a respective subscript $D$
+                                                   or $F$.
+Not a real error.
+
+[4]
+! Preview: Snippet 5 started.
+<-><->
+      
+l.87 ...noted with a respective subscript $D$ or $
+                                                  F$.
+Not a real error.
+
+! Preview: Snippet 5 ended.(447828+0x512456).
+<-><->
+      
+l.87 ...ted with a respective subscript $D$ or $F$
+                                                  .
+Not a real error.
+
+[5]
+! Preview: Snippet 6 started.
+<-><->
+      
+l.89 A swap rate fixed on $
+                           t_f$ may be written as
+Not a real error.
+
+! Preview: Snippet 6 ended.(403098+187504x576402).
+<-><->
+      
+l.89 A swap rate fixed on $t_f$
+                                may be written as
+Not a real error.
+
+[6]
+! Preview: Snippet 7 started.
+<-><->
+      
+l.91 \begin{equation}
+                     
+Not a real error.
+
+! Preview: Snippet 7 ended.(1656302+0x16484171).
+<-><->
+      
+l.93 \end{equation}
+                   
+Not a real error.
+
+[7]
+! Preview: Snippet 8 started.
+<-><->
+      
+l.95 with $
+           \tau$ denoting yearfractions, $t, s$ fixing and payment times, $L...
+
+Not a real error.
+
+! Preview: Snippet 8 ended.(282168+0x360676).
+<-><->
+      
+l.95 with $\tau$
+                 denoting yearfractions, $t, s$ fixing and payment times, $L...
+
+Not a real error.
+
+[8]
+! Preview: Snippet 9 started.
+<-><->
+      
+l.95 with $\tau$ denoting yearfractions, $
+                                          t, s$ fixing and payment times, $L...
+
+Not a real error.
+
+! Preview: Snippet 9 ended.(403098+127431x835127).
+<-><->
+      
+l.95 with $\tau$ denoting yearfractions, $t, s$
+                                                fixing and payment times, $L...
+
+Not a real error.
+
+[9]
+! Preview: Snippet 10 started.
+<-><->
+      
+l.95 ...ctions, $t, s$ fixing and payment times, $
+                                                  L(u,v)$ the Libor rate fix...
+
+Not a real error.
+
+! Preview: Snippet 10 ended.(491520+163840x1963352).
+<-><->
+      
+l.95 ... $t, s$ fixing and payment times, $L(u,v)$
+                                                   the Libor rate fixed at $...
+
+Not a real error.
+
+[10]
+! Preview: Snippet 11 started.
+<-><->
+      
+l.95 ... times, $L(u,v)$ the Libor rate fixed at $
+                                                  v$ as seen from u and $P$ ...
+
+Not a real error.
+
+! Preview: Snippet 11 ended.(282168+0x341181).
+<-><->
+      
+l.95 ...imes, $L(u,v)$ the Libor rate fixed at $v$
+                                                   as seen from u and $P$ a ...
+
+Not a real error.
+
+[11]
+! Preview: Snippet 12 started.
+<-><->
+      
+l.95 ...bor rate fixed at $v$ as seen from u and $
+                                                  P$ a discount factor.
+Not a real error.
+
+! Preview: Snippet 12 ended.(447828+0x511773).
+<-><->
+      
+l.95 ...r rate fixed at $v$ as seen from u and $P$
+                                                   a discount factor.
+Not a real error.
+
+[12]
+! Preview: Snippet 13 started.
+<-><->
+      
+l.97 A swaption price $
+                       p$ for a swaption withh expiry on $t_f$ is given by t...
+
+Not a real error.
+
+! Preview: Snippet 13 ended.(282168+127431x329728).
+<-><->
+      
+l.97 A swaption price $p$
+                          for a swaption withh expiry on $t_f$ is given by t...
+
+Not a real error.
+
+[13]
+! Preview: Snippet 14 started.
+<-><->
+      
+l.97 ...price $p$ for a swaption withh expiry on $
+                                                  t_f$ is given by the usual...
+
+Not a real error.
+
+! Preview: Snippet 14 ended.(403098+187504x576402).
+<-><->
+      
+l.97 ...e $p$ for a swaption withh expiry on $t_f$
+                                                   is given by the usual Bla...
+
+Not a real error.
+
+[14]
+! Preview: Snippet 15 started.
+<-><->
+      
+l.97 ...t_f$ is given by the usual Black formula $
+                                                  B$
+Not a real error.
+
+! Preview: Snippet 15 ended.(447828+0x529977).
+<-><->
+      
+l.97 ...f$ is given by the usual Black formula $B$
+                                                  
+Not a real error.
+
+[15]
+! Preview: Snippet 16 started.
+<-><->
+      
+l.99 \begin{equation}
+                     
+Not a real error.
+
+! Preview: Snippet 16 ended.(1048584+0x16921606).
+<-><->
+      
+l.101 \end{equation}
+                    
+Not a real error.
+
+[16]
+! Preview: Snippet 17 started.
+<-><->
+      
+l.103 \section
+              {Curve Scenarios}
+Not a real error.
+
+! Preview: Snippet 17 ended.(447828+0x23592960).
+<-><->
+      
+l.103 \section{Curve Scenarios}
+                               
+Not a real error.
+
+[17
+
+]
+! Preview: Snippet 18 started.
+<-><->
+      
+l.106 \begin{equation}
+                      \label{curvescen}
+Not a real error.
+
+! Preview: Snippet 18 ended.(1549429+0x15627904).
+<-><->
+      
+l.108 \end{equation}
+                    
+Not a real error.
+
+[18
+
+]
+! Preview: Snippet 19 started.
+<-><->
+      
+l.110 with $
+            h = x + \phi$ derived from the normalized short rate $x(t) = r(t...
+
+Not a real error.
+
+! Preview: Snippet 19 ended.(455111+127431x2817429).
+<-><->
+      
+l.110 with $h = x + \phi$
+                          derived from the normalized short rate $x(t) = r(t...
+
+Not a real error.
+
+[19]
+! Preview: Snippet 20 started.
+<-><->
+      
+l.110 ... derived from the normalized short rate $
+                                                  x(t) = r(t)-f(0,t)$ by a c...
+
+Not a real error.
+
+! Preview: Snippet 20 ended.(491520+163840x5612728).
+<-><->
+      
+l.110 ...ormalized short rate $x(t) = r(t)-f(0,t)$
+                                                   by a constant $\phi$ whic...
+
+Not a real error.
+
+[20]
+! Preview: Snippet 21 started.
+<-><->
+      
+l.110 ...rate $x(t) = r(t)-f(0,t)$ by a constant $
+                                                  \phi$ which only depends o...
+
+Not a real error.
+
+! Preview: Snippet 21 ended.(455111+127431x390486).
+<-><->
+      
+l.110 ...$x(t) = r(t)-f(0,t)$ by a constant $\phi$
+                                                   which only depends on the...
+
+Not a real error.
+
+[21]
+! Preview: Snippet 22 started.
+<-><->
+      
+l.112 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 22 ended.(1706939+0x17658495).
+<-><->
+      
+l.114 \end{equation}
+                    
+Not a real error.
+
+[22]
+! Preview: Snippet 23 started.
+<-><->
+      
+l.116 and for $
+               \kappa=0$
+Not a real error.
+
+! Preview: Snippet 23 ended.(422343+0x1579078).
+<-><->
+      
+l.116 and for $\kappa=0$
+                        
+Not a real error.
+
+[23]
+! Preview: Snippet 24 started.
+<-><->
+      
+l.118 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 24 ended.(689296+0x13949194).
+<-><->
+      
+l.120 \end{equation}
+                    
+Not a real error.
+
+[24]
+! Preview: Snippet 25 started.
+<-><->
+      
+l.122 ... curves, thus both curves have the same $
+                                                  x(t)$ and therefore equati...
+
+Not a real error.
+
+! Preview: Snippet 25 ended.(491520+163840x1120940).
+<-><->
+      
+l.122 ...es, thus both curves have the same $x(t)$
+                                                   and therefore equation \r...
+
+Not a real error.
+
+[25]
+
+LaTeX Warning: Reference `curvescen' on page 1 undefined on input line 122.
+
+! Preview: Snippet 26 started.
+<-><->
+      
+l.122 ...{curvescen} can be used for both curves $
+                                                  P_D$ and $P_F$.
+Not a real error.
+
+! Preview: Snippet 26 ended.(447828+98303x896133).
+<-><->
+      
+l.122 ...vescen} can be used for both curves $P_D$
+                                                   and $P_F$.
+Not a real error.
+
+[26]
+! Preview: Snippet 27 started.
+<-><->
+      
+l.122 ...} can be used for both curves $P_D$ and $
+                                                  P_F$.
+Not a real error.
+
+! Preview: Snippet 27 ended.(447828+98303x856430).
+<-><->
+      
+l.122 ...n be used for both curves $P_D$ and $P_F$
+                                                  .
+Not a real error.
+
+[27]
+! Preview: Snippet 28 started.
+<-><->
+      
+l.124 \section
+              {Replication Basket}
+Not a real error.
+
+! Preview: Snippet 28 ended.(447828+0x23592960).
+<-><->
+      
+l.124 \section{Replication Basket}
+                                  
+Not a real error.
+
+[28
+
+]
+! Preview: Snippet 29 started.
+<-><->
+      
+l.126 \subsection
+                 {CMS Caplet}
+Not a real error.
+
+! Preview: Snippet 29 ended.(455111+127431x5663382).
+<-><->
+      
+l.126 \subsection{CMS Caplet}
+                             
+Not a real error.
+
+[29
+
+]
+! Preview: Snippet 30 started.
+<-><->
+      
+l.128 ...replicate a CMS caplet with fixing time $
+                                                  t_f$, payment time $t_p$ a...
+
+Not a real error.
+
+! Preview: Snippet 30 ended.(403098+187504x576402).
+<-><->
+      
+l.128 ...icate a CMS caplet with fixing time $t_f$
+                                                  , payment time $t_p$ and s...
+
+Not a real error.
+
+[30]
+! Preview: Snippet 31 started.
+<-><->
+      
+l.128 ...et with fixing time $t_f$, payment time $
+                                                  t_p$ and strike $K$. We as...
+
+Not a real error.
+
+! Preview: Snippet 31 ended.(403098+187504x539588).
+<-><->
+      
+l.128 ...ith fixing time $t_f$, payment time $t_p$
+                                                   and strike $K$. We assume...
+
+Not a real error.
+
+[31]
+! Preview: Snippet 32 started.
+<-><->
+      
+l.128 ...me $t_f$, payment time $t_p$ and strike $
+                                                  K$. We assume a discretiza...
+
+Not a real error.
+
+! Preview: Snippet 32 ended.(447828+0x603477).
+<-><->
+      
+l.128 ... $t_f$, payment time $t_p$ and strike $K$
+                                                  . We assume a discretizati...
+
+Not a real error.
+
+[32]
+! Preview: Snippet 33 started.
+<-><->
+      
+l.128 ... strike $K$. We assume a discretization $
+                                                  h_i, i=0,...,n$ with $h_0=K$.
+
+Not a real error.
+
+! Preview: Snippet 33 ended.(455111+127431x3836358).
+<-><->
+      
+l.128 ... assume a discretization $h_i, i=0,...,n$
+                                                   with $h_0=K$.
+Not a real error.
+
+[33]
+! Preview: Snippet 34 started.
+<-><->
+      
+l.128 ... a discretization $h_i, i=0,...,n$ with $
+                                                  h_0=K$.
+Not a real error.
+
+! Preview: Snippet 34 ended.(455111+98303x2148877).
+<-><->
+      
+l.128 ...cretization $h_i, i=0,...,n$ with $h_0=K$
+                                                  .
+Not a real error.
+
+[34]
+! Preview: Snippet 35 started.
+<-><->
+      
+l.130 The payoff of the caplet in scneario $
+                                            i=1$ is $S(t_f,h_1)-K$ which dis...
+
+Not a real error.
+
+! Preview: Snippet 35 ended.(432226+0x1427267).
+<-><->
+      
+l.130 The payoff of the caplet in scneario $i=1$
+                                                 is $S(t_f,h_1)-K$ which dis...
+
+Not a real error.
+
+[35]
+! Preview: Snippet 36 started.
+<-><->
+      
+l.130 ...yoff of the caplet in scneario $i=1$ is $
+                                                  S(t_f,h_1)-K$ which discou...
+
+Not a real error.
+
+! Preview: Snippet 36 ended.(491520+187504x3893094).
+<-><->
+      
+l.130 ...aplet in scneario $i=1$ is $S(t_f,h_1)-K$
+                                                   which discounts back to $...
+
+Not a real error.
+
+[36]
+! Preview: Snippet 37 started.
+<-><->
+      
+l.130 ... $S(t_f,h_1)-K$ which discounts back to $
+                                                  t_f$ by $P_D(t_f,t_p,h_1)$...
+
+Not a real error.
+
+! Preview: Snippet 37 ended.(403098+187504x576402).
+<-><->
+      
+l.130 ...t_f,h_1)-K$ which discounts back to $t_f$
+                                                   by $P_D(t_f,t_p,h_1)$. Th...
+
+Not a real error.
+
+[37]
+! Preview: Snippet 38 started.
+<-><->
+      
+l.130 ..._1)-K$ which discounts back to $t_f$ by $
+                                                  P_D(t_f,t_p,h_1)$. The npv...
+
+Not a real error.
+
+! Preview: Snippet 38 ended.(491520+187504x3775981).
+<-><->
+      
+l.130 ...ounts back to $t_f$ by $P_D(t_f,t_p,h_1)$
+                                                  . The npv of a physical se...
+
+Not a real error.
+
+[38]
+! Preview: Snippet 39 started.
+<-><->
+      
+l.130 ...al settled call swaption with expiry on $
+                                                  t_f$ and strike $K$ is on ...
+
+Not a real error.
+
+! Preview: Snippet 39 ended.(403098+187504x576402).
+<-><->
+      
+l.130 ...ettled call swaption with expiry on $t_f$
+                                                   and strike $K$ is on the ...
+
+Not a real error.
+
+[39]
+! Preview: Snippet 40 started.
+<-><->
+      
+l.130 ...waption with expiry on $t_f$ and strike $
+                                                  K$ is on the other hand $\...
+
+Not a real error.
+
+! Preview: Snippet 40 ended.(447828+0x603477).
+<-><->
+      
+l.130 ...ption with expiry on $t_f$ and strike $K$
+                                                   is on the other hand $\De...
+
+Not a real error.
+
+[40]
+! Preview: Snippet 41 started.
+<-><->
+      
+l.130 ..._f$ and strike $K$ is on the other hand $
+                                                  \Delta_1A(t_f,h_1)(S(t_f,h...
+
+Not a real error.
+
+! Preview: Snippet 41 ended.(491520+187504x7783470).
+<-><->
+      
+l.130 ...r hand $\Delta_1A(t_f,h_1)(S(t_f,h_1)-K)$
+                                                   where $A$ denotes the ann...
+
+Not a real error.
+
+[41]
+! Preview: Snippet 42 started.
+<-><->
+      
+l.130 ...\Delta_1A(t_f,h_1)(S(t_f,h_1)-K)$ where $
+                                                  A$ denotes the annuity as ...
+
+Not a real error.
+
+! Preview: Snippet 42 ended.(447828+0x491521).
+<-><->
+      
+l.130 ...elta_1A(t_f,h_1)(S(t_f,h_1)-K)$ where $A$
+                                                   denotes the annuity as wr...
+
+Not a real error.
+
+[42]
+! Preview: Snippet 43 started.
+<-><->
+      
+l.130 ...y as written out explicitly above. Here $
+                                                  \Delta_1$ denotes the hedg...
+
+Not a real error.
+
+! Preview: Snippet 43 ended.(447828+98303x840138).
+<-><->
+      
+l.130 ...ten out explicitly above. Here $\Delta_1$
+                                                   denotes the hedge weight....
+
+Not a real error.
+
+[43]
+! Preview: Snippet 44 started.
+<-><->
+      
+l.132 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 44 ended.(1571925+0x14620085).
+<-><->
+      
+l.134 \end{equation}
+                    
+Not a real error.
+
+[44]
+! Preview: Snippet 45 started.
+<-><->
+      
+l.138 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 45 ended.(1653497+0x14303540).
+<-><->
+      
+l.140 \end{equation}
+                    
+Not a real error.
+
+[45]
+! Preview: Snippet 46 started.
+<-><->
+      
+l.142 with a uniform $
+                      \tau$ corresponding to the frequency on the fixed leg.
+Not a real error.
+
+! Preview: Snippet 46 ended.(282168+0x360676).
+<-><->
+      
+l.142 with a uniform $\tau$
+                            corresponding to the frequency on the fixed leg.
+Not a real error.
+
+[46]
+! Preview: Snippet 47 started.
+<-><->
+      
+l.144 ...o revalue the first hedge instrument as $
+                                                  \Delta_1A(t_f,h_2)(S(t_f,h...
+
+Not a real error.
+
+! Preview: Snippet 47 ended.(491520+187504x7783470).
+<-><->
+      
+l.144 ...ent as $\Delta_1A(t_f,h_2)(S(t_f,h_2)-K)$
+                                                  , subtract this from the n...
+
+Not a real error.
+
+[47]
+! Preview: Snippet 48 started.
+<-><->
+      
+l.144 ...f a cms caplet in scenario two which is $
+                                                  P_D(t_f,t_p,h_2)(S(t_f,h_2...
+
+Not a real error.
+
+! Preview: Snippet 48 ended.(491520+187504x8178801).
+<-><->
+      
+l.144 ...which is $P_D(t_f,t_p,h_2)(S(t_f,h_2)-K)$
+                                                   and solve for the weight ...
+
+Not a real error.
+
+[48]
+! Preview: Snippet 49 started.
+<-><->
+      
+l.144 ...S(t_f,h_2)-K)$ and solve for the weight $
+                                                  \Delta_2$ of the second he...
+
+Not a real error.
+
+! Preview: Snippet 49 ended.(447828+98303x840138).
+<-><->
+      
+l.144 ...)-K)$ and solve for the weight $\Delta_2$
+                                                   of the second hedge instr...
+
+Not a real error.
+
+[49]
+! Preview: Snippet 50 started.
+<-><->
+      
+l.144 ...nt which is a call swaption with strike $
+                                                  S(t_f,h_1)$ (therefore con...
+
+Not a real error.
+
+! Preview: Snippet 50 ended.(491520+187504x2488627).
+<-><->
+      
+l.144 ... a call swaption with strike $S(t_f,h_1)$
+                                                   (therefore contributing n...
+
+Not a real error.
+
+[50]
+! Preview: Snippet 51 started.
+<-><->
+      
+l.146 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 51 ended.(1571925+0x21787292).
+<-><->
+      
+l.148 \end{equation}
+                    
+Not a real error.
+
+[51]
+! Preview: Snippet 52 started.
+<-><->
+      
+l.150 We continue until the last scenario $
+                                           i=n$.
+Not a real error.
+
+! Preview: Snippet 52 ended.(432226+0x1492956).
+<-><->
+      
+l.150 We continue until the last scenario $i=n$
+                                               .
+Not a real error.
+
+[52]
+! Preview: Snippet 53 started.
+<-><->
+      
+l.152 \subsection
+                 {CMS Floorlet}
+Not a real error.
+
+! Preview: Snippet 53 ended.(455111+0x6102564).
+<-><->
+      
+l.152 \subsection{CMS Floorlet}
+                               
+Not a real error.
+
+[53
+
+]
+! Preview: Snippet 54 started.
+<-><->
+      
+l.156 \subsection
+                 {CMS Swaplet}
+Not a real error.
+
+! Preview: Snippet 54 ended.(455111+127431x6061147).
+<-><->
+      
+l.156 \subsection{CMS Swaplet}
+                              
+Not a real error.
+
+[54
+
+]
+\newlabel{tocindent-1}{0pt}
+\newlabel{tocindent0}{0pt}
+\newlabel{tocindent1}{17.77782pt}
+\newlabel{tocindent2}{29.38873pt}
+\newlabel{tocindent3}{0pt}
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 198 strings out of 493058
+ 2670 string characters out of 1160201
+ 77074 words of memory out of 3000000
+ 5207 multiletter control sequences out of 15000+50000
+ 11347 words of font info for 44 fonts, out of 3000000 for 9000
+ 189 hyphenation exceptions out of 8191
+ 22i,5n,32p,496b,171s stack positions out of 5000i,500n,10000p,200000b,50000s
+
+Output written on _region_.dvi (54 pages, 10076 bytes).

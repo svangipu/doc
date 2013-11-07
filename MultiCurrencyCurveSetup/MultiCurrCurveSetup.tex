@@ -1,0 +1,166 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%--------------------------------------------------------
+
+\begin{document}
+\title[Multicurrency Curve Setup]{Multicurrency Curve Setup}
+\author{Peter Caspers}
+\email[Peter Caspers]{pcaspers1973@gmail.com}
+\date{December 22, 2012}
+\dedicatory{First Version December 22, 2012 - This Version July 9, 2013}
+\begin{abstract}
+This paper describes a consistent multi currency curve setup for collaterized and uncollaterized deal valuation. We put a special emphasis on the actual implementation in the Murex system. The methodology is mainly following \cite{Fuji}. 
+\end{abstract}
+
+\maketitle
+
+\section{Types of deals and valuations}
+
+We are considering derivative deals under CSA (Credit Support Annex) and without collaterization, the former being typical for interbank deals the latter typical for corporate deals (exceptions exists in both cases though), and unsecured money market deals, i.e. loans and deposits. We do not consider repo deals of any kind or tender deals here.
+
+The aim is to provide valuations including funding costs on an interbank benchmark level as well as at the banks own funding level. We do not account for counterparty credit risk, usually called CVA adjustments in the case of derivatives and to be more generally understood likewise for money market deals.
+
+\section{Collaterization}
+
+For collaterized deals we have to specify the collateral currency, i.e. the currency in which the collateral is posted. 
+
+For cleared deals there may be a distinction between the currency in which the the initial margin is posted and the currency in which the variation margin is posted. For valuation purposes we assume that the currency of the variation margin is the collateral currency, because the impact of the choice of the discounting curve is typically more significant for out of the money deals for which the major part of the posted collateral will be due to variation margin postings.
+
+With respect to the market quotes from which we build the curves we assume first that all quotes for refer to instruments which are collaterized (except for cash deposit quotes) that single currency instruments are collaterized in deal currency. For fx forwards and cross currency swaps we assume that the collateral currency is USD by standard. This also holds for cross currency swaps which are built against EUR (like CHF/EUR or CZK/EUR). 
+
+\section{Assumptions}
+
+
+
+\section{Origin curves}
+
+According to \cite{Fuji} the construction of the curve system starts with a reference discounting curve. Summarizing the details given below we have 3 origin curves:
+
+\begin{enumerate}
+\item Euribor 3M plus a bank specific spread
+\item EUR Eonia
+\item USD Fedfund
+\end{enumerate}
+
+For each of these origin curves we construct an own self consistent curve system. The decision in which system a deal is valued is determined by the information if the deal is collaterized or not and if collaterized in which currency the collateral is posted.
+
+\subsection{Uncollaterized deals}
+
+For uncollaterized deals the origin curve is determined by the banks domestic funding. The respective currency is in our case EUR. Furthermore we understand 
+the Euribor 3m curve to be the interbank benchmark funding curve. The banks funding curve is then given by this benchmark curve plus a bank specific spread termstructure.
+
+\subsection{Collaterized deals}
+
+We assume to have a set of possible collateral currencies, for the moment we assume only EUR and USD. This means that all collateral is posted in either of these currencies. For each collateral currency there is a unique origin discount curve, being the Eonia curve for EUR and the Fedfund curve for USD.
+
+\section{Calibration Instruments}
+
+We have the following types of calibration instruments for rate curve bootstrapping.
+
+\begin{enumerate}
+\item Cash instruments
+\item Overnight Index Swaps
+\item Single Currency fixed float swaps
+\item Single Currency tenor basis swaps
+\item FX Swaps
+\item Cross Currency basis swaps
+\end{enumerate}
+
+The complete information required for curve building would in theory include quotes for uncollaterized swaps as well as collaterized swaps for each of the relevant collateral currencies. Only a part of this information is available in the market. In addition it is not easy to get information on the actual collateral currency reflected by the quotes from the brokers.
+
+Except for cash instruments we understand the quotes for all instruments to be quotes for collaterized instruments. The brokers do not provide definite information on the collateral currency at the moment.
+
+The central assumption we make at this point is the following: The fair rates for uncollaterized swaps as well as collaterized swaps with collateral currency different from the actual quoted instrument are identical to the fair rates of the actually quoted instruments.
+
+For example we assume that
+
+\begin{enumerate}
+\item an uncollaterized single currency EUR fix float swap has the same fair rate as the quoted collaterized one
+\item an EUR collaterized single currency EUR fix float swap has the same fair rate as the same swap collaterized in USD
+\item an EUR/USD cross currency swap collaterized in EUR has the same fair rate as the same swap collaterized in USD
+\end{enumerate}
+
+\section{Curve construction}
+
+\subsection{EUR Eonia origin curve}
+
+First the EUR Eonia curve is bootstrapped on ON, TN, SN cash instruments and 1w, ... , 30y Eonia swap quotes. With that curve the forwarding tenor curves EUR Euribor x Eonia with x = 1m, 3m, 6m, 12m can be build from single currency swap quotes (fix float and basis).
+
+The next step is to bootstrap the curves for non EUR currencies. Let us take USD as an example. The USD EUR Basis Eonia curve together with the USD Libor 3m Eonia can be boostrapped on EUR/USD FX swaps / cross currency basis swaps and USD single currency fix float swaps. Note that here we assume that simultaneous bootstrapping of several curves is possible provided that enough instruments are present for a unique solution. Also note that the suffix Eonia in the name of the USD curves shall indicate that the curves are build from the EUR Eonia origin curve.
+
+The other USD Eonia tenor curves for 1m, 6m and 12m can now be build using the USD EUR BASIS Eonia curve as the discounting curve and quoted single currency USD fix float or basis quotes.
+
+
+\begin{thebibliography}{1}
+
+\bibitem {Fuji}Fuji M., Yasufumi S., Takahashi A.:  A Note on Construction of Multiple Swap Curves with and without Collateral, FSA Research Review Vol.6(March 2010)
+
+\end{thebibliography}
+
+\end{document}

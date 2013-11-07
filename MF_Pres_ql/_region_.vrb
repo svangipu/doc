@@ -1,0 +1,21 @@
+\frametitle {Pricing Engine}
+To do the actual pricing we need a suitable pricing engine which can be constructed by
+
+\begin{minted}[fontsize=\small]{c++}
+boost::shared_ptr<PricingEngine>
+          engine(new Gaussian1dFloatFloatSwaptionEngine(markov));
+\end{minted}
+
+and assigned to our instrument by means of
+
+\begin{minted}[fontsize=\small]{c++}
+swaption->setPricingEngine(engine);
+\end{minted}
+
+which then allows to extract the dirty npv
+
+\begin{minted}[fontsize=\small]{c++}
+Real npv = swaption->NPV();
+\end{minted}
+
+(The npv of the swap on the other hand can be retrieved with standard cms coupon pricers.)

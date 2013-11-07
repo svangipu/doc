@@ -1,0 +1,229 @@
+\documentclass{beamer}
+
+\usetheme{CambridgeUS}
+\usefonttheme{professionalfonts}
+
+\begin{document}
+\title{GSR Development Overview}  
+\author{Peter Caspers}
+\date{April 6, 2013} 
+
+\frame{\titlepage} 
+
+\frame{\frametitle{Table of contents}\tableofcontents[hideallsubsections]} 
+
+\section{Model}
+
+\frame{\frametitle{Model Spec}
+
+\begin{itemize}
+\item GSR Model = Gaussian Short Rate Model = Hull White Model
+\item 1 factor
+\item time dependent deterministic volatility and reversion
+\item dynamics is in T-Forward measure
+\item formulation without "fitting function"
+\end{itemize}
+}
+
+\frame{\frametitle{Model Class Gsr}
+
+\begin{itemize}
+\item constructors for fixed mean reversion, calibrated mean reversion
+\item sugar constructor for constant mean reversion
+\item state process class GsrProcess with exact formulas
+\item caching necessary because of fomula complexity
+\end{itemize}
+
+}
+
+\section{Instruments}
+
+\frame{\frametitle{Instrument Class NonStandardSwap}
+
+\begin{itemize}
+\item fixed float swap with periodic notionals and / or fixed rates
+\item direct generalization of Vanilla Swap
+\item copy constructor from Vanilla Swap
+\end{itemize}
+
+}
+
+\frame{\frametitle{Instrument Class NonStandardSwaption}
+
+\begin{itemize}
+\item option on NonstandardSwap
+\item just like Swaption is an option on Vanilla Swap
+\item copy constructor from Swaption
+\item physical delivery
+\item european or bermudan exercise
+\end{itemize}
+
+}
+
+\section{Pricing Engines}
+
+\frame{\frametitle{Engine Class GsrSwaptionEngine}
+
+\begin{itemize}
+\item pricing engine for european and bermudan swaptions
+\item static multicurve support
+\item uses numerical integration
+\item payoff is interpolated with Lagrange Splines
+\item exact integration of splines against gaussian distribution
+\item coverage of n (default 7) standard deviations of the state variable with m (default 64) grid points
+\item backward engine for bermudan exercise rights
+\end{itemize}
+
+}
+
+\frame{\frametitle{Engine Class GsrJamshidianSwaptionEngine}
+
+\begin{itemize}
+\item pricing engine for european swaptions 
+\item uses the Jamshidian trick
+\item exact pricing 
+\item monocurve only
+\item extended version of the ql implementation respecting the start delay of the underlying swap
+\item integral engine is usually just as good (accuracy, speed)
+\end{itemize}
+
+}
+
+\frame{\frametitle{Engine Class GsrNonstandardSwaptionEngine}
+
+\begin{itemize}
+\item pricing engine for european and bermudan swaptions with periodic notional and / or fixed rate 
+\item static multicurve support, uses numerical integration, just as GsrSwaptionEngine
+\item provides generation of suitable calibration baskets (method see below), baskets can be retrieved from the instrument
+\end{itemize}
+
+}
+
+\section{QuantLib extensions}
+
+\frame{\frametitle{SwaptionHelper}
+
+\begin{itemize}
+\item provide non atm calibration instruments (ensuring that they are otm)
+\item provide nominal $\neq 1$ (meaningless for calibration, but useful information for non standard calibration baskets)
+\end{itemize}
+
+}
+
+\frame{\frametitle{Iterative model calibration}
+
+\begin{itemize}
+\item provide an iterative model calibration in addition to the global optimization
+\item for boostrapping the piecewise volatility function in the GSR model
+\item much faster than global calibration if many volatility step dates are present ($> 10$)
+\item of course not generally applicable, so handle with care (similar situation as with iterative and global bootstrapper for yield curves)
+\end{itemize}
+
+}
+
+
+\section{Nonstandard Swaption Calibration}
+
+\frame{\frametitle{Representative Swaption Approach}
+
+Problem: Find a standard (market quoted up to interpolation in option maturity or swap length) swaption which is "similar" to a non standard european
+swaption.
+
+\begin{itemize}
+\item "Similar" should mean: the underlyings on which the options are written should at option expiry have close npvs in all states of the world. If this is the
+case the payoff from both options will be close, too, hence todays npv of both options thereby inducing the npv of the non standard option thanks to the
+market value of the quoted option.
+
+\item Obviously "in all states of the world" is a model dependent concept. Here we use the GSR model which use for the non standard bermudan swaption
+pricing later on.
+\end{itemize}
+}
+
+\frame{\frametitle{European non standard swaptions}
+
+\begin{itemize}
+\item obviously the approach can also be used to price non standard european swaptions
+\item note that the model choice implies perfect correlation of rates 
+\item other models are possible ...
+\end{itemize}
+
+}
+
+\frame{\frametitle{Procedure to find the representative swaption}
+
+\begin{itemize}
+\item the underlying has $3$ free parameters: nominal, fixed rate, maturity
+\item we determine these parameters by minimizing the difference in npv, delta and gamma of the two underlyings 
+\item delta and gamma should be understood as first and second order derivatives of the npv by the state variable of the model
+\item npv, delta and gamma are evaluated at the expectation of the state variable at option expiry
+\end{itemize}
+
+}
+
+\frame{\frametitle{Details of the procedure}
+
+\begin{itemize}
+\item the minimization is done using numerical optimization (Levenberg Marquardt) 
+\item swap maturity is discrete in nature (we use whole months as unit). Since optimization (and in particular Levenberg Marquardt) relies on continuous / differentiable target functions we interpolate npvs between these "physical" swaps
+\item furthermore to give the optimizer a nice target function, negative nominals and negative fixed rate are interpreted as payer / receiver swaps 
+\item delta and gamma are computed by finite differences and expressed as derivatives in the normalized (zero mean, unit variance) state variable
+\item npv and delta are normalized by the target delta, gamma by the target gamma
+\end{itemize}
+
+}
+
+\frame{\frametitle{A fixed point problem ?}
+
+\begin{itemize}
+\item the npv, delta and gamma depend on the model parameters (sigma up to expiry, reversion up to forward measure time)
+\item therefore after calibration of the model to the basket, the basket changes !
+\item should we iterate to find some fixed point ?
+\item no, because the dependency of the basket on the model parameters is weak enough to determine the basket on reasonable model
+parameters and then calibrating the model the that basket. full stop.
+\end{itemize}
+
+}
+
+
+\frame{\frametitle{Calibration Baskets: Demo / Test cases}
+
+\begin{itemize}
+\item standard swaption 
+\item decreasing notional (amortizer)
+\item increasing notional (accreter)
+\item step up coupon
+\item step down coupon
+\item decreasing notional and step up coupon
+\end{itemize}
+
+}
+
+
+\frame{\frametitle{Robustness of the representation: Demo}
+
+\begin{itemize}
+\item match a standard swap 
+\item plot the npv of the non standard and the standard swap in 5 standard deviations of the state variable
+\item price the standard swaption and the non standard swaption
+\end{itemize}
+
+}
+
+\section{Summary}
+
+\frame{\frametitle{Summary}
+
+\begin{itemize}
+\item Gsr model class provides time dependent volatility and reversion 
+\item pricing engines provide static multi curve support
+\item extended non atm swaption calibration helper
+\item iterative model calibration in addition to global calibration
+\item generation of calibration baskets for bermudan non standard swaptions
+\end{itemize}
+
+}
+
+
+
+\end{document}
+

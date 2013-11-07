@@ -1,0 +1,1148 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=prv_CallProbabilities 2013.9.3)  3 SEP 2013 21:25
+entering extended mode
+ %&-line parsing enabled.
+**&prv_CallProbabilities _region_.tex
+(./_region_.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, loaded.
+CUSTOMISED FORMAT. Preloaded files:
+        .
+  amsart.cls    2009/07/02 v2.20.1
+ amsmath.sty    2000/07/18 v2.13 AMS math features
+ amstext.sty    2000/06/29 v2.01
+  amsgen.sty    1999/11/30 v2.0
+  amsbsy.sty    1999/11/29 v1.2d
+  amsopn.sty    1999/12/14 v2.01 operator names
+    umsa.fd    2009/06/22 v3.00 AMS symbols A
+amsfonts.sty    2009/06/22 v3.00 Basic AMSFonts support
+ amssymb.sty    2009/06/22 v3.00
+graphicx.sty    1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+  keyval.sty    1999/03/16 v1.13 key=value parser (DPC)
+graphics.sty    2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+    trig.sty    1999/03/16 v1.09 sin cos tan (DPC)
+graphics.cfg    2009/08/28 v1.8 graphics configuration of TeX Live
+  pdftex.def    2010/03/12 v0.04p Graphics/color for pdfTeX
+gnuplottex.sty    2013/06/03 v0.5 gnuplot graphs in LaTeX
+latexsym.sty    1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+moreverb.sty    2008/06/03 v2.3a `more' verbatim facilities
+verbatim.sty    2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
+  ifthen.sty    2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+epstopdf.sty    2009/10/17 v2.4 Conversion with epstopdf on the fly (HO)
+epstopdf-base.sty    2009/10/17 v2.4 Base part for package epstopdf
+infwarerr.sty    2007/09/09 v1.2 Providing info/warning/message (HO)
+  grfext.sty    2007/09/30 v1.0 Managing graphics extensions (HO)
+kvoptions.sty    2009/08/13 v3.4 Keyval support for LaTeX options (HO)
+kvsetkeys.sty    2009/07/30 v1.5 Key value parser with default handler support 
+(HO)
+etexcmds.sty    2007/12/12 v1.2 Prefix for e-TeX command names (HO)
+pdftexcmds.sty    2009/09/23 v0.6 LuaTeX support for pdfTeX utility functions (
+HO)
+ifluatex.sty    2009/04/17 v1.2 Provides the ifluatex switch (HO)
+ ltxcmds.sty    2009/08/05 v1.0 Some LaTeX kernel commands for general use (HO)
+
+epstopdf-sys.cfg    2009/10/26 v1.1 Configuration of epstopdf for TeX Live
+    umsa.fd    2009/06/22 v3.00 AMS symbols A
+    umsb.fd    2009/06/22 v3.00 AMS symbols B
+   ulasy.fd    1998/08/17 v2.2e LaTeX symbol font definitions
+        .
+No file _region_.aux.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 74.
+LaTeX Font Info:    ... okay on input line 74.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 74.
+LaTeX Font Info:    ... okay on input line 74.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 74.
+LaTeX Font Info:    ... okay on input line 74.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 74.
+LaTeX Font Info:    ... okay on input line 74.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 74.
+LaTeX Font Info:    ... okay on input line 74.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 74.
+LaTeX Font Info:    ... okay on input line 74.
+(/usr/local/share/texmf/tex/latex/preview/preview.sty
+Package: preview 2010/02/14 11.87 (AUCTeX/preview-latex)
+
+(/usr/local/share/texmf/tex/latex/preview/prtightpage.def
+\PreviewBorder=\dimen116
+)
+(/usr/local/share/texmf/tex/latex/preview/prauctex.def
+No auxiliary output files.
+
+
+\hbadness=\count125
+\hfuzz=\dimen117
+(/usr/local/share/texmf/tex/latex/preview/prauctex.cfg))
+(/usr/local/share/texmf/tex/latex/preview/prfootnotes.def)
+\pr@snippet=\count126
+\pr@box=\box29
+\pr@output=\toks28
+
+Preview: Fontsize 10pt
+Preview: PDFoutput 1
+) (/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count127
+\scratchdimen=\dimen118
+\scratchbox=\box30
+\nofMPsegments=\count128
+\nofMParguments=\count129
+\everyMPshowfont=\toks29
+\MPscratchCnt=\count130
+\MPscratchDim=\dimen119
+\MPnumerator=\count131
+\everyMPtoPDFconversion=\toks30
+)  !name(CallProbabilities.tex) !offset(-3) 
+! Preview: Snippet 1 started.
+<-><->
+      
+l.86 ...l White one factor model under different $
+                                                  T$ forward measures. As a ...
+
+Not a real error.
+
+Preview: Tightpage -32891 -32891 32891 32891
+! Preview: Snippet 1 ended.(358263+0x401687).
+<-><->
+      
+l.86 ...White one factor model under different $T$
+                                                   forward measures. As a re...
+
+Not a real error.
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+! Preview: Snippet 2 started.
+<-><->
+      
+l.91 \section
+             {Introduction}
+Not a real error.
+
+! Preview: Snippet 2 ended.(447828+0x23592960).
+<-><->
+      
+l.91 \section{Introduction}
+                           
+Not a real error.
+
+[2
+
+]
+! Preview: Snippet 3 started.
+<-><->
+      
+l.94 ...r, such as the risk neutral measure, the $
+                                                  T$-forward measure,
+Not a real error.
+
+! Preview: Snippet 3 ended.(447828+0x473999).
+<-><->
+      
+l.94 ... such as the risk neutral measure, the $T$
+                                                  -forward measure,
+Not a real error.
+
+[3]
+! Preview: Snippet 4 started.
+<-><->
+      
+l.100 White one factor model under different $
+                                              T$-forward measures. The lesso...
+
+Not a real error.
+
+! Preview: Snippet 4 ended.(447828+0x473999).
+<-><->
+      
+l.100 White one factor model under different $T$
+                                                -forward measures. The lesso...
+
+Not a real error.
+
+[4]
+! Preview: Snippet 5 started.
+<-><->
+      
+l.104 ...des with the naive probabilities in the $
+                                                  T$-forward measure with $T...
+
+Not a real error.
+
+! Preview: Snippet 5 ended.(447828+0x473999).
+<-><->
+      
+l.104 ...s with the naive probabilities in the $T$
+                                                  -forward measure with $T$ ...
+
+Not a real error.
+
+[5]
+! Preview: Snippet 6 started.
+<-><->
+      
+l.104 ...ilities in the $T$-forward measure with $
+                                                  T$ being the exercise time.
+Not a real error.
+
+! Preview: Snippet 6 ended.(447828+0x473999).
+<-><->
+      
+l.104 ...ities in the $T$-forward measure with $T$
+                                                   being the exercise time.
+Not a real error.
+
+[6]
+! Preview: Snippet 7 started.
+<-><->
+      
+l.106 \section
+              {Hull White forward dynamics}
+Not a real error.
+
+! Preview: Snippet 7 ended.(447828+0x23592960).
+<-><->
+      
+l.106 \section{Hull White forward dynamics}
+                                           
+Not a real error.
+
+[7
+
+]
+! Preview: Snippet 8 started.
+<-><->
+      
+l.108 ... White one factor model with short rate $
+                                                  r$ under the $T$-forward m...
+
+Not a real error.
+
+! Preview: Snippet 8 ended.(282168+0x313876).
+<-><->
+      
+l.108 ...hite one factor model with short rate $r$
+                                                   under the $T$-forward mea...
+
+Not a real error.
+
+[8]
+! Preview: Snippet 9 started.
+<-><->
+      
+l.108 ...tor model with short rate $r$ under the $
+                                                  T$-forward measure may be ...
+
+Not a real error.
+
+! Preview: Snippet 9 ended.(447828+0x473999).
+<-><->
+      
+l.108 ...r model with short rate $r$ under the $T$
+                                                  -forward measure may be wr...
+
+Not a real error.
+
+[9]
+! Preview: Snippet 10 started.
+<-><->
+      
+l.110 \begin{equation}
+                      \label{hwdyn}
+Not a real error.
+
+! Preview: Snippet 10 ended.(747914+0x20054397).
+<-><->
+      
+l.112 \end{equation}
+                    
+Not a real error.
+
+[10
+
+]
+! Preview: Snippet 11 started.
+<-><->
+      
+l.114 with $
+            x(t) := r(t) - f(0,t)$ and $\sigma$ and $\kappa$ denoting the mo...
+
+Not a real error.
+
+! Preview: Snippet 11 ended.(491520+163840x5794773).
+<-><->
+      
+l.114 with $x(t) := r(t) - f(0,t)$
+                                   and $\sigma$ and $\kappa$ denoting the mo...
+
+Not a real error.
+
+[11]
+! Preview: Snippet 12 started.
+<-><->
+      
+l.114 with $x(t) := r(t) - f(0,t)$ and $
+                                        \sigma$ and $\kappa$ denoting the mo...
+
+Not a real error.
+
+! Preview: Snippet 12 ended.(282168+0x397994).
+<-><->
+      
+l.114 with $x(t) := r(t) - f(0,t)$ and $\sigma$
+                                                and $\kappa$ denoting the mo...
+
+Not a real error.
+
+[12]
+! Preview: Snippet 13 started.
+<-><->
+      
+l.114 ...x(t) := r(t) - f(0,t)$ and $\sigma$ and $
+                                                  \kappa$ denoting the model...
+
+Not a real error.
+
+! Preview: Snippet 13 ended.(282168+0x377591).
+<-><->
+      
+l.114 ... r(t) - f(0,t)$ and $\sigma$ and $\kappa$
+                                                   denoting the model volati...
+
+Not a real error.
+
+[13]
+! Preview: Snippet 14 started.
+<-><->
+      
+l.116 \begin{eqnarray}
+                      
+Not a real error.
+
+! Preview: Snippet 14 ended.(3578372+0x23592960).
+<-><->
+      
+l.119 \end{eqnarray}
+                    
+Not a real error.
+
+[14]
+
+LaTeX Warning: Citation `piterbarg' on page 1 undefined on input line 121.
+
+! Preview: Snippet 15 started.
+<-><->
+      
+l.121 ...he general pricing formula for a payoff $
+                                                  \Pi$ occuring at time $t$ ...
+
+Not a real error.
+
+! Preview: Snippet 15 ended.(447828+0x491521).
+<-><->
+      
+l.121 ...eneral pricing formula for a payoff $\Pi$
+                                                   occuring at time $t$ in t...
+
+Not a real error.
+
+[15]
+! Preview: Snippet 16 started.
+<-><->
+      
+l.121 ...ula for a payoff $\Pi$ occuring at time $
+                                                  t$ in this setting reads
+Not a real error.
+
+! Preview: Snippet 16 ended.(403098+0x236658).
+<-><->
+      
+l.121 ...a for a payoff $\Pi$ occuring at time $t$
+                                                   in this setting reads
+Not a real error.
+
+[16]
+! Preview: Snippet 17 started.
+<-><->
+      
+l.123 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 17 ended.(1572879+0x15567926).
+<-><->
+      
+l.125 \end{equation}
+                    
+Not a real error.
+
+[17]
+! Preview: Snippet 18 started.
+<-><->
+      
+l.127 The price $
+                 \nu$ itself does not depend on the choice of $T$, but the r...
+
+Not a real error.
+
+! Preview: Snippet 18 ended.(282168+0x365454).
+<-><->
+      
+l.127 The price $\nu$
+                      itself does not depend on the choice of $T$, but the r...
+
+Not a real error.
+
+[18]
+! Preview: Snippet 19 started.
+<-><->
+      
+l.127 ...itself does not depend on the choice of $
+                                                  T$, but the random variabl...
+
+Not a real error.
+
+! Preview: Snippet 19 ended.(447828+0x473999).
+<-><->
+      
+l.127 ...self does not depend on the choice of $T$
+                                                  , but the random variable ...
+
+Not a real error.
+
+[19]
+! Preview: Snippet 20 started.
+<-><->
+      
+l.128 ...icular the (naive) exercise probability $
+                                                  P(\Pi(t) > 0 )$ (in case $...
+
+Not a real error.
+
+! Preview: Snippet 20 ended.(491520+163840x3460891).
+<-><->
+      
+l.128 ...ve) exercise probability $P(\Pi(t) > 0 )$
+                                                   (in case $\Pi$ represents...
+
+Not a real error.
+
+[20]
+! Preview: Snippet 21 started.
+<-><->
+      
+l.128 ...e probability $P(\Pi(t) > 0 )$ (in case $
+                                                  \Pi$ represents a long opt...
+
+Not a real error.
+
+! Preview: Snippet 21 ended.(447828+0x491521).
+<-><->
+      
+l.128 ...obability $P(\Pi(t) > 0 )$ (in case $\Pi$
+                                                   represents a long option)...
+
+Not a real error.
+
+[21]
+! Preview: Snippet 22 started.
+<-><->
+      
+l.131 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 22 ended.(1675434+0x14980115).
+<-><->
+      
+l.133 \end{equation}
+                    
+Not a real error.
+
+[22]
+! Preview: Snippet 23 started.
+<-><->
+      
+l.135 with $
+            E, V$ denoting the expecation and variance operators. $z$ is by ...
+
+Not a real error.
+
+! Preview: Snippet 23 ended.(447828+127431x1340754).
+<-><->
+      
+l.135 with $E, V$
+                  denoting the expecation and variance operators. $z$ is by ...
+
+Not a real error.
+
+[23]
+! Preview: Snippet 24 started.
+<-><->
+      
+l.135 ... the expecation and variance operators. $
+                                                  z$ is by construction a st...
+
+Not a real error.
+
+! Preview: Snippet 24 ended.(282168+0x333598).
+<-><->
+      
+l.135 ...he expecation and variance operators. $z$
+                                                   is by construction a stan...
+
+Not a real error.
+
+[24]
+! Preview: Snippet 25 started.
+<-><->
+      
+l.137 \section
+              {Well defined exercise probabilities}
+Not a real error.
+
+! Preview: Snippet 25 ended.(447828+0x23592960).
+<-><->
+      
+l.137 ...tion{Well defined exercise probabilities}
+                                                  
+Not a real error.
+
+[25
+
+]
+! Preview: Snippet 26 started.
+<-><->
+      
+l.139 ...o we define (for an arbitrary numeraire $
+                                                  N$)
+Not a real error.
+
+! Preview: Snippet 26 ended.(447828+0x598014).
+<-><->
+      
+l.139 ...we define (for an arbitrary numeraire $N$
+                                                  )
+Not a real error.
+
+[26]
+! Preview: Snippet 27 started.
+<-><->
+      
+l.141 \begin{equation}
+                      \label{defpi}
+Not a real error.
+
+! Preview: Snippet 27 ended.(1572879+0x15677988).
+<-><->
+      
+l.143 \end{equation}
+                    
+Not a real error.
+
+[27
+
+]
+! Preview: Snippet 28 started.
+<-><->
+      
+l.145 and interpret $
+                     \pi$ to be an exercise probability at time $t$ (where e...
+
+Not a real error.
+
+! Preview: Snippet 28 ended.(282168+0x397086).
+<-><->
+      
+l.145 and interpret $\pi$
+                          to be an exercise probability at time $t$ (where e...
+
+Not a real error.
+
+[28]
+! Preview: Snippet 29 started.
+<-><->
+      
+l.145 ...$ to be an exercise probability at time $
+                                                  t$ (where exercise as abov...
+
+Not a real error.
+
+! Preview: Snippet 29 ended.(403098+0x236658).
+<-><->
+      
+l.145 ...to be an exercise probability at time $t$
+                                                   (where exercise as above ...
+
+Not a real error.
+
+[29]
+! Preview: Snippet 30 started.
+<-><->
+      
+l.145 ...ise as above is triggerd if and only if $
+                                                  \Pi(t)>0$).
+Not a real error.
+
+! Preview: Snippet 30 ended.(491520+163840x2439392).
+<-><->
+      
+l.145 ...ove is triggerd if and only if $\Pi(t)>0$
+                                                  ).
+Not a real error.
+
+[30]
+! Preview: Snippet 31 started.
+<-><->
+      
+l.149 \begin{equation}
+                      \label{defp}
+Not a real error.
+
+! Preview: Snippet 31 ended.(817092+0x15116604).
+<-><->
+      
+l.151 \end{equation}
+                    
+Not a real error.
+
+[31
+
+]
+! Preview: Snippet 32 started.
+<-><->
+      
+l.153 and dependent on the measure associated to $
+                                                  N$ as indicated by the sub...
+
+Not a real error.
+
+! Preview: Snippet 32 ended.(447828+0x598014).
+<-><->
+      
+l.153 ...ependent on the measure associated to $N$
+                                                   as indicated by the subsc...
+
+Not a real error.
+
+[32]
+! Preview: Snippet 33 started.
+<-><->
+      
+l.155 Since $
+             \pi$ is a price it is well defined, i.e. measure independent. F...
+
+Not a real error.
+
+! Preview: Snippet 33 ended.(282168+0x397086).
+<-><->
+      
+l.155 Since $\pi$
+                  is a price it is well defined, i.e. measure independent. F...
+
+Not a real error.
+
+[33]
+! Preview: Snippet 34 started.
+<-><->
+      
+l.155 ..., i.e. measure independent. Furthermore $
+                                                  \pi$ conincides with the n...
+
+Not a real error.
+
+! Preview: Snippet 34 ended.(282168+0x397086).
+<-><->
+      
+l.155 ...e. measure independent. Furthermore $\pi$
+                                                   conincides with the naive...
+
+Not a real error.
+
+[34]
+! Preview: Snippet 35 started.
+<-><->
+      
+l.155 ...ise probability for the special case of $
+                                                  N(\cdot)=P(\cdot,t)$, i.e.
+Not a real error.
+
+! Preview: Snippet 35 ended.(491520+163840x3895062).
+<-><->
+      
+l.155 ...the special case of $N(\cdot)=P(\cdot,t)$
+                                                  , i.e.
+Not a real error.
+
+[35]
+! Preview: Snippet 36 started.
+<-><->
+      
+l.157 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 36 ended.(785780+0x14075792).
+<-><->
+      
+l.159 \end{equation}
+                    
+Not a real error.
+
+[36]
+! Preview: Snippet 37 started.
+<-><->
+      
+l.161 where $
+             t$ is the exercise time.
+Not a real error.
+
+! Preview: Snippet 37 ended.(403098+0x236658).
+<-><->
+      
+l.161 where $t$
+                is the exercise time.
+Not a real error.
+
+[37]
+! Preview: Snippet 38 started.
+<-><->
+      
+l.163 \section
+              {Numerical examples}
+Not a real error.
+
+! Preview: Snippet 38 ended.(447828+0x23592960).
+<-><->
+      
+l.163 \section{Numerical examples}
+                                  
+Not a real error.
+
+[38
+
+]
+! Preview: Snippet 39 started.
+<-><->
+      
+l.165 ...the money payer swaption with expiry in $
+                                                  5$ years and underlying sw...
+
+Not a real error.
+
+! Preview: Snippet 39 ended.(422343+0x327681).
+<-><->
+      
+l.165 ...e money payer swaption with expiry in $5$
+                                                   years and underlying swap...
+
+Not a real error.
+
+[39]
+! Preview: Snippet 40 started.
+<-><->
+      
+l.165 ...iry in $5$ years and underlying swap of $
+                                                  10$ years.
+Not a real error.
+
+! Preview: Snippet 40 ended.(422343+0x655362).
+<-><->
+      
+l.165 ... in $5$ years and underlying swap of $10$
+                                                   years.
+Not a real error.
+
+[40]
+! Preview: Snippet 41 started.
+<-><->
+      
+l.166 The implied volatility is $
+                                 20\%$ and the yield curve is flat forward a...
+
+Not a real error.
+
+! Preview: Snippet 41 ended.(491520+36408x1201497).
+<-><->
+      
+l.166 The implied volatility is $20\%$
+                                       and the yield curve is flat forward a...
+
+Not a real error.
+
+[41]
+! Preview: Snippet 42 started.
+<-><->
+      
+l.166 ... and the yield curve is flat forward at $
+                                                  2\%$ (continously compound...
+
+Not a real error.
+
+! Preview: Snippet 42 ended.(491520+36408x873816).
+<-><->
+      
+l.166 ... the yield curve is flat forward at $2\%$
+                                                   (continously compounded r...
+
+Not a real error.
+
+[42]
+! Preview: Snippet 43 started.
+<-><->
+      
+l.167 model is set to $
+                       1\%$ and the volatility is calibrated to $0.00422515$...
+
+Not a real error.
+
+! Preview: Snippet 43 ended.(491520+36408x873816).
+<-><->
+      
+l.167 model is set to $1\%$
+                            and the volatility is calibrated to $0.00422515$...
+
+Not a real error.
+
+[43]
+! Preview: Snippet 44 started.
+<-><->
+      
+l.167 ...\%$ and the volatility is calibrated to $
+                                                  0.00422515$ in order to re...
+
+Not a real error.
+
+! Preview: Snippet 44 ended.(422343+0x3131174).
+<-><->
+      
+l.167 ... volatility is calibrated to $0.00422515$
+                                                   in order to reprice the m...
+
+Not a real error.
+
+[44]
+! Preview: Snippet 45 started.
+<-><->
+      
+l.169 We compute the vanilla price $
+                                    \nu$, the (naive) exercise probability $...
+
+Not a real error.
+
+! Preview: Snippet 45 ended.(282168+0x365454).
+<-><->
+      
+l.169 We compute the vanilla price $\nu$
+                                        , the (naive) exercise probability $...
+
+Not a real error.
+
+[45]
+! Preview: Snippet 46 started.
+<-><->
+      
+l.169 ...$\nu$, the (naive) exercise probability $
+                                                  p$ within the pricing meas...
+
+Not a real error.
+
+! Preview: Snippet 46 ended.(282168+127431x329728).
+<-><->
+      
+l.169 ...nu$, the (naive) exercise probability $p$
+                                                   within the pricing measur...
+
+Not a real error.
+
+[46]
+
+LaTeX Warning: Reference `defp' on page 2 undefined on input line 169.
+
+! Preview: Snippet 47 started.
+<-><->
+      
+l.169 ...ref{defp} and the forward digital price $
+                                                  \pi$ as defined in \ref{de...
+
+Not a real error.
+
+! Preview: Snippet 47 ended.(282168+0x397086).
+<-><->
+      
+l.169 ...defp} and the forward digital price $\pi$
+                                                   as defined in \ref{defpi}.
+Not a real error.
+
+[47]
+
+LaTeX Warning: Reference `defpi' on page 2 undefined on input line 169.
+
+
+LaTeX Warning: Citation `ql' on page 2 undefined on input line 171.
+
+
+LaTeX Warning: Citation `ntl' on page 2 undefined on input line 171.
+
+! Preview: Snippet 48 started.
+<-><->
+      
+l.171 ...ed using numerical integration covering $
+                                                  10$ standard deviations of...
+
+Not a real error.
+
+! Preview: Snippet 48 ended.(422343+0x655362).
+<-><->
+      
+l.171 ...using numerical integration covering $10$
+                                                   standard deviations of th...
+
+Not a real error.
+
+[48]
+
+LaTeX Warning: Reference `payoff' on page 2 undefined on input line 173.
+
+! Preview: Snippet 49 started.
+<-><->
+      
+l.173 ...payoff to the normalized state variable $
+                                                  z$ as defined above. The o...
+
+Not a real error.
+
+! Preview: Snippet 49 ended.(282168+0x333598).
+<-><->
+      
+l.173 ...yoff to the normalized state variable $z$
+                                                   as defined above. The opt...
+
+Not a real error.
+
+[49]
+! Preview: Snippet 50 started.
+<-><->
+      
+l.173 ...nd only if the payoff is positive. With $
+                                                  T$ growing the crossing po...
+
+Not a real error.
+
+! Preview: Snippet 50 ended.(447828+0x473999).
+<-><->
+      
+l.173 ... only if the payoff is positive. With $T$
+                                                   growing the crossing poin...
+
+Not a real error.
+
+[50]
+! Preview: Snippet 51 started.
+<-><->
+      
+l.173 ...e crossing point of the payoff with the $
+                                                  z$ - axis shifts to the ri...
+
+Not a real error.
+
+! Preview: Snippet 51 ended.(282168+0x333598).
+<-><->
+      
+l.173 ...crossing point of the payoff with the $z$
+                                                   - axis shifts to the righ...
+
+Not a real error.
+
+[51]
+! Preview: Snippet 52 started.
+<-><->
+      
+l.173 ...shifts to the right. This is due to the $
+                                                  T$ dependent drift term $\...
+
+Not a real error.
+
+! Preview: Snippet 52 ended.(447828+0x473999).
+<-><->
+      
+l.173 ...ifts to the right. This is due to the $T$
+                                                   dependent drift term $\si...
+
+Not a real error.
+
+[52]
+! Preview: Snippet 53 started.
+<-><->
+      
+l.173 ... is due to the $T$ dependent drift term $
+                                                  \sigma_r^2 G(\cdot,T)$ in ...
+
+Not a real error.
+
+! Preview: Snippet 53 ended.(533465+163840x2664312).
+<-><->
+      
+l.173 ...endent drift term $\sigma_r^2 G(\cdot,T)$
+                                                   in \ref{hwdyn} and is in ...
+
+Not a real error.
+
+[53]
+
+LaTeX Warning: Reference `hwdyn' on page 2 undefined on input line 173.
+
+! Preview: Snippet 54 started.
+<-><->
+      
+l.173 ...robability is decreasing for increasing $
+                                                  T$. For pricing this is co...
+
+Not a real error.
+
+! Preview: Snippet 54 ended.(447828+0x473999).
+<-><->
+      
+l.173 ...bability is decreasing for increasing $T$
+                                                  . For pricing this is comp...
+
+Not a real error.
+
+[54]
+! Preview: Snippet 55 started.
+<-><->
+      
+l.173 ...icing this is compensated by the factor $
+                                                  P(0,T)/P(t,T)$ as can be s...
+
+Not a real error.
+
+! Preview: Snippet 55 ended.(491520+163840x4465554).
+<-><->
+      
+l.173 ...compensated by the factor $P(0,T)/P(t,T)$
+                                                   as can be seen in figure ...
+
+Not a real error.
+
+[55]
+
+LaTeX Warning: Reference `payofffactor' on page 2 undefined on input line 173.
+
+! Preview: Snippet 56 started.
+<-><->
+      
+l.175 \begin{table}
+                   [ht]
+Not a real error.
+
+! Preview: Snippet 56 ended.(4757185+2208563x23592960).
+<-><->
+      
+l.186 \end{table}
+                 
+Not a real error.
+
+[56
+
+
+]
+! Preview: Snippet 57 started.
+<-><->
+      
+l.188 \begin{figure}
+                    [htbp]
+Not a real error.
+
+\openout3 = `_region_-gnuplottex-fig1.gnuplot'.
+
+Opening gnuplot stream _region_-gnuplottex-fig1.gnuplot
+
+Package gnuplottex Warning: Please convert _region_-gnuplottex-fig1.gnuplot man
+ually.
+
+! Preview: Snippet 57 ended.(1241543+163840x23592960).
+<-><->
+      
+l.201 \end{figure}
+                  
+Not a real error.
+
+[57
+
+
+]
+! Preview: Snippet 58 started.
+<-><->
+      
+l.203 \begin{figure}
+                    [htbp]
+Not a real error.
+
+\openout3 = `_region_-gnuplottex-fig2.gnuplot'.
+
+Opening gnuplot stream _region_-gnuplottex-fig2.gnuplot
+
+Package gnuplottex Warning: Please convert _region_-gnuplottex-fig2.gnuplot man
+ually.
+
+! Preview: Snippet 58 ended.(1277952+163840x23592960).
+<-><->
+      
+l.216 \end{figure}
+                  
+Not a real error.
+
+[58
+
+
+]
+! Preview: Snippet 59 started.
+<-><->
+      
+l.218 \begin{thebibliography}{2}
+                                
+Not a real error.
+
+! Preview: Snippet 59 ended.(447828+0x23592960).
+<-><->
+      
+l.218 \begin{thebibliography}{2}
+                                
+Not a real error.
+
+[59
+
+]
+\newlabel{tocindent-1}{0pt}
+\newlabel{tocindent0}{12.7778pt}
+\newlabel{tocindent1}{17.77782pt}
+\newlabel{tocindent2}{0pt}
+\newlabel{tocindent3}{0pt}
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 510 strings out of 492462
+ 6748 string characters out of 1150135
+ 92846 words of memory out of 3000000
+ 6043 multiletter control sequences out of 15000+50000
+ 11877 words of font info for 49 fonts, out of 3000000 for 9000
+ 189 hyphenation exceptions out of 8191
+ 22i,9n,33p,663b,217s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/sh
+are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-t
+exlive/fonts/type1/public/amsfonts/cmextra/cmex7.pfb></usr/share/texmf-texlive/
+fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1
+/public/amsfonts/cm/cmmi5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsf
+onts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi
+8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
+share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-t
+exlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/font
+s/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texmf-texlive/fonts/type1/publ
+ic/amsfonts/cm/cmsy7.pfb>
+Output written on _region_.pdf (59 pages, 147628 bytes).
+PDF statistics:
+ 240 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

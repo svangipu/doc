@@ -1,0 +1,257 @@
+\message{ !name(fxbasics.tex)}%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+\usepackage{gnuplottex}
+\usepackage{epstopdf}
+%\usepackage[pdf]{pstricks}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%--------------------------------------------------------
+\begin{document}
+
+\message{ !name(fxbasics.tex) !offset(-3) }
+
+\title[FX Basics]{FX Basics}
+\author{P. Caspers}
+\email[P. Caspers]{pcaspers1973@googlemail.com}
+\date{July 23, 2013}
+\dedicatory{First Version July 23, 2013 - This Version July 23, 2013}
+\begin{abstract}
+We summarize some basics from FX Derivative pricing with references to \cite{Clark} and the notation
+in the Murex system.
+\end{abstract}
+
+\maketitle
+
+\section{Option Price Quotations}
+
+We consider a currency pair ccy1/ccy2 with ccy1 denoting the foreign and ccy2 the domestic currency. To fix an example
+setup we choose cc1 to be EUR and ccy2 to be USD. Now consider a european option to exchange an amount $N_d$ in domestic
+currecy with an amount $N_f$ in foreign currency. The strike $K$ of the option is by definition $K=N_d / N_f$. If for
+example $N_d = 132mm$ USD and $N_f = 100mm$ EUR then $K = 1.32$. We consider different possible price quotations.
+
+\subsection{Domestic pips $V_{\textnormal{d, pips}} = V_{\textnormal{d/f}}$ or ccy2 pips}
+
+The price is expressed as the option premium in domestic currency per unit amount in foreign currency. In the Murex screen
+we might see $449.4077$ USD pips which means that the premium to be paid in cash is $4,494,077$ USD (multiply the USD pips
+quotation by the EUR nominal, where one has to know in addition that $1$ pip = $0.01\%$ = $0.0001$).
+
+The notation in \cite{Clark} is $V_{\textnormal{d,pips}}$ or $V_{\textnormal{d/f}}$, in Murex it is ccy2 pips.
+
+\subsection{Foreign percent $V_{\%\textnormal{f}}$ or \% ccy2}
+
+The price is expressed as the option premium in foreign currency per unit amount in foreign currency. If $S$ is the
+FX exchange rate (i.e. the value of one unit of foreign currency in domestic currency, e.g. the value of $1$ EUR in USD in
+our example setting) applicable to the settlement of the premium payment, we can obviously compute this quantity as
+$V_{\%\textnormal{f}} = V_{\textnormal{d,pips}} / S$. If for example $S = 1.3172$ we would expect $V_{\%\textnormal{f}} = 3.411841$ in our example above. In
+Murex we would see this quantity as $3.411841$ \% EUR.
+
+The notation in \cite{Clark} is $V_{\%\textnormal{f}}$, in Murex it is \% ccy1.
+
+
+\subsection{Domestic percent $V_{\%\textnormal{d}}$ or \% ccy1}.
+
+The price is expressed as the option premium in domestic currency per unit amount in domestic currency. Since
+$N_d = K N_f$ we can directy express this quantity as $V_{\textnormal{d, pips}} / K$. In our example setting we get
+$V_{\%\textnormal{d}} = 340.4604$ (since $K=1.32$ and $V_{\textnormal{d, pips}} = 449.4077$) which is displayed in Murex as 
+$3.404604$ \% USD.
+
+The notation in \cite{Clark} is $V_{\%\textnormal{d}}$, in Murex it is \% ccy2.
+
+\subsection{Foreign pips $V_{\textnormal{f, pips}} = V_{\textnormal{f/d}}$ or ccy1 pips.}
+
+The price is expressed as the option premium in foreign currency per unit amount in domestic currency. This can be
+easily derived as $V_{\%\textnormal{d}} / S$, with above figures this yields $258.4728$ EUR pips in Murex notation.
+
+The notation in \cite{Clark} is $V_{\textnormal{f, pips}}$, in Murex it is ccy1 pips.
+
+\subsection{Absolute domestic premium $V_d$}.
+
+The price is given as the absolute premium in domestic currency $V_d = N_f V_{d/f}$, which is $4,494,077$ USD in
+the example here.
+
+The notation in \cite{Clark} is $V_d$, in Murex this value can be seen in the field price amount (with the price
+field set to a ccy2 currency quotation mode).
+
+\subsection{Absolute foreign premium $V_f$}.
+
+The price is given as the absolute premium in foreign currency $V_f = N_d V_{f/d}$, which is $3,411,841$ EUR in
+our example, easily computed from the figures above.
+
+The notation in \cite{Clark} is $V_f$, in Murex this value can again be seen in the field price amount (with the
+price field set to a ccy1 currency quotation mode).
+
+\section{Option Delta Quotation}
+
+\subsection{Pips spot delta or \% ccy1}
+\ref{pipsDelta}
+
+The pips spot delta according to \cite{Clark}, 3.2.1 is defined as
+
+\begin{equation}
+\Delta_{S\textnormal{; pips}} = \frac{\partial V_{\textnormal{d,pips}}}{\partial S}
+\end{equation}
+
+i.e. the change in the domestic pips premium (see above) when the spot $S$ changes by an infinitesimal amonut.
+
+For a typical example like an EUR/USD call (i.e. call on EUR, put on USD) in Murex we see this delta displayed
+as \% EUR, e.g. $53.9641$ \% EUR. This delta can be understood as the EUR amount (given as percentage of the
+EUR nominal) needed for a delta hedge of the option.
+
+The above value is displayed in Murex only if the premium quotation is one of the USD quotations (\% USD or
+USD pips). If the premium on the other hand is quoted as \% EUR or EUR pips the \% EUR delta in Murex is
+the percentage spot delta or premium adjusted pips delta in the sense of \cite{Clark}, 3.2.2 or as described
+in section \ref{percDelta} of this paper.
+
+This is intuitive since if the premium is paid in EUR (the foreign currency) from the domestic currency
+point of view (USD) the premium has a fx risk itself. For example, if you as an USD based bank buy an
+EUR/USD call on $100$ mm EUR notional the hedge would be to sell $53,964,100$ EUR in the example above.
+This is true when the premium you have to pay to purchase the option is paid in USD. If on the other
+hand the premium is paid in EUR, you have to sell an EUR amount adjusted downwards exactly by the EUR premium.
+This is exactly the definition of the premium adjusted pips delta in \ref{percDelta}.
+
+In general in Murex you get the pips spot delta in Murex as \% ccy1, when the premium quotation is set
+to \% ccy2 or ccy2 pips and the percentage spot delta when the premium quotation is set to \% ccy1
+or ccy1 pips.
+
+There is another delta available in Murex labeled \% ccy2. This delta refers to flipping ccy1 and ccy2,
+i.e. it is the delta from an ccy1 based bank. In our example above the \% USD delta would be the pips
+spot delta in an USD-EUR world (USD is the foreign, EUR is domestic currency), when the premium is paid
+in EUR, and the percentage spot delta when the premium is paid in USD.
+
+In general you get the flipped pips spot delta as \% ccy2, when the premium quotation is set to \% ccy1
+or ccy1 pips, and the flipped percentage spot delta when the premium quotation is set to \% ccy2 or
+ccy2 pips2.
+
+
+\subsection{Percentage spot delta or premium adjusted pips delta}
+\label{percDelta}
+
+The percentage spot delta according to \cite{Clark}, 3.2.2 is given by
+
+\begin{equation}
+\Delta_{S; \%} = \frac{\partial V_{\%f}}{\partial \ln S} = \Delta_{S\textnormal{; pips}} - V_{\% f}
+\end{equation}
+
+i.e. it is the premium adjusted pips delta. The economic interpretation was already discussed above
+in section \ref{pipsDelta} and also under which circumstances this delta is displayed in Murex.
+
+\subsection{Forward delta}
+
+There are forward delta flavours both of the pips delta and percentage deltas above, which involve
+the forward price and the forward fx in the numerator and denominator of the definitions under
+\ref{pipsDelta} and \ref{percDelta}. See also \cite{Clark}, 3.2.3 amd 3.2.4.
+
+To compute the forward deltas from the spot deltas above, you simply apply the foreign compounding
+factor $e^{r_fT}$ to the spot formulas, where $r_f$ is the foreign interest rate for maturity $T$.
+
+Clark notes that there is another notion of forward delta involving the spot price and the forward
+fx. Obviously in Murex the former definition is adopted.
+
+\subsection{Premium in Delta setting in Murex}
+
+It is worthwhile to note that the dynamic display of pips or percentage delta depending on the premium
+currency is linked to a specific setting in Pricing Setup / Premium in delta (which can be done
+locally for a user or globally). If unticked always the pips delta is displayed, no matter what premium
+quotation is chosen. The default setting is to include the premium into the delta (ticked option).
+
+Since the premium in delta choice also affects the quotation of volatilities (since they are given
+in terms of delta, not strike), there is another setting in the OTC contract description / Volatility
+convention / Premium in delta. If ticked, the premium will be assumed to be paid in foreign currency
+ccy1 and included in the delta of the volatility quotation. For example, for EUR/USD the premium is not
+included (since paid in USD by market convention), for EUR/SEK it is included (since paid in EUR by market
+convention).
+
+\section{ATM Definitions}
+
+
+
+\section{Risk Reversal, Butterfly, Strangles}
+
+
+
+\section{Convention Check in Murex}
+
+\subsection{ATM}
+
+\subsection{Delta}
+
+\subsection{Premium in Delta}
+
+\subsection{Broker / Smile mode}
+
+
+
+\begin{thebibliography}{4}
+
+\bibitem{Clark}Clark: Foreign exchange option pricing, A Practioner's Guide
+
+\end{thebibliography}
+  
+
+\end{document}
+
+\message{ !name(fxbasics.tex) !offset(-257) }

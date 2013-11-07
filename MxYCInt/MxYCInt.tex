@@ -1,0 +1,144 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%--------------------------------------------------------
+\begin{document}
+\title[Murex Yield Curve Interpolation]{Murex Yield Curve Interpolation}
+\author{P. Caspers}
+\email[]{}
+\date{May 8, 2013}
+\dedicatory{First Version May 8, 2013 - This Version May 8, 2013}
+\begin{abstract}
+We summarize the conventions needed for the interpolation of yield curves in the current Murex setup.
+\end{abstract}
+
+\maketitle
+
+
+\section{Zero rate convention}
+The relation between the zero rate $r$ for a future date $d$ and the discount factor $P(0,d)$ for this same is date, both as seen from today is given by
+
+\begin{equation}
+P(0,d) = e^{-r \tau}
+\end{equation}
+
+which can also be written as
+
+\begin{equation}
+r = \frac{-\ln P(0,d)}{\tau}
+\end{equation}
+
+Here $\tau$ denotes the yearfraction between today and $d$ calculated using the day count convention ACT/365 (Fixed) (this is not to be confused
+with ACT/365 according to the ISDA definition, which is the same as ACT/ACT (ISDA)).
+
+\section{Interpolation}
+The interest rate curves are interpolated linearly in the zero rate. Before the first and after the last pillar date of the curve the zero rate is extrapolated
+flat.
+
+\section{Ibor fixing projection}
+
+For the calculation of an estimated future fixing $f$ of an Ibor index the following relation can be used
+
+\begin{equation}
+f = \frac{1}{\tau} \left( \frac{P(0,t_s)}{P(0,t_e)}-1 \right)
+\end{equation}
+
+where $t_s$ and $t_e$ denote the start and end date of the index accrual period and $\tau$ is the yearfraction between $t_s$ and $t_e$ w.r.t. the
+index' day count convention (e.g. ACT/360 for Euribor or USD Libor indices, ACT/365 (Fixed) for GBP Libor indices). The discount factors here should be taken on
+a forward curve suitable for the estimation of the specific index.
+
+Note that the fixing date (e.g. $t_s$ minus two business days) is not relevant for the forward estimation. Also note that a timing adjustment has to be added to the formula above in case the payment date $t_p$ of the associated coupon is not falling on $t_e$ (and only in this case). If the difference between $t_p$ and $t_e$ is only a few days due to the usual mismatch between index and deal accrual periods occuring for some periods e.g. in a plain vanilla swap deal, this timing adjustment is usually ignored.
+
+\section{FX forwards}
+
+Given a currency pair forein / domestic (= for / dom = asset / numeraire), e.g. EUR / USD we have a fx spot rate $S$ expressing the fair number of domestic currency units to be exchanged for one unit of the foreign currency on a settlement date $s$. The settlement date $s$ is today plus $n$ business days w.r.t. a (possibly combined) calendar, e.g. for EUR / USD it is 2 business days w.r.t. New York / Target calendars.
+
+The general relation between two FX forwards $F(t_1)$ and $F(t_2)$ with $t_1<t_2$ is given by
+
+\begin{equation}\label{fxfwd}
+F(t_2) = F(t_1) \frac{P_\textnormal{for}(0,t_2)}{P_\textnormal{for}(0,t_1)} \frac{P_\textnormal{dom}(0,t_1)}{P_\textnormal{dom}(0,t_2)}
+\end{equation}
+
+with $P_\textnormal{for}, P_\textnormal{dom}$ denoting discount factors on the forein and domestic FX curves.
+
+\subsection{Discounted spot rates}
+
+For PL and Risk purposes market values as of today are used. Therefore the conversion between foreign currencies and EUR should be done using discounted FX spot rates rather than the directly quoted rates.  Also for triangulation of two spot rates with different settlement dates, discounted rates should be used for consistency reasons.
+
+We can use formula \ref{fxfwd} with $t_1=0$ and $t_2=s$ equal to the spot date of the respective currency pair to get the discounted spot rate $F(0)$ from the quoted spot rate $F(s)$ as follows
+
+\begin{equation}
+F(0) = F(s) \frac{P_\textnormal{dom}(0,s)}{P_\textnormal{for}(0,s)}
+\end{equation}
+
+\subsection{FX forward rates}
+
+FX forward rates can be calculated from either spot or discounted spot rates using the general formula \ref{fxfwd}. If discounted rates are used $t_1=0$, for market spot rates $t_1=s$. In either case $t_2$ is the date w.r.t. which the FX forward rate should be computed.
+
+
+\end{document}

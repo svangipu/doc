@@ -1,0 +1,1265 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=prv_fxbasics 2013.7.24)  24 JUL 2013 14:11
+entering extended mode
+ %&-line parsing enabled.
+**&prv_fxbasics _region_.tex
+(./_region_.tex
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, loaded.
+CUSTOMISED FORMAT. Preloaded files:
+        .
+  amsart.cls    2009/07/02 v2.20.1
+ amsmath.sty    2000/07/18 v2.13 AMS math features
+ amstext.sty    2000/06/29 v2.01
+  amsgen.sty    1999/11/30 v2.0
+  amsbsy.sty    1999/11/29 v1.2d
+  amsopn.sty    1999/12/14 v2.01 operator names
+    umsa.fd    2009/06/22 v3.00 AMS symbols A
+amsfonts.sty    2009/06/22 v3.00 Basic AMSFonts support
+ amssymb.sty    2009/06/22 v3.00
+graphicx.sty    1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+  keyval.sty    1999/03/16 v1.13 key=value parser (DPC)
+graphics.sty    2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+    trig.sty    1999/03/16 v1.09 sin cos tan (DPC)
+graphics.cfg    2009/08/28 v1.8 graphics configuration of TeX Live
+  pdftex.def    2010/03/12 v0.04p Graphics/color for pdfTeX
+gnuplottex.sty    2013/06/03 v0.5 gnuplot graphs in LaTeX
+latexsym.sty    1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
+moreverb.sty    2008/06/03 v2.3a `more' verbatim facilities
+verbatim.sty    2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
+  ifthen.sty    2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+epstopdf.sty    2009/10/17 v2.4 Conversion with epstopdf on the fly (HO)
+epstopdf-base.sty    2009/10/17 v2.4 Base part for package epstopdf
+infwarerr.sty    2007/09/09 v1.2 Providing info/warning/message (HO)
+  grfext.sty    2007/09/30 v1.0 Managing graphics extensions (HO)
+kvoptions.sty    2009/08/13 v3.4 Keyval support for LaTeX options (HO)
+kvsetkeys.sty    2009/07/30 v1.5 Key value parser with default handler support 
+(HO)
+etexcmds.sty    2007/12/12 v1.2 Prefix for e-TeX command names (HO)
+pdftexcmds.sty    2009/09/23 v0.6 LuaTeX support for pdfTeX utility functions (
+HO)
+ifluatex.sty    2009/04/17 v1.2 Provides the ifluatex switch (HO)
+ ltxcmds.sty    2009/08/05 v1.0 Some LaTeX kernel commands for general use (HO)
+
+epstopdf-sys.cfg    2009/10/26 v1.1 Configuration of epstopdf for TeX Live
+    umsa.fd    2009/06/22 v3.00 AMS symbols A
+    umsb.fd    2009/06/22 v3.00 AMS symbols B
+   ulasy.fd    1998/08/17 v2.2e LaTeX symbol font definitions
+        .
+No file _region_.aux.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 73.
+LaTeX Font Info:    ... okay on input line 73.
+(/usr/local/share/texmf/tex/latex/preview/preview.sty
+Package: preview 2010/02/14 11.87 (AUCTeX/preview-latex)
+
+(/usr/local/share/texmf/tex/latex/preview/prtightpage.def
+\PreviewBorder=\dimen116
+)
+(/usr/local/share/texmf/tex/latex/preview/prauctex.def
+No auxiliary output files.
+
+
+\hbadness=\count125
+\hfuzz=\dimen117
+(/usr/local/share/texmf/tex/latex/preview/prauctex.cfg))
+(/usr/local/share/texmf/tex/latex/preview/prfootnotes.def)
+\pr@snippet=\count126
+\pr@box=\box29
+\pr@output=\toks28
+
+Preview: Fontsize 10pt
+Preview: PDFoutput 1
+) (/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count127
+\scratchdimen=\dimen118
+\scratchbox=\box30
+\nofMPsegments=\count128
+\nofMParguments=\count129
+\everyMPshowfont=\toks29
+\MPscratchCnt=\count130
+\MPscratchDim=\dimen119
+\MPnumerator=\count131
+\everyMPtoPDFconversion=\toks30
+)  !name(fxbasics.tex) !offset(-3) 
+
+LaTeX Warning: Citation `Clark' on page 1 undefined on input line 83.
+
+! Preview: Snippet 1 started.
+<-><->
+      
+l.89 \section
+             {Option Price Quotations}
+Not a real error.
+
+Preview: Tightpage -32891 -32891 32891 32891
+! Preview: Snippet 1 ended.(447828+127431x23592960).
+<-><->
+      
+l.89 \section{Option Price Quotations}
+                                      
+Not a real error.
+
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+
+]
+! Preview: Snippet 2 started.
+<-><->
+      
+l.92 ... a european option to exchange an amount $
+                                                  N_d$ in domestic
+Not a real error.
+
+! Preview: Snippet 2 ended.(447828+98303x832149).
+<-><->
+      
+l.92 ...uropean option to exchange an amount $N_d$
+                                                   in domestic
+Not a real error.
+
+[2]
+! Preview: Snippet 3 started.
+<-><->
+      
+l.93 currecy with an amount $
+                             N_f$ in foreign currency. The strike $K$ of the...
+
+Not a real error.
+
+! Preview: Snippet 3 ended.(447828+187504x866307).
+<-><->
+      
+l.93 currecy with an amount $N_f$
+                                  in foreign currency. The strike $K$ of the...
+
+Not a real error.
+
+[3]
+! Preview: Snippet 4 started.
+<-><->
+      
+l.93 ...nt $N_f$ in foreign currency. The strike $
+                                                  K$ of the option is by def...
+
+Not a real error.
+
+! Preview: Snippet 4 ended.(447828+0x603477).
+<-><->
+      
+l.93 ... $N_f$ in foreign currency. The strike $K$
+                                                   of the option is by defin...
+
+Not a real error.
+
+[4]
+! Preview: Snippet 5 started.
+<-><->
+      
+l.93 ...trike $K$ of the option is by definition $
+                                                  K=N_d / N_f$. If for
+Not a real error.
+
+! Preview: Snippet 5 ended.(491520+187504x3467011).
+<-><->
+      
+l.93 ... the option is by definition $K=N_d / N_f$
+                                                  . If for
+Not a real error.
+
+[5]
+! Preview: Snippet 6 started.
+<-><->
+      
+l.94 example $
+              N_d = 132mm$ USD and $N_f = 100mm$ EUR then $K = 1.32$. We con...
+
+Not a real error.
+
+! Preview: Snippet 6 ended.(447828+98303x3839828).
+<-><->
+      
+l.94 example $N_d = 132mm$
+                           USD and $N_f = 100mm$ EUR then $K = 1.32$. We con...
+
+Not a real error.
+
+[6]
+! Preview: Snippet 7 started.
+<-><->
+      
+l.94 example $N_d = 132mm$ USD and $
+                                    N_f = 100mm$ EUR then $K = 1.32$. We con...
+
+Not a real error.
+
+! Preview: Snippet 7 ended.(447828+187504x3873986).
+<-><->
+      
+l.94 example $N_d = 132mm$ USD and $N_f = 100mm$
+                                                 EUR then $K = 1.32$. We con...
+
+Not a real error.
+
+[7]
+! Preview: Snippet 8 started.
+<-><->
+      
+l.94 ... = 132mm$ USD and $N_f = 100mm$ EUR then $
+                                                  K = 1.32$. We consider dif...
+
+Not a real error.
+
+! Preview: Snippet 8 ended.(447828+0x2642371).
+<-><->
+      
+l.94 ... USD and $N_f = 100mm$ EUR then $K = 1.32$
+                                                  . We consider different po...
+
+Not a real error.
+
+[8]
+! Preview: Snippet 9 started.
+<-><->
+      
+l.96 \subsection
+                {Domestic pips $V_{\textnormal{d, pips}} = V_{\textnormal{d/...
+
+Not a real error.
+
+! Preview: Snippet 9 ended.(455111+233018x14661724).
+<-><->
+      
+l.96 ...ps}} = V_{\textnormal{d/f}}$ or ccy2 pips}
+                                                  
+Not a real error.
+
+[9
+
+]
+! Preview: Snippet 10 started.
+<-><->
+      
+l.99 we might see $
+                   449.4077$ USD pips which means that the premium to be pai...
+
+Not a real error.
+
+! Preview: Snippet 10 ended.(422343+0x2475812).
+<-><->
+      
+l.99 we might see $449.4077$
+                             USD pips which means that the premium to be pai...
+
+Not a real error.
+
+[10]
+! Preview: Snippet 11 started.
+<-><->
+      
+l.99 ...s that the premium to be paid in cash is $
+                                                  4,494,077$ USD (multiply t...
+
+Not a real error.
+
+! Preview: Snippet 11 ended.(422343+127431x2876305).
+<-><->
+      
+l.99 ... premium to be paid in cash is $4,494,077$
+                                                   USD (multiply the USD pips
+Not a real error.
+
+[11]
+! Preview: Snippet 12 started.
+<-><->
+      
+l.100 ... where one has to know in addition that $
+                                                  1$ pip = $0.01\%$ = $0.000...
+
+Not a real error.
+
+! Preview: Snippet 12 ended.(422343+0x327681).
+<-><->
+      
+l.100 ...here one has to know in addition that $1$
+                                                   pip = $0.01\%$ = $0.0001$).
+Not a real error.
+
+[12]
+! Preview: Snippet 13 started.
+<-><->
+      
+l.100 ... has to know in addition that $1$ pip = $
+                                                  0.01\%$ = $0.0001$).
+Not a real error.
+
+! Preview: Snippet 13 ended.(491520+36408x1711223).
+<-><->
+      
+l.100 ... know in addition that $1$ pip = $0.01\%$
+                                                   = $0.0001$).
+Not a real error.
+
+[13]
+! Preview: Snippet 14 started.
+<-><->
+      
+l.100 ...w in addition that $1$ pip = $0.01\%$ = $
+                                                  0.0001$).
+Not a real error.
+
+! Preview: Snippet 14 ended.(422343+0x1820450).
+<-><->
+      
+l.100 ...dition that $1$ pip = $0.01\%$ = $0.0001$
+                                                  ).
+Not a real error.
+
+[14]
+
+LaTeX Warning: Citation `Clark' on page 1 undefined on input line 102.
+
+! Preview: Snippet 15 started.
+<-><->
+      
+l.102 The notation in \cite{Clark} is $
+                                       V_{\textnormal{d,pips}}$ or $V_{\text...
+
+Not a real error.
+
+! Preview: Snippet 15 ended.(447828+187504x1787774).
+<-><->
+      
+l.102 ...\cite{Clark} is $V_{\textnormal{d,pips}}$
+                                                   or $V_{\textnormal{d/f}}$...
+
+Not a real error.
+
+[15]
+! Preview: Snippet 16 started.
+<-><->
+      
+l.102 ...{Clark} is $V_{\textnormal{d,pips}}$ or $
+                                                  V_{\textnormal{d/f}}$, in ...
+
+Not a real error.
+
+! Preview: Snippet 16 ended.(447828+233018x1128224).
+<-><->
+      
+l.102 ...ormal{d,pips}}$ or $V_{\textnormal{d/f}}$
+                                                  , in Murex it is ccy2 pips.
+Not a real error.
+
+[16]
+! Preview: Snippet 17 started.
+<-><->
+      
+l.104 \subsection
+                 {Foreign percent $V_{\%\textnormal{f}}$ or \% ccy2}
+Not a real error.
+
+! Preview: Snippet 17 ended.(491520+143816x11496068).
+<-><->
+      
+l.104 ...ercent $V_{\%\textnormal{f}}$ or \% ccy2}
+                                                  
+Not a real error.
+
+[17
+
+]
+! Preview: Snippet 18 started.
+<-><->
+      
+l.106 ...per unit amount in foreign currency. If $
+                                                  S$ is the
+Not a real error.
+
+! Preview: Snippet 18 ended.(447828+0x439636).
+<-><->
+      
+l.106 ...r unit amount in foreign currency. If $S$
+                                                   is the
+Not a real error.
+
+[18]
+! Preview: Snippet 19 started.
+<-><->
+      
+l.107 ...in domestic currency, e.g. the value of $
+                                                  1$ EUR in USD in
+Not a real error.
+
+! Preview: Snippet 19 ended.(422343+0x327681).
+<-><->
+      
+l.107 ... domestic currency, e.g. the value of $1$
+                                                   EUR in USD in
+Not a real error.
+
+[19]
+! Preview: Snippet 20 started.
+<-><->
+      
+l.109 $
+       V_{\%\textnormal{f}} = V_{\textnormal{d,pips}} / S$. If for example $...
+
+Not a real error.
+
+! Preview: Snippet 20 ended.(491520+187504x4436971).
+<-><->
+      
+l.109 ...normal{f}} = V_{\textnormal{d,pips}} / S$
+                                                  . If for example $S = 1.31...
+
+Not a real error.
+
+[20]
+! Preview: Snippet 21 started.
+<-><->
+      
+l.109 ...extnormal{d,pips}} / S$. If for example $
+                                                  S = 1.3172$ we would expec...
+
+Not a real error.
+
+! Preview: Snippet 21 ended.(447828+0x3133892).
+<-><->
+      
+l.109 ...,pips}} / S$. If for example $S = 1.3172$
+                                                   we would expect $V_{\%\te...
+
+Not a real error.
+
+[21]
+! Preview: Snippet 22 started.
+<-><->
+      
+l.109 ...or example $S = 1.3172$ we would expect $
+                                                  V_{\%\textnormal{f}} = 3.4...
+
+Not a real error.
+
+! Preview: Snippet 22 ended.(447828+143816x4357692).
+<-><->
+      
+l.109 ... expect $V_{\%\textnormal{f}} = 3.411841$
+                                                   in our example above. In
+Not a real error.
+
+[22]
+! Preview: Snippet 23 started.
+<-><->
+      
+l.110 Murex we would see this quantity as $
+                                           3.411841$ \% EUR.
+Not a real error.
+
+! Preview: Snippet 23 ended.(422343+0x2475812).
+<-><->
+      
+l.110 ... we would see this quantity as $3.411841$
+                                                   \% EUR.
+Not a real error.
+
+[23]
+
+LaTeX Warning: Citation `Clark' on page 1 undefined on input line 112.
+
+! Preview: Snippet 24 started.
+<-><->
+      
+l.112 The notation in \cite{Clark} is $
+                                       V_{\%\textnormal{f}}$, in Murex it is...
+
+Not a real error.
+
+! Preview: Snippet 24 ended.(447828+143816x1008074).
+<-><->
+      
+l.112 ...in \cite{Clark} is $V_{\%\textnormal{f}}$
+                                                  , in Murex it is \% ccy1.
+Not a real error.
+
+[24]
+! Preview: Snippet 25 started.
+<-><->
+      
+l.115 \subsection
+                 {Domestic percent $V_{\%\textnormal{d}}$ or \% ccy1}.
+Not a real error.
+
+! Preview: Snippet 25 ended.(491520+143816x12237075).
+<-><->
+      
+l.115 ...ercent $V_{\%\textnormal{d}}$ or \% ccy1}
+                                                  .
+Not a real error.
+
+[25
+
+]
+! Preview: Snippet 26 started.
+<-><->
+      
+l.118 $
+       N_d = K N_f$ we can directy express this quantity as $V_{\textnormal{...
+
+Not a real error.
+
+! Preview: Snippet 26 ended.(447828+187504x3175739).
+<-><->
+      
+l.118 $N_d = K N_f$
+                    we can directy express this quantity as $V_{\textnormal{...
+
+Not a real error.
+
+[26]
+! Preview: Snippet 27 started.
+<-><->
+      
+l.118 ...we can directy express this quantity as $
+                                                  V_{\textnormal{d, pips}} /...
+
+Not a real error.
+
+! Preview: Snippet 27 ended.(491520+187504x2895516).
+<-><->
+      
+l.118 ...uantity as $V_{\textnormal{d, pips}} / K$
+                                                  . In our example setting w...
+
+Not a real error.
+
+[27]
+! Preview: Snippet 28 started.
+<-><->
+      
+l.119 $
+       V_{\%\textnormal{d}} = 340.4604$ (since $K=1.32$ and $V_{\textnormal{...
+
+Not a real error.
+
+! Preview: Snippet 28 ended.(447828+143816x4484668).
+<-><->
+      
+l.119 $V_{\%\textnormal{d}} = 340.4604$
+                                        (since $K=1.32$ and $V_{\textnormal{...
+
+Not a real error.
+
+[28]
+! Preview: Snippet 29 started.
+<-><->
+      
+l.119 $V_{\%\textnormal{d}} = 340.4604$ (since $
+                                                K=1.32$ and $V_{\textnormal{...
+
+Not a real error.
+
+! Preview: Snippet 29 ended.(447828+0x2642371).
+<-><->
+      
+l.119 ...extnormal{d}} = 340.4604$ (since $K=1.32$
+                                                   and $V_{\textnormal{d, pi...
+
+Not a real error.
+
+[29]
+! Preview: Snippet 30 started.
+<-><->
+      
+l.119 ...mal{d}} = 340.4604$ (since $K=1.32$ and $
+                                                  V_{\textnormal{d, pips}} =...
+
+Not a real error.
+
+! Preview: Snippet 30 ended.(447828+187504x5313976).
+<-><->
+      
+l.119 ...and $V_{\textnormal{d, pips}} = 449.4077$
+                                                  ) which is displayed in Mu...
+
+Not a real error.
+
+[30]
+! Preview: Snippet 31 started.
+<-><->
+      
+l.120 $
+       3.404604$ \% USD.
+Not a real error.
+
+! Preview: Snippet 31 ended.(422343+0x2475812).
+<-><->
+      
+l.120 $3.404604$
+                 \% USD.
+Not a real error.
+
+[31]
+
+LaTeX Warning: Citation `Clark' on page 1 undefined on input line 122.
+
+! Preview: Snippet 32 started.
+<-><->
+      
+l.122 The notation in \cite{Clark} is $
+                                       V_{\%\textnormal{d}}$, in Murex it is...
+
+Not a real error.
+
+! Preview: Snippet 32 ended.(447828+143816x1135050).
+<-><->
+      
+l.122 ...in \cite{Clark} is $V_{\%\textnormal{d}}$
+                                                  , in Murex it is \% ccy2.
+Not a real error.
+
+[32]
+! Preview: Snippet 33 started.
+<-><->
+      
+l.124 \subsection
+                 {Foreign pips $V_{\textnormal{f, pips}} = V_{\textnormal{f/...
+
+Not a real error.
+
+! Preview: Snippet 33 ended.(455111+233018x13920717).
+<-><->
+      
+l.124 ...}} = V_{\textnormal{f/d}}$ or ccy1 pips.}
+                                                  
+Not a real error.
+
+[33
+
+]
+! Preview: Snippet 34 started.
+<-><->
+      
+l.127 easily derived as $
+                         V_{\%\textnormal{d}} / S$, with above figures this ...
+
+Not a real error.
+
+! Preview: Snippet 34 ended.(491520+163840x1902367).
+<-><->
+      
+l.127 easily derived as $V_{\%\textnormal{d}} / S$
+                                                  , with above figures this ...
+
+Not a real error.
+
+[34]
+! Preview: Snippet 35 started.
+<-><->
+      
+l.127 ...}} / S$, with above figures this yields $
+                                                  258.4728$ EUR pips in Mure...
+
+Not a real error.
+
+! Preview: Snippet 35 ended.(422343+0x2475812).
+<-><->
+      
+l.127 ...with above figures this yields $258.4728$
+                                                   EUR pips in Murex notation.
+Not a real error.
+
+[35]
+
+LaTeX Warning: Citation `Clark' on page 1 undefined on input line 129.
+
+! Preview: Snippet 36 started.
+<-><->
+      
+l.129 The notation in \cite{Clark} is $
+                                       V_{\textnormal{f, pips}}$, in Murex i...
+
+Not a real error.
+
+! Preview: Snippet 36 ended.(447828+187504x1837382).
+<-><->
+      
+l.129 ...cite{Clark} is $V_{\textnormal{f, pips}}$
+                                                  , in Murex it is ccy1 pips.
+Not a real error.
+
+[36]
+! Preview: Snippet 37 started.
+<-><->
+      
+l.131 \subsection
+                 {Absolute domestic premium $V_d$}.
+Not a real error.
+
+! Preview: Snippet 37 ended.(455111+127431x11789538).
+<-><->
+      
+l.131 \subsection{Absolute domestic premium $V_d$}
+                                                  .
+Not a real error.
+
+[37
+
+]
+! Preview: Snippet 38 started.
+<-><->
+      
+l.133 ...e absolute premium in domestic currency $
+                                                  V_d = N_f V_{d/f}$, which ...
+
+Not a real error.
+
+! Preview: Snippet 38 ended.(447828+233018x3691363).
+<-><->
+      
+l.133 ... in domestic currency $V_d = N_f V_{d/f}$
+                                                  , which is $4,494,077$ USD in
+
+Not a real error.
+
+[38]
+! Preview: Snippet 39 started.
+<-><->
+      
+l.133 ... currency $V_d = N_f V_{d/f}$, which is $
+                                                  4,494,077$ USD in
+Not a real error.
+
+! Preview: Snippet 39 ended.(422343+127431x2876305).
+<-><->
+      
+l.133 ...$V_d = N_f V_{d/f}$, which is $4,494,077$
+                                                   USD in
+Not a real error.
+
+[39]
+
+LaTeX Warning: Citation `Clark' on page 1 undefined on input line 136.
+
+! Preview: Snippet 40 started.
+<-><->
+      
+l.136 The notation in \cite{Clark} is $
+                                       V_d$, in Murex this value can be seen...
+
+Not a real error.
+
+! Preview: Snippet 40 ended.(447828+98303x687879).
+<-><->
+      
+l.136 The notation in \cite{Clark} is $V_d$
+                                           , in Murex this value can be seen...
+
+Not a real error.
+
+[40]
+! Preview: Snippet 41 started.
+<-><->
+      
+l.139 \subsection
+                 {Absolute foreign premium $V_f$}.
+Not a real error.
+
+! Preview: Snippet 41 ended.(455111+187504x11187820).
+<-><->
+      
+l.139 \subsection{Absolute foreign premium $V_f$}
+                                                 .
+Not a real error.
+
+[41
+
+]
+! Preview: Snippet 42 started.
+<-><->
+      
+l.141 ...he absolute premium in foreign currency $
+                                                  V_f = N_d V_{f/d}$, which ...
+
+Not a real error.
+
+! Preview: Snippet 42 ended.(447828+233018x3691363).
+<-><->
+      
+l.141 ...m in foreign currency $V_f = N_d V_{f/d}$
+                                                  , which is $3,411,841$ EUR in
+
+Not a real error.
+
+[42]
+! Preview: Snippet 43 started.
+<-><->
+      
+l.141 ... currency $V_f = N_d V_{f/d}$, which is $
+                                                  3,411,841$ EUR in
+Not a real error.
+
+! Preview: Snippet 43 ended.(422343+127431x2876305).
+<-><->
+      
+l.141 ...$V_f = N_d V_{f/d}$, which is $3,411,841$
+                                                   EUR in
+Not a real error.
+
+[43]
+
+LaTeX Warning: Citation `Clark' on page 1 undefined on input line 144.
+
+! Preview: Snippet 44 started.
+<-><->
+      
+l.144 The notation in \cite{Clark} is $
+                                       V_f$, in Murex this value can again b...
+
+Not a real error.
+
+! Preview: Snippet 44 ended.(447828+187504x722037).
+<-><->
+      
+l.144 The notation in \cite{Clark} is $V_f$
+                                           , in Murex this value can again b...
+
+Not a real error.
+
+[44]
+! Preview: Snippet 45 started.
+<-><->
+      
+l.147 \section
+              {Option Delta Quotation}
+Not a real error.
+
+! Preview: Snippet 45 ended.(447828+127431x23592960).
+<-><->
+      
+l.147 \section{Option Delta Quotation}
+                                      
+Not a real error.
+
+[45
+
+]
+! Preview: Snippet 46 started.
+<-><->
+      
+l.149 \subsection
+                 {Pips spot delta or \% ccy1}
+Not a real error.
+
+! Preview: Snippet 46 ended.(491520+127431x10052631).
+<-><->
+      
+l.149 \subsection{Pips spot delta or \% ccy1}
+                                             
+Not a real error.
+
+[46
+
+]
+
+LaTeX Warning: Reference `pipsDelta' on page 1 undefined on input line 150.
+
+
+LaTeX Warning: Citation `Clark' on page 2 undefined on input line 152.
+
+! Preview: Snippet 47 started.
+<-><->
+      
+l.154 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 47 ended.(1348012+0x14490901).
+<-><->
+      
+l.156 \end{equation}
+                    
+Not a real error.
+
+[47]
+! Preview: Snippet 48 started.
+<-><->
+      
+l.158 ... pips premium (see above) when the spot $
+                                                  S$ changes by an infinites...
+
+Not a real error.
+
+! Preview: Snippet 48 ended.(447828+0x439636).
+<-><->
+      
+l.158 ...ips premium (see above) when the spot $S$
+                                                   changes by an infinitesim...
+
+Not a real error.
+
+[48]
+! Preview: Snippet 49 started.
+<-><->
+      
+l.161 as \% EUR, e.g. $
+                       53.9641$ \% EUR. This delta can be understood as the ...
+
+Not a real error.
+
+! Preview: Snippet 49 ended.(422343+0x2148131).
+<-><->
+      
+l.161 as \% EUR, e.g. $53.9641$
+                                \% EUR. This delta can be understood as the ...
+
+Not a real error.
+
+[49]
+
+LaTeX Warning: Citation `Clark' on page 2 undefined on input line 166.
+
+
+LaTeX Warning: Reference `percDelta' on page 2 undefined on input line 167.
+
+! Preview: Snippet 50 started.
+<-><->
+      
+l.171 EUR/USD call on $
+                       100$ mm EUR notional the hedge would be to sell $53,9...
+
+Not a real error.
+
+! Preview: Snippet 50 ended.(422343+0x983043).
+<-><->
+      
+l.171 EUR/USD call on $100$
+                            mm EUR notional the hedge would be to sell $53,9...
+
+Not a real error.
+
+[50]
+! Preview: Snippet 51 started.
+<-><->
+      
+l.171 ...EUR notional the hedge would be to sell $
+                                                  53,964,100$ EUR in the exa...
+
+Not a real error.
+
+! Preview: Snippet 51 ended.(422343+127431x3203986).
+<-><->
+      
+l.171 ...l the hedge would be to sell $53,964,100$
+                                                   EUR in the example above.
+Not a real error.
+
+[51]
+
+LaTeX Warning: Reference `percDelta' on page 2 undefined on input line 174.
+
+! Preview: Snippet 52 started.
+<-><->
+      
+l.190 \subsection
+                 {Percentage spot delta or premium adjusted pips delta}
+Not a real error.
+
+! Preview: Snippet 52 ended.(455111+127431x19376078).
+<-><->
+      
+l.190 ...pot delta or premium adjusted pips delta}
+                                                  
+Not a real error.
+
+[52
+
+]
+
+LaTeX Warning: Citation `Clark' on page 2 undefined on input line 193.
+
+! Preview: Snippet 53 started.
+<-><->
+      
+l.195 \begin{equation}
+                      
+Not a real error.
+
+! Preview: Snippet 53 ended.(1367773+0x16365155).
+<-><->
+      
+l.197 \end{equation}
+                    
+Not a real error.
+
+[53]
+
+LaTeX Warning: Reference `pipsDelta' on page 2 undefined on input line 200.
+
+! Preview: Snippet 54 started.
+<-><->
+      
+l.202 \subsection
+                 {Forward delta}
+Not a real error.
+
+! Preview: Snippet 54 ended.(455111+0x6158085).
+<-><->
+      
+l.202 \subsection{Forward delta}
+                                
+Not a real error.
+
+[54
+
+]
+
+LaTeX Warning: Reference `pipsDelta' on page 2 undefined on input line 206.
+
+
+LaTeX Warning: Reference `percDelta' on page 2 undefined on input line 206.
+
+
+LaTeX Warning: Citation `Clark' on page 2 undefined on input line 206.
+
+! Preview: Snippet 55 started.
+<-><->
+      
+l.209 factor $
+              e^{r_fT}$ to the spot formulas, where $r_f$ is the foreign int...
+
+Not a real error.
+
+! Preview: Snippet 55 ended.(551306+0x1256938).
+<-><->
+      
+l.209 factor $e^{r_fT}$
+                        to the spot formulas, where $r_f$ is the foreign int...
+
+Not a real error.
+
+[55]
+! Preview: Snippet 56 started.
+<-><->
+      
+l.209 ... $e^{r_fT}$ to the spot formulas, where $
+                                                  r_f$ is the foreign intere...
+
+Not a real error.
+
+! Preview: Snippet 56 ended.(282168+187504x635415).
+<-><->
+      
+l.209 ...{r_fT}$ to the spot formulas, where $r_f$
+                                                   is the foreign interest r...
+
+Not a real error.
+
+[56]
+! Preview: Snippet 57 started.
+<-><->
+      
+l.209 ... the foreign interest rate for maturity $
+                                                  T$.
+Not a real error.
+
+! Preview: Snippet 57 ended.(447828+0x473999).
+<-><->
+      
+l.209 ...he foreign interest rate for maturity $T$
+                                                  .
+Not a real error.
+
+[57]
+! Preview: Snippet 58 started.
+<-><->
+      
+l.214 \subsection
+                 {Premium in Delta setting in Murex}
+Not a real error.
+
+! Preview: Snippet 58 ended.(455111+127431x13337518).
+<-><->
+      
+l.214 ...ection{Premium in Delta setting in Murex}
+                                                  
+Not a real error.
+
+[58
+
+]
+! Preview: Snippet 59 started.
+<-><->
+      
+l.228 \section
+              {ATM Definitions}
+Not a real error.
+
+! Preview: Snippet 59 ended.(447828+0x23592960).
+<-><->
+      
+l.228 \section{ATM Definitions}
+                               
+Not a real error.
+
+[59
+
+]
+! Preview: Snippet 60 started.
+<-><->
+      
+l.232 \section
+              {Risk Reversal, Butterfly, Strangles}
+Not a real error.
+
+! Preview: Snippet 60 ended.(447828+127431x23592960).
+<-><->
+      
+l.232 ...tion{Risk Reversal, Butterfly, Strangles}
+                                                  
+Not a real error.
+
+[60
+
+]
+! Preview: Snippet 61 started.
+<-><->
+      
+l.236 \section
+              {Convention Check in Murex}
+Not a real error.
+
+! Preview: Snippet 61 ended.(447828+0x23592960).
+<-><->
+      
+l.236 \section{Convention Check in Murex}
+                                         
+Not a real error.
+
+[61
+
+]
+! Preview: Snippet 62 started.
+<-><->
+      
+l.238 \subsection
+                 {ATM}
+Not a real error.
+
+! Preview: Snippet 62 ended.(449650+0x3303189).
+<-><->
+      
+l.238 \subsection{ATM}
+                      
+Not a real error.
+
+[62
+
+]
+! Preview: Snippet 63 started.
+<-><->
+      
+l.240 \subsection
+                 {Delta}
+Not a real error.
+
+! Preview: Snippet 63 ended.(455111+0x3348699).
+<-><->
+      
+l.240 \subsection{Delta}
+                        
+Not a real error.
+
+[63
+
+]
+! Preview: Snippet 64 started.
+<-><->
+      
+l.242 \subsection
+                 {Premium in Delta}
+Not a real error.
+
+! Preview: Snippet 64 ended.(455111+0x7534335).
+<-><->
+      
+l.242 \subsection{Premium in Delta}
+                                   
+Not a real error.
+
+[64
+
+]
+! Preview: Snippet 65 started.
+<-><->
+      
+l.244 \subsection
+                 {Broker / Smile mode}
+Not a real error.
+
+! Preview: Snippet 65 ended.(491520+163840x8543769).
+<-><->
+      
+l.244 \subsection{Broker / Smile mode}
+                                      
+Not a real error.
+
+[65
+
+]
+! Preview: Snippet 66 started.
+<-><->
+      
+l.248 \begin{thebibliography}{4}
+                                
+Not a real error.
+
+! Preview: Snippet 66 ended.(447828+0x23592960).
+<-><->
+      
+l.248 \begin{thebibliography}{4}
+                                
+Not a real error.
+
+[66
+
+]
+\newlabel{tocindent-1}{0pt}
+\newlabel{tocindent0}{12.7778pt}
+\newlabel{tocindent1}{17.77782pt}
+\newlabel{tocindent2}{29.38873pt}
+\newlabel{tocindent3}{0pt}
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 508 strings out of 492462
+ 6716 string characters out of 1150206
+ 93845 words of memory out of 3000000
+ 6041 multiletter control sequences out of 15000+50000
+ 12805 words of font info for 52 fonts, out of 3000000 for 9000
+ 189 hyphenation exceptions out of 8191
+ 22i,7n,33p,200b,217s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
+re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-t
+exlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/font
+s/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texmf-texlive/fonts/type1/publ
+ic/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/
+cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb>
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on _region_.pdf (66 pages, 119270 bytes).
+PDF statistics:
+ 246 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+
