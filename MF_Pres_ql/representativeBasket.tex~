@@ -1,0 +1,509 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+\usepackage{gnuplottex}
+\usepackage{epstopdf}
+%\usepackage[pdf]{pstricks}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%--------------------------------------------------------
+\begin{document}
+\title[Representative Basket Method Applied]{Representative Basket Method Applied}
+\author{P. Caspers}
+\email[P. Caspers]{pcaspers1973@googlemail.com}
+\date{June 30, 2013}
+\dedicatory{First Version June 30, 2013 - This Version September 6, 2013}
+\begin{abstract}
+We apply the representative basket method to different use cases.
+\end{abstract}
+
+\maketitle
+
+\section{Description of the method}
+
+We follow the description in Piterbarg, Interest Rate Modelling.
+We consider a one factor interest rate model such as the Hull White Model oder Markov Functional Model and denote
+the driving variable by $x$. More explicitly in the Hull White case we use $x(t) := r(t) - f(0,t)$ where $r$
+is the short rate and $f(0,\cdot)$ the instanteous forward rate as seen from today ($t=0$). In the Markov Functional
+Model $x$ denotes the driver as e.g. often defined by $dx = \sigma e^{at} dW$ with a ``Hull White'' mean reversion $a$.
+
+We may use the standardized version $y$ of $x$ instead of $x$ directly, i.e. the affine transformation of $x$ with
+expectation zero and variance one. In theory the result will not depend on whether we use $x$ or $y$ but in the
+practical numerical implementation of the procedure it seems more appropriate to work with the standardized variable.
+
+The setting is that an option to exercise into an underlying (which we shall call exotic in the following) is given
+with expiry time $t$ and underlying value $U(t,x)$, where we stress the dependency of the underlying value on $t$ and $x$, 
+but omit the (possible) dependency on the rest of the model parameters (like the model volatility, mean reversion,  
+yield term structure or numeraire surface in the case of the markov model).
+
+Now the question arises how to calibrate the model to this specific option. The idea of the representative basket
+approach is to find a market quoted option whose underlying value mimicks the value of the exotic underlying above 
+at $t$ as close as possible in all states of the model. If we can find such an underlying then the market price of
+the option to exercise into the underlying should be close to the price of the exotic option. A central assumption
+here is that the model dynamics is a reasonable framework to price the exotic option and the market opion at all.
+
+We specialize the setting to the case where we want to match the exotic option by standard swaptions, i.e. options
+to exercise into plain vanilla fix versus float swaps. The exotic option may be given for example by an underlying
+with non constant nominal, rate, indices, start delay, fixing time and some more. We will give several examples later
+on for what we call exotic here..
+
+To do so we fix a value $x_0$ of the state variable and match the first three terms of a taylor expansion, i.e. we
+look for a standard Underlying $V$ with
+
+\begin{eqnarray}
+V(x_0) &=& U(x_0) \\
+\frac{\partial V }{\partial x}(x_0) &=& \frac{\partial U }{\partial x}(x_0) \\
+\frac{\partial^2 V }{\partial x^2}(x_0) &=& \frac{\partial^2 U }{\partial x^2}(x_0)
+\end{eqnarray}
+
+The free parameters of a standard swaption's underlying are the nominal, the rate and the maturity. These three
+variables can be used to minimize the differences of the right and left hand sides of the equations above.
+
+It is not clear that even if we find a $V$ which matches $U$ in the above sense well that the match is globally
+well as desired orignally, i.e. that $U(x) \approx V(x)$ is fulfilled for a wide enough range of values of $x$. Therefore
+we should always test the global match before using $V$ for calibration.
+
+The choice of $x_0$ is not obvious. We will always set $x_0$ to the expectation of $x(t)$. In terms of $y$ this
+means that $y_0 = 0$.
+
+\section{Applications in the Hull White Model}
+
+\subsection{Standard Bermudan Swaptions}
+\label{secStdBermudanSwaption}
+
+We start with the easiest case of a standard bermudan swaption. To create a specific case we consider a flat
+yield termstructure at $3\%$ continously compounded instanteous forward rate and day counter Act/365fixed. The
+swaption volatility is flat at $20\%$ with the same day counter. We consider EUR swaps with standard conventions
+against Euribor 6m. The delay between exercise date and underlying start is $2$ business days.
+
+The exotic underlying is an $10$y payer swap with fixed rate $3.5\%$, to be exercised into on a yearly basis from 
+year $1$ to $9$. The nominal is $100$ EUR.
+
+The evaluation date is June 17th, 2013.
+
+\begin{table}[ht]
+\caption{Standard Bermudan Swaption Calibration Basket}
+\begin{tabular}{l | l | l | l | l | l}
+Option Expiry & End Date & Expiry Time & End Time & Nominal & Rate \\ \hline
+June 17th, 2014 & June 19th, 2023 & 1.000000 & 10.010959 & 99.999985 & 0.035000 \\
+June 17th, 2015 & June 19th, 2023 & 2.000000 & 10.010959 & 100.000000 & 0.035000 \\
+June 16th, 2016 & June 20th, 2023 & 3.000000 & 10.013699 & 99.999991 & 0.034999 \\
+June 15th, 2017 & June 19th, 2023 & 3.997260 & 10.010959 & 100.000037 & 0.035000 \\
+June 15th, 2018 & June 19th, 2023 & 4.997260 & 10.010959 & 100.000000 & 0.035000 \\
+June 17th, 2019 & June 19th, 2023 & 6.002740 & 10.010959 & 100.000096 & 0.035000 \\
+June 17th, 2020 & June 19th, 2023 & 7.005479 & 10.010959 & 99.999925 & 0.035000 \\
+June 17th, 2021 & June 21st, 2023 & 8.005479 & 10.016438 & 100.016358 & 0.034997 \\
+June 16th, 2022 & June 20th, 2023 & 9.002740 & 10.013699 & 100.026752 & 0.034996 \\
+\end{tabular}
+\label{stdBermundanSwaption}
+\end{table}
+
+Table \ref{stdBermundanSwaption} shows the resulting calibration basket. The swaptions' maturity conincide with
+the deal maturity, i.e. they constitute a classical coterminal swaption basket. The nominal of the swaptions is
+also equal to the deal's nominal. The nominal is not relevant for the calibration, but is a nice additional
+information in cases where the deal is amortizing or acreeting. The rate of the calibrating swaption is set
+to the deal's strike. All this is not very surprising, nevertheless a good test case because maturity, nominal and
+rate are resulting from a numerical optimization.
+
+The above basket is computed in a Hull White Model with fixed mean reversion $\kappa = 1\%$. Since the model is not
+calibrated prior to the computation of the calibration basket this basket is computed w.r.t. an initial model
+volatility of $1\%$ flat.
+
+As a next step we calibrate the Hull White Model volatility to the calibration basket in table \ref{stdBermundanSwaption}.
+For this we use a piecewise constant volatility with step dates equal to the option expiries. Table \ref{stdBermudanSwaptionModelCal} shows the result of this calibration. The displayed model volatilities are to be understood from the previous date (or today for the first date) until the displayed date.
+
+\begin{table}[ht]
+\caption{Model Volatility calibrated to the Standard Bermudan Swaption Calibration Basket}
+\begin{tabular}{l | l }
+Option Expiry & Model volatility \\ \hline
+June 17th, 2014 & 0.006619 \\
+June 17th, 2015 & 0.006605 \\
+June 16th, 2016 & 0.006603 \\
+June 15th, 2017 & 0.006574 \\
+June 15th, 2018 & 0.006545 \\
+June 17th, 2019 & 0.006520 \\
+June 17th, 2020 & 0.006524 \\
+June 17th, 2021 & 0.006502
+\end{tabular}
+\label{stdBermudanSwaptionModelCal}
+\end{table}
+
+It is rather obvious that the calibration basket if computed w.r.t. the now calibrated model will not change, although
+the underlying's price depends on the model volatility. Therefore we postpone tests for the stability of the calibration basket when computed in differently calibrated models for later, more interesting cases. The same holds for the check of the global fit of the underlyings' npvs - since the calibration basket essentially consists of the same swaptions as the ``exotic'' underlying in this example, it is obvious that we have a good global fit.
+
+\subsection{Amortizing Bermudan Swaptions}
+\label{secAmortizingBermudanSwaptions}
+
+Using the same market data as in section \ref{secStdBermudanSwaption} we modify the deal given there by letting the
+nominal amortize linearly to zero.
+
+Again starting with an initial model vol of $1\%$ we get the calibration basket in table \ref{amortizingBermudanSwaption}.
+
+\begin{table}[ht]
+\caption{Amortizing Bermudan Swaption Calibration Basket \#1}
+\begin{tabular}{l | l | l | l | l | l | l}
+Option Expiry & End Date & Expiry Time & End Time & Nominal & Rate \\ \hline
+June 17th, 2014 & September 21st, 2020 & 1.000000 & 7.268493 & 72.303641 & 0.035004 \\
+June 17th, 2015 & January 19th, 2021 & 2.000000 & 7.597260 & 64.460264 & 0.035002 \\
+June 16th, 2016 & May 20th, 2021 & 3.000000 & 7.928767 & 56.542487 & 0.035002 \\
+June 15th, 2017 & October 19th, 2021 & 3.997260 & 8.345205 & 48.727598 & 0.035005 \\
+June 15th, 2018 & February 21st, 2022 & 4.997260 & 8.687671 & 41.019669 & 0.035028 \\
+June 17th, 2019 & June 20th, 2022 & 6.002740 & 9.013699 & 33.448986 & 0.034998 \\
+June 17th, 2020 & October 19th, 2022 & 7.005479 & 9.345205 & 25.606970 & 0.034991 \\
+June 17th, 2021 & February 21st, 2023 & 8.005479 & 9.687671 & 17.687368 & 0.035026 \\
+June 16th, 2022 & June 20th, 2023 & 9.002740 & 10.013699 & 10.002679 & 0.034996
+\end{tabular}
+\label{amortizingBermudanSwaption}
+\end{table}
+
+We proceed with the calibration to the calibration basket $\#1$ in table \ref{amortizingBermudanSwaption}. This yields the calibrated model volatility as displayed in table \ref{amortizingBermudanSwaptionModelCal}.
+
+\begin{table}[ht]
+\caption{Model Volatility calibrated to Basket \#1}
+\begin{tabular}{l | l }
+Option Expiry & Model volatility \\ \hline
+June 17th, 2014 & 0.006536 \\
+June 17th, 2015 & 0.006545 \\
+June 16th, 2016 & 0.006549 \\
+June 15th, 2017 & 0.006561 \\
+June 15th, 2018 & 0.006543 \\
+June 17th, 2019 & 0.006529 \\
+June 17th, 2020 & 0.006579 \\
+June 17th, 2021 & 0.006548
+\end{tabular}
+\label{amortizingBermudanSwaptionModelCal}
+\end{table}
+
+We recalculate the calibration basket w.r.t. to the now calibrated model. From this we get the basket in table \ref{amortizingBermudanSwaption2}.
+
+\begin{table}[ht]
+\caption{Amortizing Bermudan Swaption Calibration Basket \#2}
+\begin{tabular}{l | l | l | l | l | l | l}
+Option Expiry & End Date & Expiry Time & End Time & Nominal & Rate \\ \hline
+June 17th, 2014 & August 19th, 2020 & 1.000000 & 7.178082 & 72.407634 & 0.035002 \\
+June 17th, 2015 & January 19th, 2021 & 2.000000 & 7.597260 & 64.644593 & 0.034995 \\
+June 16th, 2016 & May 20th, 2021 & 3.000000 & 7.928767 & 56.710404 & 0.034993 \\
+June 15th, 2017 & October 19th, 2021 & 3.997260 & 8.345205 & 48.892540 & 0.034999 \\
+June 15th, 2018 & February 21st, 2022 & 4.997260 & 8.687671 & 41.176970 & 0.035014 \\
+June 17th, 2019 & June 20th, 2022 & 6.002740 & 9.013699 & 33.557383 & 0.034989 \\
+June 17th, 2020 & October 19th, 2022 & 7.005479 & 9.345205 & 25.659932 & 0.034978 \\
+June 17th, 2021 & February 21st, 2023 & 8.005479 & 9.687671 & 17.700507 & 0.035012 \\
+June 16th, 2022 & June 20th, 2023 & 9.002740 & 10.013699 & 10.003736 & 0.034996
+\end{tabular}
+\label{amortizingBermudanSwaption2}
+\end{table}
+
+The baskets in tables \ref{amortizingBermudanSwaption} and \ref{amortizingBermudanSwaption2} are very similar, and
+so is a recalibrated model to the last basket $\#2$. This is shown in comparision to the prior calibration to basket $\#1$
+in table \ref{amortizingBermudanSwaptionModelCal2}.
+
+\begin{table}[ht]
+\caption{Model volatility for Basket \#1 and \#2}
+\begin{tabular}{l | l | l}
+Option Expiry & Model volatility \#1 & Model volatility \#2 \\ \hline
+June 17th, 2014 & 0.006536 & 0.006533 \\
+June 17th, 2015 & 0.006545 & 0.006546 \\
+June 16th, 2016 & 0.006549 & 0.006549 \\
+June 15th, 2017 & 0.006561 & 0.006561 \\
+June 15th, 2018 & 0.006543 & 0.006539 \\
+June 17th, 2019 & 0.006529 & 0.006530 \\
+June 17th, 2020 & 0.006579 & 0.006576 \\
+June 17th, 2021 & 0.006548 & 0.006545
+\end{tabular}
+\label{amortizingBermudanSwaptionModelCal2}
+\end{table}
+
+\subsection{DV01 and DV02 and Vega for Amortizing Bermudan Swaptions}
+
+We compute the standard sensitivities in the setup of section \ref{secAmortizingBermudanSwaptions}. We do this using
+different strategies. The first strategy is just to shift the rate curve and volatility without recalibrating the model.
+Obviously the vega will be zero in this case. The DV01 and DV02 will reflect the shift in the yield curve, but the model
+volatility will stay unchanged. The second strategy is to shift the market parameters and then recalibrate the model
+to the initial calibration basket, i.e. the instruments in the basket remain the same w.r.t. strike, maturity and nominal.
+The third strategy is additionally to the recalibration of the model to rebuild the calibration basket via the matching
+process described above and then recalibrate the model to this new basket.
+
+The rate shift is $10$bp up and down, the DV01 is the central DV01 coming from these shifts. The volatility shift is $1\%$ up.
+
+The results are displayed in table \ref{sensisAmortizingBermudanSwaption}.
+
+\begin{table}[ht]
+\caption{Sensitivities under different recalibration strategies}
+\begin{tabular}{l | l | l | l}
+Strategy & DV01 & DV02 & Vega \\ \hline
+No recalibration & 0.010902 & 0.000125 & 0.000000 \\
+Model recalibration & 0.013097 & 0.00153 & 0.069963 \\
+Basket \& model recalibration & 0.013094 & 0.00153 & 0.069967 \\
+\end{tabular}
+\label{sensisAmortizingBermudanSwaption}
+\end{table}
+
+\subsection{Step Up / Down Coupons}
+
+Again we start with the setup in \ref{secStdBermudanSwaption}. This time we modify the coupon to step up linearly from
+$3.5\%$ to $8.5\%$ in steps of $0.5\%$. Table \ref{stepUpBermudanSwaption} shows the result (which is the initial basket, we
+do not show the (very similar) basket computed w.r.t. the calibrated model).
+
+\begin{table}[ht]
+\caption{Step up Bermudan Swaption Calibration Basket}
+\begin{tabular}{l | l | l | l | l | l | l}
+Option Expiry & End Date & Expiry Time & End Time & Nominal & Rate \\ \hline
+June 17th, 2014 & July 19th, 2023 & 1.000000 & 10.093151 & 102.732548 & 0.058106 \\
+June 17th, 2015 & June 19th, 2023 & 2.000000 & 10.010959 & 102.138877 & 0.060935 \\
+June 16th, 2016 & June 20th, 2023 & 3.000000 & 10.013699 & 101.608610 & 0.063760 \\
+June 15th, 2017 & June 19th, 2023 & 3.997260 & 10.010959 & 101.147064 & 0.066548 \\
+June 15th, 2018 & June 19th, 2023 & 4.997260 & 10.010959 & 100.757428 & 0.069317 \\
+June 17th, 2019 & June 19th, 2023 & 6.002740 & 10.010959 & 100.444229 & 0.072051 \\
+June 17th, 2020 & June 19th, 2023 & 7.005479 & 10.010959 & 100.208110 & 0.074743 \\
+June 17th, 2021 & June 21st, 2023 & 8.005479 & 10.016438 & 100.087119 & 0.077400 \\
+June 16th, 2022 & June 20th, 2023 & 9.002740 & 10.013699 & 100.027370 & 0.079992
+\end{tabular}
+\label{stepUpBermudanSwaption}
+\end{table}
+
+The sensitivities under the different strategies are shown in \ref{sensisStepUpBermudanSwaption}.
+
+\begin{table}[ht]
+\caption{Sensitivities under different recalibration strategies}
+\begin{tabular}{l | l | l | l}
+Strategy & DV01 & DV02 & Vega \\ \hline
+No recalibration & 0.002292 & 0.000020 & 0.000000 \\
+Model recalibration & 0.003904 & 0.000057 & 0.060656 \\
+Basket \& model recalibration & 0.003904 & 0.000057 & 0.060654 \\
+\end{tabular}
+\label{sensisStepUpBermudanSwaption}
+\end{table}
+
+\subsection{Fixed rate callable bonds}
+
+We aim to apply the method above to fixed rate bonds with one or several call rights. The set up concerning the market
+data is the same as in \ref{secStdBermudanSwaption}. We consider a long position in a 10y bond paying a coupon of
+$3.5\%$ yearly, though not entirely realistic using the same conventions as in the fixed leg of a vanilla Euribor Swap.
+The bond is yearly callable by the issuer with a notice period of $2$ days, again just adopting the swaption conventions
+for simplicity here. The notional of the bond and the redemption value on each call date is $100.0$.
+
+The credit risk of the bond is expressed as a z-Spread of $100$bp (w.r.t. conntinous compounding and an Act/365 Fixed
+day counter).
+
+With that the dirty fair value (as of the evaluation date) is $95.2669$. The calibration basket computed w.r.t. an
+initial model volatility of $1\%$ is displayed in table \ref{bermudanCallableFixBond}.
+
+What can be seen is that the strike of the calibrating swaption is the deal strike adjusted by a quantity roughly
+corresponding to the z-Spread (note that this has different conventions compared to the swaption fixed rate of course).
+
+\begin{table}[ht]
+\caption{Bermudan Callable Fixed Rate Bond Calibration Basket}
+\begin{tabular}{l | l | l | l | l | l | l}
+Option Expiry & End Date & Expiry Time & End Time & Nominal & Rate \\ \hline
+June 17th, 2014 & April 19th, 2023 & 1.000000 & 9.843836 & 97.656084 & 0.024691 \\
+June 17th, 2015 & May 19th, 2023 & 2.000000 & 9.926027 & 97.907645 & 0.024690 \\
+June 16th, 2016 & May 22nd, 2023 & 3.000000 & 9.934247 & 98.174928 & 0.024692 \\
+June 15th, 2017 & May 19th, 2023 & 3.997260 & 9.926027 & 98.473170 & 0.024693 \\
+June 15th, 2018 & June 19th, 2023 & 4.997260 & 10.010959 & 98.774638 & 0.024693 \\
+June 17th, 2019 & June 19th, 2023 & 6.002740 & 10.010959 & 99.085436 & 0.024693 \\
+June 17th, 2020 & June 19th, 2023 & 7.005479 & 10.010959 & 99.378093 & 0.024701 \\
+June 17th, 2021 & June 21st, 2023 & 8.005479 & 10.016438 & 99.662271 & 0.024701 \\
+June 16th, 2022 & June 20th, 2023 & 9.002740 & 10.013699 & 99.915250 & 0.024701
+\end{tabular}
+\label{bermudanCallableFixBond}
+\end{table}
+
+The model calibration w.r.t. the basket in table \ref{bermudanCallableFixBond} can be seen in table \ref{bermudanCallableFixBondModelCal}. The price of the call right in this model is $-4.630688$. Finally we can compute sensitivites with the different recomputation strategies mentioned in the preceeding sections. The results are displayed in table \ref{sensisFixBond}.
+
+\begin{table}[ht]
+\caption{Model Volatility Fixed Rate Bond}
+\begin{tabular}{l | l }
+Option Expiry & Model volatility \\ \hline
+June 17th, 2014 & 0.005600 \\
+June 17th, 2015 & 0.005581 \\
+June 16th, 2016 & 0.005573 \\
+June 15th, 2017 & 0.005554 \\
+June 15th, 2018 & 0.005534 \\
+June 17th, 2019 & 0.005542 \\
+June 17th, 2020 & 0.005498 \\
+June 17th, 2021 & 0.005503
+\end{tabular}
+\label{bermudanCallableFixBondModelCal}
+\end{table}
+
+\begin{table}[ht]
+\caption{Sensitivities Callable Fix Rate Bond under different recalibration strategies}
+\begin{tabular}{l | l | l | l}
+Strategy & DV01 & DV02 & Vega \\ \hline
+No recalibration & -0.052415 & 0.000427 & 0.000000 \\
+Model recalibration & -0.048332 & 0.000481 & 0.121620 \\
+Basket \& model recalibration & -0.048332 & 0.000481 & 0.121619
+\end{tabular}
+\label{sensisFixBond}
+\end{table}
+
+
+\subsection{Callable Zero Bonds}
+
+...todo...
+
+\subsection{Switchable Bonds}
+
+...todo...
+
+\subsection{Non Standard Tenor Swaptions}
+
+Consider an EUR swaption (5y into 5y, to fix an example) on an underlying Euribor 3m swap. There are no direct
+market quotes for implied volatilities for such a swaption, because the floating tenor is not the standard 6m
+tenor.
+
+We assume the relevant 3m forward swap rate to be $3\%$ and the 6m rate to be $4\%$ 
+and apply the representative basket apprach to find a Euribor 6m swaption that matches the non standard 3m swaption.
+
+The evaluation date is June 17th, 2013. The model parameters are $1\%$ for both volatility and reversion. We
+set the nominal of the 3m swaption to $100$.
+
+Table \ref{tenorSwaptions} summarizes the results: Roughly the suggestion is to price a 6m swaption instead of
+the 3m swaption with a strike shifted by the basis between the two swap rates. This recipe is fine tuned by
+a slightly longer maturity (3 months), lower nominal (by around 5 percent) and higher strike (by around 5 basispoints).
+
+\begin{table}[ht]
+\caption{3m 6m swaption volatility conversion}
+\begin{tabular}{l | l | l | l | l}
+Strike 3m Swaption & Expiry & Maturity & Nominal & Rate \\ \hline
+2\% & June 19th, 2018 & September 21st, 2023 & 94.4664 & 0.0304037 \\
+3\% & June 19th, 2018 & September 21st, 2023 & 94.4354 & 0.0405083 \\
+4\% & June 19th, 2018 & September 21st, 2023 & 94.4056 & 0.0506342
+\end{tabular}
+\label{tenorSwaptions}
+\end{table}
+
+\subsection{Global Stability of Underlying NPV Match}
+
+We take the example from section \ref{secAmortizingBermudanSwaptions} to investigate how well the exotic underlying NPV
+is matched by the standard underlying on a global scale. For this we plot both NPVs in the range of $-5...5$ standard
+deviations of the state variable. We choose the expiry date June 14th, 2019 for this test.
+
+\begin{figure}[htbp]
+\caption{Global fit of exotic underlying NPV (line exotic npv, points standard underlying npv)
+}
+\label{globalNPVFit}
+	\begin{gnuplot}
+		set terminal epslatex color
+		set xrange [-5:5]
+		unset key
+		set xlabel "y"
+		set ylabel "npv"
+		plot 'exotic_npv.txt' with line, 'standard_npv.txt' with points pointtype 9 pointsize 0.5
+	\end{gnuplot}
+\end{figure}
+
+Figure \ref{globalNPVFit} shows the result, which looks very satisfactory in this case.
+
+\section{Counterexamples}
+
+\subsection{CMS Swaptions}
+
+We consider a bermudan option with yearly rights to exercise into a swap exchanging (also yearly) CMS10Y coupons with EUR EURIBOR 6M. The valuation of such a deal can e.g. be done in a Hull White 1F model, or a Markov Functional 1F model. The question is if a reasonable representative basket can be computed and if yes, whether it is close to a basket of (atm) coterminal swaptions (which seems to be done often in practice in case of the Markov model). 
+
+
+\subsubsection(Hull White Model}
+
+The yield term structure is considered to be flat at $3\%$, the swaption volatility structure flat at $30\%$. We start with a Hull White Model with reversion $2\%$ and model volatility at $1\%$.
+
+
+\begin{table}[ht]
+\caption{Initial basket for bermudan cms swaption and model calibration}
+\begin{tabular}{l | l | l | l}
+
+\end{tabular}
+\label{cms1}
+\end{table}
+
+\begin{table}[ht]
+\caption{Basket and model calibration after one iteration}
+\begin{tabular}{l | l | l | l}
+
+\end{tabular}
+\label{cms1}
+\end{table}
+
+\begin{table}[ht]
+\caption{Basket and model calibration after two iterations}
+\begin{tabular}{l | l | l | l}
+
+\end{tabular}
+\label{cms1}
+\end{table}
+
+\begin{table}[ht]
+\caption{Basket and model calibration after five iterations}
+\begin{tabular}{l | l | l | l}
+
+\end{tabular}
+\label{cms1}
+\end{table}
+
+
+
+
+
+\end{document}

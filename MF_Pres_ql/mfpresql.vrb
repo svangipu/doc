@@ -1,12 +1,5 @@
-\frametitle {NTL high precision computing}
-The NTL and boost libraries provide support for arbitrary floating point precision. We incorporated NTL support as an option replacing
-the standard double precision by an arbitrary mantissa length precision in the critical sections of the computation (which turned out to be the
-integration of payoffs against the gaussian density, where large integrand values are multiplied by small density values). NTL is activated by commenting out
-\begin{minted}[fontsize=\footnotesize]{c++}
-// uncomment to enable NTL support
-#define GAUSS1D_ENABLE_NTL
-\end{minted}
-in \verb+gaussian1dmodel.hpp+. The mantissa length is then set (e.g. to 113bit) with
-\begin{minted}[fontsize=\footnotesize]{c++}
-boost::math::ntl::RR:SetPrecision(113)
-\end{minted}
+\frametitle {Representative Basket Approach - Conclusion}
+It does not seem to be clear to what secondary instrument set you
+should calibrate your model in order to represent calls on a cms
+(or more generally float float) swaps, although in practice atm
+coterminals seem to be a natural choice.

@@ -22,7 +22,7 @@
 The contents of this presentation are the sole and personal opinion of the author and do not express IKB's opinion on any subject presented in the following.
 }
 
-\frame{\frametitle{Table of contents}\tableofcontents[hideallsubsections]} 
+\frame{\frametitle{Table of contents}\tiny \tableofcontents[hideallsubsections]} 
 
 \section{Code Example}
 
@@ -368,17 +368,17 @@ in the Hagan model and the Markov model respectively.
 \begin{frame}[fragile]
 \frametitle{A full example: Benchmarking against Hull White}
 We change the code to replace the Markov model with a Hull White model. This is easily done by
-\begin{minted}[fontsize=\tiny]{c++}
+\begin{minted}[fontsize=\tiny, bgcolor=mintedBg]{c++}
         std::vector<Date> sigmaSteps2(sigmaSteps.begin(), sigmaSteps.end() - 1);
         std::vector<Real> sigma2(sigma.begin(), sigma.end() - 1);
         boost::shared_ptr<Gsr> gsr(new Gsr(yts,sigmaSteps2,sigma2,reversionLevel->value()));
 \end{minted}
 and replacing \verb+mf+ by \verb+gsr+ (we could have use a generic name of course...). The calibration now reads
-\begin{minted}[fontsize=\tiny]{c++}
+\begin{minted}[fontsize=\tiny, bgcolor=mintedBg]{c++}
         gsr->calibrate(basket, opt, ec, Constraint(), std::vector<Real>(), model->FixedReversions());
 \end{minted}
 or also
-\begin{minted}[fontsize=\tiny]{c++}
+\begin{minted}[fontsize=\tiny, bgcolor=mintedBg]{c++}
         gsr->calibrateVolatilitiesIterative(basket, opt, ec);
 \end{minted}
 
@@ -825,9 +825,9 @@ This is because the integrand is globally well approximated by polynomials.
 For the numerical integration of
 \begin{itemize}
 \item digitals during numeraire bootstrapping or 
-\item exotic pricing Gauss Hermite 
+\item exotic pricing 
 \end{itemize}
-is possible but leading not to satisfactory accuracy. This is due to the non global nature of the integrand in this case. Here we rely on  exact integration of the piecewise $3$rd order polynomials against the gaussian density, which is possible in closed form only involving the error function erf
+Gauss Hermite is possible but leading not to satisfactory accuracy. This is due to the non global nature of the integrand in this case. Here we rely on  exact integration of the piecewise $3$rd order polynomials against the gaussian density, which is possible in closed form only involving the error function erf
 
 }
 
@@ -944,10 +944,121 @@ Date & Adjustment Factor \\ \hline
 
 }
 
+\begin{frame}[fragile]
+\frametitle{MarkovFunctional Options - Numerical Parameters}
+\begin{itemize}
+\item \verb+yGridPoint+ Number of discretization points for normalized state variable (default $64$)
+\item \verb+yStdDevs+ Number of standard deviations of normalized state variable covered (default $7$)
+\item \verb+gaussHermitePoints+ Number of points used in Gauss hermite integration (default $32$)
+\item \verb+digitalGap+ Numerical stepsize to compute market digitals from call spreads (default $10^{-5}$)
+\item \verb+marketRateAccuracy+ Accuracy (in model swap rate) when matching market digitals (default $10^{-7}$)
+\item \verb+lowerRateBound+ Lower bound for model's (underlying) rates (default $0\%$)
+\item \verb+upperRateBound+ Upper bound for model's (underlying) rates (default $200\%$)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{MarkovFunctional Options - Adjustments Overview}
+\begin{itemize}
+\item \verb+AdjustDigitals+ -- force the model's digital at the lower rate bound to be $1$.
+Limited impact, not recommended, does not seem to be useful in practice.
+\item \verb+AdjustYts+ -- force the model's yts to match the input yts by applying a constant
+adjustment factor per expiry. Recommended only for very long term calibrations,
+smile fit may suffer
+\item \verb+ExtrapolatePayoffFlat+ -- Instead of extrapolating using the spline, extrapolate the digital's
+payoff flat outside the given standard deviations of the state variable. Recommended only for sanity
+checks, should have no impact, otherwise numerical parameters have to be adjusted
+\item \verb+NoPayoffExtrapolation+ -- Do not extrapolate the payoff at all. Same as for ExtrapolatePayoffFlat
+holds
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{MarkovFunctional Options - Adjustments Overview ctd.}
+\begin{itemize}
+\item \verb+KahaleSmile+ -- Use Kahale smile preconditioning on arbitrageable wings, recommended (or \verb+SabrSmile+) unless
+you are sure to provide an arbitrage free smile input
+\item \verb+KahaleInterpolation+ -- Use Kahale smile interpolation (implies \verb+KahaleSmile+), for naively interpolated smiles
+(linear, ...), however generates ``Bat Man shaped'' Densities, not recommended unless \verb+SabrSmile+ fails to work or is too
+inaccurate w.r.t. fit
+\item \verb+SmileExponentialExtrapolation+ -- Use Exponential smile extrapolation on right wing (implies \verb+KahaleSmile+),
+for slowly decreasing call price functions, recommended
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{MarkovFunctional Options - Adjustments Overview ctd.}
+\begin{itemize}
+\item \verb+SmileDeleteArbitragePoints+ -- Delete intermediate points from smile that cause arbitrage (implies \verb+KahaleInterpolation+),
+recommended if you use \verb+KahaleInterpolation+
+\item \verb+SabrSmile+ -- Use a Sabr fitted smile (with Kahale wing sanitization), recommended for naively interpolated smiles
+\item \verb+SmileMoneynessCheckPoints+ -- Custom strike grid for smile arbitrage check and Kahale interpolation in $K/F$ space (optional),
+default is working in most cases
+\end{itemize}
+\end{frame}
+
 \section{Secondary instrument set calibration}
 
+\begin{frame}[fragile]
+\frametitle{Representative Basket Approach}
+\begin{itemize}
+\item Problem: Find standard swaptions that represent an exotic call right
+appropriately in your Markov Functional (or any one factor) model.
+\item Strategy: Match NPV, Delta\footnote{which means the first derivative
+w.r.t. the state variable of the model here}, Gamma around some ``central''
+value of the model's state variable.
+This works well for amortizing, accreting and step up/down swaptions for
+example. It is worth a try if we can use the method also in our initial
+example with the CMS swaption.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Global amortizing vanilla swap fit}
+(solid = exotic npv, dotted = standard underlying npv)
+\resizebox{\textwidth}{!}{
+\begin{minipage}{1.2\textwidth}
+\begin{figure}
+	\centering
+         \input{representativeBasket-gnuplottex-fig1.tex}
+\end{figure}
+\end{minipage}}
+\end{frame}
 
 
+\begin{frame}[fragile]
+\frametitle{Global CMS swap fit (Flat smile)}
+(solid = exotic npv, dotted = standard underlying npv)
+\resizebox{\textwidth}{!}{
+\begin{minipage}{1.2\textwidth}
+\begin{figure}
+	\centering
+         \input{representativeBasket-gnuplottex-fig3.tex}
+\end{figure}
+\end{minipage}}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Global CMS swap fit (SABR smile)}
+(solid = exotic npv, dotted = standard underlying npv)
+\resizebox{\textwidth}{!}{
+\begin{minipage}{1.2\textwidth}
+\begin{figure}
+	\centering
+         \input{representativeBasket-gnuplottex-fig4.tex}
+\end{figure}
+\end{minipage}}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Representative Basket Approach - Conclusion}
+It does not seem to be clear to what secondary instrument set you
+should calibrate your model in order to represent calls on a cms
+(or more generally float float) swaps, although in practice atm
+coterminals seem to be a natural choice. 
+\end{frame}
 
 
 \section{Implementation in QuantLib}
@@ -1002,8 +1113,7 @@ A base version of the model is available since release $1.3$. Recent developemts
 
 \section{Questions}
 
-\frame{\frametitle{Thank you}
-Questions?
+\frame{\frametitle{Thank you,  Q and A}
 % \begin{figure}
 % 	\centering
 % 		\includegraphics{~/Downloads/Beaker2.png}

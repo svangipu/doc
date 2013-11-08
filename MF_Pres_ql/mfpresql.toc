@@ -4,6 +4,7 @@
 \beamer@sectionintoc {3}{Model description}{35}{0}{3}
 \beamer@sectionintoc {4}{Calibration}{37}{0}{4}
 \beamer@sectionintoc {5}{Numerics}{47}{0}{5}
-\beamer@sectionintoc {6}{Implementation in QuantLib}{60}{0}{6}
-\beamer@sectionintoc {7}{References}{62}{0}{7}
-\beamer@sectionintoc {8}{Questions}{63}{0}{8}
+\beamer@sectionintoc {6}{Secondary instrument set calibration}{64}{0}{6}
+\beamer@sectionintoc {7}{Implementation in QuantLib}{69}{0}{7}
+\beamer@sectionintoc {8}{References}{71}{0}{8}
+\beamer@sectionintoc {9}{Questions}{72}{0}{9}

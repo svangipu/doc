@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.5.29)  7 NOV 2013 18:17
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.5.29)  8 NOV 2013 20:12
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -697,9 +697,9 @@ Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
 \verbatim@out=\write5
-runsystem(echo t > "w18-test-20131171097.tex")...executed.
+runsystem(echo t > "w18-test-20131181212.tex")...executed.
 
-runsystem(del "w18-test-20131171097.tex")...executed.
+runsystem(del "w18-test-20131181212.tex")...executed.
 
 
 
@@ -893,9 +893,6 @@ LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2
 
 ] (./mfpresql.toc)
-Overfull \vbox (14.6901pt too high) detected at line 25
- []
-
 [3
 
 ] [4
@@ -1272,17 +1269,17 @@ runsystem(rm mfpresql.pyg)...executed.
 
 (./mfpresql.vrb (./sabrsmile1.tex
 Package epstopdf Info: Source file: <sabrsmile1.eps>
-(epstopdf)                    date: 2013-11-03 20:19:12
+(epstopdf)                    date: 2013-11-07 18:51:09
 (epstopdf)                    size: 18469 bytes
 (epstopdf)             Output file: <sabrsmile1-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-11-03 20:19:12
+(epstopdf)                    date: 2013-11-07 18:51:09
 (epstopdf)                    size: 3416 bytes
 (epstopdf)             Command: <epstopdf --outfile=sabrsmile1-eps-converted-to
 .pdf sabrsmile1.eps>
 (epstopdf)             \includegraphics on input line 113.
 Package epstopdf Info: Output file is already uptodate.
 
-<sabrsmile1-eps-converted-to.pdf, id=676, 361.35pt x 252.945pt>
+<sabrsmile1-eps-converted-to.pdf, id=682, 361.35pt x 252.945pt>
 File: sabrsmile1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use sabrsmile1-eps-converted-to.pdf>))
@@ -1339,7 +1336,7 @@ runsystem(rm mfpresql.out.pyg)...executed.
 
 runsystem(rm mfpresql.pyg)...executed.
 
- <office_modeltrace1.png, id=761, 811.03pt x 391.4625pt>
+ <office_modeltrace1.png, id=767, 811.03pt x 391.4625pt>
 File: office_modeltrace1.png Graphic file (type png)
 
 <use office_modeltrace1.png>) [26
@@ -1348,7 +1345,7 @@ File: office_modeltrace1.png Graphic file (type png)
 \openout4 = `mfpresql.vrb'.
 
 
-(./mfpresql.vrb <office_modeltrace2.png, id=788, 1285.80376pt x 405.515pt>
+(./mfpresql.vrb <office_modeltrace2.png, id=794, 1285.80376pt x 405.515pt>
 File: office_modeltrace2.png Graphic file (type png)
 
 <use office_modeltrace2.png>) [27
@@ -1387,17 +1384,17 @@ File: office_modeltrace2.png Graphic file (type png)
 ]
 (./MF-gnuplottex-fig2.tex
 Package epstopdf Info: Source file: <MF-gnuplottex-fig2.eps>
-(epstopdf)                    date: 2013-11-03 20:19:12
+(epstopdf)                    date: 2013-11-07 18:51:09
 (epstopdf)                    size: 20366 bytes
 (epstopdf)             Output file: <MF-gnuplottex-fig2-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-11-03 20:19:12
+(epstopdf)                    date: 2013-11-07 18:51:09
 (epstopdf)                    size: 3716 bytes
 (epstopdf)             Command: <epstopdf --outfile=MF-gnuplottex-fig2-eps-conv
 erted-to.pdf MF-gnuplottex-fig2.eps>
 (epstopdf)             \includegraphics on input line 99.
 Package epstopdf Info: Output file is already uptodate.
 
-<MF-gnuplottex-fig2-eps-converted-to.pdf, id=1232, 361.35pt x 252.945pt>
+<MF-gnuplottex-fig2-eps-converted-to.pdf, id=1238, 361.35pt x 252.945pt>
 File: MF-gnuplottex-fig2-eps-converted-to.pdf Graphic file (type pdf)
 
 <use MF-gnuplottex-fig2-eps-converted-to.pdf>)
@@ -1408,17 +1405,17 @@ Overfull \vbox (15.19383pt too high) detected at line 732
 
  <./MF-gnuplottex-fig2-eps-converted-to.pdf>] (./MF-gnuplottex-fig3.tex
 Package epstopdf Info: Source file: <MF-gnuplottex-fig3.eps>
-(epstopdf)                    date: 2013-11-03 20:19:12
+(epstopdf)                    date: 2013-11-07 18:51:09
 (epstopdf)                    size: 20606 bytes
 (epstopdf)             Output file: <MF-gnuplottex-fig3-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-11-03 20:19:12
+(epstopdf)                    date: 2013-11-07 18:51:09
 (epstopdf)                    size: 3993 bytes
 (epstopdf)             Command: <epstopdf --outfile=MF-gnuplottex-fig3-eps-conv
 erted-to.pdf MF-gnuplottex-fig3.eps>
 (epstopdf)             \includegraphics on input line 97.
 Package epstopdf Info: Output file is already uptodate.
 
-<MF-gnuplottex-fig3-eps-converted-to.pdf, id=1263, 361.35pt x 252.945pt>
+<MF-gnuplottex-fig3-eps-converted-to.pdf, id=1269, 361.35pt x 252.945pt>
 File: MF-gnuplottex-fig3-eps-converted-to.pdf Graphic file (type pdf)
 
 <use MF-gnuplottex-fig3-eps-converted-to.pdf>)
@@ -1429,17 +1426,17 @@ Overfull \vbox (3.19383pt too high) detected at line 744
 
  <./MF-gnuplottex-fig3-eps-converted-to.pdf>] (./MF-gnuplottex-fig4.tex
 Package epstopdf Info: Source file: <MF-gnuplottex-fig4.eps>
-(epstopdf)                    date: 2013-11-03 20:19:12
+(epstopdf)                    date: 2013-11-07 18:51:09
 (epstopdf)                    size: 20504 bytes
 (epstopdf)             Output file: <MF-gnuplottex-fig4-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-11-03 20:19:12
+(epstopdf)                    date: 2013-11-07 18:51:09
 (epstopdf)                    size: 3860 bytes
 (epstopdf)             Command: <epstopdf --outfile=MF-gnuplottex-fig4-eps-conv
 erted-to.pdf MF-gnuplottex-fig4.eps>
 (epstopdf)             \includegraphics on input line 95.
 Package epstopdf Info: Output file is already uptodate.
 
-<MF-gnuplottex-fig4-eps-converted-to.pdf, id=1293, 361.35pt x 252.945pt>
+<MF-gnuplottex-fig4-eps-converted-to.pdf, id=1299, 361.35pt x 252.945pt>
 File: MF-gnuplottex-fig4-eps-converted-to.pdf Graphic file (type pdf)
 
 <use MF-gnuplottex-fig4-eps-converted-to.pdf>)
@@ -1450,17 +1447,17 @@ Overfull \vbox (3.19383pt too high) detected at line 756
 
  <./MF-gnuplottex-fig4-eps-converted-to.pdf>] (./MF-gnuplottex-fig5.tex
 Package epstopdf Info: Source file: <MF-gnuplottex-fig5.eps>
-(epstopdf)                    date: 2013-11-03 20:19:12
+(epstopdf)                    date: 2013-11-07 18:51:09
 (epstopdf)                    size: 20293 bytes
 (epstopdf)             Output file: <MF-gnuplottex-fig5-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-11-03 20:19:12
+(epstopdf)                    date: 2013-11-07 18:51:09
 (epstopdf)                    size: 3711 bytes
 (epstopdf)             Command: <epstopdf --outfile=MF-gnuplottex-fig5-eps-conv
 erted-to.pdf MF-gnuplottex-fig5.eps>
 (epstopdf)             \includegraphics on input line 94.
 Package epstopdf Info: Output file is already uptodate.
 
-<MF-gnuplottex-fig5-eps-converted-to.pdf, id=1322, 361.35pt x 252.945pt>
+<MF-gnuplottex-fig5-eps-converted-to.pdf, id=1328, 361.35pt x 252.945pt>
 File: MF-gnuplottex-fig5-eps-converted-to.pdf Graphic file (type pdf)
 
 <use MF-gnuplottex-fig5-eps-converted-to.pdf>)
@@ -1473,16 +1470,16 @@ Overfull \vbox (3.19383pt too high) detected at line 768
 
 ] (./MF-gnuplottex-fig1.tex
 Package epstopdf Info: Source file: <MF-gnuplottex-fig1.eps>
-(epstopdf)                    date: 2013-11-03 20:19:12
+(epstopdf)                    date: 2013-11-07 18:51:09
 (epstopdf)                    size: 54566 bytes
 (epstopdf)             Output file: <MF-gnuplottex-fig1-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-11-03 20:19:12
+(epstopdf)                    date: 2013-11-07 18:51:09
 (epstopdf)                    size: 34219 bytes
 (epstopdf)             Command: <epstopdf --outfile=MF-gnuplottex-fig1-eps-conv
 erted-to.pdf MF-gnuplottex-fig1.eps>
 (epstopdf)             \includegraphics on input line 117.
 Package epstopdf Info: Output file is already uptodate.
-<MF-gnuplottex-fig1-eps-converted-to.pdf, id=1380, 361.35pt x 252.945pt>
+<MF-gnuplottex-fig1-eps-converted-to.pdf, id=1386, 361.35pt x 252.945pt>
 File: MF-gnuplottex-fig1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use MF-gnuplottex-fig1-eps-converted-to.pdf>)
@@ -1504,17 +1501,17 @@ Overfull \vbox (0.69383pt too high) detected at line 797
 ]
 (./MF-gnuplottex-fig6.tex
 Package epstopdf Info: Source file: <MF-gnuplottex-fig6.eps>
-(epstopdf)                    date: 2013-11-03 20:19:12
+(epstopdf)                    date: 2013-11-07 18:51:09
 (epstopdf)                    size: 29888 bytes
 (epstopdf)             Output file: <MF-gnuplottex-fig6-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-11-03 20:19:12
+(epstopdf)                    date: 2013-11-07 18:51:09
 (epstopdf)                    size: 5321 bytes
 (epstopdf)             Command: <epstopdf --outfile=MF-gnuplottex-fig6-eps-conv
 erted-to.pdf MF-gnuplottex-fig6.eps>
 (epstopdf)             \includegraphics on input line 101.
 Package epstopdf Info: Output file is already uptodate.
 
-<MF-gnuplottex-fig6-eps-converted-to.pdf, id=1547, 361.35pt x 252.945pt>
+<MF-gnuplottex-fig6-eps-converted-to.pdf, id=1553, 361.35pt x 252.945pt>
 File: MF-gnuplottex-fig6-eps-converted-to.pdf Graphic file (type pdf)
 
 <use MF-gnuplottex-fig6-eps-converted-to.pdf>)
@@ -1554,17 +1551,17 @@ runsystem(rm mfpresql.pyg)...executed.
 
 ] (./MF-gnuplottex-fig7.tex
 Package epstopdf Info: Source file: <MF-gnuplottex-fig7.eps>
-(epstopdf)                    date: 2013-11-03 20:19:12
+(epstopdf)                    date: 2013-11-07 18:51:09
 (epstopdf)                    size: 29778 bytes
 (epstopdf)             Output file: <MF-gnuplottex-fig7-eps-converted-to.pdf>
-(epstopdf)                    date: 2013-11-03 20:19:12
+(epstopdf)                    date: 2013-11-07 18:51:09
 (epstopdf)                    size: 6723 bytes
 (epstopdf)             Command: <epstopdf --outfile=MF-gnuplottex-fig7-eps-conv
 erted-to.pdf MF-gnuplottex-fig7.eps>
 (epstopdf)             \includegraphics on input line 101.
 Package epstopdf Info: Output file is already uptodate.
 
-<MF-gnuplottex-fig7-eps-converted-to.pdf, id=1632, 361.35pt x 252.945pt>
+<MF-gnuplottex-fig7-eps-converted-to.pdf, id=1638, 361.35pt x 252.945pt>
 File: MF-gnuplottex-fig7-eps-converted-to.pdf Graphic file (type pdf)
 
 <use MF-gnuplottex-fig7-eps-converted-to.pdf>)
@@ -1577,14 +1574,127 @@ Overfull \vbox (1.86049pt too high) detected at line 907
 
 ] [59
 
-] [60
+]
+\openout4 = `mfpresql.vrb'.
 
-] [61
-
-] [62
+ (./mfpresql.vrb)
+[60
 
 ]
-[63
+\openout4 = `mfpresql.vrb'.
+
+ (./mfpresql.vrb) [61
+
+]
+\openout4 = `mfpresql.vrb'.
+
+ (./mfpresql.vrb) [62
+
+]
+\openout4 = `mfpresql.vrb'.
+
+ (./mfpresql.vrb) [63
+
+]
+\openout4 = `mfpresql.vrb'.
+
+
+(./mfpresql.vrb) [64
+
+]
+\openout4 = `mfpresql.vrb'.
+
+ (./mfpresql.vrb
+(./representativeBasket-gnuplottex-fig1.tex
+Package epstopdf Info: Source file: <representativeBasket-gnuplottex-fig1.eps>
+(epstopdf)                    date: 2013-11-08 18:26:32
+(epstopdf)                    size: 17916 bytes
+(epstopdf)             Output file: <representativeBasket-gnuplottex-fig1-eps-c
+onverted-to.pdf>
+(epstopdf)                    date: 2013-11-08 18:26:32
+(epstopdf)                    size: 3642 bytes
+(epstopdf)             Command: <epstopdf --outfile=representativeBasket-gnuplo
+ttex-fig1-eps-converted-to.pdf representativeBasket-gnuplottex-fig1.eps>
+(epstopdf)             \includegraphics on input line 96.
+Package epstopdf Info: Output file is already uptodate.
+
+<representativeBasket-gnuplottex-fig1-eps-converted-to.pdf, id=1858, 361.35pt x
+ 252.945pt>
+File: representativeBasket-gnuplottex-fig1-eps-converted-to.pdf Graphic file (t
+ype pdf)
+ <use representativeBasket-gnuplottex-fig1-eps-converted-to.pdf>))
+Overfull \vbox (4.8731pt too high) detected at line 1027
+ []
+
+[65
+
+ <./representativeBasket-gnuplottex-fig1-eps-converted-to.pdf>]
+\openout4 = `mfpresql.vrb'.
+
+
+(./mfpresql.vrb (./representativeBasket-gnuplottex-fig3.tex
+Package epstopdf Info: Source file: <representativeBasket-gnuplottex-fig3.eps>
+(epstopdf)                    date: 2013-11-08 18:26:32
+(epstopdf)                    size: 16740 bytes
+(epstopdf)             Output file: <representativeBasket-gnuplottex-fig3-eps-c
+onverted-to.pdf>
+(epstopdf)                    date: 2013-11-08 18:26:32
+(epstopdf)                    size: 3089 bytes
+(epstopdf)             Command: <epstopdf --outfile=representativeBasket-gnuplo
+ttex-fig3-eps-converted-to.pdf representativeBasket-gnuplottex-fig3.eps>
+(epstopdf)             \includegraphics on input line 96.
+Package epstopdf Info: Output file is already uptodate.
+
+<representativeBasket-gnuplottex-fig3-eps-converted-to.pdf, id=1888, 361.35pt x
+ 252.945pt>
+File: representativeBasket-gnuplottex-fig3-eps-converted-to.pdf Graphic file (t
+ype pdf)
+ <use representativeBasket-gnuplottex-fig3-eps-converted-to.pdf>))
+Overfull \vbox (4.8731pt too high) detected at line 1040
+ []
+
+[66
+
+ <./representativeBasket-gnuplottex-fig3-eps-converted-to.pdf>]
+\openout4 = `mfpresql.vrb'.
+
+
+(./mfpresql.vrb (./representativeBasket-gnuplottex-fig4.tex
+Package epstopdf Info: Source file: <representativeBasket-gnuplottex-fig4.eps>
+(epstopdf)                    date: 2013-11-08 18:26:32
+(epstopdf)                    size: 16724 bytes
+(epstopdf)             Output file: <representativeBasket-gnuplottex-fig4-eps-c
+onverted-to.pdf>
+(epstopdf)                    date: 2013-11-08 18:26:32
+(epstopdf)                    size: 3091 bytes
+(epstopdf)             Command: <epstopdf --outfile=representativeBasket-gnuplo
+ttex-fig4-eps-converted-to.pdf representativeBasket-gnuplottex-fig4.eps>
+(epstopdf)             \includegraphics on input line 96.
+Package epstopdf Info: Output file is already uptodate.
+
+<representativeBasket-gnuplottex-fig4-eps-converted-to.pdf, id=1918, 361.35pt x
+ 252.945pt>
+File: representativeBasket-gnuplottex-fig4-eps-converted-to.pdf Graphic file (t
+ype pdf)
+ <use representativeBasket-gnuplottex-fig4-eps-converted-to.pdf>))
+Overfull \vbox (4.8731pt too high) detected at line 1052
+ []
+
+[67
+
+ <./representativeBasket-gnuplottex-fig4-eps-converted-to.pdf>]
+\openout4 = `mfpresql.vrb'.
+
+
+(./mfpresql.vrb) [68
+
+] [69
+
+] [70
+
+] [71
+
+] [72
 
 ]
 \tf@nav=\write9
@@ -1603,13 +1713,13 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 16252 strings out of 495061
- 299547 string characters out of 1182621
+ 16332 strings out of 495061
+ 301270 string characters out of 1182621
  366766 words of memory out of 3000000
- 18685 multiletter control sequences out of 15000+50000
+ 18719 multiletter control sequences out of 15000+50000
  15592 words of font info for 66 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 49i,17n,60p,523b,593s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 49i,17n,60p,523b,623s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/sha
 re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmitt10.pfb></usr/share/texmf-t
 exlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/font
@@ -1626,9 +1736,9 @@ cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy6.pfb><
 exmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-texliv
 e/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/share/texmf-texlive/fonts/type
 1/public/amsfonts/cm/cmtt9.pfb>
-Output written on mfpresql.pdf (63 pages, 840485 bytes).
+Output written on mfpresql.pdf (72 pages, 907233 bytes).
 PDF statistics:
- 1910 PDF objects out of 2073 (max. 8388607)
- 139 named destinations out of 1000 (max. 500000)
- 177 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2172 PDF objects out of 2487 (max. 8388607)
+ 158 named destinations out of 1000 (max. 500000)
+ 200 words of extra memory for PDF output out of 10000 (max. 10000000)
 
