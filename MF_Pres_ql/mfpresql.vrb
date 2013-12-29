@@ -2,4 +2,4 @@
 It does not seem to be clear to what secondary instrument set you
 should calibrate your model in order to represent calls on a cms
 (or more generally float float) swaps, although in practice atm
-coterminals seem to be a natural choice.
+coterminals seem to be a common choice.

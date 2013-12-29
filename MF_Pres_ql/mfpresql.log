@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.5.29)  8 NOV 2013 20:12
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.5.29)  11 NOV 2013 21:21
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -697,9 +697,9 @@ Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
 \verbatim@out=\write5
-runsystem(echo t > "w18-test-20131181212.tex")...executed.
+runsystem(echo t > "w18-test-201311111281.tex")...executed.
 
-runsystem(del "w18-test-20131181212.tex")...executed.
+runsystem(del "w18-test-201311111281.tex")...executed.
 
 
 
@@ -1283,7 +1283,7 @@ Package epstopdf Info: Output file is already uptodate.
 File: sabrsmile1-eps-converted-to.pdf Graphic file (type pdf)
 
 <use sabrsmile1-eps-converted-to.pdf>))
-Overfull \vbox (4.26477pt too high) detected at line 440
+Overfull \vbox (4.26477pt too high) detected at line 439
  []
 
 [23
@@ -1623,7 +1623,7 @@ Package epstopdf Info: Output file is already uptodate.
 File: representativeBasket-gnuplottex-fig1-eps-converted-to.pdf Graphic file (t
 ype pdf)
  <use representativeBasket-gnuplottex-fig1-eps-converted-to.pdf>))
-Overfull \vbox (4.8731pt too high) detected at line 1027
+Overfull \vbox (4.8731pt too high) detected at line 1029
  []
 
 [65
@@ -1650,7 +1650,7 @@ Package epstopdf Info: Output file is already uptodate.
 File: representativeBasket-gnuplottex-fig3-eps-converted-to.pdf Graphic file (t
 ype pdf)
  <use representativeBasket-gnuplottex-fig3-eps-converted-to.pdf>))
-Overfull \vbox (4.8731pt too high) detected at line 1040
+Overfull \vbox (4.8731pt too high) detected at line 1042
  []
 
 [66
@@ -1677,7 +1677,7 @@ Package epstopdf Info: Output file is already uptodate.
 File: representativeBasket-gnuplottex-fig4-eps-converted-to.pdf Graphic file (t
 ype pdf)
  <use representativeBasket-gnuplottex-fig4-eps-converted-to.pdf>))
-Overfull \vbox (4.8731pt too high) detected at line 1052
+Overfull \vbox (4.8731pt too high) detected at line 1054
  []
 
 [67
@@ -1694,9 +1694,13 @@ Overfull \vbox (4.8731pt too high) detected at line 1052
 
 ] [71
 
-] [72
-
 ]
+</home/peter/Pictures/Beaker2.png, id=2053, 72.27pt x 151.0443pt>
+File: /home/peter/Pictures/Beaker2.png Graphic file (type png)
+
+<use /home/peter/Pictures/Beaker2.png> [72
+
+ </home/peter/Pictures/Beaker2.png>]
 \tf@nav=\write9
 \openout9 = `mfpresql.nav'.
 
@@ -1706,17 +1710,18 @@ Overfull \vbox (4.8731pt too high) detected at line 1052
 \tf@snm=\write11
 \openout11 = `mfpresql.snm'.
 
- (./mfpresql.aux)
+
+(./mfpresql.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
  ) 
 Here is how much of TeX's memory you used:
- 16332 strings out of 495061
- 301270 string characters out of 1182621
+ 16338 strings out of 495061
+ 301450 string characters out of 1182621
  366766 words of memory out of 3000000
- 18719 multiletter control sequences out of 15000+50000
+ 18723 multiletter control sequences out of 15000+50000
  15592 words of font info for 66 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  49i,17n,60p,523b,623s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1736,9 +1741,9 @@ cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy6.pfb><
 exmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-texliv
 e/fonts/type1/public/amsfonts/cm/cmtt8.pfb></usr/share/texmf-texlive/fonts/type
 1/public/amsfonts/cm/cmtt9.pfb>
-Output written on mfpresql.pdf (72 pages, 907233 bytes).
+Output written on mfpresql.pdf (72 pages, 1175957 bytes).
 PDF statistics:
- 2172 PDF objects out of 2487 (max. 8388607)
+ 2175 PDF objects out of 2487 (max. 8388607)
  158 named destinations out of 1000 (max. 500000)
- 200 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 205 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -40,7 +40,7 @@ Consider the following interest rate swap, with 10y maturity.
 
 \begin{frame}
 \frametitle{Model requirements}
-A good start\footnote{one important requirement - the decorrelation of Euribor6m and CMS10y rates - is missing here, and actually not satisfied by the Markov model} would be to use a model that
+A good start\footnote{one important requirement - the decorrelation of Euribor6m and CMS10y rates - is missing here, and actually not satisfied by the Markov 1F model} would be to use a model that
 \begin{itemize}
 \item prices the underlying CMS coupons consistently with given swaption volatility smiles
 \item can in addition be calibrated to swaptions representing the call right (say for the moment to atm coterminals)
@@ -52,7 +52,7 @@ A plain Hull White model fulfills $\#2$ and $\#3$ but clearly fails to meet $\#1
 
 
 \begin{frame}[fragile]
-\frametitle{The markov model approach}
+\frametitle{The Markov model approach}
 This is where the Markov Functional Model jumps in. Before going into details on how it works, we give
 an example in terms of QuantLib Code. Let's suppose you have already constructed a 
 \begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
@@ -167,8 +167,7 @@ Real npv = swaption->NPV();
 The npv of the swap on the other hand can be retrieved with standard cms coupon pricers implementing
 a replication in some swap rate model
 \footnote{this is slightly different from pricing the full structured swap in the markov model,
-since it does not give exactly the same price as some semianalytical model for theoretical as well
-as numerical differences}.
+since there are theoretical differences between the models (in addition to differences in their numerical solution)}.
 \end{frame}
 
 \begin{frame}[fragile]
@@ -360,7 +359,7 @@ Underlying Npv (MF)  & 1.00\\
 \end{table}
 
 The match is very close (0.1 bp times the nominal). It should be noted that from theory
-we can not even expect a perfect match since the swap rate dynamics is not the same
+we can not even expect a perfect match since the rate dynamics is not the same
 in the Hagan model and the Markov model respectively.
 }
 
@@ -373,7 +372,7 @@ We change the code to replace the Markov model with a Hull White model. This is 
         std::vector<Real> sigma2(sigma.begin(), sigma.end() - 1);
         boost::shared_ptr<Gsr> gsr(new Gsr(yts,sigmaSteps2,sigma2,reversionLevel->value()));
 \end{minted}
-and replacing \verb+mf+ by \verb+gsr+ (we could have use a generic name of course...). The calibration now reads
+and replacing \verb+mf+ by \verb+gsr+ (we could have used a generic name of course...). The calibration now reads
 \begin{minted}[fontsize=\tiny, bgcolor=mintedBg]{c++}
         gsr->calibrate(basket, opt, ec, Constraint(), std::vector<Real>(), model->FixedReversions());
 \end{minted}
@@ -399,12 +398,12 @@ Underlying Npv   & 1.00 & 657.81\\
 \end{tabular}
 \end{table}
 
-The underlying and the option are drastically overpriced (both)  by over $60 bp$ in the Hull White model.
+The underlying and the option are drastically overpriced (both)  by over $60$bp in the Hull White model.
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{A full example: A more realistic smile surface}
-Swaption smiles are far from being flat. We test the model with a SABR volatility cube
+Swaption smiles are usually far from being flat. We test the model with a SABR volatility cube
 (with constant parameters $\alpha=0.15$, $\beta=0.80$, $\nu=0.20$, $\rho=-0.30$) by setting
 
 \begin{minted}[fontsize=\tiny, bgcolor=mintedBg]{c++}
@@ -423,8 +422,8 @@ Underlying Npv   & 259.96 & 648.26 \\
 \end{tabular}
 \end{table}
 
-Again the underlying and the option is overpriced (by $40 bp$ resp. $53 bp$) in the Hull White model.
-In the Markov model the fit is still good ($1.4bp$ underlying price difference).
+Again the underlying and the option is overpriced (by $40$bp resp. $53$bp) in the Hull White model.
+In the Markov model the fit is still good ($1.4$bp underlying price difference).
 \end{frame}
 
 
@@ -712,7 +711,8 @@ To ensure a bijective mapping
 \textnormal{dig}_{\textnormal{mkt}} : (0,\infty) \rightarrow (0,A(0))
 \end{equation}
 
-it is sufficient to have an arbitrage free input smile. It is possible to allow for negative rates and generalize
+it is sufficient to have an arbitrage free input smile with a $C^1$ call price function. 
+It is possible to allow for negative rates and generalize
 the interval $(0,\infty)$ to $(-\kappa,\infty)$ with some suitable $\kappa>0$, e.g. $\kappa = 1\%$. In general
 input smiles are not arbitrage free, so some preconditioning is advisable, since arbitrageable smiles will break the
 numeraire calibration.
@@ -827,7 +827,7 @@ For the numerical integration of
 \item digitals during numeraire bootstrapping or 
 \item exotic pricing 
 \end{itemize}
-Gauss Hermite is possible but leading not to satisfactory accuracy. This is due to the non global nature of the integrand in this case. Here we rely on  exact integration of the piecewise $3$rd order polynomials against the gaussian density, which is possible in closed form only involving the error function erf
+Gauss Hermite is possible but not leading to satisfactory accuracy. This is due to the non global nature of the integrand in this case. Here we rely on  exact integration of the piecewise $3$rd order polynomials against the gaussian density, which is possible in closed form only involving the error function erf
 
 }
 
@@ -1002,6 +1002,8 @@ default is working in most cases
 
 \begin{frame}[fragile]
 \frametitle{Representative Basket Approach}
+We are coming back to the question to which secondary instrument basket we
+should calibrate to represent cms / float (or other exotic) swaptions.
 \begin{itemize}
 \item Problem: Find standard swaptions that represent an exotic call right
 appropriately in your Markov Functional (or any one factor) model.
@@ -1057,7 +1059,7 @@ example with the CMS swaption.
 It does not seem to be clear to what secondary instrument set you
 should calibrate your model in order to represent calls on a cms
 (or more generally float float) swaps, although in practice atm
-coterminals seem to be a natural choice. 
+coterminals seem to be a common choice. 
 \end{frame}
 
 
@@ -1113,11 +1115,11 @@ A base version of the model is available since release $1.3$. Recent developemts
 
 \section{Questions}
 
-\frame{\frametitle{Thank you,  Q and A}
-% \begin{figure}
-% 	\centering
-% 		\includegraphics{~/Downloads/Beaker2.png}
-% \end{figure}
+\frame{\frametitle{Thank you,  Questions ?}
+\begin{figure}
+	\centering
+		\includegraphics{/home/peter/Pictures/Beaker2.png}
+\end{figure}
 
 }
 
