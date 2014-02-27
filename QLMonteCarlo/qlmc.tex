@@ -19,8 +19,6 @@
 
 \frame{\titlepage} 
 
-\frame{\frametitle{Table of contents}\tiny \tableofcontents[hideallsubsections]}
-
 \section{Basics}
 
 \begin{frame}
@@ -38,7 +36,9 @@
 \frametitle{Terminology II}
 For an exercise time $i\geq 1$, Cumulated Cashflows := NPV of cashflows between $i$ and $i+1$
 where $i+1$ may stand for $\infty$ and $i=0$ is reserved for the period
-[evaldate, first exercise]. Here ``between'' is not referring to the payment
+[evaldate, first exercise]. 
+
+Here ``between'' is not referring to the payment
 time but to the the cashflow belonging to the exercise into part for 
 exercise $i$.
 \end{frame}
@@ -46,8 +46,9 @@ exercise $i$.
 \begin{frame}
 \frametitle{NPV are deflated NPVs always !}
 We will have to compare NPVs accross different times. This is possible
-for deflated NPVs, i.e. NPVs divded by the numeraire. Deflated NPVs
-are ``timeless'' (because the transformation to an absolute NPV as
+for deflated NPVs, i.e. NPVs divded by the numeraire. 
+
+Deflated NPVs are ``timeless'' (because the transformation to an absolute NPV as
 of time t is done by multiplication with the numeraire N(t)).
 \end{frame}
 
@@ -64,10 +65,12 @@ of time t is done by multiplication with the numeraire N(t)).
 \begin{frame}
 \frametitle{Side note: Control Variate}
 Choose product $C$
+\vspace{\baselineskip}
 \begin{itemize}
 \item with high correlation to product $V$ to price
 \item known analytical value
 \end{itemize}
+\vspace{\baselineskip}
 and use
 \begin{equation}
 E(V) = E(V+\gamma(C-E(C)))
@@ -80,6 +83,7 @@ Then there is some optimal $\gamma$ which minimizes the variance of the rhs argu
 \begin{frame}
 \frametitle{Basis Systems}
 Typical examples include
+\vspace{\baselineskip}
 \begin{itemize}
 \item polynomials (of different type) in model's state variables or
 \item in financial quantities like forward rates, swap rates
@@ -88,6 +92,7 @@ Typical examples include
 
 \begin{frame}
 \frametitle{Strategies}
+\vspace{\baselineskip}
 \begin{itemize}
 \item Longstaff Schwartz: Continuation Value = Linear function in Basis System
 \item Parametric Exercise: Exercise = Arbitrary Indicator function in Basis System
@@ -97,9 +102,10 @@ Typical examples include
 \begin{frame}
 \frametitle{Strategy building}
 Generate $m$ training paths and collect data on the training paths:
+\vspace{\baselineskip}
 \begin{itemize}
 \item cumulated cash flows
-\item exercise values ($-\infty$ if ``addtional'' grid point only)
+\item exercise values ($-\infty$ if ``additional'' grid point only)
 \item basis system values
 \item control values
 \end{itemize}
@@ -108,22 +114,29 @@ Generate $m$ training paths and collect data on the training paths:
 \begin{frame}
 \frametitle{Longstaff Schwartz}
 Backward iteration through exercise times, in each step $i$:
+\vspace{\baselineskip}
 \begin{itemize}
 \item Least square linear regression of cumulated cash flows on basis system values
-\item Update $i-1$ cumulated cash flows by adding $\max($ estimated continuation value, exercise value $)$
+\item Estimate continuation value by regression and decide whether to exercise (based on information
+available up to exercise time)
+\item Update $i-1$ cumulated cash flows by adding exercise value (if exercised) or 
+cumulated cashflows $\geq i$ (if not exercised, this is not the estimated continuation value, but the
+actual path value!)
 \end{itemize}
-It is essential of using the estimated continuation value instead of the cumulated cashflows
-on the respective path, because we are not allowed to use future's information.
-Note that averaging at $i=0$ already gives the products NPV.
+\vspace{\baselineskip}
+Note that averaging at $i=0$ already gives the products NPV, because then the paths already look like
+as if generated with the LS strategy.
 \end{frame}
 
 \begin{frame}
 \frametitle{Parametric exercise}
 For a fixed parameter set
+\vspace{\baselineskip}
 \begin{itemize}
 \item Apply a generic exercise trigger depending on the parameters
 \item Add exercise value or cumulated cashflows depending on the decision
 \end{itemize}
+\vspace{\baselineskip}
 Optimize the parameters to maximaize the mean of the realized NPV over the training paths.
 \end{frame}
 
@@ -134,6 +147,7 @@ Optimize the parameters to maximaize the mean of the realized NPV over the train
 \frametitle{NodeData}
 Represents a ``node'' (exercise time, path). We will have number of paths times
 exercise times nodes in the end.
+\vspace{\baselineskip} \\
 \begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
     struct NodeData {
         Real exerciseValue;
@@ -143,6 +157,7 @@ exercise times nodes in the end.
         bool isValid;
     };
 \end{minted}
+\vspace{\baselineskip} \\
 \verb+values+ are the basis system values, the remaining member variables are self
 explaining.
 \end{frame}
@@ -150,21 +165,25 @@ explaining.
 \begin{frame}[fragile]
 \frametitle{genericLongstaffSchwartzRegression}
 Computes least square linear regression coefficients for the basis system.
+\vspace{\baselineskip} \\
 \begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
     Real genericLongstaffSchwartzRegression(
                 std::vector<std::vector<NodeData> >& simulationData,
                 std::vector<std::vector<Real> >& basisCoefficients)
 \end{minted}
+\vspace{\baselineskip} \\
 \verb+simulationData+ should contain exercise times + 1 vectors of size $m$ = number of paths.
 The first entry in simulation data corresponds to the case $i=0$ above.
-The return value is the (deflated !) product NPV. The coefficients are written to the second
-input parameter.
+The return value is the (deflated !) product NPV (though evaluated not using variance reduction
+by control variate, this is only used for the regression itself). The coefficients are written to
+the second input parameter.
 \end{frame}
 
 
 \begin{frame}[fragile]
 \frametitle{ParametricExercise}
 Base class for arbitrary parametric exercise strategies.
+\vspace{\baselineskip} \\
 \begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
   class ParametricExercise {
     public:
@@ -184,6 +203,7 @@ Base class for arbitrary parametric exercise strategies.
 \begin{frame}[fragile]
 \frametitle{genericEarlyExerciseOptimization}
 Computes an optimal parameteric exercise strategy
+\vspace{\baselineskip}
 \begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
     Real genericEarlyExerciseOptimization(
         std::vector<std::vector<NodeData> >& simulationData,
@@ -194,12 +214,14 @@ Computes an optimal parameteric exercise strategy
 \end{minted}
 \end{frame}
 
-\section{Specific Plan for PFE / CVA}
+\section{Specific Next Steps}
 
 \begin{frame}[fragile]
 \frametitle{Adding non exercise nodes}
-One could add nodes where no exercise is possible in order to be able to approximate
-the continuation NPV by regression for PFE, CVA simulations. For this we can just
+One can add nodes where no exercise is possible in order to be able to approximate
+the continuation NPV by regression for PFE, CVA simulations. 
+
+For this we can just
 set the \verb+exerciseValue+ to $-\infty$ at the corresponding nodes.
 \end{frame}
 
@@ -208,6 +230,7 @@ set the \verb+exerciseValue+ to $-\infty$ at the corresponding nodes.
 Can be copied from Gaussian1dSwaptionEngine and then transformed to a MC engine,
 providing an additional method to approximate NPVs by regression for usage in PFE,
 CVA simulations.
+
 Working on the generic model process, it can then be used for Hull White 1F and
 Markov Functional without any further effort.
 \end{frame}
