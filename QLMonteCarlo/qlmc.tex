@@ -1,0 +1,226 @@
+\documentclass{beamer}
+
+\usetheme{CambridgeUS}
+\usefonttheme{professionalfonts}
+
+\usepackage{epstopdf}
+\usepackage{graphicx}
+\usepackage[miktex]{gnuplottex}
+\usepackage{minted}
+
+\usemintedstyle{manni}
+\definecolor{mintedBg}{rgb}{0.98,0.98,0.70}
+
+\begin{document}
+\title{QL MC / Early Exercise}  
+\author{Peter Caspers}
+\institute{IKB}
+\date{February 26, 2014} 
+
+\frame{\titlepage} 
+
+\frame{\frametitle{Table of contents}\tiny \tableofcontents[hideallsubsections]}
+
+\section{Basics}
+
+\begin{frame}
+\frametitle{Terminology I}
+\begin{itemize}
+\item Exercise Value = NPV in case of exercise
+\item Continuation Value = NPV in case of no exercise
+\item Control Value = NPV of control variate (optional)
+\item State = State variable(s) of model
+\item Basis System = Functions of model's state variables
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Terminology II}
+For an exercise time $i\geq 1$, Cumulated Cashflows := NPV of cashflows between $i$ and $i+1$
+where $i+1$ may stand for $\infty$ and $i=0$ is reserved for the period
+[evaldate, first exercise]. Here ``between'' is not referring to the payment
+time but to the the cashflow belonging to the exercise into part for 
+exercise $i$.
+\end{frame}
+
+\begin{frame}
+\frametitle{NPV are deflated NPVs always !}
+We will have to compare NPVs accross different times. This is possible
+for deflated NPVs, i.e. NPVs divded by the numeraire. Deflated NPVs
+are ``timeless'' (because the transformation to an absolute NPV as
+of time t is done by multiplication with the numeraire N(t)).
+\end{frame}
+
+\begin{frame}
+\frametitle{Exercise Strategy}
+\begin{itemize}
+\item Exercise if and only if Exercise Value $\geq$ Continuation Value
+\item Continuation Value is not known
+\item Estimate Continuation Value as a function of the Basis System
+\item Exercise is never optimal, therefore option value is underestimated
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Side note: Control Variate}
+Choose product $C$
+\begin{itemize}
+\item with high correlation to product $V$ to price
+\item known analytical value
+\end{itemize}
+and use
+\begin{equation}
+E(V) = E(V+\gamma(C-E(C)))
+\end{equation}
+Then there is some optimal $\gamma$ which minimizes the variance of the rhs argument. C is called Control Variate. By renormalization we can assume $\gamma = -1$.
+\end{frame}
+
+\section{Exercise Strategies}
+
+\begin{frame}
+\frametitle{Basis Systems}
+Typical examples include
+\begin{itemize}
+\item polynomials (of different type) in model's state variables or
+\item in financial quantities like forward rates, swap rates
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Strategies}
+\begin{itemize}
+\item Longstaff Schwartz: Continuation Value = Linear function in Basis System
+\item Parametric Exercise: Exercise = Arbitrary Indicator function in Basis System
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Strategy building}
+Generate $m$ training paths and collect data on the training paths:
+\begin{itemize}
+\item cumulated cash flows
+\item exercise values ($-\infty$ if ``addtional'' grid point only)
+\item basis system values
+\item control values
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Longstaff Schwartz}
+Backward iteration through exercise times, in each step $i$:
+\begin{itemize}
+\item Least square linear regression of cumulated cash flows on basis system values
+\item Update $i-1$ cumulated cash flows by adding $\max($ estimated continuation value, exercise value $)$
+\end{itemize}
+It is essential of using the estimated continuation value instead of the cumulated cashflows
+on the respective path, because we are not allowed to use future's information.
+Note that averaging at $i=0$ already gives the products NPV.
+\end{frame}
+
+\begin{frame}
+\frametitle{Parametric exercise}
+For a fixed parameter set
+\begin{itemize}
+\item Apply a generic exercise trigger depending on the parameters
+\item Add exercise value or cumulated cashflows depending on the decision
+\end{itemize}
+Optimize the parameters to maximaize the mean of the realized NPV over the training paths.
+\end{frame}
+
+
+\section{QuantLib Support}
+
+\begin{frame}[fragile]
+\frametitle{NodeData}
+Represents a ``node'' (exercise time, path). We will have number of paths times
+exercise times nodes in the end.
+\begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
+    struct NodeData {
+        Real exerciseValue;
+        Real cumulatedCashFlows;
+        std::vector<Real> values;
+        Real controlValue;
+        bool isValid;
+    };
+\end{minted}
+\verb+values+ are the basis system values, the remaining member variables are self
+explaining.
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{genericLongstaffSchwartzRegression}
+Computes least square linear regression coefficients for the basis system.
+\begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
+    Real genericLongstaffSchwartzRegression(
+                std::vector<std::vector<NodeData> >& simulationData,
+                std::vector<std::vector<Real> >& basisCoefficients)
+\end{minted}
+\verb+simulationData+ should contain exercise times + 1 vectors of size $m$ = number of paths.
+The first entry in simulation data corresponds to the case $i=0$ above.
+The return value is the (deflated !) product NPV. The coefficients are written to the second
+input parameter.
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{ParametricExercise}
+Base class for arbitrary parametric exercise strategies.
+\begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
+  class ParametricExercise {
+    public:
+    virtual ~ParametricExercise() {}
+    // possibly different for each exercise
+    virtual std::vector<Size> numberOfVariables() const = 0;
+    virtual std::vector<Size> numberOfParameters() const = 0;
+    virtual bool exercise(Size exerciseNumber,
+       const std::vector<Real>& parameters,
+       const std::vector<Real>& variables) const = 0;
+    virtual void guess(Size exerciseNumber,
+       std::vector<Real>& parameters) const = 0;
+  };
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{genericEarlyExerciseOptimization}
+Computes an optimal parameteric exercise strategy
+\begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
+    Real genericEarlyExerciseOptimization(
+        std::vector<std::vector<NodeData> >& simulationData,
+        const ParametricExercise& exercise,
+        std::vector<std::vector<Real> >& parameters,
+        const EndCriteria& endCriteria,
+        OptimizationMethod& method);
+\end{minted}
+\end{frame}
+
+\section{Specific Plan for PFE / CVA}
+
+\begin{frame}[fragile]
+\frametitle{Adding non exercise nodes}
+One could add nodes where no exercise is possible in order to be able to approximate
+the continuation NPV by regression for PFE, CVA simulations. For this we can just
+set the \verb+exerciseValue+ to $-\infty$ at the corresponding nodes.
+\end{frame}
+
+\begin{frame}
+\frametitle{Gaussian1dMcSwaptionEngine}
+Can be copied from Gaussian1dSwaptionEngine and then transformed to a MC engine,
+providing an additional method to approximate NPVs by regression for usage in PFE,
+CVA simulations.
+Working on the generic model process, it can then be used for Hull White 1F and
+Markov Functional without any further effort.
+\end{frame}
+
+\section{Questions}
+
+\frame{\frametitle{Thank you,  Questions ?}
+\begin{figure}
+	\centering
+		\includegraphics{/home/peter/Pictures/Beaker2.png}
+\end{figure}
+}
+
+
+
+\end{document}
