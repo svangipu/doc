@@ -68,14 +68,14 @@ Choose product $C$
 \vspace{\baselineskip}
 \begin{itemize}
 \item with high correlation to product $V$ to price
-\item known analytical value
+\item with known analytical value
 \end{itemize}
 \vspace{\baselineskip}
 and use
 \begin{equation}
 E(V) = E(V+\gamma(C-E(C)))
 \end{equation}
-Then there is some optimal $\gamma$ which minimizes the variance of the rhs argument. C is called Control Variate. By renormalization we can assume $\gamma = -1$.
+Then there is some optimal $\gamma$ which minimizes the variance of the rhs argument. $C$ is called Control Variate. By renormalization we can assume $\gamma = -1$.
 \end{frame}
 
 \section{Exercise Strategies}
@@ -86,8 +86,10 @@ Typical examples include
 \vspace{\baselineskip}
 \begin{itemize}
 \item polynomials (of different type) in model's state variables or
-\item in financial quantities like forward rates, swap rates
+\item polynomials in financial quantities like forward rates, swap rates
 \end{itemize}
+Often orthogonal basis polynominals w.r.t. some inner product on $L^2( J , \omega dx)$ are chosen, like Laguerre, 
+Hermite, Legendre, Chebyshev polynomials.
 \end{frame}
 
 \begin{frame}
