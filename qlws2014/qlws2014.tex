@@ -1,0 +1,207 @@
+\documentclass{beamer}
+
+\usetheme{CambridgeUS}
+\usefonttheme{professionalfonts}
+
+\usepackage{epstopdf}
+\usepackage{graphicx}
+\usepackage[miktex]{gnuplottex}
+\usepackage{minted}
+
+\usemintedstyle{manni}
+\definecolor{mintedBg}{rgb}{0.98,0.98,0.70}
+
+\begin{document}
+\title{QuantLib Erlk\"onige}  
+\author{Peter Caspers}
+\institute{IKB}
+\date{December 4th 2014} 
+
+\frame{\titlepage} 
+
+\frame{\frametitle{Table of contents}\tiny\tableofcontents[hideallsubsections]} 
+
+
+\section{CMS Spread Coupons}
+
+\frame{\frametitle{CMS Spread Coupons}
+Still missing: a coupon class which models cms spread coupons
+\begin{equation}
+\tau (\textnormal{CMS10y} - \textnormal{CMS2y})
+\end{equation}
+possibly capped and / or floored.
+}
+
+\begin{frame}[fragile]
+\frametitle{Approach 1: Formula index}
+Introduce an artificial index derived from \verb+InterestRateIndex+
+\begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
+SwapSpreadIndex(const std::string& familyName,
+                const boost::shared_ptr<SwapIndex>& swapIndex1,
+                const boost::shared_ptr<SwapIndex>& swapIndex2,
+                const Real gearing1 = 1.0,
+                const Real gearing2 = -1.0);
+\end{minted}
+and build everything else on top of it as with the other coupons based
+on ibor or cms indexes.
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Approach 1: Repairing the class hiearchy}
+Since the formula index does not have own fixings, we would have to
+adjust the index base class by adding
+\begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
+//! check if index allows for native fixings
+virtual void checkNativeFixingsAllowed() {}
+\end{minted}
+and forbid native fixings in formula based indices
+\begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
+//! check if index allows for native fixings
+virtual void checkNativeFixingsAllowed() {}
+void checkNativeFixingsAllowed() {
+    QL_FAIL("native fixings not allowed in swap spread index, refer to "
+            "underlying indices instead");
+}
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Approach 2: Construct coupons with two swap indexes}
+If two swap indexes are used to construct a cms spread coupon we would need
+a more flexible way to construct floating legs, since
+\begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
+    template <typename InterestRateIndexType,
+              typename FloatingCouponType,
+              typename CappedFlooredCouponType>
+    Leg FloatingLeg(const Schedule& schedule,
+                    const std::vector<Real>& nominals,
+                    const boost::shared_ptr<InterestRateIndexType>& index,
+                    const DayCounter& paymentDayCounter,
+                    BusinessDayConvention paymentAdj,
+                    const std::vector<Natural>& fixingDays,
+                    const std::vector<Real>& gearings,
+                    const std::vector<Spread>& spreads,
+                    const std::vector<Rate>& caps,
+                    const std::vector<Rate>& floors,
+                    bool isInArrears, bool isZero) {
+\end{minted}
+only allows for one index. 
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Approach 2: Coupon Factories}
+We could introduce a factory instead of the template parameters
+\begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
+Leg FloatingLeg(const FloatingCouponFactory& factory,
+                const Schedule& schedule,
+                ...
+\end{minted}
+which can generate plain, capped / floored and digital
+couons for the ibor, cms, cms spread flavours.
+\end{frame}
+
+\frame{\frametitle{CMS Spread Coupons - Summary}
+\begin{itemize}
+\item Introducing a formula based index would not exactly fit the semantics
+of the Index class. We would have to distinguish between native
+indexes (with own fixings) and derived ones.
+\item Using two indexes in the spread coupon class forces to introduce a more
+flexible way to construct floating legs, e.g. via factories.
+\end{itemize}
+}
+
+
+\section{OIS Curve Helpers}
+
+\frame{\frametitle{OIS Curves Helpers}
+
+
+
+}
+
+\section{Credit Risk Plus}
+
+\frame{\frametitle{OIS Curves Helpers}
+
+
+
+}
+
+\section{Linear TSR CMS Coupon Pricer}
+
+\frame{\frametitle{Linear TSR CMS Coupon Pricer}
+
+
+
+}
+
+
+
+\section{Gaussian1d Models}
+
+\frame{\frametitle{Gaussian1d Models}
+
+
+
+}
+
+
+\section{No Arbitrage SABR}
+
+\frame{\frametitle{No Arbitrage SABR}
+
+
+
+}
+
+
+\section{ZABR, BDK, Kahale, SVI}
+
+\frame{\frametitle{ZABR, BDK, Kahale, SVI}
+
+
+
+}
+
+
+\section{Simulated Annealing}
+
+\frame{\frametitle{Simulated Annealing}
+
+
+
+}
+
+
+\section{Runge Kutta ODE Solver}
+
+\frame{\frametitle{Runge Kutta ODE Solver}
+
+
+
+}
+
+
+\section{Dynamic Creator of Mersenne Twister}
+
+\frame{\frametitle{Dynamic Creator of Mersenne Twister}
+
+
+
+}
+
+
+
+\section{Questions}
+
+\frame{\frametitle{Thank you}
+Questions?
+\begin{figure}
+	\centering
+		%\includegraphics{../../../Downloads/Beaker2.png}
+\end{figure}
+
+}
+
+\end{document}
+
