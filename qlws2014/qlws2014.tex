@@ -137,26 +137,27 @@ couons for the ibor, cms, cms spread flavours.
 of the Index class. We would have to distinguish between native
 indexes (with own fixings) and derived ones. On the other hand this seems to be a quite generic approach, since formula based indexes could be used whereever an InterestRateIndex is allowed
 \item Using two indexes in the spread coupon class forces us to introduce a more
-flexible way to construct floating legs, e.g. via factories. This keeps the design clean and the semantics of index sharp.
+flexible way to construct floating legs, e.g. via factories. This keeps the design clean and the semantics of index sharp. However this is not 100\% backward compatible since FloatingLeg is in the main QuantLib namespace.
 \end{itemize}
-}
-
-
-\section{OIS Curve Helpers}
-
-\frame{\frametitle{OIS Curves Helpers}
-
-
-
 }
 
 \section{Credit Risk Plus}
 
-\frame{\frametitle{OIS Curves Helpers}
-
-
-
-}
+\begin{frame}[fragile]
+\frametitle{Credit Risk Plus}
+A single period, nominal based credit portfolio model, based on Credit Risk Plus, with some extensions allowing for correlated sectors (Integrating Correlations, Risk, July 1999).
+\vspace{2mm}
+\begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
+  CreditRiskPlus(const std::vector<Real> &exposure,
+     const std::vector<Real> &defaultProbability,
+     const std::vector<Size> &sector,
+     const std::vector<Real> &relativeDefaultVariance,
+     const Matrix &correlation, const Real unit);
+\end{minted}
+\\
+\vspace{2mm}
+The loss distribution is computed analytically, so very fast. The model comes with a decomposition of the unexpected loss into single obligors' marginal losses.
+\end{frame}
 
 \section{Linear TSR CMS Coupon Pricer}
 
