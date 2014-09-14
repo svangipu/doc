@@ -22,6 +22,7 @@
 \frame{\frametitle{Table of contents}\tiny\tableofcontents[hideallsubsections]} 
 
 
+
 \section{CMS Spread Coupons}
 
 \frame{\frametitle{CMS Spread Coupons}
@@ -35,6 +36,7 @@ possibly capped and / or floored.
 \begin{frame}[fragile]
 \frametitle{Approach 1: Formula index}
 Introduce an artificial index derived from \verb+InterestRateIndex+
+\vspace{2mm}
 \begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
 SwapSpreadIndex(const std::string& familyName,
                 const boost::shared_ptr<SwapIndex>& swapIndex1,
@@ -42,6 +44,8 @@ SwapSpreadIndex(const std::string& familyName,
                 const Real gearing1 = 1.0,
                 const Real gearing2 = -1.0);
 \end{minted}
+\\
+\vspace{2mm}
 and build everything else on top of it as with the other coupons based
 on ibor or cms indexes.
 \end{frame}
@@ -50,11 +54,15 @@ on ibor or cms indexes.
 \frametitle{Approach 1: Repairing the class hiearchy}
 Since the formula index does not have own fixings, we would have to
 adjust the index base class by adding
+\vspace{2mm}
 \begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
 //! check if index allows for native fixings
 virtual void checkNativeFixingsAllowed() {}
 \end{minted}
+\\
+\vspace{2mm}
 and forbid native fixings in formula based indices
+\vspace{2mm}
 \begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
 //! check if index allows for native fixings
 virtual void checkNativeFixingsAllowed() {}
@@ -63,50 +71,73 @@ void checkNativeFixingsAllowed() {
             "underlying indices instead");
 }
 \end{minted}
+\\
+\vspace{2mm}
+A nicer solution would be to make the addFixing methods virtual and throw
+an exception in CMS spread index, but they are template methods.
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Approach 2: Construct coupons with two swap indexes}
 If two swap indexes are used to construct a cms spread coupon we would need
 a more flexible way to construct floating legs, since
+\vspace{2mm}
 \begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
-    template <typename InterestRateIndexType,
-              typename FloatingCouponType,
-              typename CappedFlooredCouponType>
-    Leg FloatingLeg(const Schedule& schedule,
-                    const std::vector<Real>& nominals,
-                    const boost::shared_ptr<InterestRateIndexType>& index,
-                    const DayCounter& paymentDayCounter,
-                    BusinessDayConvention paymentAdj,
-                    const std::vector<Natural>& fixingDays,
-                    const std::vector<Real>& gearings,
-                    const std::vector<Spread>& spreads,
-                    const std::vector<Rate>& caps,
-                    const std::vector<Rate>& floors,
-                    bool isInArrears, bool isZero) {
+ template <typename InterestRateIndexType,
+           typename FloatingCouponType,
+           typename CappedFlooredCouponType>
+ Leg FloatingLeg(const Schedule& schedule,
+                 const std::vector<Real>& nominals,
+                 const boost::shared_ptr<InterestRateIndexType>& index,
+                 const DayCounter& paymentDayCounter,
+                 BusinessDayConvention paymentAdj,
+                 const std::vector<Natural>& fixingDays,
+                 const std::vector<Real>& gearings,
+                 const std::vector<Spread>& spreads,
+                 const std::vector<Rate>& caps,
+                 const std::vector<Rate>& floors,
+                 bool isInArrears, bool isZero) {
 \end{minted}
+\\
+\vspace{2mm}
 only allows for one index. 
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Approach 2: Coupon Factories}
 We could introduce a factory instead of the template parameters
+\vspace{2mm}
 \begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
 Leg FloatingLeg(const FloatingCouponFactory& factory,
                 const Schedule& schedule,
                 ...
 \end{minted}
+\\
+\vspace{2mm}
 which can generate plain, capped / floored and digital
 couons for the ibor, cms, cms spread flavours.
+\vspace{2mm}
+\begin{minted}[fontsize=\footnotesize, bgcolor=mintedBg]{c++}
+  class FloatingCouponFactory {
+    virtual boost::shared_ptr<FloatingRateCoupon>
+      plainCoupon(const Date &paymentDate, Real nominal,...)
+    virtual boost::shared_ptr<CappedFlooredCoupon>
+      cappedFlooredCoupon(const Date &paymentDate, Real nominal,...)
+    virtual boost::shared_ptr<DigitalCoupon> digitalCoupon(
+      const Date &paymentDate, Real nominal, const Date &startDate,...)
+    virtual Natural defaultFixingDays() const = 0;
+};
+\end{minted}
+
 \end{frame}
 
 \frame{\frametitle{CMS Spread Coupons - Summary}
 \begin{itemize}
 \item Introducing a formula based index would not exactly fit the semantics
 of the Index class. We would have to distinguish between native
-indexes (with own fixings) and derived ones.
-\item Using two indexes in the spread coupon class forces to introduce a more
-flexible way to construct floating legs, e.g. via factories.
+indexes (with own fixings) and derived ones. On the other hand this seems to be a quite generic approach, since formula based indexes could be used whereever an InterestRateIndex is allowed
+\item Using two indexes in the spread coupon class forces us to introduce a more
+flexible way to construct floating legs, e.g. via factories. This keeps the design clean and the semantics of index sharp.
 \end{itemize}
 }
 
@@ -194,14 +225,18 @@ flexible way to construct floating legs, e.g. via factories.
 
 \section{Questions}
 
-\frame{\frametitle{Thank you}
-Questions?
+\begin{frame}[fragile]
+\frametitle{Questions / Discussion}
+\resizebox{\textwidth}{!}{
+\begin{minipage}{0.75\textwidth}
 \begin{figure}
 	\centering
-		%\includegraphics{../../../Downloads/Beaker2.png}
+		\includegraphics{../../../Pictures/erlkoenige/french_70s_automodule05.jpg}
+\\
+French Erlk\"onig from the 70s
 \end{figure}
-
-}
+\end{minipage}}
+\end{frame}
 
 \end{document}
 
