@@ -1,0 +1,163 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+\usepackage[miktex]{gnuplottex}
+\usepackage{epstopdf}
+%\usepackage[pdf]{pstricks}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%--------------------------------------------------------
+
+\begin{document}
+
+\title[CVA/FVA in QL]{CVA/DVA/FVA in QL}
+\author{Peter Caspers}
+\email[Peter Caspers]{pcaspers1973@gmail.com}
+\date{September 25, 2014}
+\dedicatory{First Version September 25, 2014 - This Version September 25, 2014}
+\begin{abstract}
+\end{abstract}
+\maketitle
+
+\section{Introduction}
+
+This document summarizes the general framework for calculation of CVA and FVA of derivative contracts or
+a portfolio of contracts, which at the same time we consider to be a netting set, i.e. the level at which
+market values are netted in case of defaults and also the level at which we manage our overall funding (although
+in geneneral, the CVA/DVA netting set is restricted to one counterparty, sometimes even only to certain products with
+that counterparty or otherwise separated contracts - while the FVA funding set may contain a whole portfolio or even
+several or all portfolios of a bank - since we can separate the CVA/DVA and FVA calculation under certain independence
+assumptions, this is no restriction however, since we can adapt the netting set to the specific type of calculation). 
+The contracts in question may be collateralized or uncollaterized. The collateral account may be allowed to be a source of
+funding or not. The rate for deposits and loans may be different.
+
+\section{General Framework}
+
+\subsection{CVA / DVA}
+
+CVA resp. DVA is the expected loos arising from a positive exposure from our point of view resp. the counterparty
+point of view. If $\tau, \tau^*$ is the default time of the counterparty resp. our own default time
+
+\begin{equation}
+\textnormal{CVA} + \textnormal{DVA} = N(0) \int_{\Omega\times R^{+2}} \{ -\lambda \nu^+(\tau,\omega) + \lambda^* \nu^-(\tau^*,\omega) \} d\mu 
+\end{equation}
+
+where $\lambda, \lambda^*$ are the counterparty's / our loss given defaul levels, $\Omega$ is the path space (representing the market value drivers), $\mu$ is the joint distribution of the counterparty's / our default time and the paths. $\nu$ is the deflated NPV in some pricing measure associated with a numeraire $N$. We consider the CVA to be negative and the DVA to be positive, so that they can be simply added to the risk free derivative's npv to get the CVA / DVA adjusted market value.
+
+We think of $\lambda, \lambda^*$ to model both uncollateralized and collateralized deals. E.g. in case of perfect, bilateral collateraliztaion (in particular no threshhold, no minimum transfer amount, continuous margining), $\lambda = \lambda^* = 0$. In case of imperfect collateralization we assume $\lambda, \lambda^*$ to take care of identifying the actual exposure for the conceptual part in this paper.
+
+If the defaults are independent of the paths, i.e. we do not consider a wrong way risk, then the formula simplifies to
+
+\begin{equation}
+\textnormal{CVA} + \textnormal{DVA} = N(0) \int_{R^{+2}} \{ -\lambda E(\nu^+(\tau)) + \lambda^* E(\nu^-(\tau^*) \} d\mu 
+\end{equation}
+
+with $\mu$ now representing merely the joint distribution of the default times $\tau, \tau^*$. If in addition $\tau$ and $\tau^*$ are independent, CVA and DVA can be calculated one by one as integrals over $R$ and added together.
+
+The theoretical justification for this is to interpret the CVA / DVA to be a derivative paying $\lambda \nu^+$ resp. $\lambda^* \nu^{*+}$ in case of our / the counterparty's default, assuming that we work in a complete and arbitrage free model including both the market value drivers of the underlying derivative and the drivers of our / the counterparty's default.
+
+\subsection{FVA}
+
+Let (generically) denote $r_C$ the rate at which the collateral is compounded (e.g. EONIA), $r_L$ a benchmark rate (e.g. Libor, Euribor), $s_d$ the deposit spread, i.e. $r_L+s_d$ is the deposit rate, $s_F$ the funding spread, i.e. $r_L+s_F$ is the funding rate.
+
+From a practical point of view, $r_L+s_d$ is the rate at which the derivative desk can deposit money at the treasury desk and $r_L+s_F$ is the rate at which the derivative desk can get money from the treasury desk. $s_d$ might e.g. be zero (i.e. the deposit rate is Libor flat) or even negative. $s_F$ is typically positive. In realistic setups we mostly need $s_d \neq s_F$ although this complicates the calculation considerably.
+
+To be able to compute the FVA we need more information than just the future cashflow profile of the derivative contract. In addition we need to know the current funding account level $F$. The collateral account level $C$ is assumed to be directly derived from the market value $\nu$ (in case of perfect collateraliztaion it is equal to $\nu$). If the market value is positive from our point of view we receive collateral from the counterparty and the collateral account is equal to $C=-\nu$ in this case. We pay the collateral rate $r_C$ then. If the market value is negative from our point of view, we have to post collateral, the collateral aacount then is $C=-\nu$ positive, and we earn the collateral rate. The same logic applies to the funding account: If we receive a cashflow then we add it to the funding account, i.e. if it was zero before it is positive and we earn the deposit rate. If we need to pay a cashflow and the funding account is zero, it becomes negative and we have to pay the funding rate.
+
+At a fixed time instance $t$ assume a collateral $C$ (which is set to zero if the deal is not collateralized and if fully collateralized to $-\nu$), a funding account $F$, an market value $\nu$ of the derivative contract. Then over the interval $t$ to $t+dt$ we have the interest on the Collateral account as well as rebalancing due to change in market value ($\kappa$ is the collateralization fraction, zero if uncollaterized, one if fully collateralized, in case of unilateral collateral in addition it depends on the sign of $d\nu$)
+
+\begin{equation}
+dC = C(t) r_C  dt - \kappa d\nu
+\end{equation}
+
+The funding account evolves as follows due to being long or short funding and due to the collateral change that needs to be funded ($\sigma$ may be zero if $C$ is negative, i.e. we have received collateral, in case we can not use the collateral to reduce the funding account balance (or increase the positive balance to deposit the amount) - note also that in case $C$ is positive we always have to fund this amount. Also note, we can reduce funding we required until the funding account is positive, when it turns into a deposit, which earns rate $r_d$).
+
+\begin{equation}\label{diffFunding}
+dF = ( F(t)^+ r_d + F(t)^- r_f ) dt  - \sigma dC
+\end{equation}
+
+Remember that technically all processes $r_d, r_f, r_C$ have to be in the pricing measure (this is not a problem if we are using static spreads relative to the benchmark rate generated from the underlying model which is operated in the pricing measure anyway) and we are working with deflated $C, F$ the whole time (which means we have to start with deflated amounts, if non zero, in particular).
+
+Any cashflow received or paid during the lifetime of the contract is added to or subtracted from $C$ in addition (multiplied with $\kappa$, the rest of the fraction of the cashflow being added or subtracted from $F$). This change in $C$ needs to be taken into account in \ref{diffFunding}.
+
+The total npv $\nu'$, the prime indicating ``including the FVA'' is then finally given by (remember $\kappa$ is the fraction of collaterization)
+
+\begin{equation}
+\nu' = E( F(T) + C(T) + (1-\kappa) \nu(T) ) - F(0)
+\end{equation}
+
+
+
+
+\begin{thebibliography}{2}
+
+\bibitem{ql}QuantLib A free/open-source library for quantitative finance, http://www.quantlib.org
+
+\end{thebibliography}
+
+\end{document}
+
+
