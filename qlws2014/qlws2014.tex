@@ -23,7 +23,7 @@
 \begin{frame}[fragile]
 \frametitle{Erlk\"onig}
 \resizebox{\textwidth}{!}{
-\begin{minipage}{2.5\textwidth}
+\begin{minipage}{3.5\textwidth}
 \begin{figure}
 	\centering
 		\includegraphics{../../../Pictures/erlkoenige/Erlkoenig-VW-Golf-VII-Variant-729x486-657b2da7653d9840.jpg}
@@ -49,8 +49,8 @@ just to generate figure that is included below
 \begin{figure}
 	 \begin{gnuplot}
 	 	set terminal epslatex color
-	 	set xrange [0:0.10]
-	 	set yrange [-50:50]
+	 	set xrange [0:0.15]
+	 	set yrange [-40:40]
 	 	set xlabel "strike"
 	 	set ylabel "density"
         set grid
@@ -65,7 +65,7 @@ just to generate figure that is included below
 \begin{minipage}{1.5\textwidth}
 \begin{figure}
 \input{qlws2014-gnuplottex-fig1.tex}
-\caption{SABR smile $\alpha=0.01$, $\beta=0.40$, $\nu=0.20$, $\rho=-0.30$, $\tau=30.0$, $f=0.03$}
+\caption{SABR smile $\alpha=0.02$, $\beta=0.40$, $\nu=0.30$, $\rho=0.30$, $\tau=30.0$, $f=0.03$}
 \end{figure}
 \end{minipage}}
 }
@@ -145,7 +145,7 @@ with an additional parameter $\gamma$ giving more flexibility for wing calibrati
 \begin{minipage}{1.5\textwidth}
 \begin{figure}
 \input{qlws2014-gnuplottex-fig2.tex}
-\caption{SABR smile $\alpha=0.03$, $\beta=0.70$, $\nu=0.20$, $\rho=-0.30$, $\tau=5.0$, $f=0.03$ vs. ZABR smile for different $\gamma=0.5,1.0,1.5$ controlling the smile wings ($\gamma=1$ reproduces the SABR model)}
+\caption{SABR (Hagan 2002 expansion) $\alpha=0.03$, $\beta=0.70$, $\nu=0.20$, $\rho=-0.30$, $\tau=5.0$, $f=0.03$ vs. ZABR (short maturity expansion) for different $\gamma=0.5,1.0,1.5$ controlling the smile wings.}
 \end{figure}
 \end{minipage}}
 }
@@ -245,17 +245,90 @@ Note that \verb+XABR...+ is already to narrow as the label for the generic class
 \frame{\frametitle{SVI - limitations}
 
 \begin{enumerate}
-\item uses the ``raw'' parametrization, which does not allow for easy parameter interpretation)
+\item uses the ``raw'' parametrization, which does not allow for easy parameter interpretation
 \item calibration is naive, i.e. does not avoid local minima / parameter identifcation problem cases
 \end{enumerate}
 
 }
 
 \frame{\frametitle{Other smile models, general thoughts}
+There are other models, that are not fitted, but interpolate given points by construction such that
+the resulting smile is arbitrage free, e.g.
 
+\begin{enumerate}
+\item KahaleSmileSection which is already used implicity by the Markov functional model
+\item BDK which fixes arbitrageable wings and introduce new parameters for wing calibration
+\end{enumerate}
+
+Goal: Integrate them as well in a uniform infrastructure providing
+
+\begin{enumerate}
+\item an interpolation class
+\item a smile section which takes either parameters, market data or a source smile section to be smoothed / made arb-free
+\item a swaption volatility cube with the possibility to calibrate to the cms market and a caplet volatility surface
+\end{enumerate}
+}
+
+\section{Linear TSR CMS Coupon Pricer}
+
+\frame{\frametitle{TSR CMS Coupon Pricers}
+
+...theory ...
 
 }
 
+%just to generate figure that is included below
+\begin{frame}[fragile]
+\begin{figure}
+	 \begin{gnuplot}
+       set terminal epslatex color
+       set xrange [*:*]
+       set yrange [*:*]
+       set xlabel "strike"
+       set ylabel "put call parity violation"
+       set grid
+       set logscale y
+       set format y "%1.0e"
+       plot 'out5.txt' u 1:(abs($4)) w l title 'Hagan (NonParallelShifts)', 'out6.txt' u 1:(abs($4)) w l title 'Linear TSR'
+	 \end{gnuplot}
+\end{figure}
+\end{frame}
+
+
+\frame{\frametitle{Put Call Parity Example}
+\resizebox{\textwidth}{!}{
+\begin{minipage}{1.5\textwidth}
+\begin{figure}
+\input{qlws2014-gnuplottex-fig4.tex}
+\caption{Parity error for a CMS10y coupon with in arrears fixing in 10y from today, Forward is $0.03$, Volatility is given by a SABR surface with  $\alpha=0.10$, $\beta=0.80$, $\nu=0.40$, $\rho=-0.30$, reversion is zero, Integration Accuracy for the Linear TSR pricer is $10^{-10}$}
+\end{figure}
+\end{minipage}}
+}
+
+
+\begin{frame}[fragile]
+\frametitle{Performance}
+Computation time for pricing of 4000 optionlets (parameters as before) on Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz, single threaded.
+
+\begin{table}
+\begin{tabular}{l|r}
+\verb NumericHaganPricer (NonParallelShifts) & 5882ms \\
+\verb LinearTsrPricer & 505ms \\
+\verb AnalyticHaganPricer & 770ms
+\end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Fast Erlk\"onig}
+\resizebox{\textwidth}{!}{
+\begin{minipage}{5.0\textwidth}
+\begin{figure}
+	\centering
+		\includegraphics{../../../Pictures/erlkoenige/THORIUM_fueled_car.jpg}
+\end{figure}
+\end{minipage}}
+\end{frame}
 
 \section{CMS Spread Coupons}
 
@@ -392,14 +465,6 @@ A single period, nominal based credit portfolio model, based on Credit Risk Plus
 \vspace{2mm}
 The loss distribution is computed analytically, so very fast. The model comes with a decomposition of the unexpected loss into single obligors' marginal losses.
 \end{frame}
-
-\section{Linear TSR CMS Coupon Pricer}
-
-\frame{\frametitle{Linear TSR CMS Coupon Pricer}
-
-
-
-}
 
 
 
