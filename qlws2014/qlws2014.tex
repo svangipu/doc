@@ -106,7 +106,7 @@ and likewise for the new ``1a''-variant of the cube using the noarb-SABR formula
 
 \begin{enumerate}
 \item there are examples of parameters $(\alpha,\beta,\nu,\rho)$ for which the recalibration of the model implied forward does not work
-\item the implied volatility (since inverted from call prices) is not smooth for high strikes in some cases (but actually rarely needed because calls, digitals and the density is directly available !)
+\item the implied volatility (since inverted from call prices) is not smooth for far otm strikes in some cases (but actually rarely needed because calls, digitals and the density is directly available !)
 \item in general, never underestimate the benefit of a pure closed form formula (i.e. Hagan 2002) over a computation involving numerical procedures ...
 \end{enumerate}
 
@@ -272,9 +272,50 @@ Goal: Integrate them as well in a uniform infrastructure providing
 \section{Linear TSR CMS Coupon Pricer}
 
 \frame{\frametitle{TSR CMS Coupon Pricers}
+A terminal swap rate (TSR) model is given by a mapping $\alpha$
+\begin{equation}
+\alpha( S(t) ) = \frac{P(t,t_P)}{A(t)}
+\end{equation}
+where $t_p$ is the coupon payment date and $A(t)$ the annuity of the underlying swap rate $S$. Then (integration by parts) the
+npv of a general CMS coupon $A(0) E^A( P(t,t_p) / A(t) g(S(t)) )$ is given by 
+\begin{equation}
+A(0)S(0)\alpha(S(0))+\int_{-\infty}^{S(0)} w(k)R(k)dk+\int_{S(0)}^\infty w(k)P(k)dk
+\end{equation}
+with $t$ begin the fixing date of the coupon, $R$ and $P$ prices of market receiver and payer swaptions and weights $w(s)=\{\alpha(s)g(s)\}''.$
+}
 
-...theory ...
+\frame{\frametitle{Hagan non parallel shifts model}
+In Hagan's classic paper, the model A.4 ``non parallel shifts'' corresponds to the following choice of $\alpha$
+\begin{equation}
+\alpha( S ) = \frac{S e^{-|h(t_p)-h(t)|x}}{1-\frac{P(0,t_n)}{P(0,t)}e^{-|h(t_n)-h(t)|x}}
+\end{equation}
+with $t_n$ being the last payment date of the underyling swap and $h(s)-h(t)=\frac{1-e^{-\kappa(s-t)}}{\kappa}$ with a mean reversion parameter $\kappa$ and $x$ implicitly given by
+\begin{equation}
+S(t) \sum \tau_jP(0,t_j)e^{-|h(t_j)-h(t)|x}+P(0,t_n)e^{-|h(t_n)-h(t)|x} = P(0,t)
+\end{equation}
+with $\tau_j, t_j$ being the yearfractions and payment dates of the fixed leg of the underlying swap.
+}
 
+\frame{\frametitle{Linear TSR model}
+The linear terminal swap rate model is defined by
+
+\begin{equation}
+\alpha( S ) = a s + b
+\end{equation}
+
+$b$ is determined by the no arbitrage condition 
+
+\begin{equation}
+P(0,t_p)/A(0) = E^A(P(t,t_p)/A(t)) = a S(0) + b
+\end{equation}
+
+$a$ can be specified indirectly via a reversion $\kappa$ by setting
+
+\begin{equation}
+a = \frac{\partial}{\partial S(t)}\frac{P(t,t_p)}{A(t)}
+\end{equation}
+
+and evaluating the r.h.s. within a one factor gaussian model.
 }
 
 %just to generate figure that is included below
@@ -289,7 +330,8 @@ Goal: Integrate them as well in a uniform infrastructure providing
        set grid
        set logscale y
        set format y "%1.0e"
-       plot 'out5.txt' u 1:(abs($4)) w l title 'Hagan (NonParallelShifts)', 'out6.txt' u 1:(abs($4)) w l title 'Linear TSR'
+       set key below
+       plot 'out5.txt' u 1:(abs($4)) w l title 'Hagan (Numeric, NonParallelShifts)', 'out6.txt' u 1:(abs($4)) w l title 'Linear TSR'
 	 \end{gnuplot}
 \end{figure}
 \end{frame}
@@ -312,9 +354,11 @@ Computation time for pricing of 4000 optionlets (parameters as before) on Intel(
 
 \begin{table}
 \begin{tabular}{l|r}
+\verb NumericHaganPricer (Standard) & 1840ms \\
 \verb NumericHaganPricer (NonParallelShifts) & 5882ms \\
-\verb LinearTsrPricer & 505ms \\
-\verb AnalyticHaganPricer & 770ms
+\verb AnalyticHaganPricer (Standard) & 770ms \\
+\verb AnalyticHaganPricer (NonParallelShifts) & 741ms \\
+\verb LinearTsrPricer & 505ms
 \end{tabular}
 \end{table}
 \end{frame}
@@ -470,12 +514,37 @@ The loss distribution is computed analytically, so very fast. The model comes wi
 
 \section{Gaussian1d Models}
 
-\frame{\frametitle{Gaussian1d Models}
+\begin{frame}[fragile]
+\frametitle{Gaussian1d Models}
+Framework for one factor models with the following interface
+
+\begin{minted}[bgcolor=mintedBg,fontsize=\footnotesize]{c++}
+  virtual const Real numeraireImpl(const Time t, const Real y,
+                     const Handle<YieldTermStructure> &yts) const = 0;
+  virtual const Real zerobondImpl(const Time T, const Time t, 
+                     const Real y,
+                     const Handle<YieldTermStructure> &yts) const = 0;
+\end{minted}
+
+Currently two instances exist
+
+\begin{enumerate}
+\item \verb+MarkovFunctional+, a non parametric Markov functional model with piecewise volatility and constant reversion
+\item \verb+Gsr+, a Hull White model with piecewise volatility and piecewise reversion
+\end{enumerate}
+\end{frame}
 
 
+\begin{frame}[fragile]
+\frametitle{Gaussian1d Models - Features}
+\begin{enumerate}
+\item multi-curve enabled
+\item engines for standard swaptions, swaptions with non-constant nominal, rates, float-float swaptions
+\item engines inherit from \verb+BasketGeneratingEngine+ that can generate calibration baskets by npv-delta-gamma matching
+\item engines take an OAS allowing for exotic bond valuation
+\end{enumerate}
 
-}
-
+\end{frame}
 
 
 
@@ -484,11 +553,64 @@ The loss distribution is computed analytically, so very fast. The model comes wi
 \section{Simulated Annealing}
 
 \frame{\frametitle{Simulated Annealing}
-
-
-
+A global optimizer based on Nelder-Mead and additional noise in the target function. 
+\begin{enumerate}
+\item the noise is exponentially distributed with parameter $1/T$ (``Temperature''), i.e. the expectation and the standard deviation of the noise is both $T$
+\item the optimization starts with a temperature $T>0$ which decreases to zero during the optimization
+\item if the start temperature is high enough and the decrease is slow enough, a global minimum is found with probability one
+\end{enumerate}
 }
 
+%just to generate figure that is included below
+\begin{frame}[fragile]
+\begin{figure}
+	 \begin{gnuplot}
+       set terminal epslatex color
+       set xrange [-5:5]
+       set yrange [-5:5]
+       set cbrange [0:0.5]
+       set xlabel "x"
+       set ylabel "y"
+       set zlabel "z" 
+       set isosample 100,100
+       unset key
+       set view 35,24
+       splot (sin(pi*(x+0.5))*cos(pi*(y+1))+2)*(x**2+y**2)/50.0 with pm3d, (sin(pi*(x+0.5))*cos(pi*(y+1))+2)*(x**2+y**2)/50.0 with lines 
+	 \end{gnuplot}
+\end{figure}
+\end{frame}
+
+
+\frame{\frametitle{Global optimization test function}
+\resizebox{\textwidth}{!}{
+\begin{minipage}{1.5\textwidth}
+\begin{figure}
+\input{qlws2014-gnuplottex-fig5.tex}
+\caption{test function for global optimization $\frac{\{\sin(\pi(x+\frac{1}{2}))\cos(\pi(y+1))+2\}(x^2+y^2)}{50}$}
+\end{figure}
+\end{minipage}}
+}
+
+\begin{frame}[fragile]
+\frametitle{Comparison of optimizers}
+
+\begin{table}
+\begin{tabular}{l|c|c|r}
+Optimizer & found minimum & target fct& \#evaluations \\
+\hline
+\verb Simplex & (2.965, 2.965) & 0.356 & 128 \\
+\verb SimulatedAnnealing & (0.0, 0.0) & 0.0 & 10962 \\
+\verb DifferentialEvolution & (0.0, 0.0) & 0.0 & 500700
+\end{tabular}
+\end{table}
+
+\begin{enumerate}
+\item Nelder-Mead lambda $= 0.2$
+\item Start Temperature for simulated annealing is $T=1.0$ and decreased by a factor of $0.9$ each $5$ optimization steps
+\item Configuration for DE is the default one
+\end{enumerate}
+ 
+\end{frame}
 
 \section{Runge Kutta ODE Solver}
 
