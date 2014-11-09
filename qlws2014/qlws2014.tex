@@ -615,17 +615,173 @@ Optimizer & found minimum & target fct& \#evaluations \\
 \section{Runge Kutta ODE Solver}
 
 \frame{\frametitle{Runge Kutta ODE Solver}
+An ODE solver using a forth order Runge Kutta scheme with adaptive step size control (as described in Numerical Recipes in C, Chapter 17.2). It integrates
 
+\begin{equation}
+\frac{d}{dx}f = F(x,f(x))
+\end{equation}
 
-
+over an interval $[a,b]$ for $f:[a,b]\rightarrow K^n$ with $K$ denoting the real or complex numbers with initial condition $f(a)=f_a$.
 }
+
+\begin{frame}[fragile]
+\frametitle{Solving the modified Bessel equation}
+As an example we solve the modified Bessel equation
+
+\begin{equation}
+x^2y''+xy'-(x^2+\alpha²)y = 0
+\end{equation}
+
+for $\alpha=1$ with $y(0)=0$ and $y'(0)=0.5$ over $[0,10]$ and compare it to the expected result $I_\alpha(10)$ (available in QuantLib as \verb+modifiedBesselFunction\_i+).
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Code example for ODE solving}
+The ODE $F$ can be defined as follows (it gets two dimensional with the second component representing the first derivative of $f$).
+\vspace{2mm}
+\begin{minted}[bgcolor=mintedBg,fontsize=\footnotesize]{c++}
+Disposable<std::vector<Real>> rhs(const double x, 
+                                   const std::vector<Real> &f) {
+    std::vector<Real> result(2);
+    result[0] = f[1];
+    if (close(x, 0.0))
+        result[1] = (2.0 + v * v) * f[0] / 2.0;
+    else
+        result[1] = ((x * x + v * v) * f[0] - x * f[1]) / (x * x);
+    return result;
+}
+\end{minted}
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Code example for ODE solving}
+To compute $I_1(10)$ we can then write
+\vspace{2mm}
+\begin{minted}[bgcolor=mintedBg,fontsize=\footnotesize]{c++}
+AdaptiveRungeKutta<Real> rk(1e-16);
+std::vector<Real> y;
+y += 0.0, 0.5;
+Real i1 = rk(rhs2,y,0.0,10.0)[0];
+\end{minted}
+\vspace{2mm}
+with an ultra-tight tolerance here, just to see what is possible.
+\end{frame}
+
+%just to generate figure that is included below
+\begin{frame}[fragile]
+\begin{figure}
+	 \begin{gnuplot}
+       set terminal epslatex color
+       set xrange [0.0:10.0]
+       set yrange [*:*]
+       set xlabel "x"
+       set ylabel "error"
+       unset key
+       set logscale y
+       set format y "%1.0e"
+       plot 'out7.txt' u 1:(abs($2-$3)) w l
+	 \end{gnuplot}
+\end{figure}
+\end{frame}
+
+
+\frame{\frametitle{ODE solution vs. semi-analytical solution}
+\resizebox{\textwidth}{!}{
+\begin{minipage}{1.5\textwidth}
+\begin{figure}
+\input{qlws2014-gnuplottex-fig6.tex}
+\caption{Runge Kutta adaptive step size solution with $\epsilon=10^{-16}$ vs. modifiedBessel\_i}
+\end{figure}
+\end{minipage}}
+}
+
 
 
 \section{Dynamic Creator of Mersenne Twister}
 
-\frame{\frametitle{Dynamic Creator of Mersenne Twister}
+\begin{frame}[fragile]
+\frametitle{Dynamic Creator of Mersenne Twister}
+
+Makoto Matsumoto and Takuji Nishimura, ``Dynamic Creation of Pseudorandom Number Generators'' and their implementation as a C library (http://www.math.sci.hiroshima-u.ac.jp/\~{}m-mat/MT/DC/dc.html) addresses two needs
+
+\begin{enumerate}
+\item create Mersenne Twister instances with smaller state space than the classic instance (624 words of 32 bit) and smaller period than $2^{19937}-1$, or bigger ones if you really want ...
+\item create ``independent'' Mersenne Twister intances for different id's for use in parralel monte carlo
+\end{enumerate}
+
+The QuantLib wrapper support both dynamic creation of instances (\verb+MersenneTwisterDynamicRng+) as well as the usage of precomputed instances (\verb+MersenneTwisterCustomRng<Description>+).
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Instantiation of dynamic MT's}
+Dynamically create an instance with 32 bit word size, $p=521$, creator seed $123$, id $0$ and seed $42$:
+\vspace{2mm}
+\begin{minted}[bgcolor=mintedBg]{c++}
+MersenneTwisterDynamicRng mt(32,521, 123, 0, 42);
+\end{minted}
+
+Use a precomputed instance with seed $42$ ($p$ is $19937$ here, id is $0$)
+\vspace{2mm}
+\begin{minted}[bgcolor=mintedBg]{c++}
+MersenneTwisterCustomRng<Mtdesc19937_0> mt(42);
+\end{minted}
+
+The second alternative is much faster in random number generation. Also it takes a long time to dynamically create MT instances for bigger $p$.
+\end{frame}
 
 
+\begin{frame}[fragile]
+\frametitle{Example: Parallel RNG streams}
+This code computes $\pi$ using parallel mc with $8$ threads
+\vspace{2mm}
+\begin{minted}[bgcolor=mintedBg,fontsize=\tiny]{c++}
+#define BOOST_PP_LOCAL_LIMITS (0, 7)
+#define BOOST_PP_LOCAL_MACRO(n) MersenneTwisterCustomRng<Mtdesc19937_##n> mt##n(42);
+#include BOOST_PP_LOCAL_ITERATE()
+    omp_set_num_threads(std::min(8, omp_get_max_threads()));
+    Real sum = 0.0;
+    Size N = 1E8;
+#pragma omp parallel for reduction(+ : sum) schedule(static)
+    for (Size i = 0; i < N; ++i) {
+        Size thread = omp_get_thread_num();
+        Real u=0.0,v=0.0;
+#define BOOST_PP_LOCAL_LIMITS (0, 7)
+#define BOOST_PP_LOCAL_MACRO(n) if(thread==n) { u=mt##n.nextReal(); v=mt##n.nextReal(); }
+#include BOOST_PP_LOCAL_ITERATE()
+        if(u*u+v*v <= 1.0) sum+=1;
+    }
+    std::cout << std::setprecision(8) << 4.0 * sum / N << std::endl;
+\end{minted}
+
+Actually this does not run faster multithreaded due to compiler optimizations (vectorization) of the loop, nevertheless illustrates how to use it.
+\end{frame}
+
+\frame{\frametitle{What does ``independent'' mean ? (1/2)}
+The MT sequence can be seen as a recurrence
+
+\begin{eqnarray}
+s_{n} = As_{n-1} \\
+x_{n} = Bs_n 
+\end{eqnarray}
+
+with a state transition matrix $A$ and an output transformation matrix $B$. Both $s_n$ and $x_n$ satisfy the following equation in $\mathbb{F}_2^k$
+
+\begin{equation}
+\chi(A) s_{n-k} = 0
+\end{equation}
+
+with the characteristic polynomial $\chi$ of $A$.
+}
+
+\frame{\frametitle{What does ``independent'' mean ? (2/2)}
+Two independent MT instances have by definition coprime characteristic polynomials $f$, $g$, thus there is an isomorphism of the residual polynomial rings (chinese remainder theorem)
+
+\begin{equation}
+\mathbb{F}_2[T] / (fg) \cong \mathbb{F}_2[T] / (f) \times \mathbb{F}_2[T] / (g)
+\end{equation}
+
+which is formalizing what independdence of the recurrences of the two instances mean.
 
 }
 
