@@ -677,10 +677,10 @@ Disposable<std::vector<Real>> rhs(const double x,
 To compute $I_1(10)$ we can then write
 \vspace{2mm}
 \begin{minted}[bgcolor=mintedBg,fontsize=\footnotesize]{c++}
-AdaptiveRungeKutta<Real> rk(1e-16);
+AdaptiveRungeKutta<Real> rk( 1e-16 );
 std::vector<Real> y;
 y += 0.0, 0.5;
-Real i1 = rk(rhs2,y,0.0,10.0)[0];
+Real i1 = rk( rhs, y , 0.0, 10.0 )[0];
 \end{minted}
 \\
 \vspace{2mm}
@@ -784,23 +784,23 @@ s_{n} = As_{n-1} \\
 x_{n} = Bs_n 
 \end{eqnarray}
 
-with a state transition matrix $A$ and an output transformation matrix $B$. Both $s_n$ and $x_n$ satisfy the following equation in $\mathbb{F}_2^k$
+with a state transition matrix $A$ and an output transformation matrix $B$. $s_n$ satisfies the following equation in $\mathbb{F}_2^k$, $k$ being the bit size of the state space
 
 \begin{equation}
 \chi(A) s_{n-k} = 0
 \end{equation}
 
-with the characteristic polynomial $\chi$ of $A$.
+with the characteristic polynomial $\chi$ of $A$ (Cayley Hamilton Theorem).
 }
 
 \frame{\frametitle{What does ``independent'' mean ? (2/2)}
-Two independent MT instances have by definition coprime characteristic polynomials $f$, $g$, thus there is an isomorphism of the residual polynomial rings (chinese remainder theorem)
+Two independent MT instances have by definition coprime characteristic polynomials $f$, $g$, thus there is an isomorphism of the residual polynomial rings (thanks to the chinese remainder theorem)
 
 \begin{equation}
 \mathbb{F}_2[T] / (fg) \cong \mathbb{F}_2[T] / (f) \times \mathbb{F}_2[T] / (g)
 \end{equation}
 
-which is formalizing what independdence of the recurrences of the two instances mean.
+which is formalizing what independdence of the recurrences of the two MT instances mean.
 
 }
 
