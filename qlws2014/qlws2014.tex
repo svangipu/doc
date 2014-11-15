@@ -283,7 +283,7 @@ A terminal swap rate (TSR) model is given by a mapping $\alpha$
 \alpha( S(t) ) = \frac{P(t,t_P)}{A(t)}
 \end{equation}
 where $t_p$ is the coupon payment date and $A(t)$ the annuity of the underlying swap rate $S$. Then (integration by parts) the
-npv of a general CMS coupon $A(0) E^A( P(t,t_p) / A(t) g(S(t)) )$ is given by 
+npv of a general CMS coupon $A(0) E^A( P(t,t_p) A(t)^{-1} g(S(t)) )$ is given by 
 \begin{equation}
 A(0)S(0)\alpha(S(0))+\int_{-\infty}^{S(0)} w(k)R(k)dk+\int_{S(0)}^\infty w(k)P(k)dk
 \end{equation}
