@@ -44,20 +44,20 @@ Paul Doust, No-arbitrage SABR, Journal of Computational Finance, Volume 15 / Num
 \end{enumerate}
 }
 
-just to generate figure that is included below
-\begin{frame}[fragile]
-\begin{figure}
-	 \begin{gnuplot}
-	 	set terminal epslatex color
-	 	set xrange [0:0.15]
-	 	set yrange [-40:40]
-	 	set xlabel "strike"
-	 	set ylabel "density"
-        set grid
-	 	plot 'out.txt' u 1:5 w l title 'Hagan (2002)', '' u 1:9 w l title 'Doust' 
-	 \end{gnuplot}
-\end{figure}
-\end{frame}
+% %just to generate figure that is included below
+% \begin{frame}[fragile]
+% \begin{figure}
+% 	 \begin{gnuplot}
+% 	 	set terminal epslatex color
+% 	 	set xrange [0:0.15]
+% 	 	set yrange [-40:40]
+% 	 	set xlabel "strike"
+% 	 	set ylabel "density"
+%         set grid
+% 	 	plot 'out.txt' u 1:5 w l title 'Hagan (2002)', '' u 1:9 w l title 'Doust'
+% 	 \end{gnuplot}
+% \end{figure}
+% \end{frame}
 
 
 \frame{\frametitle{No Arbitrage SABR Example}
@@ -89,6 +89,7 @@ just to generate figure that is included below
 \begin{frame}[fragile]
 \frametitle{Design changes}
 Make the SABR interpolation and volatility cube classes generic, so that both models (and possibly more like SVI, ZABR) are accepted. The old \verb+SwaptionVolCube1+ class e.g. is now retrieved by 
+\vspace{2mm}
 \begin{minted}[bgcolor=mintedBg]{c++}
 struct SwaptionVolCubeSabrModel {
         typedef SABRInterpolation Interpolation;
@@ -99,6 +100,8 @@ typedef SwaptionVolCube1x<SwaptionVolCubeSabrModel>
                                       SwaptionVolCube1;
 
 \end{minted}
+\\
+\vspace{2mm}
 and likewise for the new ``1a''-variant of the cube using the noarb-SABR formula.
 \end{frame}
 
@@ -124,20 +127,20 @@ dVdW = \rho dt
 with an additional parameter $\gamma$ giving more flexibility for wing calibration to e.g. CMS quotes.
 }
 
-%just to generate figure that is included below
-\begin{frame}[fragile]
-\begin{figure}
-	 \begin{gnuplot}
-	 	set terminal epslatex color
-        set xrange [*:*]
-        set yrange [*:*]
-        set xlabel "strike"
-        set ylabel "implied lognormal volatility"
-        set grid
-        plot 'out2.txt' u 1:2 w l title 'SABR', '' u 1:10 w l title 'ZABR 1.0', '' u 1:14 w l title 'ZABR 0.5', '' u 1:18 w l title 'ZABR 1.5' 
-	 \end{gnuplot}
-\end{figure}
-\end{frame}
+% %just to generate figure that is included below
+% \begin{frame}[fragile]
+% \begin{figure}
+% 	 \begin{gnuplot}
+% 	 	set terminal epslatex color
+%         set xrange [*:*]
+%         set yrange [*:*]
+%         set xlabel "strike"
+%         set ylabel "implied lognormal volatility"
+%         set grid
+%         plot 'out2.txt' u 1:2 w l title 'SABR', '' u 1:10 w l title 'ZABR 1.0', '' u 1:14 w l title 'ZABR 0.5', '' u 1:18 w l title 'ZABR 1.5' 
+% 	 \end{gnuplot}
+% \end{figure}
+% \end{frame}
 
 
 \frame{\frametitle{ZABR Example}
@@ -170,20 +173,20 @@ v^2t = a + b (\rho (k-m) + \sqrt{(k-m)^2+\sigma^2})
 with log moneyness $k = \log K / F$, $K$ = strike, $F$ = forward.
 }
 
-%just to generate figure that is included below
-\begin{frame}[fragile]
-\begin{figure}
-	 \begin{gnuplot}
-	 	set terminal epslatex color
-        set xrange [*:*]
-        set yrange [*:*]
-        set xlabel "strike"
-        set ylabel "implied lognormal volatility"
-        set grid
-        plot 'out3.txt' u 1:2 w p title 'Input', 'out4.txt' u 1:2 w l title 'SVI'
-	 \end{gnuplot}
-\end{figure}
-\end{frame}
+% %just to generate figure that is included below
+% \begin{frame}[fragile]
+% \begin{figure}
+% 	 \begin{gnuplot}
+% 	 	set terminal epslatex color
+%         set xrange [*:*]
+%         set yrange [*:*]
+%         set xlabel "strike"
+%         set ylabel "implied lognormal volatility"
+%         set grid
+%         plot 'out3.txt' u 1:2 w p title 'Input', 'out4.txt' u 1:2 w l title 'SVI'
+% 	 \end{gnuplot}
+% \end{figure}
+% \end{frame}
 
 \frame{\frametitle{SVI Example}
 \resizebox{\textwidth}{!}{
@@ -198,7 +201,7 @@ with log moneyness $k = \log K / F$, $K$ = strike, $F$ = forward.
 \begin{frame}[fragile]
 \frametitle{Implementation of SVI 1/2}
 We can use the generic framework, so e.g. the implementation of the SVI interpolation class is merely specifying the SVI specific things ...
-
+\vspace{2mm}
 \begin{minted}[bgcolor=mintedBg, fontsize=\tiny]{c++}
 typedef SviSmileSection SviWrapper;
 struct SviSpecs {
@@ -222,6 +225,7 @@ struct SviSpecs {
 \begin{frame}[fragile]
 \frametitle{Implementation of SVI (2/2)}
 ... and use this in the generic implemenation:
+\vspace{2mm}
 \begin{minted}[bgcolor=mintedBg, fontsize=\tiny]{c++}
 class SviInterpolation : public Interpolation {
   public:
@@ -239,7 +243,9 @@ class SviInterpolation : public Interpolation {
             detail::XABRCoeffHolder<detail::SviSpecs> >(impl_);
     }
 \end{minted}
-Note that \verb+XABR...+ is already to narrow as the label for the generic class. 
+\\
+\vspace{2mm}
+Note that \verb+XABR...+ is already to narrow as the label for the generic class. Better than the other way round ...
 \end{frame}
 
 \frame{\frametitle{SVI - limitations}
@@ -318,23 +324,23 @@ a = \frac{\partial}{\partial S(t)}\frac{P(t,t_p)}{A(t)}
 and evaluating the r.h.s. within a one factor gaussian model.
 }
 
-%just to generate figure that is included below
-\begin{frame}[fragile]
-\begin{figure}
-	 \begin{gnuplot}
-       set terminal epslatex color
-       set xrange [*:*]
-       set yrange [*:*]
-       set xlabel "strike"
-       set ylabel "put call parity violation"
-       set grid
-       set logscale y
-       set format y "%1.0e"
-       set key below
-       plot 'out5.txt' u 1:(abs($4)) w l title 'Hagan (Numeric, NonParallelShifts)', 'out6.txt' u 1:(abs($4)) w l title 'Linear TSR'
-	 \end{gnuplot}
-\end{figure}
-\end{frame}
+% %just to generate figure that is included below
+% \begin{frame}[fragile]
+% \begin{figure}
+% 	 \begin{gnuplot}
+%        set terminal epslatex color
+%        set xrange [*:*]
+%        set yrange [*:*]
+%        set xlabel "strike"
+%        set ylabel "put call parity violation"
+%        set grid
+%        set logscale y
+%        set format y "%1.0e"
+%        set key below
+%        plot 'out5.txt' u 1:(abs($4)) w l title 'Hagan (Numeric, NonParallelShifts)', 'out6.txt' u 1:(abs($4)) w l title 'Linear TSR'
+% 	 \end{gnuplot}
+% \end{figure}
+% \end{frame}
 
 
 \frame{\frametitle{Put Call Parity Example}
@@ -561,24 +567,24 @@ A global optimizer based on Nelder-Mead and additional noise in the target funct
 \end{enumerate}
 }
 
-%just to generate figure that is included below
-\begin{frame}[fragile]
-\begin{figure}
-	 \begin{gnuplot}
-       set terminal epslatex color
-       set xrange [-5:5]
-       set yrange [-5:5]
-       set cbrange [0:0.5]
-       set xlabel "x"
-       set ylabel "y"
-       set zlabel "z" 
-       set isosample 100,100
-       unset key
-       set view 35,24
-       splot (sin(pi*(x+0.5))*cos(pi*(y+1))+2)*(x**2+y**2)/50.0 with pm3d, (sin(pi*(x+0.5))*cos(pi*(y+1))+2)*(x**2+y**2)/50.0 with lines 
-	 \end{gnuplot}
-\end{figure}
-\end{frame}
+% %just to generate figure that is included below
+% \begin{frame}[fragile]
+% \begin{figure}
+% 	 \begin{gnuplot}
+%        set terminal epslatex color
+%        set xrange [-5:5]
+%        set yrange [-5:5]
+%        set cbrange [0:0.5]
+%        set xlabel "x"
+%        set ylabel "y"
+%        set zlabel "z" 
+%        set isosample 100,100
+%        unset key
+%        set view 35,24
+%        splot (sin(pi*(x+0.5))*cos(pi*(y+1))+2)*(x**2+y**2)/50.0 with pm3d, (sin(pi*(x+0.5))*cos(pi*(y+1))+2)*(x**2+y**2)/50.0 with lines 
+% 	 \end{gnuplot}
+% \end{figure}
+% \end{frame}
 
 
 \frame{\frametitle{Global optimization test function}
@@ -621,23 +627,34 @@ An ODE solver using a forth order Runge Kutta scheme with adaptive step size con
 \frac{d}{dx}f = F(x,f(x))
 \end{equation}
 
-over an interval $[a,b]$ for $f:[a,b]\rightarrow K^n$ with $K$ denoting the real or complex numbers with initial condition $f(a)=f_a$.
+over an interval $[a,b]$ for $f:[a,b]\rightarrow \mathbb{K}^n$ with $\mathbb{K}$ denoting the real or complex numbers with initial condition $f(a)=f_a$.
 }
 
 \begin{frame}[fragile]
 \frametitle{Solving the modified Bessel equation}
 As an example we solve the modified Bessel equation
 
-\begin{equation}
+\begin{equation}\label{modBessel}
 x^2y''+xy'-(x^2+\alpha²)y = 0
 \end{equation}
 
-for $\alpha=1$ with $y(0)=0$ and $y'(0)=0.5$ over $[0,10]$ and compare it to the expected result $I_\alpha(10)$ (available in QuantLib as \verb+modifiedBesselFunction\_i+).
+for $\alpha=1$ with $y(0)=0$ and $y'(0)=0.5$ over $[0,10]$ and compare it to the expected result $I_\alpha(10)$ (\verb+modifiedBesselFunction_i+).
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Reduction to first derivatives}
+Equation \ref{modBessel} is equivalent to the system
+\begin{eqnarray}
+y' = z \\
+x^2z'+xz-(x^2+\alpha²)y = 0
+\end{eqnarray}
+
+with $y(0)=0$ and $z(0)=y'(0)=0.5$.
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Code example for ODE solving}
-The ODE $F$ can be defined as follows (it gets two dimensional with the second component representing the first derivative of $f$).
+The ODE $F$ can be defined as follows:
 \vspace{2mm}
 \begin{minted}[bgcolor=mintedBg,fontsize=\footnotesize]{c++}
 Disposable<std::vector<Real>> rhs(const double x, 
@@ -645,9 +662,10 @@ Disposable<std::vector<Real>> rhs(const double x,
     std::vector<Real> result(2);
     result[0] = f[1];
     if (close(x, 0.0))
-        result[1] = (2.0 + v * v) * f[0] / 2.0;
+        result[1] = (2.0 + alpha * alpha) * f[0] / 2.0;
     else
-        result[1] = ((x * x + v * v) * f[0] - x * f[1]) / (x * x);
+        result[1] = ((x * x + alpha * alpha) *
+                          f[0] - x * f[1]) / (x * x);
     return result;
 }
 \end{minted}
@@ -664,26 +682,27 @@ std::vector<Real> y;
 y += 0.0, 0.5;
 Real i1 = rk(rhs2,y,0.0,10.0)[0];
 \end{minted}
+\\
 \vspace{2mm}
 with an ultra-tight tolerance here, just to see what is possible.
 \end{frame}
 
-%just to generate figure that is included below
-\begin{frame}[fragile]
-\begin{figure}
-	 \begin{gnuplot}
-       set terminal epslatex color
-       set xrange [0.0:10.0]
-       set yrange [*:*]
-       set xlabel "x"
-       set ylabel "error"
-       unset key
-       set logscale y
-       set format y "%1.0e"
-       plot 'out7.txt' u 1:(abs($2-$3)) w l
-	 \end{gnuplot}
-\end{figure}
-\end{frame}
+% %just to generate figure that is included below
+% \begin{frame}[fragile]
+% \begin{figure}
+% 	 \begin{gnuplot}
+%        set terminal epslatex color
+%        set xrange [0.0:10.0]
+%        set yrange [*:*]
+%        set xlabel "x"
+%        set ylabel "error"
+%        unset key
+%        set logscale y
+%        set format y "%1.0e"
+%        plot 'out7.txt' u 1:(abs($2-$3)) w l
+% 	 \end{gnuplot}
+% \end{figure}
+% \end{frame}
 
 
 \frame{\frametitle{ODE solution vs. semi-analytical solution}
