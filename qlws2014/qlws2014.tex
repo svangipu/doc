@@ -156,7 +156,7 @@ with an additional parameter $\gamma$ giving more flexibility for wing calibrati
 \frame{\frametitle{ZABR - more features and limitations}
 
 \begin{enumerate}
-\item two short maturity exapnsions (normal and lognormal implied volatility)
+\item two short maturity expansions (normal and lognormal implied volatility)
 \item an ``equivalent'' Dupire - style FD approximation, which is fast and arbitrage free in particular
 \item a full finite solution, for benchmarking and testing (slow of course)
 \item but ... approximations are not very good for long option expiries
@@ -168,7 +168,7 @@ with an additional parameter $\gamma$ giving more flexibility for wing calibrati
 \frame{\frametitle{SVI}
 SVI is another popular smile model, with the total variance given by
 \begin{equation}
-v^2t = a + b (\rho (k-m) + \sqrt{(k-m)^2+\sigma^2})
+v^2t = a + b \left(\rho (k-m) + \sqrt{(k-m)^2+\sigma^2}\right)
 \end{equation}
 with log moneyness $k = \log K / F$, $K$ = strike, $F$ = forward.
 }
