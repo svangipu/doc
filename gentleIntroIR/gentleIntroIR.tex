@@ -1,0 +1,210 @@
+\documentclass{beamer}
+
+\usetheme{CambridgeUS}
+\usefonttheme{professionalfonts}
+
+\usepackage{graphicx}
+\usepackage[miktex]{gnuplottex}
+\ShellEscapetrue
+\usepackage{epstopdf}
+\usepackage{minted}
+
+\usemintedstyle{manni}
+\definecolor{mintedBg}{rgb}{0.98,0.98,0.70}
+
+\begin{document}
+\title{A gentle introduction to IR modeling}  
+\author{Peter Caspers}
+\institute{IKB}
+\date{May 23, 2015} 
+
+\frame{\titlepage} 
+
+\frame{\frametitle{Table of contents}\tiny\tableofcontents[hideallsubsections]} 
+
+\section{Introduction}
+
+\frame{\frametitle{What it is all about}
+\begin{center}
+\Huge Price a derivative contract !
+\end{center}
+}
+
+\frame{\frametitle{Constraints}
+\begin{center}
+Do that consistently with all observable relevant market prices.
+\end{center}
+}
+
+\frame{\frametitle{Second Thoughts}
+What do you mean by ``price'' after all ?
+\begin{enumerate}
+\item the amount of money that can be realized in the market
+\item the amount of money that we would require to receive or pay to close the deal
+\end{enumerate}
+... we will focus on the first kind of price.
+}
+
+\frame{\frametitle{Price Adjustments}
+\begin{enumerate}
+\item CVA
+\item DVA
+\item FVA
+\item KVA
+\item MVA
+\item TVA
+\end{enumerate}
+... we exclude all of them in the following.
+}
+
+\section{Machinery}
+
+\frame{\frametitle{Randomness}
+We need a source of randomness to model the market which is (or appears to be) random.
+}
+
+\frame{\frametitle{Stochastic Processes}
+To model a random observable we assume $X(0)=x_0$ and
+
+\begin{equation}
+dX(t,\omega) = \mu(t,\omega) dt + \sigma(t,\omega) dW
+\end{equation}
+
+which means, knowing $X(t_0)$ we can evolve forward by
+
+\begin{equation}
+X(t_0+\Delta t) \approx X(t_0) + \mu(t) \Delta t + \sigma(t) Z
+\end{equation}
+
+with $Z\sim N(0,\Delta t)$ a normal distributed random variable with zero mean and variance $\Delta t$.
+}
+
+\section{Classification}
+
+\frame{\frametitle{Asset Classes}
+Usually we distinguish
+\begin{enumerate}
+\item Equity
+\item FX
+\item Interest Rates
+\item Credit
+\item Inflation
+\item Commodity
+\end{enumerate}
+Today we focus on Interest Rates.
+}
+
+\frame{\frametitle{Interest Rate Building Blocks}
+Quoted, liquidly traded instruments:
+\begin{enumerate}
+\item Cash deposits
+\item Forward Rate Agreements
+\item Vanilla Swaps
+\item Short Futures
+\item Bond Futures
+\end{enumerate}
+and in addition options
+\begin{enumerate}
+\item (Ibor) Caps, Floors
+\item Swaptions
+\item Futures options
+\end{enumerate}
+}
+
+\frame{\frametitle{Market Models for Options}
+Prices for Caps, Floors and Swaptions are quoted using volatilities $\sigma$, assuming a black model for the underlying $F$, either in lognormal style
+\begin{equation}
+dF = F \sigma dW
+\end{equation}
+or shifted lognormal style
+\begin{equation}
+dF = (F+\alpha) \sigma dW
+\end{equation}
+or in normal style
+\begin{equation}
+dF = \sigma dW
+\end{equation}
+all of them having a simple closed form solution (Black formula).
+}
+
+\frame{\frametitle{Volatility smile}
+Options with different strike and maturity are priced using different volatilities. This seems weird at first sight, but simply means that the Black model is more a quoting convention than a global model.
+}
+
+\frame{\frametitle{Underlying density}
+It is simple to derive the underlying density as
+\begin{equation}
+\phi(K) = \frac{\partial^2 c}{\partial K^2} \left(K\right)
+\end{equation}
+for undiscounted call prices. The density is in the natural pricing measure (T-forward measure for caplets, Annuity measure for swaptions). This means you can get (in principle) the market density for an expiry time from a continuum of quoted option prices in strike direction.
+}
+
+\frame{\frametitle{IR Smile modeling}
+In interest rates by far the most common single maturity smile model is the (shifted) SABR model
+\begin{eqnarray}
+dF(t) &=& (F(t)+\alpha)^\beta \sigma(t) dW \\
+d\sigma(t) &=& \sigma(t) \nu dV \\
+dV dW &=& \rho dt
+\end{eqnarray}
+with parameters $\beta$ (skew), $\alpha=\sigma(0)$ (initial level for $\sigma$), $\nu$ (volatility of volatility) and $\rho$ (correlation between forward and vol process).
+}
+
+
+\frame{\frametitle{Model independent pricing}
+Coupons of the following type can be priced only using a no arbitrage argument on today's yield curves:
+\begin{enumerate}
+\item fixed coupons
+\item natural floating rate coupons
+\end{enumerate}
+Natural means an IBOR - styled coupon with payment date = index accrual period end.
+}
+
+\frame{\frametitle{Single maturity model pricing}
+Coupons that depend on the distribution of an underlying variable on a single time instance, like
+\begin{enumerate}
+\item in arrears fixed IBOR coupons
+\item capped / floored IBOR coupons
+\item CMS coupons
+\item CMS Spread Coupons
+\end{enumerate}
+Usually the effective rate $r$ for coupon estimation is then written
+\begin{equation}
+r = r_0 + c
+\end{equation}
+as the sum of the zero volatility forward (i.e. the forward on today's curve) $r_0$ plus a convexity adjustment $c$.
+}
+
+\frame{\frametitle{Closed form convexity adjustments}
+Assuming a black model for the underlying one can derivate closed form approximations for convexity adjustments
+\begin{enumerate}
+\item timing adjustments
+\item CMS adjustments
+\end{enumerate}
+}
+
+\frame{\frametitle{Volatility smile}
+Usually options with different strikes are prices
+
+}
+
+
+
+
+\section{Questions}
+
+\begin{frame}[fragile]
+\frametitle{Questions / Discussion}
+\resizebox{\textwidth}{!}{
+\begin{minipage}{0.75\textwidth}
+\begin{figure}
+	\centering
+		\includegraphics{../../../Pictures/erlkoenige/french_70s_automodule05.jpg}
+\end{figure}
+\end{minipage}}
+\\
+\begin{center}
+French Erlk\"onig
+\end{center}
+\end{frame}
+\end{document}
+
