@@ -24,6 +24,12 @@
 
 \section{Introduction}
 
+\frame{\frametitle{}
+\begin{center}
+\Huge Introduction
+\end{center}
+}
+
 \frame{\frametitle{What it is all about}
 \begin{center}
 \Huge Price a derivative contract !
@@ -59,8 +65,14 @@ What do you mean by ``price'' after all ?
 
 \section{Machinery}
 
+\frame{\frametitle{}
+\begin{center}
+\Huge Machinery
+\end{center}
+}
+
 \frame{\frametitle{Randomness}
-We need a source of randomness to model the market which is (or appears to be) random.
+We need a source of randomness to model the market. The market is (or at least - due to its complexity - appears to be) random.
 }
 
 \frame{\frametitle{Stochastic Processes 1}
@@ -73,7 +85,7 @@ dX(t,\omega) = \mu(t,\omega) dt + \sigma(t,\omega) dW
 which means, knowing $X(t_0)$ we can evolve forward by
 
 \begin{equation}
-X(t_0+\Delta t) \approx X(t_0) + \mu(t) \Delta t + \sigma(t) Z
+X(t_0+\Delta t) \approx X(t_0) + \mu(t_0) \Delta t + \sigma(t_0) Z
 \end{equation}
 
 with $Z\sim N(0,\Delta t)$ a normal distributed random variable with zero mean and variance $\Delta t$.
@@ -86,6 +98,12 @@ There is a wider class (Levy processes) which add {\em jumps}. They are also use
 }
 
 \section{Classification}
+
+\frame{\frametitle{}
+\begin{center}
+\Huge Classicifcation
+\end{center}
+}
 
 \frame{\frametitle{Asset Classes}
 Usually we distinguish
@@ -118,6 +136,12 @@ and in addition options
 }
 
 \section{Basics}
+
+\frame{\frametitle{}
+\begin{center}
+\Huge Basics
+\end{center}
+}
 
 \frame{\frametitle{Market Models for Options}
 Prices for Caps, Floors and Swaptions are quoted using volatilities $\sigma$, assuming a black model for the underlying $F$, either in lognormal style
@@ -275,6 +299,12 @@ and evaluating the r.h.s. within a one factor gaussian model.
 
 \section{HJM class and Hull White Models}
 
+\frame{\frametitle{}
+\begin{center}
+\Huge HJM class and Hull White Models
+\end{center}
+}
+
 \frame{\frametitle{HJM model class}
 With a $d$ - dimensional driving process we have
 
@@ -365,6 +395,12 @@ Obviously we need a more flexible model to price such structures
 }
 
 \section{Markov Functional Model}
+
+\frame{\frametitle{}
+\begin{center}
+\Huge Markov Functional Model
+\end{center}
+}
 
 \frame{\frametitle{Model requirements}
 
@@ -830,7 +866,11 @@ is meant to be analyzed in another application like office
 \end{minipage}}
 \end{frame}
 
-
+\frame{\frametitle{}
+\begin{center}
+\Huge Libor Market Models
+\end{center}
+}
 \section{Libor Market Models}
 
 \begin{frame}
@@ -890,6 +930,12 @@ correlation implies a higher option price.
 
 
 \section{Summary and Outlook}
+
+\frame{\frametitle{}
+\begin{center}
+\Huge Summary and Outlook
+\end{center}
+}
 
 \begin{frame}
 \frametitle{Summary}

@@ -1,0 +1,156 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%--------------------------------------------------------
+\begin{document}
+\title[$\beta-\eta$ Model Implementation]{$\beta-\eta$ Model Implementation}
+\author{P. Caspers}
+\author{R. Lichters}
+\email[P. Caspers]{pcaspers1973@googlemail.com}
+\email[R. Lichters]{pcaspers1973@googlemail.com}
+\date{May 31, 2013}
+\dedicatory{First Version May 31, 2015 - This Version May 31, 2015}
+\begin{abstract}
+We describe the implementation of the $\beta-\eta$ model \cite{betaeta}, \cite{piterbarg}, 11.3.2.6 in QuantLib \cite{ql}.
+\end{abstract}
+
+\maketitle
+
+\section{Model}
+
+The driving process is given by
+
+\begin{equation}
+dx(t) = \alpha(t) ( 1 + \beta x(t) )^\eta dW(t) 
+\end{equation}
+
+with $x(0)=0$, $\alpha:\mathbb{R}\rightarrow\mathbb{R}$, $\beta > 0$ and $0 \leq \eta \leq 1$. The dynamics is expressed in the measure $\mathbb{Q}^N$ associated to the numeraire
+
+\begin{equation}
+N(t,x(t)) = e^{\lambda(t)x(t)+M(0,0;T)}
+\end{equation}
+
+with a function $\lambda: \mathbb{R}\rightarrow\mathbb{R}$ subject to constraints $\lambda(0)=0$ and $\lambda'(0)=1$. Here we define
+
+\begin{equation}\label{formula_M}
+M(t,x;T) = \log E \left( e^{-\lambda(T)(X(T)-x)} \middle | X(t)=x \right)
+\end{equation}
+
+The transition density is given in \cite{betaeta}, (4.6a), (4.6b) and (4.8). 
+
+In the special case of $\eta=0$ we can use the closed form representation (C.3) for the density and (C.5) for $M(t,x;T)$.
+
+\section{Tabulation of $M(t,x;T)$}
+
+For $\eta>0$ formula \ref{formula_M} is too expensive to evaluate during a pricing. Instead it is proposed in \cite{betaeta} to write $M$ in two variables (instead of three) for each fixed $\eta$ and precompute these values. In the following we give details on how this can achieved.
+
+The transition density is originally expressed in variables $y$ and $\tau, \overline{\tau}$ instead of $x, \overline{x}$ and $t, \overline{t}$ using the transformations (cf. \cite{betaeta}, (4.4))
+
+\begin{equation}
+y = \frac{|1+\beta x|^{1-\eta}{\beta(1-\eta)}
+\end{equation}
+
+and
+
+\begin{equation}
+\tau = \int_0^t \alpha(s) ds,
+\end{equation}
+
+
+\section{Parametrization of $\lambda$}
+
+We follow \cite{piterbarg} and describe $\lambda$ by a (piecewise) constant mean reversion $\kappa: \mathbb{R}\rightarrow\mathbb{R}_{>0}$ thanks to
+
+\begin{equation}
+\lambda(t) = \frac{1 - e^{-\kappa(t) t}}{\kappa(t)}
+\end{equaiton}
+
+The normalization constraints $\lambda(0)=0, \lambda'(0)=1$ are immediately verified. Furthermore
+
+\begin{equation}
+\kappa(t) = -\frac{\lambda''(t)}{\lambda'(t)}
+\end{equation}
+
+for all $t$ where $\lambda$ is continuous. 
+
+
+
+
+
+\begin{thebibliography}{2}
+
+\bibitem{betaeta} Patrick S. Hagan, Diana E. Woodward, Markov interest rate models, Applied Mathematical Finance 6, 233–260 (1999)
+
+\bibitem{piterbarg}Leif B. G. Andersen, Vladimir V. Piterbarg, Interest Rate Modeling, Atlantic Financial Press, 2010
+
+\bibitem{ql}QuantLib A free/open-source library for quantitative finance, http://www.quantlib.org
+
+\end{thebibliography}
+
+\end{document}
+
