@@ -67,6 +67,8 @@
 \newtheorem{summary}{Summary}
 \numberwithin{equation}{section}
 %--------------------------------------------------------
+\DeclareMathOperator{\sign}{sign}
+%--------------------------------------------------------
 \begin{document}
 \title[$\beta-\eta$ Model Implementation]{$\beta-\eta$ Model Implementation}
 \author{P. Caspers}
@@ -74,7 +76,7 @@
 \email[P. Caspers]{pcaspers1973@googlemail.com}
 \email[R. Lichters]{pcaspers1973@googlemail.com}
 \date{May 31, 2013}
-\dedicatory{First Version May 31, 2015 - This Version May 31, 2015}
+\dedicatory{First Version May 31, 2015 - This Version June 16, 2015}
 \begin{abstract}
 We describe the implementation of the $\beta-\eta$ model \cite{betaeta}, \cite{piterbarg}, 11.3.2.6 in QuantLib \cite{ql}.
 \end{abstract}
@@ -85,60 +87,119 @@ We describe the implementation of the $\beta-\eta$ model \cite{betaeta}, \cite{p
 
 The driving process is given by
 
-\begin{equation}
+\begin{equation}\label{dynamics}
 dx(t) = \alpha(t) ( 1 + \beta x(t) )^\eta dW(t) 
 \end{equation}
 
-with $x(0)=0$, $\alpha:\mathbb{R}\rightarrow\mathbb{R}$, $\beta > 0$ and $0 \leq \eta \leq 1$. The dynamics is expressed in the measure $\mathbb{Q}^N$ associated to the numeraire
+with $x(0)=0$, $\alpha(\cdot) > 0$, $\beta > 0$ and $0 \leq \eta \leq 1$. The dynamics is expressed in the measure $\mathbb{Q}^N$ associated to the numeraire
 
 \begin{equation}
 N(t,x(t)) = e^{\lambda(t)x(t)+M(0,0;T)}
 \end{equation}
 
-with a function $\lambda: \mathbb{R}\rightarrow\mathbb{R}$ subject to constraints $\lambda(0)=0$ and $\lambda'(0)=1$. Here we define
+with a function $\lambda: \mathbb{R}\rightarrow\mathbb{R}$ subject to constraints $\lambda(0)=0$ and $\lambda'(0)=1$. We define
 
 \begin{equation}\label{formula_M}
 M(t,x;T) = \log E \left( e^{-\lambda(T)(X(T)-x)} \middle | X(t)=x \right)
 \end{equation}
 
-The transition density is given in \cite{betaeta}, (4.6a), (4.6b) and (4.8). 
+The transition density is given in \cite{betaeta}, (4.6a), (4.6b) and (4.8). For $\eta < 0.5$ a reflecting barrier at $x=-1/\beta$ can be specified in \ref{dynamics}, the corresponding amendments in the density are also given in \cite{betaeta}, p. 241, last paragraph.
 
-In the special case of $\eta=0$ we can use the closed form representation (C.3) for the density and (C.5) for $M(t,x;T)$.
-
-\section{Tabulation of $M(t,x;T)$}
-
-For $\eta>0$ formula \ref{formula_M} is too expensive to evaluate during a pricing. Instead it is proposed in \cite{betaeta} to write $M$ in two variables (instead of three) for each fixed $\eta$ and precompute these values. In the following we give details on how this can achieved.
-
-The transition density is originally expressed in variables $y$ and $\tau, \overline{\tau}$ instead of $x, \overline{x}$ and $t, \overline{t}$ using the transformations (cf. \cite{betaeta}, (4.4))
-
-\begin{equation}
-y = \frac{|1+\beta x|^{1-\eta}{\beta(1-\eta)}
-\end{equation}
-
-and
-
-\begin{equation}
-\tau = \int_0^t \alpha(s) ds,
-\end{equation}
+For the special case of $\eta=0$ a closed form representation for the density (C.3) and for $M(t,x;T)$ (C.5) is given, but only for the case of no barrier. For $\eta=0.5$ a closed form expression for $M(t,x;T)$ is given in (4.15). For $\eta=1$ we can use (4.10b) likewise for the density (however there is no closed form expression for $M(t,x;T)$ in this case).
 
 
 \section{Parametrization of $\lambda$}
 
-We follow \cite{piterbarg} and describe $\lambda$ by a (piecewise) constant mean reversion $\kappa: \mathbb{R}\rightarrow\mathbb{R}_{>0}$ thanks to
+We follow \cite{piterbarg} and describe $\lambda$ by a constant mean reversion $\kappa \neq 0$ via
 
 \begin{equation}
-\lambda(t) = \frac{1 - e^{-\kappa(t) t}}{\kappa(t)}
-\end{equaiton}
+\lambda = \frac{1 - e^{-\kappa t}}{\kappa}
+\end{equation}
 
 The normalization constraints $\lambda(0)=0, \lambda'(0)=1$ are immediately verified. Furthermore
 
 \begin{equation}
-\kappa(t) = -\frac{\lambda''(t)}{\lambda'(t)}
+\kappa = -\frac{\lambda''(t)}{\lambda'(t)}
 \end{equation}
 
-for all $t$ where $\lambda$ is continuous. 
+Note that $\lambda > 0$ by construction.
+
+\section{Computation of $p(t,x;\overline{t},\overline{x})$}
 
 
+
+
+\section{Tabulation of $M(t,x,T)$}
+
+For $\eta=0.5$ we can use a closed form expression for $M$, see above. For $\eta=1$ we can compute
+
+\begin{equation}
+M(t,x;T) = \int_{-\infty}^\infty e^{-\lambda(T)\beta^{-1} (\exp(\beta \overline{y}) - \exp(\beta y))} e^{-z^2} dz
+\end{equation}
+
+where $\overline{y} = z\sqrt{2v} + y - \beta v / 2$, $v=\overline{\tau}-\tau$. Here we use the general transformation from \cite{betaeta}, (4.4)
+
+\begin{equation}
+y = \begin{cases}
+\frac{|1+\beta x|^{1-\eta}}{\beta(1-\eta)} & \eta\neq 1 \\
+\log(1+\beta x)/\beta & \eta=1 \\
+\end{cases}
+\end{equation}
+
+and write 
+
+\begin{equation}
+\tau = \int_0^{t} \alpha(s) ds
+\end{equation}
+
+Overlined variables like $\overline{y}$ and $\overline{\tau}$ denote the quantities w.r.t. $T$ (or $\overline{t}$) instead of $t$. In the following we look at the case $\eta < 1$ (and $\eta \neq 0.5$, although the computations work for this very case as well).
+
+The transition density is originally expressed in variables $y, \overline{y}$ and $\tau, \overline{\tau}$ instead of $x, \overline{x}$ and $t, \overline{t}$. It is obvious from \cite{betaeta}, (4.6a), (4.6b), (4.7) and (4.8) that $p$ can be written as a function of $\overline{\tau}-\tau$. Furthermore for any $a > 0$ we have the homogenity relation
+
+\begin{equation}\label{phom}
+p\left(a^2(\overline{\tau}-\tau), ay, a\overline{y}\right) = a^{1/(\eta-1)} p\left(\overline{\tau}-\tau, y, \overline{y}\right)
+\end{equation}
+
+We have to compute
+
+\begin{equation}
+M(t,x;\overline{t}) = \log \int_{-\infty}^{\infty} p(t,x;\overline{t},\overline{x}) e^{-\lambda(\overline{t})(\overline{x}-x)}d\overline{x}
+\end{equation}
+
+The integral can be rewritten using variable transformation and \ref{phom} as
+
+\begin{equation}
+\int_{0}^{\infty} p^* ( \lambda^{2-2\eta} \beta^{2\eta} (1-\eta)^{2\eta} v, u^{1-\eta}(1-\eta)^{\eta-1}, \overline{u}^{1-\eta}(1-\eta)^{\eta-1} ) e^{-(\overline{u}-u)} d\overline{u}
+\end{equation}
+
+where $p^*= p\cdot [(1-\eta)\beta]^{-\eta/(\eta-1)}$ with $u = \lambda(\overline{t})\beta^{-1}|1+\beta x|$. Introducing $S:=\beta^2v/(1+\beta x)^{2-2\eta}$ this reads
+
+\begin{equation}
+\int_{0}^{\infty} p^* ( S (1-\eta)^{2\eta} u^{2-2\eta}, u^{1-\eta}(1-\eta)^{\eta-1}, \overline{u}^{1-\eta}(1-\eta)^{\eta-1} ) e^{-(\overline{u}-u)} d\overline{u}
+\end{equation}
+
+this gets
+
+\begin{equation}
+(1-\eta)^{\eta/(\eta-1)} u^{-1} \int_{0}^{\infty} p^* ( S, (1-\eta)^{-1}, (\overline{u}/u)^{1-\eta}(1-\eta)^{-1} ) e^{-(\overline{u}-u)} d\overline{u}
+\end{equation}
+
+so $M = M(S,u)$ can be written as 
+
+\begin{eqnarray}
+\frac{\eta}{\eta-1} \log (1-\eta) - \log(u) + \\
+\log \int_{0}^{\infty} p^* ( S, (1-\eta)^{-1}, (\overline{u}/u)^{1-\eta}(1-\eta)^{-1} ) e^{-(\overline{u}-u)} d\overline{u}
+\end{eqnarray}
+
+which can be tabulated.
+
+Alternatively, the integral can be expressed as
+
+\begin{equation}
+\int_{0}^{\infty} \overline{w}^{\eta/(1-\eta)}p^*(1,w,\overline{w})e^{-(1-\eta)v^{*1/(2-2\eta)}(\overline{w}^{1/(1-\eta)}-w^{1/(1-\eta)})} d\overline{w}
+\end{equation}
+
+with $w=u^{1-\eta}(1-\eta)^{\eta-1}/\sqrt{v^*}$ and $v^*= \lambda^{2-2\eta} \beta^{2\eta} (1-\eta)^{2\eta} v$.
 
 
 
