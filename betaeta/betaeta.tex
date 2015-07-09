@@ -40,6 +40,9 @@
 \usepackage{amsfonts}%
 \usepackage{amssymb}%
 \usepackage{graphicx}
+\usepackage[miktex]{gnuplottex}
+\ShellEscapetrue
+\usepackage{epstopdf}
 %------------------------------------------------------------
 % Theorem like environments
 %
@@ -94,7 +97,7 @@ dx(t) = \alpha(t) ( 1 + \beta x(t) )^\eta dW(t)
 with $x(0)=0$, $\alpha(\cdot) > 0$, $\beta > 0$ and $0 \leq \eta \leq 1$. The dynamics is expressed in the measure $\mathbb{Q}^N$ associated to the numeraire
 
 \begin{equation}
-N(t,x(t)) = e^{\lambda(t)x(t)+M(0,0;T)}
+N(t,x(t)) = \frac{1}{P(0,t)}e^{\lambda(t)x(t)+M(0,0;T)}
 \end{equation}
 
 with a function $\lambda: \mathbb{R}\rightarrow\mathbb{R}$ subject to constraints $\lambda(0)=0$ and $\lambda'(0)=1$. We define
@@ -103,12 +106,9 @@ with a function $\lambda: \mathbb{R}\rightarrow\mathbb{R}$ subject to constraint
 M(t,x;T) = \log E \left( e^{-\lambda(T)(X(T)-x)} \middle | X(t)=x \right)
 \end{equation}
 
-The transition density is given in \cite{betaeta}, (4.6a), (4.6b) and (4.8). For $\eta < 0.5$ a reflecting barrier at $x=-1/\beta$ can be specified in \ref{dynamics}, the corresponding amendments in the density are also given in \cite{betaeta}, p. 241, last paragraph.
+which is central to the computation of numeraire and zerobond values in the model. The transition density is given in \cite{betaeta}, (4.6a), (4.6b) and (4.8). For $\eta < 0.5$ a reflecting barrier at $x=-1/\beta$ can be specified in \ref{dynamics}, the corresponding amendments in the density are also given in \cite{betaeta}, p. 241, last paragraph.
 
 For the special case of $\eta=0$ a closed form representation for the density (C.3) and for $M(t,x;T)$ (C.5) is given, but only for the case of no barrier. For $\eta=0.5$ a closed form expression for $M(t,x;T)$ is given in (4.15). For $\eta=1$ we can use (4.10b) likewise for the density (however there is no closed form expression for $M(t,x;T)$ in this case).
-
-
-\section{Parametrization of $\lambda$}
 
 We follow \cite{piterbarg} and describe $\lambda$ by a constant mean reversion $\kappa \neq 0$ via
 
@@ -124,20 +124,36 @@ The normalization constraints $\lambda(0)=0, \lambda'(0)=1$ are immediately veri
 
 Note that $\lambda > 0$ by construction.
 
-\section{Computation of $p(t,x;\overline{t},\overline{x})$}
+\section{Numerical Issues}
+
+\subsection{Computation of $p(t,x;\overline{t},\overline{x})$}
+
+The implementation of \cite{betaeta}, (4.6a), (4.6b) and (4.8) contains subexpressions
+
+\begin{equation}
+I_\nu(y\overline{y}/(\overline{\tau}-\tau)) e^{-(\overline{y}^2+y^2)/(2(\overline{\tau}-\tau))}
+\end{equation}
+
+with $I_\nu$ the modified Bessel function of the first kind and likewise $I_\nu$ replaced by $I_{-\nu}$ and the modified Bessel function of the second kind $K_\nu$ at other places. All these expressions can be easily rewritten as
+
+\begin{equation}
+I_\nu(y\overline{y}/(\overline{\tau}-\tau))e^{-y\overline{y}/(\overline{\tau}-\tau)} e^{-(\overline{y}+y)^2/(2(\overline{\tau}-\tau))}
+\end{equation}
+
+so that we can use the exponentially weighted implementation of the modified Bessel function to cover the first two factors, which is necessary for a numerically stable result.
+
+For values $\eta$ close to, but not equal to $1$ the closed form representation from the paper gets numerically unstable. Therefore we interpolate the density between some threshold value $\eta_M$ and the density for $\eta=1$. The threshold value is set to the largest tabulated value for $\eta$ (which is e.g. $0.989...$), since this is guaranteed to deliver stable values.
 
 
-
-
-\section{Tabulation of $M(t,x,T)$}
+\subsection{Tabulation of $M(t,x,T)$}
 
 For $\eta=0.5$ we can use a closed form expression for $M$, see above. For $\eta=1$ we can compute
 
-\begin{equation}
+\begin{equation}\label{M_eta_1}
 M(t,x;T) = \int_{-\infty}^\infty e^{-\lambda(T)\beta^{-1} (\exp(\beta \overline{y}) - \exp(\beta y))} e^{-z^2} dz
 \end{equation}
 
-where $\overline{y} = z\sqrt{2v} + y - \beta v / 2$, $v=\overline{\tau}-\tau$. Here we use the general transformation from \cite{betaeta}, (4.4)
+using a Gauss Hermite Scheme (e.g. with $8$ points). Here we write $\overline{y} = z\sqrt{2v} + y - \beta v / 2$, $v=\overline{\tau}-\tau$ and use the general transformation from \cite{betaeta}, (4.4)
 
 \begin{equation}
 y = \begin{cases}
@@ -152,7 +168,7 @@ and write
 \tau = \int_0^{t} \alpha(s) ds
 \end{equation}
 
-Overlined variables like $\overline{y}$ and $\overline{\tau}$ denote the quantities w.r.t. $T$ (or $\overline{t}$) instead of $t$. In the following we look at the case $\eta < 1$ (and $\eta \neq 0.5$, although the computations work for this very case as well).
+Overlined variables like $\overline{y}$ and $\overline{\tau}$ denote the quantities w.r.t. $T$ (or $\overline{t}$) instead of $t$. In the following we look at the case $\eta < 1$ (and $\eta \neq 0.5$, although the computations would work for this very case as well).
 
 The transition density is originally expressed in variables $y, \overline{y}$ and $\tau, \overline{\tau}$ instead of $x, \overline{x}$ and $t, \overline{t}$. It is obvious from \cite{betaeta}, (4.6a), (4.6b), (4.7) and (4.8) that $p$ can be written as a function of $\overline{\tau}-\tau$. Furthermore for any $a > 0$ we have the homogenity relation
 
@@ -178,29 +194,113 @@ where $p^*= p\cdot [(1-\eta)\beta]^{-\eta/(\eta-1)}$ with $u = \lambda(\overline
 \int_{0}^{\infty} p^* ( S (1-\eta)^{2\eta} u^{2-2\eta}, u^{1-\eta}(1-\eta)^{\eta-1}, \overline{u}^{1-\eta}(1-\eta)^{\eta-1} ) e^{-(\overline{u}-u)} d\overline{u}
 \end{equation}
 
-this gets
+which can be tabulated. Actually we tabulate $M$ in $(S^*,u)$ instead of $(S,u)$ with
 
 \begin{equation}
-(1-\eta)^{\eta/(\eta-1)} u^{-1} \int_{0}^{\infty} p^* ( S, (1-\eta)^{-1}, (\overline{u}/u)^{1-\eta}(1-\eta)^{-1} ) e^{-(\overline{u}-u)} d\overline{u}
+S^* = S u^{2-\eta/2}
 \end{equation}
 
-so $M = M(S,u)$ can be written as 
+for example on a grid $[10^{-4},20] \times [10^{-4},1000]$ with $100$ grid points in each direction with a density of $10^{-4}$ and concentrating point at $(10^{-4}, 10^{-4})$ (TODO explain this...). In $\eta$ direction we use $100$ grid points as well (with a concentrating point at $0.5$ and density $1.0$). The interpolation is done linearly. Since for $\eta=1$ we do not have a tabulation we interpolation $M$ between the largest tabulated point for $\eta$ and $\eta=1$, for the latter using \ref{M_eta_1}.
 
-\begin{eqnarray}
-\frac{\eta}{\eta-1} \log (1-\eta) - \log(u) + \\
-\log \int_{0}^{\infty} p^* ( S, (1-\eta)^{-1}, (\overline{u}/u)^{1-\eta}(1-\eta)^{-1} ) e^{-(\overline{u}-u)} d\overline{u}
-\end{eqnarray}
+\subsection{Tabulation of $P(y = 0)$ and cutoff of small values}
 
-which can be tabulated.
+For $\eta \geq 0.5$ there is a closed form expression for the probability of $y$ being zero given in \cite{betaeta}, (4.8). The paper does not give such an expression for $\eta<0.5$ when a reflecting barrier condition at $y=0$ is chosen. In any case we need a tabulation of these values because of performance issues when evaluation the incomplete upper gamma function $\Gamma(\cdot,\cdot)$.
 
-Alternatively, the integral can be expressed as
+This tabulation is straightforward. For $\eta$ we use the same grid as for the tabulation of $M$. For $y$ and $v$ we tabulate $50 x 50$ points of the interval $[10^{-4},10] x [10^{-4},1]$ with a density of $10^{-4}$ and concentrating point $(10^{-4},10^{-4})$.
+
+Since in some cases very huge terms are multiplied with very small values of $P(y=0)$ we choose (as a workaround) to set this probability to zero in case it is below a threshold (of $10^{-6}$).
+
+\section{Examples}
+
+\subsection{Zero yield anomaly}
+
+For larger values of both $\beta$ and $\alpha$ we observe an anomaly in the functional dependency of the zero yield on the model's state variable. The usual expectation is that the zero yield is monotone ascending in the state. For small $\beta$ this can indeed be reproduced, see figure \ref{zeroyield_beta01} for an example with $\beta=0.1$ (the reversion $\kappa$ is $1\%$, the yield term structure flat at $3\%$).
+
+\begin{figure}[ht]
+\caption{10y Zero yield at $t=10$ conditional on $x(t)$ for different $\alpha$, $\beta=0.1$}
+\label{zeroyield_beta01}
+\begin{gnuplot}[scale=1,terminal=epslatex,terminaloptions=color] 
+set xrange [*:*]
+set yrange [*:*]
+set zrange [*:*]
+set xlabel "alpha"
+set ylabel "x(t)"
+set zlabel "r(20,10,x(t))" offset -5,0
+set xtics 0.02
+set ytics 0.25
+set ztics 0.5
+set contour
+set cntrparam levels 25
+unset key
+set grid
+set view 52,70
+splot 'beta_01.dat' u 1:2:3:3 w l palette
+\end{gnuplot}
+\end{figure}
+
+For higher values of $\beta$ however, the dependency of the zero yield on the state flattens and even reverses, so that for high volatilities $\alpha$ the zero yield is monotone descending in the state. Obviously this can produce unintuitive results like swaption prices that are not monotone in the model volatility. Figure \ref{zeroyield_beta50} shows an example in this direction.
+
+\begin{figure}[ht]
+\caption{10y zero yield at $t=10$ conditional on $x(t)$ for different levels of $\alpha$, $\beta=5$}
+\label{zeroyield_beta50}
+\begin{gnuplot}[scale=1,terminal=epslatex,terminaloptions=color] 
+set xrange [*:*]
+set yrange [-0.2:*]
+set zrange [*:*]
+set xlabel "alpha"
+set ylabel "x(t)"
+set zlabel "r(20,10,x(t))" offset -5,0
+set xtics 0.02
+set ytics 0.25
+set ztics 0.5
+set contour
+set cntrparam levels 25
+unset key
+set grid
+set view 52,70
+splot 'beta_50.dat' u 1:2:3:3 w l palette
+\end{gnuplot}
+\end{figure}
+
+
+\subsection{Hull White case}
+
+For $\eta=0, \kappa=0$ according to \cite{betaeta}, C1 we can expect to replicate the Hull White model. Table \ref{hwcase} shows the pricing of 10y into 10y swaptions in the GSR and $\beta-\eta$ model. We use the respective integral engines with $64$ integration points covering $7$ standard deviations of the state variable. The yield term structure is flat at $3\%$ and we price swaptions with strikes
+
+\begin{enumerate}
+\item 0\%, atm-200bp, atm-150bp, atm-100bp, atm-50bp, atm-25bp (Receiver)
+\item atm+25bp, atm+50bp, atm+100bp, atm+150bp, atm+200bp (Payer)
+\end{enumerate}
+
+Table \ref{hwcase} shows the results. GSR and $\beta-\eta$ pricings are consistent. Also the usage of tabulated values does not impact the pricing accuracy. The parity error is defined as
 
 \begin{equation}
-\int_{0}^{\infty} \overline{w}^{\eta/(1-\eta)}p^*(1,w,\overline{w})e^{-(1-\eta)v^{*1/(2-2\eta)}(\overline{w}^{1/(1-\eta)}-w^{1/(1-\eta)})} d\overline{w}
+\frac{\pi - \rho}{A} - (f-k)
 \end{equation}
 
-with $w=u^{1-\eta}(1-\eta)^{\eta-1}/\sqrt{v^*}$ and $v^*= \lambda^{2-2\eta} \beta^{2\eta} (1-\eta)^{2\eta} v$.
+with $\pi$ and $\rho$ the payer resp. receiver swaption price, $A$ the annuity, $f$ the forward swap rate and $k$ the strike, where $f$ is computed on the inital rate curve outside the model as the reference value. In general we find the parity error to be a good measure for both the error arising from numerical procedures and approximations from the tabulation.
 
+\begin{table}[ht]
+\caption{Swaption Pricing check against GSR for $\beta\eta$ with $\eta=0$, $\beta=0.1$, $\sigma=0.00750$, $\kappa=0$ using tabulated values and full integration}
+\begin{tabular}{r | r | r | r | r | r}
+strike & pv GSR & npv $\beta\eta$ tab & npv $\beta\eta$ full & parity error tab & parity error full \\ \hline
+0 & 0.0073954 & 0.0073943 & 0.0073943 & 6.3182e-08 & 6.2763e-08 \\
+0.010472 & 0.017449 & 0.017447 & 0.017447 & 7.5887e-08 & 7.5468e-08 \\
+0.015472 & 0.024959 & 0.024957 & 0.024957 & -5.7966e-08 & -5.8384e-08 \\
+0.020472 & 0.034625 & 0.034623 & 0.034623 & -1.5272e-07 & -1.5313e-07 \\
+0.025472 & 0.04672 & 0.046729 & 0.046729 & 2.1575e-08 & 2.1157e-08 \\
+0.027972 & 0.053726 & 0.053734 & 0.053734 & 1.2001e-07 & 1.196e-07 \\
+0.030472 & 0.061376 & 0.06138 & 0.06138 & -1.9706e-07 & -1.9665e-07 \\
+0.032972 & 0.053905 & 0.053909 & 0.053909 & -2.2308e-07 & -2.2267e-07 \\
+0.035472 & 0.04707 & 0.047073 & 0.047073 & -2.4932e-07 & -2.4891e-07 \\
+0.040472 & 0.035247 & 0.035248 & 0.035248 & -2.9785e-07 & -2.9743e-07 \\
+0.045472 & 0.025739 & 0.025737 & 0.025737 & -3.3749e-07 & -3.3707e-07 \\
+0.050472 & 0.018306 & 0.018303 & 0.018303 & -3.6517e-07 & -3.6475e-07
+\end{tabular}
+\label{hwcase}
+\end{table}
+
+\subsection{Influence of $\beta$, $\eta$ and $\kappa$ on the smile}
 
 
 \begin{thebibliography}{2}
