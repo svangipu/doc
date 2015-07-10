@@ -43,6 +43,7 @@
 \usepackage[miktex]{gnuplottex}
 \ShellEscapetrue
 \usepackage{epstopdf}
+\usepackage{longtable}
 %------------------------------------------------------------
 % Theorem like environments
 %
@@ -79,9 +80,9 @@
 \email[P. Caspers]{pcaspers1973@googlemail.com}
 \email[R. Lichters]{pcaspers1973@googlemail.com}
 \date{May 31, 2013}
-\dedicatory{First Version May 31, 2015 - This Version June 16, 2015}
+\dedicatory{First Version July 10, 2015 - This Version July 10, 2015\\INCOMPLETE DRAFT}
 \begin{abstract}
-We describe the implementation of the $\beta-\eta$ model \cite{betaeta}, \cite{piterbarg}, 11.3.2.6 in QuantLib \cite{ql}.
+We describe the implementation of the $\beta-\eta$ model (\cite{betaeta}, \cite{piterbarg}, 11.3.2.6) in QuantLib \cite{ql}.
 \end{abstract}
 
 \maketitle
@@ -108,7 +109,7 @@ M(t,x;T) = \log E \left( e^{-\lambda(T)(X(T)-x)} \middle | X(t)=x \right)
 
 which is central to the computation of numeraire and zerobond values in the model. The transition density is given in \cite{betaeta}, (4.6a), (4.6b) and (4.8). For $\eta < 0.5$ a reflecting barrier at $x=-1/\beta$ can be specified in \ref{dynamics}, the corresponding amendments in the density are also given in \cite{betaeta}, p. 241, last paragraph.
 
-For the special case of $\eta=0$ a closed form representation for the density (C.3) and for $M(t,x;T)$ (C.5) is given, but only for the case of no barrier. For $\eta=0.5$ a closed form expression for $M(t,x;T)$ is given in (4.15). For $\eta=1$ we can use (4.10b) likewise for the density (however there is no closed form expression for $M(t,x;T)$ in this case).
+For the special case of $\eta=0$ a closed form representation for the density (C.3) and for $M(t,x;T)$ (C.5) is given, but only for the case of no barrier. For $\eta=0.5$ a closed form expression for $M(t,x;T)$ is given in (4.15). For $\eta=1$ we have (4.10b) for the density (however there is no closed form expression for $M(t,x;T)$ in this case).
 
 We follow \cite{piterbarg} and describe $\lambda$ by a constant mean reversion $\kappa \neq 0$ via
 
@@ -128,21 +129,21 @@ Note that $\lambda > 0$ by construction.
 
 \subsection{Computation of $p(t,x;\overline{t},\overline{x})$}
 
-The implementation of \cite{betaeta}, (4.6a), (4.6b) and (4.8) contains subexpressions
+The formulas for the density (\cite{betaeta}, (4.6a), (4.6b) and (4.8)) contain expressions
 
-\begin{equation}
+\begin{equation}\label{bessel}
 I_\nu(y\overline{y}/(\overline{\tau}-\tau)) e^{-(\overline{y}^2+y^2)/(2(\overline{\tau}-\tau))}
 \end{equation}
 
-with $I_\nu$ the modified Bessel function of the first kind and likewise $I_\nu$ replaced by $I_{-\nu}$ and the modified Bessel function of the second kind $K_\nu$ at other places. All these expressions can be easily rewritten as
+with $I_\nu$ the modified Bessel function of the first kind (likewise $I_{-\nu}$ and $K_\nu$ appear at other places). We can rewrite \ref{bessel} as
 
 \begin{equation}
 I_\nu(y\overline{y}/(\overline{\tau}-\tau))e^{-y\overline{y}/(\overline{\tau}-\tau)} e^{-(\overline{y}+y)^2/(2(\overline{\tau}-\tau))}
 \end{equation}
 
-so that we can use the exponentially weighted implementation of the modified Bessel function to cover the first two factors, which is necessary for a numerically stable result.
+so that we can use the exponentially weighted implementation of the modified Bessel function to cover the first two factors. This is necessary for a numerically stable result.
 
-For values $\eta$ close to, but not equal to $1$ the closed form representation from the paper gets numerically unstable. Therefore we interpolate the density between some threshold value $\eta_M$ and the density for $\eta=1$. The threshold value is set to the largest tabulated value for $\eta$ (which is e.g. $0.989...$), since this is guaranteed to deliver stable values.
+For values $\eta$ close to, but not equal to $1$ the closed form representation from the paper gets numerically unstable. Therefore we interpolate the density between some threshold value $\eta_M$ and $\eta=1$ linearly. The threshold value is set to the largest tabulated value for $\eta$ (see below, this is typically near $0.99$), since this is guaranteed to deliver stable values.
 
 
 \subsection{Tabulation of $M(t,x,T)$}
@@ -153,7 +154,7 @@ For $\eta=0.5$ we can use a closed form expression for $M$, see above. For $\eta
 M(t,x;T) = \int_{-\infty}^\infty e^{-\lambda(T)\beta^{-1} (\exp(\beta \overline{y}) - \exp(\beta y))} e^{-z^2} dz
 \end{equation}
 
-using a Gauss Hermite Scheme (e.g. with $8$ points). Here we write $\overline{y} = z\sqrt{2v} + y - \beta v / 2$, $v=\overline{\tau}-\tau$ and use the general transformation from \cite{betaeta}, (4.4)
+using a Gauss Hermite Scheme (we use $8$ points which already seem to give enough accuracy). Here we write $\overline{y} = z\sqrt{2v} + y - \beta v / 2$, $v=\overline{\tau}-\tau$ and use the transformation from \cite{betaeta}, (4.4)
 
 \begin{equation}
 y = \begin{cases}
@@ -162,7 +163,7 @@ y = \begin{cases}
 \end{cases}
 \end{equation}
 
-and write 
+Furthermore we write 
 
 \begin{equation}
 \tau = \int_0^{t} \alpha(s) ds
@@ -200,32 +201,35 @@ which can be tabulated. Actually we tabulate $M$ in $(S^*,u)$ instead of $(S,u)$
 S^* = S u^{2-\eta/2}
 \end{equation}
 
-for example on a grid $[10^{-4},20] \times [10^{-4},1000]$ with $100$ grid points in each direction with a density of $10^{-4}$ and concentrating point at $(10^{-4}, 10^{-4})$ (TODO explain this...). In $\eta$ direction we use $100$ grid points as well (with a concentrating point at $0.5$ and density $1.0$). The interpolation is done linearly. Since for $\eta=1$ we do not have a tabulation we interpolation $M$ between the largest tabulated point for $\eta$ and $\eta=1$, for the latter using \ref{M_eta_1}.
+since this allows to cover more ``useful'' values by a rectangular set for $(S^*,u)$.
+
+We tabulate $[10^{-4},20] \times [10^{-4},1000]$ with $100$ grid points in each direction with a density of $10^{-4}$ and concentrating point at $(10^{-4}, 10^{-4})$ (in the sense of QuantLib's concentrating mesher). In $\eta$ direction we use $100$ grid points as well (with a concentrating point at $0.5$ and density $1.0$). The interpolation is done linearly. Since for $\eta=1$ we do not have a tabulation we interpolation $M$ between the largest tabulated point for $\eta$ and $\eta=1$, for the latter we use \ref{M_eta_1}.
 
 \subsection{Tabulation of $P(y = 0)$ and cutoff of small values}
 
-For $\eta \geq 0.5$ there is a closed form expression for the probability of $y$ being zero given in \cite{betaeta}, (4.8). The paper does not give such an expression for $\eta<0.5$ when a reflecting barrier condition at $y=0$ is chosen. In any case we need a tabulation of these values because of performance issues when evaluation the incomplete upper gamma function $\Gamma(\cdot,\cdot)$.
+For $\eta \geq 0.5$ there is a closed form expression for the probability of $y$ being zero given in \cite{betaeta}, (4.8). The paper does not give such an expression for $\eta<0.5$ when a reflecting barrier condition at $y=0$ is chosen. In any case we need a tabulation of these values because the evaluation of the incomplete upper gamma function $\Gamma(\cdot,\cdot)$ slows down the pricing considerably if implemented explicitly.
 
-This tabulation is straightforward. For $\eta$ we use the same grid as for the tabulation of $M$. For $y$ and $v$ we tabulate $50 x 50$ points of the interval $[10^{-4},10] x [10^{-4},1]$ with a density of $10^{-4}$ and concentrating point $(10^{-4},10^{-4})$.
+The tabulation is straightforward. For $\eta$ we use the same grid as for the tabulation of $M$. For $y$ and $v$ we tabulate $50 \times 50$ points and cover $[10^{-4},10] x [10^{-4},1]$ with a density of $10^{-4}$ and concentrating point $(10^{-4},10^{-4})$.
 
-Since in some cases very huge terms are multiplied with very small values of $P(y=0)$ we choose (as a workaround) to set this probability to zero in case it is below a threshold (of $10^{-6}$).
+Since when computing $M$ very huge terms are multiplied with very small values of $P(y=0)$ we choose to set this probability to zero in case it is below a threshold (of $10^{-6}$).
 
 \section{Examples}
 
-\subsection{Zero yield anomaly}
+\subsection{Yield-state anomaly}
+\label{ys-anomaly}
 
-For larger values of both $\beta$ and $\alpha$ we observe an anomaly in the functional dependency of the zero yield on the model's state variable. The usual expectation is that the zero yield is monotone ascending in the state. For small $\beta$ this can indeed be reproduced, see figure \ref{zeroyield_beta01} for an example with $\beta=0.1$ (the reversion $\kappa$ is $1\%$, the yield term structure flat at $3\%$).
+For larger values of both $\beta$ and $\alpha$ we observe an anomaly in the functional dependency of the zero yield on the model's state variable. The usual expectation would be that the zero yield is monotone ascending in the state variable. For small $\beta$ this can indeed be verified, see figure \ref{zeroyield_beta01} for an example with $\beta=0.1$ (the reversion $\kappa$ is $1\%$, the yield term structure flat at $3\%$ in this example).
 
 \begin{figure}[ht]
-\caption{10y Zero yield at $t=10$ conditional on $x(t)$ for different $\alpha$, $\beta=0.1$}
+\caption{10y zero yield at $t=10$ conditional on $x(10)$ for different levels of $\alpha$, $\beta=0.1$}
 \label{zeroyield_beta01}
 \begin{gnuplot}[scale=1,terminal=epslatex,terminaloptions=color] 
 set xrange [*:*]
 set yrange [*:*]
 set zrange [*:*]
 set xlabel "alpha"
-set ylabel "x(t)"
-set zlabel "r(20,10,x(t))" offset -5,0
+set ylabel "x(10)"
+set zlabel "r(20,10,x(10))" offset -5,0
 set xtics 0.02
 set ytics 0.25
 set ztics 0.5
@@ -238,10 +242,10 @@ splot 'beta_01.dat' u 1:2:3:3 w l palette
 \end{gnuplot}
 \end{figure}
 
-For higher values of $\beta$ however, the dependency of the zero yield on the state flattens and even reverses, so that for high volatilities $\alpha$ the zero yield is monotone descending in the state. Obviously this can produce unintuitive results like swaption prices that are not monotone in the model volatility. Figure \ref{zeroyield_beta50} shows an example in this direction.
+For higher values of $\beta$ however, the dependency of the zero yield on the state flattens and even reverses, so that for high volatilities $\alpha$ the zero yield is monotone \textit{descending} in the state. Obviously this can produce unintuitive results like swaption prices that are not monotone ascending w.r.t. the model volatility. Figure \ref{zeroyield_beta50} shows an example in this direction.
 
 \begin{figure}[ht]
-\caption{10y zero yield at $t=10$ conditional on $x(t)$ for different levels of $\alpha$, $\beta=5$}
+\caption{10y zero yield at $t=10$ conditional on $x(10)$ for different levels of $\alpha$, $\beta=5$}
 \label{zeroyield_beta50}
 \begin{gnuplot}[scale=1,terminal=epslatex,terminaloptions=color] 
 set xrange [*:*]
@@ -249,7 +253,7 @@ set yrange [-0.2:*]
 set zrange [*:*]
 set xlabel "alpha"
 set ylabel "x(t)"
-set zlabel "r(20,10,x(t))" offset -5,0
+set zlabel "r(20,10,x(10))" offset -5,0
 set xtics 0.02
 set ytics 0.25
 set ztics 0.5
@@ -261,7 +265,6 @@ set view 52,70
 splot 'beta_50.dat' u 1:2:3:3 w l palette
 \end{gnuplot}
 \end{figure}
-
 
 \subsection{Hull White case}
 
@@ -278,12 +281,12 @@ Table \ref{hwcase} shows the results. GSR and $\beta-\eta$ pricings are consiste
 \frac{\pi - \rho}{A} - (f-k)
 \end{equation}
 
-with $\pi$ and $\rho$ the payer resp. receiver swaption price, $A$ the annuity, $f$ the forward swap rate and $k$ the strike, where $f$ is computed on the inital rate curve outside the model as the reference value. In general we find the parity error to be a good measure for both the error arising from numerical procedures and approximations from the tabulation.
+with $\pi$ and $\rho$ the payer resp. receiver swaption price, $A$ the annuity, $f$ the forward swap rate and $k$ the strike, where $f$ is computed on the inital rate curve outside the model as the reference value. In general we find the parity error to be a good measure for both the error arising from numerics and approximations from the tabulation.
 
 \begin{table}[ht]
-\caption{Swaption Pricing check against GSR for $\beta\eta$ with $\eta=0$, $\beta=0.1$, $\sigma=0.00750$, $\kappa=0$ using tabulated values and full integration}
+\caption{Swaption pricing check against GSR for $\eta=0$, $\beta=0.1$, $\sigma=0.0075$, $\kappa=0$ using tabulated values and full integration}
 \begin{tabular}{r | r | r | r | r | r}
-strike & pv GSR & npv $\beta\eta$ tab & npv $\beta\eta$ full & parity error tab & parity error full \\ \hline
+strike & npv GSR & npv $\beta\eta$ tab & npv $\beta\eta$ full & parity error tab & parity error full \\ \hline
 0 & 0.0073954 & 0.0073943 & 0.0073943 & 6.3182e-08 & 6.2763e-08 \\
 0.010472 & 0.017449 & 0.017447 & 0.017447 & 7.5887e-08 & 7.5468e-08 \\
 0.015472 & 0.024959 & 0.024957 & 0.024957 & -5.7966e-08 & -5.8384e-08 \\
@@ -301,6 +304,250 @@ strike & pv GSR & npv $\beta\eta$ tab & npv $\beta\eta$ full & parity error tab 
 \end{table}
 
 \subsection{Influence of $\beta$, $\eta$ and $\kappa$ on the smile}
+
+We continue to examine the influence of the model parameters $\beta$, $\eta$ and $\kappa$ on the implied smile. We look at reversion levels $\kappa \in { -0.05, -0.01, 0, 0.01 ,0.05 }$. The exponent $\eta$ is chosen as $0$, $0.2$, $0.5$, $0.8$ and $1.0$ respectively. 
+
+The range for $\beta$ is set to $0.1$, $1.0$, $2.0$, $3.0$, $4.0$, $5.0$ here. Note that too large values can cause difficult conditions in the model as shows in \ref{ys-anomaly}. Actually in one of the following examples the calibration of the model to an atm swaption with $16\%$ market volatility already fails for $\beta=5$ (namely for $\eta=1$, $\kappa=0.05$) due to the described issue. Hagan himself does not give a hint to which values for $\beta$ are reasonable on the other hand.
+
+Figures \ref{smile_02_00}, \ref{smile_05_00}, \ref{smile_08_m01} and \ref{smile_10_05} show the dependency of the smile of the different values of $\beta$ for fixed $\eta$ and $\kappa$. In general for higher $\eta$ and higher $\kappa$ the dependency on $beta$ gets stronger and higher $\beta$ decrease the skew. For these example cases we recalibrate the model volatility for each $(\eta,\beta,\kappa)$ such that an atm swaption with $16\%$ implied lognormal volatility is matched.
+
+Table \ref{skewtable} lists all example cases (except the one where the calibration failes, see above) together with the implied volatilities for atm, atm-200bp, atm+200bp and the skew and curvature of the smile for atm+-200bp, defined as
+
+\begin{eqnarray}
+\text{skew} & := & \sigma_{\text{atm}+200\text{bp}} - \sigma_{\text{atm}-200\text{bp}} \\
+\text{curvature} & := & \sigma_{\text{atm}+200\text{bp}} -2\sigma_{\text{atm}} + \sigma_{\text{atm}-200\text{bp}}
+\end{eqnarray}
+
+\begin{figure}[ht]
+\caption{implied lognormal volatility smiles, $\eta=0.2$, $\kappa=0.0$}
+\label{smile_02_00}
+\begin{gnuplot}[scale=1,terminal=epslatex,terminaloptions=color] 
+eta = 0.2
+kappa = 0.0
+set key
+set grid
+set xlabel "strike"
+set ylabel "implied lognormal volatility"
+plot "smiles.dat" u ($1==eta && $3==kappa && $2==0.1 && $4>0 ? $4:1/0):7 w l title "beta = 0.1", "" u ($1==eta && $3==kappa && $2==1.0 && $4>0 ? $4:1/0):7 w l title "beta = 1.0", "" u ($1==eta && $3==kappa && $2==2.0 && $4>0 ? $4:1/0):7 w l title "beta = 2.0", "" u ($1==eta && $3==kappa && $2==3.0 && $4>0 ? $4:1/0):7 w l title "beta = 3.0", "" u ($1==eta && $3==kappa && $2==4.0 && $4>0 ? $4:1/0):7 w l title "beta = 4.0", "" u ($1==eta && $3==kappa && $2==5.0 && $4>0 ? $4:1/0):7 w l lc 1 title "beta = 5.0"
+\end{gnuplot}
+\end{figure}
+
+\begin{figure}[ht]
+\caption{implied lognormal volatility smiles, $\eta=0.5$, $\kappa=0.0$}
+\label{smile_05_00}
+\begin{gnuplot}[scale=1,terminal=epslatex,terminaloptions=color] 
+eta = 0.5
+kappa = 0.0
+set key
+set grid
+set xlabel "strike"
+set ylabel "implied lognormal volatility"
+plot "smiles.dat" u ($1==eta && $3==kappa && $2==0.1 && $4>0 ? $4:1/0):7 w l title "beta = 0.1", "" u ($1==eta && $3==kappa && $2==1.0 && $4>0 ? $4:1/0):7 w l title "beta = 1.0", "" u ($1==eta && $3==kappa && $2==2.0 && $4>0 ? $4:1/0):7 w l title "beta = 2.0", "" u ($1==eta && $3==kappa && $2==3.0 && $4>0 ? $4:1/0):7 w l title "beta = 3.0", "" u ($1==eta && $3==kappa && $2==4.0 && $4>0 ? $4:1/0):7 w l title "beta = 4.0", "" u ($1==eta && $3==kappa && $2==5.0 && $4>0 ? $4:1/0):7 w l lc 1 title "beta = 5.0"
+\end{gnuplot}
+\end{figure}
+
+\begin{figure}[ht]
+\caption{implied lognormal volatility smiles, $\eta=0.8$, $\kappa=-0.01$}
+\label{smile_08_m01}
+\begin{gnuplot}[scale=1,terminal=epslatex,terminaloptions=color] 
+eta = 0.8
+kappa = -0.01
+set key
+set grid
+set xlabel "strike"
+set ylabel "implied lognormal volatility"
+plot "smiles.dat" u ($1==eta && $3==kappa && $2==0.1 && $4>0 ? $4:1/0):7 w l title "beta = 0.1", "" u ($1==eta && $3==kappa && $2==1.0 && $4>0 ? $4:1/0):7 w l title "beta = 1.0", "" u ($1==eta && $3==kappa && $2==2.0 && $4>0 ? $4:1/0):7 w l title "beta = 2.0", "" u ($1==eta && $3==kappa && $2==3.0 && $4>0 ? $4:1/0):7 w l title "beta = 3.0", "" u ($1==eta && $3==kappa && $2==4.0 && $4>0 ? $4:1/0):7 w l title "beta = 4.0", "" u ($1==eta && $3==kappa && $2==5.0 && $4>0 ? $4:1/0):7 w l lc 1 title "beta = 5.0"
+\end{gnuplot}
+\end{figure}
+
+\begin{figure}[ht]
+\caption{implied lognormal volatility smiles, $\eta=0.8$, $\kappa=0.01$}
+\label{smile_08_01}
+\begin{gnuplot}[scale=1,terminal=epslatex,terminaloptions=color] 
+eta = 0.8
+kappa = 0.01
+set key
+set grid
+set xlabel "strike"
+set ylabel "implied lognormal volatility"
+plot "smiles.dat" u ($1==eta && $3==kappa && $2==0.1 && $4>0 ? $4:1/0):7 w l title "beta = 0.1", "" u ($1==eta && $3==kappa && $2==1.0 && $4>0 ? $4:1/0):7 w l title "beta = 1.0", "" u ($1==eta && $3==kappa && $2==2.0 && $4>0 ? $4:1/0):7 w l title "beta = 2.0", "" u ($1==eta && $3==kappa && $2==3.0 && $4>0 ? $4:1/0):7 w l title "beta = 3.0", "" u ($1==eta && $3==kappa && $2==4.0 && $4>0 ? $4:1/0):7 w l title "beta = 4.0", "" u ($1==eta && $3==kappa && $2==5.0 && $4>0 ? $4:1/0):7 w l lc 1 title "beta = 5.0"
+\end{gnuplot}
+\end{figure}
+
+\begin{figure}[ht]
+\caption{implied lognormal volatility smiles, $\eta=1.0$, $\kappa=0.05$}
+\label{smile_10_05}
+\begin{gnuplot}[scale=1,terminal=epslatex,terminaloptions=color] 
+eta = 1.0
+kappa = 0.05
+set key
+set grid
+set xlabel "strike"
+set ylabel "implied lognormal volatility"
+plot "smiles.dat" u ($1==eta && $3==kappa && $2==0.1 && $4>0 ? $4:1/0):7 w l title "beta = 0.1", "" u ($1==eta && $3==kappa && $2==1.0 && $4>0 ? $4:1/0):7 w l title "beta = 1.0", "" u ($1==eta && $3==kappa && $2==2.0 && $4>0 ? $4:1/0):7 w l title "beta = 2.0", "" u ($1==eta && $3==kappa && $2==3.0 && $4>0 ? $4:1/0):7 w l title "beta = 3.0", "" u ($1==eta && $3==kappa && $2==4.0 && $4>0 ? $4:1/0):7 w l title "beta = 4.0"
+\end{gnuplot}
+\end{figure}
+
+\begin{longtable}{r | r | r | r | r | r | r | r}
+\caption{Generated skew and curvature} \\
+$\eta$ & $\kappa$ & $\beta$ & $-200$ & atm & $+200$ & skew & curvature \\ \hline
+\endfirsthead
+$\eta$ & $\kappa$ & $\beta$ & $-200$ & atm & $+200$ & skew & curvature \\ \hline
+\endhead
+\multicolumn{8}{r}{\textit{Continued on next page ...}} \\
+\endfoot
+\endlastfoot
+0 & -0.05 & 0.1 & 0.2648 & 0.1601 & 0.1227 & -0.1421 & 0.06737 \\
+0 & -0.05 & 1 & 0.2648 & 0.1601 & 0.1227 & -0.1421 & 0.06737 \\
+0 & -0.05 & 2 & 0.2648 & 0.1601 & 0.1227 & -0.1421 & 0.06737 \\
+0 & -0.05 & 3 & 0.2648 & 0.1601 & 0.1227 & -0.1421 & 0.06737 \\
+0 & -0.05 & 4 & 0.2648 & 0.1601 & 0.1227 & -0.1421 & 0.06737 \\
+0 & -0.05 & 5 & 0.2648 & 0.1601 & 0.1227 & -0.1421 & 0.06737 \\ \hline
+0 & -0.01 & 0.1 & 0.2628 & 0.16 & 0.1234 & -0.1394 & 0.06615 \\
+0 & -0.01 & 1 & 0.2628 & 0.16 & 0.1234 & -0.1394 & 0.06615 \\
+0 & -0.01 & 2 & 0.2628 & 0.16 & 0.1234 & -0.1394 & 0.06615 \\
+0 & -0.01 & 3 & 0.2628 & 0.16 & 0.1234 & -0.1394 & 0.06615 \\
+0 & -0.01 & 4 & 0.2628 & 0.16 & 0.1234 & -0.1394 & 0.06615 \\
+0 & -0.01 & 5 & 0.2628 & 0.16 & 0.1234 & -0.1394 & 0.06615 \\ \hline
+0 & 0 & 0.1 & 0.2626 & 0.16 & 0.1238 & -0.1388 & 0.06631 \\
+0 & 0 & 1 & 0.2626 & 0.16 & 0.1238 & -0.1388 & 0.06631 \\
+0 & 0 & 2 & 0.2626 & 0.16 & 0.1238 & -0.1388 & 0.06631 \\
+0 & 0 & 3 & 0.2626 & 0.16 & 0.1238 & -0.1388 & 0.06631 \\
+0 & 0 & 4 & 0.2626 & 0.16 & 0.1238 & -0.1388 & 0.06631 \\
+0 & 0 & 5 & 0.2626 & 0.16 & 0.1238 & -0.1388 & 0.06631 \\ \hline
+0 & 0.01 & 0.1 & 0.2621 & 0.16 & 0.1239 & -0.1381 & 0.066 \\
+0 & 0.01 & 1 & 0.2621 & 0.16 & 0.1239 & -0.1381 & 0.066 \\
+0 & 0.01 & 2 & 0.2621 & 0.16 & 0.1239 & -0.1381 & 0.066 \\
+0 & 0.01 & 3 & 0.2621 & 0.16 & 0.1239 & -0.1381 & 0.066 \\
+0 & 0.01 & 4 & 0.2621 & 0.16 & 0.1239 & -0.1381 & 0.066 \\
+0 & 0.01 & 5 & 0.2621 & 0.16 & 0.1239 & -0.1381 & 0.066 \\ \hline
+0 & 0.05 & 0.1 & 0.2599 & 0.1599 & 0.1245 & -0.1354 & 0.06463 \\
+0 & 0.05 & 1 & 0.2599 & 0.1599 & 0.1245 & -0.1354 & 0.06463 \\
+0 & 0.05 & 2 & 0.2599 & 0.1599 & 0.1245 & -0.1354 & 0.06463 \\
+0 & 0.05 & 3 & 0.2599 & 0.1599 & 0.1245 & -0.1354 & 0.06463 \\
+0 & 0.05 & 4 & 0.2599 & 0.1599 & 0.1245 & -0.1354 & 0.06463 \\
+0 & 0.05 & 5 & 0.2601 & 0.1599 & 0.1246 & -0.1356 & 0.06488 \\ \hline
+0.2 & -0.05 & 0.1 & 0.2648 & 0.1601 & 0.1228 & -0.142 & 0.06736 \\
+0.2 & -0.05 & 1 & 0.2646 & 0.1601 & 0.1229 & -0.1417 & 0.06723 \\
+0.2 & -0.05 & 2 & 0.2643 & 0.1601 & 0.123 & -0.1413 & 0.06708 \\
+0.2 & -0.05 & 3 & 0.264 & 0.1601 & 0.1231 & -0.1409 & 0.06692 \\
+0.2 & -0.05 & 4 & 0.2637 & 0.1601 & 0.1232 & -0.1405 & 0.06677 \\
+0.2 & -0.05 & 5 & 0.2635 & 0.1601 & 0.1233 & -0.1401 & 0.0666 \\ \hline
+0.2 & -0.01 & 0.1 & 0.2627 & 0.16 & 0.1234 & -0.1393 & 0.06612 \\
+0.2 & -0.01 & 1 & 0.2623 & 0.16 & 0.1236 & -0.1387 & 0.06588 \\
+0.2 & -0.01 & 2 & 0.2618 & 0.16 & 0.1239 & -0.1379 & 0.06561 \\
+0.2 & -0.01 & 3 & 0.2613 & 0.16 & 0.1241 & -0.1372 & 0.06534 \\
+0.2 & -0.01 & 4 & 0.2608 & 0.16 & 0.1243 & -0.1365 & 0.06505 \\
+0.2 & -0.01 & 5 & 0.2602 & 0.16 & 0.1245 & -0.1357 & 0.06475 \\ \hline
+0.2 & 0 & 0.1 & 0.2625 & 0.16 & 0.1238 & -0.1387 & 0.06627 \\
+0.2 & 0 & 1 & 0.262 & 0.16 & 0.124 & -0.1379 & 0.06598 \\
+0.2 & 0 & 2 & 0.2614 & 0.16 & 0.1243 & -0.1371 & 0.06563 \\
+0.2 & 0 & 3 & 0.2607 & 0.16 & 0.1245 & -0.1362 & 0.06527 \\
+0.2 & 0 & 4 & 0.2601 & 0.16 & 0.1248 & -0.1353 & 0.06488 \\
+0.2 & 0 & 5 & 0.2594 & 0.16 & 0.1251 & -0.1343 & 0.06448 \\ \hline
+0.2 & 0.01 & 0.1 & 0.262 & 0.16 & 0.124 & -0.138 & 0.06595 \\
+0.2 & 0.01 & 1 & 0.2614 & 0.16 & 0.1242 & -0.1372 & 0.06561 \\
+0.2 & 0.01 & 2 & 0.2607 & 0.16 & 0.1245 & -0.1362 & 0.0652 \\
+0.2 & 0.01 & 3 & 0.2599 & 0.16 & 0.1248 & -0.1351 & 0.06477 \\
+0.2 & 0.01 & 4 & 0.2592 & 0.16 & 0.1251 & -0.134 & 0.06431 \\
+0.2 & 0.01 & 5 & 0.2584 & 0.16 & 0.1254 & -0.1329 & 0.06383 \\ \hline
+0.2 & 0.05 & 0.1 & 0.2598 & 0.1599 & 0.1246 & -0.1352 & 0.06456 \\
+0.2 & 0.05 & 1 & 0.2587 & 0.1599 & 0.1251 & -0.1336 & 0.06395 \\
+0.2 & 0.05 & 2 & 0.2573 & 0.1599 & 0.1257 & -0.1316 & 0.06318 \\
+0.2 & 0.05 & 3 & 0.2557 & 0.1599 & 0.1263 & -0.1294 & 0.06226 \\
+0.2 & 0.05 & 4 & 0.254 & 0.1599 & 0.127 & -0.1271 & 0.06126 \\
+0.2 & 0.05 & 5 & 0.252 & 0.1599 & 0.1276 & -0.1244 & 0.0598 \\ \hline
+0.5 & -0.05 & 0.1 & 0.2648 & 0.1601 & 0.1228 & -0.142 & 0.06734 \\
+0.5 & -0.05 & 1 & 0.2642 & 0.1601 & 0.123 & -0.1411 & 0.067 \\
+0.5 & -0.05 & 2 & 0.2635 & 0.1601 & 0.1233 & -0.1402 & 0.06663 \\
+0.5 & -0.05 & 3 & 0.2628 & 0.1601 & 0.1236 & -0.1392 & 0.06624 \\
+0.5 & -0.05 & 4 & 0.2621 & 0.1601 & 0.1239 & -0.1382 & 0.06585 \\
+0.5 & -0.05 & 5 & 0.2615 & 0.1601 & 0.1242 & -0.1373 & 0.06545 \\ \hline
+0.5 & -0.01 & 0.1 & 0.2627 & 0.16 & 0.1235 & -0.1392 & 0.06609 \\
+0.5 & -0.01 & 1 & 0.2616 & 0.16 & 0.124 & -0.1376 & 0.06551 \\
+0.5 & -0.01 & 2 & 0.2604 & 0.16 & 0.1245 & -0.1358 & 0.06486 \\
+0.5 & -0.01 & 3 & 0.2591 & 0.16 & 0.1251 & -0.134 & 0.06418 \\
+0.5 & -0.01 & 4 & 0.2579 & 0.16 & 0.1257 & -0.1322 & 0.06348 \\
+0.5 & -0.01 & 5 & 0.2566 & 0.16 & 0.1262 & -0.1304 & 0.06275 \\ \hline
+0.5 & 0 & 0.1 & 0.2624 & 0.16 & 0.1238 & -0.1386 & 0.06623 \\
+0.5 & 0 & 1 & 0.2611 & 0.16 & 0.1244 & -0.1367 & 0.06548 \\
+0.5 & 0 & 2 & 0.2596 & 0.16 & 0.125 & -0.1346 & 0.06462 \\
+0.5 & 0 & 3 & 0.2581 & 0.16 & 0.1257 & -0.1324 & 0.06372 \\
+0.5 & 0 & 4 & 0.2565 & 0.16 & 0.1263 & -0.1301 & 0.06278 \\
+0.5 & 0 & 5 & 0.2549 & 0.16 & 0.127 & -0.1279 & 0.06185 \\ \hline
+0.5 & 0.01 & 0.1 & 0.2619 & 0.16 & 0.124 & -0.1379 & 0.0659 \\
+0.5 & 0.01 & 1 & 0.2604 & 0.16 & 0.1247 & -0.1357 & 0.06505 \\
+0.5 & 0.01 & 2 & 0.2586 & 0.16 & 0.1254 & -0.1332 & 0.06404 \\
+0.5 & 0.01 & 3 & 0.2568 & 0.16 & 0.1261 & -0.1307 & 0.06298 \\
+0.5 & 0.01 & 4 & 0.255 & 0.16 & 0.1269 & -0.1281 & 0.06186 \\
+0.5 & 0.01 & 5 & 0.253 & 0.16 & 0.1276 & -0.1254 & 0.06068 \\ \hline
+0.5 & 0.05 & 0.1 & 0.2596 & 0.1599 & 0.1247 & -0.135 & 0.06447 \\
+0.5 & 0.05 & 1 & 0.2568 & 0.1599 & 0.1259 & -0.1309 & 0.06295 \\
+0.5 & 0.05 & 2 & 0.2536 & 0.1599 & 0.1274 & -0.1262 & 0.06121 \\
+0.5 & 0.05 & 3 & 0.2502 & 0.1599 & 0.1289 & -0.1213 & 0.05926 \\
+0.5 & 0.05 & 4 & 0.2462 & 0.1599 & 0.1304 & -0.1158 & 0.05684 \\
+0.5 & 0.05 & 5 & 0.2416 & 0.1599 & 0.1319 & -0.1097 & 0.05373 \\ \hline
+0.8 & -0.05 & 0.1 & 0.2647 & 0.1601 & 0.1228 & -0.1419 & 0.06733 \\
+0.8 & -0.05 & 1 & 0.2638 & 0.1601 & 0.1232 & -0.1406 & 0.0668 \\
+0.8 & -0.05 & 2 & 0.2627 & 0.1601 & 0.1237 & -0.139 & 0.0662 \\
+0.8 & -0.05 & 3 & 0.2616 & 0.1601 & 0.1241 & -0.1375 & 0.06559 \\
+0.8 & -0.05 & 4 & 0.2605 & 0.1601 & 0.1246 & -0.136 & 0.06498 \\
+0.8 & -0.05 & 5 & 0.2595 & 0.1601 & 0.125 & -0.1344 & 0.06434 \\ \hline
+0.8 & -0.01 & 0.1 & 0.2626 & 0.16 & 0.1235 & -0.1391 & 0.06604 \\
+0.8 & -0.01 & 1 & 0.2609 & 0.16 & 0.1243 & -0.1366 & 0.06513 \\
+0.8 & -0.01 & 2 & 0.259 & 0.16 & 0.1252 & -0.1338 & 0.0641 \\
+0.8 & -0.01 & 3 & 0.257 & 0.16 & 0.1261 & -0.1309 & 0.06306 \\
+0.8 & -0.01 & 4 & 0.255 & 0.16 & 0.127 & -0.1281 & 0.06198 \\
+0.8 & -0.01 & 5 & 0.253 & 0.16 & 0.1278 & -0.1252 & 0.06088 \\ \hline
+0.8 & 0 & 0.1 & 0.2623 & 0.16 & 0.1239 & -0.1385 & 0.06619 \\
+0.8 & 0 & 1 & 0.2602 & 0.16 & 0.1248 & -0.1354 & 0.065 \\
+0.8 & 0 & 2 & 0.2579 & 0.16 & 0.1258 & -0.132 & 0.06362 \\
+0.8 & 0 & 3 & 0.2555 & 0.16 & 0.1268 & -0.1287 & 0.06227 \\
+0.8 & 0 & 4 & 0.2531 & 0.16 & 0.1278 & -0.1253 & 0.06092 \\
+0.8 & 0 & 5 & 0.2507 & 0.16 & 0.1288 & -0.1219 & 0.05957 \\ \hline
+0.8 & 0.01 & 0.1 & 0.2618 & 0.16 & 0.124 & -0.1377 & 0.06584 \\
+0.8 & 0.01 & 1 & 0.2594 & 0.16 & 0.1251 & -0.1343 & 0.06448 \\
+0.8 & 0.01 & 2 & 0.2566 & 0.16 & 0.1263 & -0.1304 & 0.06288 \\
+0.8 & 0.01 & 3 & 0.2538 & 0.16 & 0.1274 & -0.1264 & 0.06124 \\
+0.8 & 0.01 & 4 & 0.2509 & 0.16 & 0.1286 & -0.1224 & 0.05948 \\
+0.8 & 0.01 & 5 & 0.2479 & 0.16 & 0.1297 & -0.1182 & 0.05765 \\ \hline
+0.8 & 0.05 & 0.1 & 0.2594 & 0.1599 & 0.1247 & -0.1347 & 0.06439 \\
+0.8 & 0.05 & 1 & 0.2551 & 0.1599 & 0.1267 & -0.1284 & 0.0621 \\
+0.8 & 0.05 & 2 & 0.2503 & 0.1598 & 0.129 & -0.1213 & 0.05957 \\
+0.8 & 0.05 & 3 & 0.2448 & 0.1598 & 0.1311 & -0.1138 & 0.05623 \\
+0.8 & 0.05 & 4 & 0.2387 & 0.1597 & 0.1332 & -0.1055 & 0.05244 \\
+0.8 & 0.05 & 5 & 0.2317 & 0.1597 & 0.1358 & -0.09582 & 0.04799 \\ \hline
+1 & -0.05 & 0.1 & 0.2647 & 0.1601 & 0.1228 & -0.1419 & 0.0673 \\
+1 & -0.05 & 1 & 0.2635 & 0.1601 & 0.1233 & -0.1402 & 0.06664 \\
+1 & -0.05 & 2 & 0.2622 & 0.1601 & 0.1239 & -0.1383 & 0.0659 \\
+1 & -0.05 & 3 & 0.2609 & 0.1601 & 0.1245 & -0.1364 & 0.06515 \\
+1 & -0.05 & 4 & 0.2595 & 0.1601 & 0.125 & -0.1345 & 0.06439 \\
+1 & -0.05 & 5 & 0.2582 & 0.1601 & 0.1256 & -0.1326 & 0.06362 \\ \hline
+1 & -0.01 & 0.1 & 0.2625 & 0.16 & 0.1235 & -0.139 & 0.06602 \\
+1 & -0.01 & 1 & 0.2604 & 0.16 & 0.1245 & -0.1359 & 0.0649 \\
+1 & -0.01 & 2 & 0.2581 & 0.16 & 0.1256 & -0.1324 & 0.06364 \\
+1 & -0.01 & 3 & 0.2557 & 0.16 & 0.1267 & -0.129 & 0.06236 \\
+1 & -0.01 & 4 & 0.2533 & 0.16 & 0.1278 & -0.1255 & 0.06104 \\
+1 & -0.01 & 5 & 0.2508 & 0.16 & 0.1289 & -0.1219 & 0.05971 \\ \hline
+1 & 0 & 0.1 & 0.2623 & 0.16 & 0.1239 & -0.1384 & 0.06615 \\
+1 & 0 & 1 & 0.2597 & 0.16 & 0.125 & -0.1346 & 0.06468 \\
+1 & 0 & 2 & 0.2567 & 0.16 & 0.1263 & -0.1305 & 0.063 \\
+1 & 0 & 3 & 0.2539 & 0.16 & 0.1275 & -0.1264 & 0.0614 \\
+1 & 0 & 4 & 0.251 & 0.16 & 0.1287 & -0.1223 & 0.05978 \\
+1 & 0 & 5 & 0.2481 & 0.16 & 0.1299 & -0.1182 & 0.05811 \\ \hline
+1 & 0.01 & 0.1 & 0.2617 & 0.16 & 0.1241 & -0.1376 & 0.06581 \\
+1 & 0.01 & 1 & 0.2587 & 0.16 & 0.1254 & -0.1334 & 0.06412 \\
+1 & 0.01 & 2 & 0.2553 & 0.16 & 0.1268 & -0.1285 & 0.06217 \\
+1 & 0.01 & 3 & 0.2519 & 0.16 & 0.1282 & -0.1237 & 0.06013 \\
+1 & 0.01 & 4 & 0.2483 & 0.16 & 0.1296 & -0.1187 & 0.05799 \\
+1 & 0.01 & 5 & 0.2449 & 0.16 & 0.131 & -0.1139 & 0.05591 \\ \hline
+1 & 0.05 & 0.1 & 0.2593 & 0.1599 & 0.1248 & -0.1345 & 0.06431 \\
+1 & 0.05 & 1 & 0.2541 & 0.1599 & 0.1273 & -0.1268 & 0.06154 \\
+1 & 0.05 & 2 & 0.2481 & 0.1599 & 0.1299 & -0.1182 & 0.05828 \\
+1 & 0.05 & 3 & 0.2416 & 0.1599 & 0.1323 & -0.1093 & 0.05422 \\
+1 & 0.05 & 4 & 0.2344 & 0.1598 & 0.135 & -0.0994 & 0.0498
+\label{skewtable}
+\end{longtable}
 
 
 \begin{thebibliography}{2}
