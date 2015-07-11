@@ -226,7 +226,7 @@ Since when computing $M$ very huge terms are multiplied with very small values o
 For (simultaneously) larger values of $\beta$ and $\alpha$ we observe an anomaly in the functional dependency of the zero yield on the model's state variable. The usual expectation would be that the zero yield is monotone ascending in the state variable. For small $\beta$ this can indeed be verified, see figure \ref{zeroyield_beta01} for an example with $\beta=0.1$ (the reversion $\kappa$ is $1\%$, the yield term structure flat at $3\%$ in this example).
 
 \begin{figure}[ht]
-\caption{10y zero yield at $t=10$ conditional on $x(10)$ for different levels of $\alpha$, $\beta=0.1$}
+\caption{10y zero yield at $t=10$ conditional on $x(10)$ for different levels of $\alpha$, $\beta$ is fixed at $0.1$}
 \label{zeroyield_beta01}
 \begin{gnuplot}[scale=1,terminal=epslatex,terminaloptions=color] 
 set xrange [*:*]
@@ -250,7 +250,7 @@ splot 'beta_01.dat' u 1:2:3:3 w l palette
 For higher values of $\beta$ however, the dependency of the zero yield on the state flattens and even reverses, so that for high volatilities $\alpha$ the zero yield is monotone \textit{descending} in the state. Obviously this can produce unintuitive results like swaption prices that are not monotone ascending w.r.t. the model volatility. Figure \ref{zeroyield_beta50} shows an example in this direction.
 
 \begin{figure}[ht]
-\caption{10y zero yield at $t=10$ conditional on $x(10)$ for different levels of $\alpha$, $\beta=5$}
+\caption{10y zero yield at $t=10$ conditional on $x(10)$ for different levels of $\alpha$, $\beta$ is fixed at $5$}
 \label{zeroyield_beta50}
 \begin{gnuplot}[scale=1,terminal=epslatex,terminaloptions=color] 
 set xrange [*:*]
@@ -323,7 +323,7 @@ Table \ref{skewtable} lists all example cases (except the one where the calibrat
 \text{curvature} & := & \sigma_{\text{atm}+200\text{bp}} -2\sigma_{\text{atm}} + \sigma_{\text{atm}-200\text{bp}}
 \end{eqnarray}
 
-in the sprit of risk reversals and butterflies from FX markets.
+serving as summarizing characteristics for the smile shape.
 
 \begin{figure}[ht]
 \caption{implied lognormal volatility smiles, $\eta=0.2$, $\kappa=0.0$}
@@ -396,12 +396,12 @@ plot "smiles.dat" u ($1==eta && $3==kappa && $2==0.1 && $4>0 ? $4:1/0):7 w l tit
 \end{figure}
 
 \begin{longtable}{r | r | r | r | r | r | r | r}
-\caption{Generated skew and curvature} \\
+\caption{Generated skew and curvature for 10y into 10y swaptions} \\
 $\eta$ & $\kappa$ & $\beta$ & $-200$ & atm & $+200$ & skew & curvature \\ \hline
 \endfirsthead
 $\eta$ & $\kappa$ & $\beta$ & $-200$ & atm & $+200$ & skew & curvature \\ \hline
 \endhead
-\multicolumn{8}{r}{\textit{Continued on next page ...}} \\
+\multicolumn{8}{r}{\textit{continued on next page ...}} \\
 \endfoot
 \endlastfoot
 0 & -0.05 & $\cdot$ & 0.2648 & 0.1601 & 0.1227 & -0.1421 & 0.06737 \\ \hline
@@ -533,142 +533,141 @@ $\eta$ & $\kappa$ & $\beta$ & $-200$ & atm & $+200$ & skew & curvature \\ \hline
 
 \subsection{Zero strike floor pricing}
 
-The probability of negative rates in a model or (put differently) zero strike floor (receiver swaption) premiums are a point of particular interest. Table \ref{zerofloor} shows these premiums for a fixed model volatility $\alpha=0.0075$ and different combinations of $\eta$, $\beta$ and $\kappa$.
+The possibility of negative rates and - if allowed at all - their distributionn is a particular point of interest of a model. We list the premiums for zero strike floors (receiver swaptions) in table \ref{zerofloor} for different combinations of $\eta$, $\beta$ and $\kappa$ and a model volatility $\alpha$ that is calibrated to an atm lognormal implied volatility level of $16\%$.
 
 \begin{longtable}{r | r | r | r}
-\caption{$0\%$ receiver swaption premiums for different $\eta$, $\beta$, $\kappa$, $\alpha$ is $0.0075$} \\
+\caption{$0\%$ 10y into 10y receiver swaption premiums, $\alpha$ is recalibrated to an atm lognormal implied volatility of $16\%$} \\
 $\eta$ & $\beta$ & $\kappa$ & npv $\beta\eta$ \\ \hline
 \endfirsthead
 $\eta$ & $\beta$ & $\kappa$ & npv $\beta\eta$ \\ \hline
 \endhead
-\multicolumn{4}{r}{\textit{Continued on next page ...}} \\
+\multicolumn{4}{r}{\textit{continued on next page ...}} \\
 \endfoot
 \endlastfoot
-0 & $\cdot$ & -0.05 & 0.0546628 \\ \hline
-0 & $\cdot$ & -0.01 & 0.0123223 \\ \hline
-0 & $\cdot$ & 0 & 0.00739428 \\ \hline
-0 & $\cdot$ & 0.01 & 0.00409319 \\ \hline
-0 & $\cdot$ & 0.05 & 8.96388e-05 \\ \hline
-0.2 & 0.1 & -0.05 & 0.0545417 \\ 
-0.2 & 1 & -0.05 & 0.0534397 \\ 
-0.2 & 2 & -0.05 & 0.0521862 \\ 
-0.2 & 3 & -0.05 & 0.0509177 \\ 
-0.2 & 4 & -0.05 & 0.0496211 \\ 
-0.2 & 5 & -0.05 & 0.0482845 \\ \hline
-0.2 & 0.1 & -0.01 & 0.0122824 \\ 
-0.2 & 1 & -0.01 & 0.01193 \\ 
-0.2 & 2 & -0.01 & 0.011534 \\ 
-0.2 & 3 & -0.01 & 0.0111329 \\ 
-0.2 & 4 & -0.01 & 0.0107265 \\ 
-0.2 & 5 & -0.01 & 0.0103134 \\ \hline
-0.2 & 0.1 & 0 & 0.00736641 \\ 
-0.2 & 1 & 0 & 0.00711771 \\ 
-0.2 & 2 & 0 & 0.00683845 \\ 
-0.2 & 3 & 0 & 0.00655618 \\ 
-0.2 & 4 & 0 & 0.00627002 \\ 
-0.2 & 5 & 0 & 0.00598942 \\ \hline
-0.2 & 0.1 & 0.01 & 0.00407509 \\ 
-0.2 & 1 & 0.01 & 0.00391466 \\ 
-0.2 & 2 & 0.01 & 0.00373499 \\ 
-0.2 & 3 & 0.01 & 0.00355411 \\ 
-0.2 & 4 & 0.01 & 0.00337133 \\ 
-0.2 & 5 & 0.01 & 0.0031864 \\ \hline
-0.2 & 0.1 & 0.05 & 8.86387e-05 \\ 
-0.2 & 1 & 0.05 & 7.97505e-05 \\ 
-0.2 & 2 & 0.05 & 7.02197e-05 \\ 
-0.2 & 3 & 0.05 & 6.10561e-05 \\ 
-0.2 & 4 & 0.05 & 5.23043e-05 \\ 
-0.2 & 5 & 0.05 & 4.39433e-05 \\ \hline
-0.5 & 0.1 & -0.05 & 0.0543571 \\ 
-0.5 & 1 & -0.05 & 0.0516555 \\ 
-0.5 & 2 & -0.05 & 0.0487582 \\ 
-0.5 & 3 & -0.05 & 0.0459667 \\ 
-0.5 & 4 & -0.05 & 0.0432769 \\ 
-0.5 & 5 & -0.05 & 0.040685 \\ \hline
-0.5 & 0.1 & -0.01 & 0.0122252 \\ 
-0.5 & 1 & -0.01 & 0.0113683 \\ 
-0.5 & 2 & -0.01 & 0.0104511 \\ 
-0.5 & 3 & -0.01 & 0.00957026 \\ 
-0.5 & 4 & -0.01 & 0.00872554 \\ 
-0.5 & 5 & -0.01 & 0.00791656 \\ \hline
-0.5 & 0.1 & 0 & 0.00732571 \\ 
-0.5 & 1 & 0 & 0.00672175 \\ 
-0.5 & 2 & 0 & 0.0060835 \\ 
-0.5 & 3 & 0 & 0.00549936 \\ 
-0.5 & 4 & 0 & 0.0049438 \\ 
-0.5 & 5 & 0 & 0.00441653 \\ \hline
-0.5 & 0.1 & 0.01 & 0.00404891 \\ 
-0.5 & 1 & 0.01 & 0.0036608 \\ 
-0.5 & 2 & 0.01 & 0.00325154 \\ 
-0.5 & 3 & 0.01 & 0.00286528 \\ 
-0.5 & 4 & 0.01 & 0.00250252 \\ 
-0.5 & 5 & 0.01 & 0.00216934 \\ \hline
-0.5 & 0.1 & 0.05 & 8.71447e-05 \\ 
-0.5 & 1 & 0.05 & 6.66226e-05 \\ 
-0.5 & 2 & 0.05 & 4.77434e-05 \\ 
-0.5 & 3 & 0.05 & 3.33786e-05 \\ 
-0.5 & 4 & 0.05 & 2.25766e-05 \\ 
-0.5 & 5 & 0.05 & 1.44014e-05 \\ \hline
-0.8 & 0.1 & -0.05 & 0.0541907 \\ 
-0.8 & 1 & -0.05 & 0.0499993 \\ 
-0.8 & 2 & -0.05 & 0.0456954 \\ 
-0.8 & 3 & -0.05 & 0.0417241 \\ 
-0.8 & 4 & -0.05 & 0.03807 \\ 
-0.8 & 5 & -0.05 & 0.0346597 \\ \hline
-0.8 & 0.1 & -0.01 & 0.0121665 \\ 
-0.8 & 1 & -0.01 & 0.0108312 \\ 
-0.8 & 2 & -0.01 & 0.00946825 \\ 
-0.8 & 3 & -0.01 & 0.00822171 \\ 
-0.8 & 4 & -0.01 & 0.00708897 \\ 
-0.8 & 5 & -0.01 & 0.00610358 \\ \hline
-0.8 & 0.1 & 0 & 0.00728489 \\ 
-0.8 & 1 & 0 & 0.00634548 \\ 
-0.8 & 2 & 0 & 0.00543349 \\ 
-0.8 & 3 & 0 & 0.00461898 \\ 
-0.8 & 4 & 0 & 0.0038857 \\ 
-0.8 & 5 & 0 & 0.00323072 \\ \hline
-0.8 & 0.1 & 0.01 & 0.00402218 \\ 
-0.8 & 1 & 0.01 & 0.00342105 \\ 
-0.8 & 2 & 0.01 & 0.00282319 \\ 
-0.8 & 3 & 0.01 & 0.00229428 \\ 
-0.8 & 4 & 0.01 & 0.0018581 \\ 
-0.8 & 5 & 0.01 & 0.00148006 \\ \hline
-0.8 & 0.1 & 0.05 & 8.56962e-05 \\ 
-0.8 & 1 & 0.05 & 5.5369e-05 \\ 
-0.8 & 2 & 0.05 & 3.23848e-05 \\ 
-0.8 & 3 & 0.05 & 1.79324e-05 \\ 
-0.8 & 4 & 0.05 & 8.93603e-06 \\ 
-0.8 & 5 & 0.05 & 3.91968e-06 \\ \hline
-1 & 0.1 & -0.05 & 0.0540561 \\ 
-1 & 1 & -0.05 & 0.04891 \\ 
-1 & 2 & -0.05 & 0.0437812 \\ 
-1 & 3 & -0.05 & 0.0391771 \\ 
-1 & 4 & -0.05 & 0.0350205 \\ 
-1 & 5 & -0.05 & 0.0312507 \\ \hline
-1 & 0.1 & -0.01 & 0.0121296 \\ 
-1 & 1 & -0.01 & 0.0104954 \\ 
-1 & 2 & -0.01 & 0.00887408 \\ 
-1 & 3 & -0.01 & 0.00743537 \\ 
-1 & 4 & -0.01 & 0.00621175 \\ 
-1 & 5 & -0.01 & 0.00514311 \\ \hline
-1 & 0.1 & 0 & 0.00725818 \\ 
-1 & 1 & 0 & 0.00611377 \\ 
-1 & 2 & 0 & 0.00504408 \\ 
-1 & 3 & 0 & 0.00411218 \\ 
-1 & 4 & 0 & 0.00330351 \\ 
-1 & 5 & 0 & 0.00260592 \\ \hline
-1 & 0.1 & 0.01 & 0.00400535 \\ 
-1 & 1 & 0.01 & 0.0032722 \\ 
-1 & 2 & 0.01 & 0.00257002 \\ 
-1 & 3 & 0.01 & 0.00199305 \\ 
-1 & 4 & 0.01 & 0.00152472 \\ 
-1 & 5 & 0.01 & 0.00113662 \\ \hline
-1 & 0.1 & 0.05 & 8.47259e-05 \\ 
-1 & 1 & 0.05 & 4.88911e-05 \\ 
-1 & 2 & 0.05 & 2.50431e-05 \\ 
-1 & 3 & 0.05 & 1.15648e-05 \\ 
-1 & 4 & 0.05 & 4.5236e-06 \\ 
-1 & 5 & 0.05 & 1.60184e-06
+0 & $\cdot$ & -0.05 & 0.000811375 \\ \hline 
+0 & $\cdot$ & -0.01 & 0.000765611 \\ \hline
+0 & $\cdot$ & 0 & 0.000756554 \\ \hline
+0 & $\cdot$ & 0.01 & 0.000739278 \\ \hline
+0 & $\cdot$ & 0.05 & 0.000689536 \\ \hline
+0.2 & 0.1 & -0.05 & 0.000810655 \\ 
+0.2 & 1 & -0.05 & 0.000804051 \\ 
+0.2 & 2 & -0.05 & 0.000796619 \\ 
+0.2 & 3 & -0.05 & 0.000789083 \\ 
+0.2 & 4 & -0.05 & 0.000781505 \\ 
+0.2 & 5 & -0.05 & 0.000773891 \\ \hline
+0.2 & 0.1 & -0.01 & 0.000764355 \\ 
+0.2 & 1 & -0.01 & 0.000752335 \\ 
+0.2 & 2 & -0.01 & 0.000738753 \\ 
+0.2 & 3 & -0.01 & 0.000724805 \\ 
+0.2 & 4 & -0.01 & 0.000710552 \\ 
+0.2 & 5 & -0.01 & 0.000696026 \\ \hline
+0.2 & 0.1 & 0 & 0.000755057 \\ 
+0.2 & 1 & 0 & 0.000741221 \\ 
+0.2 & 2 & 0 & 0.000725557 \\ 
+0.2 & 3 & 0 & 0.000709303 \\ 
+0.2 & 4 & 0 & 0.000692642 \\ 
+0.2 & 5 & 0 & 0.000675345 \\ \hline
+0.2 & 0.1 & 0.01 & 0.000737633 \\ 
+0.2 & 1 & 0.01 & 0.000721922 \\ 
+0.2 & 2 & 0.01 & 0.000703994 \\ 
+0.2 & 3 & 0.01 & 0.000685254 \\ 
+0.2 & 4 & 0.01 & 0.000665768 \\ 
+0.2 & 5 & 0.01 & 0.000645463 \\ \hline
+0.2 & 0.1 & 0.05 & 0.00068921 \\ 
+0.2 & 1 & 0.05 & 0.000661121 \\ 
+0.2 & 2 & 0.05 & 0.000627311 \\ 
+0.2 & 3 & 0.05 & 0.000590094 \\ 
+0.2 & 4 & 0.05 & 0.000548571 \\ 
+0.2 & 5 & 0.05 & 0.000498871 \\ \hline
+0.5 & 0.1 & -0.05 & 0.000809579 \\ 
+0.5 & 1 & -0.05 & 0.000793191 \\ 
+0.5 & 2 & -0.05 & 0.000775007 \\ 
+0.5 & 3 & -0.05 & 0.000756871 \\ 
+0.5 & 4 & -0.05 & 0.000738774 \\ 
+0.5 & 5 & -0.05 & 0.000720711 \\ \hline
+0.5 & 0.1 & -0.01 & 0.000762327 \\ 
+0.5 & 1 & -0.01 & 0.000732723 \\ 
+0.5 & 2 & -0.01 & 0.000700046 \\ 
+0.5 & 3 & -0.01 & 0.000667325 \\ 
+0.5 & 4 & -0.01 & 0.000634662 \\ 
+0.5 & 5 & -0.01 & 0.000602072 \\ \hline
+0.5 & 0.1 & 0 & 0.000752778 \\ 
+0.5 & 1 & 0 & 0.000718793 \\ 
+0.5 & 2 & 0 & 0.000681044 \\ 
+0.5 & 3 & 0 & 0.000643325 \\ 
+0.5 & 4 & 0 & 0.000605655 \\ 
+0.5 & 5 & 0 & 0.000568059 \\ \hline
+0.5 & 0.1 & 0.01 & 0.000735005 \\ 
+0.5 & 1 & 0.01 & 0.000696519 \\ 
+0.5 & 2 & 0.01 & 0.000653697 \\ 
+0.5 & 3 & 0.01 & 0.000610831 \\ 
+0.5 & 4 & 0.01 & 0.000568082 \\ 
+0.5 & 5 & 0.01 & 0.000525403 \\ \hline
+0.5 & 0.1 & 0.05 & 0.000684826 \\ 
+0.5 & 1 & 0.05 & 0.000617815 \\ 
+0.5 & 2 & 0.05 & 0.000541889 \\ 
+0.5 & 3 & 0.05 & 0.000464455 \\ 
+0.5 & 4 & 0.05 & 0.000384096 \\ 
+0.5 & 5 & 0.05 & 0.000303229 \\ \hline
+0.8 & 0.1 & -0.05 & 0.00080834 \\ 
+0.8 & 1 & -0.05 & 0.000782254 \\ 
+0.8 & 2 & -0.05 & 0.000753688 \\ 
+0.8 & 3 & -0.05 & 0.000725453 \\ 
+0.8 & 4 & -0.05 & 0.000697698 \\ 
+0.8 & 5 & -0.05 & 0.000670431 \\ \hline
+0.8 & 0.1 & -0.01 & 0.000760358 \\ 
+0.8 & 1 & -0.01 & 0.000713532 \\ 
+0.8 & 2 & -0.01 & 0.000663235 \\ 
+0.8 & 3 & -0.01 & 0.000613854 \\ 
+0.8 & 4 & -0.01 & 0.000565672 \\ 
+0.8 & 5 & -0.01 & 0.000518802 \\ \hline
+0.8 & 0.1 & 0 & 0.000750411 \\ 
+0.8 & 1 & 0 & 0.000696861 \\ 
+0.8 & 2 & 0 & 0.000639136 \\ 
+0.8 & 3 & 0 & 0.000582673 \\ 
+0.8 & 4 & 0 & 0.000528175 \\ 
+0.8 & 5 & 0 & 0.000475088 \\ \hline
+0.8 & 0.1 & 0.01 & 0.000732469 \\ 
+0.8 & 1 & 0.01 & 0.000671974 \\ 
+0.8 & 2 & 0.01 & 0.000606983 \\ 
+0.8 & 3 & 0.01 & 0.000543971 \\ 
+0.8 & 4 & 0.01 & 0.000483416 \\ 
+0.8 & 5 & 0.01 & 0.000424818 \\ \hline
+0.8 & 0.1 & 0.05 & 0.000680149 \\ 
+0.8 & 1 & 0.05 & 0.000576421 \\ 
+0.8 & 2 & 0.05 & 0.000466983 \\ 
+0.8 & 3 & 0.05 & 0.000359457 \\ 
+0.8 & 4 & 0.05 & 0.000263279 \\ 
+0.8 & 5 & 0.05 & 0.000173803 \\ \hline
+1 & 0.1 & -0.05 & 0.000807795 \\ 
+1 & 1 & -0.05 & 0.000775516 \\ 
+1 & 2 & -0.05 & 0.000740422 \\ 
+1 & 3 & -0.05 & 0.00070609 \\ 
+1 & 4 & -0.05 & 0.000672507 \\ 
+1 & 5 & -0.05 & 0.000639869 \\ \hline
+1 & 0.1 & -0.01 & 0.000759088 \\ 
+1 & 1 & -0.01 & 0.000701575 \\ 
+1 & 2 & -0.01 & 0.000640035 \\ 
+1 & 3 & -0.01 & 0.000580964 \\ 
+1 & 4 & -0.01 & 0.000524326 \\ 
+1 & 5 & -0.01 & 0.000470083 \\ \hline
+1 & 0.1 & 0 & 0.000749056 \\ 
+1 & 1 & 0 & 0.000683078 \\ 
+1 & 2 & 0 & 0.000612921 \\ 
+1 & 3 & 0 & 0.000546035 \\ 
+1 & 4 & 0 & 0.000482364 \\ 
+1 & 5 & 0 & 0.000421841 \\ \hline
+1 & 0.1 & 0.01 & 0.000730797 \\ 
+1 & 1 & 0.01 & 0.000656457 \\ 
+1 & 2 & 0.01 & 0.000578038 \\ 
+1 & 3 & 0.01 & 0.000504151 \\ 
+1 & 4 & 0.01 & 0.000434272 \\ 
+1 & 5 & 0.01 & 0.00036835 \\ \hline
+1 & 0.1 & 0.05 & 0.0006776 \\ 
+1 & 1 & 0.05 & 0.000552205 \\ 
+1 & 2 & 0.05 & 0.000423188 \\ 
+1 & 3 & 0.05 & 0.000310761 \\ 
+1 & 4 & 0.05 & 0.000213898
 \label{zerofloor}
 \end{longtable}
 
