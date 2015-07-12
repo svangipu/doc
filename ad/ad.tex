@@ -1,0 +1,158 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+\usepackage[miktex]{gnuplottex}
+\ShellEscapetrue
+\usepackage{epstopdf}
+\usepackage{longtable}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%--------------------------------------------------------
+\DeclareMathOperator{\sign}{sign}
+%--------------------------------------------------------
+\begin{document}
+\title[AD]{Automatic Differentiation}
+\author{P. Caspers}
+\email[P. Caspers]{pcaspers1973@googlemail.com}
+\date{May 31, 2013}
+\dedicatory{First Version July 12, 2015 - This Version July 12, 2015\\INCOMPLETE DRAFT}
+\begin{abstract}
+We summarize the ideas underlying automatic differentiation.
+\end{abstract}
+
+\maketitle
+
+\tableofcontents
+
+\section{Computational Graph}
+
+We consider the computation of a function $f: \mathbb{R}^n \rightarrow \mathbb{R}^m$ with independent variables $x_1, \dots , x_n$ and dependent variables $y_1, \dots , y_m$. The ultimate goal is to compute the Jacobian
+
+\begin{equation}
+J = \begin{pmatrix}
+\frac{\partial y_1}{\partial x_1} &  & \dots &  & \frac{\partial y_1}{\partial x_n} \\
+ & \ddots & & & \\
+\vdots &  & \frac{\partial y_i}{\partial x_j} &  & \vdots \\
+ &  &                                   & \ddots & \\
+\frac{\partial y_m}{\partial x_1} & & \dots & & \frac{\partial y_m}{\partial x_n}
+\end{pmatrix}
+\end{equation}
+
+We view the function $f$ as a composite of elementary operations
+
+\begin{equation}
+u_k = \Phi_k( \{u_\kappa\}_{\kappa \in \Lambda_k})
+\end{equation}
+
+for $k > n$ where we set $u_k = x_k$ for $k=1,\dots,n$ (i.e. we reserve these indices for the start values of the computation) and $u_k = y_k$ for $k=K-m+1, \dots, K$ (i.e. these are the final results of the computation). The notation should suggest that $u_k$ depends on prior results $u_\kappa$ with $\kappa$ in some index set $\Lambda_k$. Note that if $k\in\Lambda_l$ and $l\in\Lambda_m$ then $k\in\Lambda_m$ because we account for indirect dependencies also in our notation.
+
+We can view the computation chain as a directed graph with vertices $u_k$ and edges $(k,l)$ if $k\in\Lambda_{l}$. There are no circles allowed in this graph and it consists of $K$ vertices. The graph is transitive closed in addition, cf. our previous comment on indirect dependencies above.
+
+\section{Forward mode}
+
+If we define the local partial derivative
+
+\begin{equation}
+c_{k,l} = \frac{\partial u_l}{\partial u_k}
+\end{equation}
+
+we can write the chain rule as
+
+\begin{equation}\label{forward_u}
+c_{k,m} = \frac{\partial u_m}{\partial u_k} = \sum_{l\in\Lambda_m} \frac{\partial u_m}{\partial u_l} \frac{\partial u_l}{\partial u_k} = \sum_{l\in\Lambda_m} c_{k,l}c_{l,m}
+\end{equation}
+
+This leads us to $c_{i,K-m+k} = \partial{y_k} / \partial{x_i}$ for $i=1,\dots,n$ and $k=K-m+1,\dots,K$, our desired final result, which we can compose from elementary local partial derivatives using \ref{forward_u}.
+
+\section{Backward mode}
+
+With so called adjoint variables $\overline{c_{\cdot,\cdot}}$ we define
+
+\begin{equation}\label{adjoint_u}
+\overline{c_{l,m}} = \sum_{m\in\Lambda^{-1}_l} \frac{\partial u_m}{\partial u_l} \overline{c_{m,m}} 
+\end{equation}
+
+where $\Lambda^{-1}_l$ is the set of indices $m$ with $(l,m)\in\Lambda_m$, i.e. the $m$ for which $u_m$ depends on $u_l$. Note that the ``direction'' of equation \ref{adjoint_u} is opposite to \ref{forward_u} in the sense that $\overline{u}_l$ is computed from values $\overline{u}_m$ instead of the other way around, which is the ``natural'' direction of the chain rule.
+
+We apply the chain rule to \ref{adjoint_u} which yields
+
+\begin{equation}
+\overline{c_{k,m}} = \sum_{m\in\Lambda^{-1}_l} \frac{\partial u_m}{\partial u_l} \frac{\partial u_l}{\partial u_k} \overline{c_{m,m}} = \sum_{m\in{\Lambda_l^{-1}}} c_{k,l} \overline{c_{l,m}}
+\end{equation}
+
+Again this yields $\overline{c_{i,k}} = \partial{y_k}/\partial{x_i}$ for $i=1,\dots,n$ and $k=K-m+1,\dots,K$ as above, if we set $\overline{c_{k,k}} = 1$ for the desired $k$ and zero otherwise, now enabling us to compute the final result working backwards through the elememtary local partial derivatives.
+
+
+
+
+\begin{thebibliography}{2}
+
+\bibitem{ql}QuantLib A free/open-source library for quantitative finance, http://www.quantlib.org
+
+\end{thebibliography}
+
+\end{document}
+
