@@ -1,0 +1,123 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass{amsart}
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Article Class
+% Class options
+%        -- Point size:  8pt, 9pt, 10pt (default), 11pt, 12pt
+%        -- Paper size:  letterpaper(default), a4paper
+%        -- Orientation: portrait(default), landscape
+%        -- Print size:  oneside, twoside(default)
+%        -- Quality:     final(default), draft
+%        -- Title page:  notitlepage, titlepage(default)
+%        -- Start chapter on left:
+%                        openright(default), openany
+%        -- Columns:     onecolumn(default), twocolumn
+%        -- Omit extra math features:
+%                        nomath
+%        -- AMSfonts:    noamsfonts
+%        -- PSAMSFonts  (fewer AMSfonts sizes):
+%                        psamsfonts
+%        -- Equation numbering:
+%                        leqno(default), reqno (equation numbers are on the right side)
+%        -- Equation centering:
+%                        centertags(default), tbtags
+%        -- Displayed equations (centered is the default):
+%                        fleqn (equations start at the same distance from the right side)
+%        -- Electronic journal:
+%                        e-only
+%------------------------------------------------------------
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{amsart}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+\usepackage[miktex]{gnuplottex}
+\ShellEscapetrue
+\usepackage{epstopdf}
+\usepackage{longtable}
+%------------------------------------------------------------
+% Theorem like environments
+%
+\newtheorem{theorem}{Theorem}
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\numberwithin{equation}{section}
+%--------------------------------------------------------
+\DeclareMathOperator{\sign}{sign}
+%--------------------------------------------------------
+\begin{document}
+\title[AD]{Automatic Differentiation}
+\author{P. Caspers}
+\email[P. Caspers]{pcaspers1973@googlemail.com}
+\date{July 12, 2015}
+\dedicatory{First Version July 12, 2015 - This Version July 12, 2015\\INCOMPLETE DRAFT}
+\begin{abstract}
+This is a case study in computing adjoint derivatives with (a) operator overloading using CppAD and (b) source code transformation using OpenAD/F.
+\end{abstract}
+
+\maketitle
+
+\tableofcontents
+
+\section{Sample Problem}
+
+We consider a local volatility asset process 
+
+\begin{equation}
+dS = \sigma(S,t) dW
+\end{equation}
+
+and the valuation of an american call option with maturity $T$ and strike $K$ in this model. We aim to compute the price using a simple Euler finite difference scheme. The call price $c = c(t,S(t))$ obeys
+
+\begin{equation}
+dc = \left(c_t + \frac{1}{2} \sigma(S,t)^2 c_{SS}\right) dt + c_S \sigma(S,t) dW 
+\end{equation}
+
+from where we get the backward PDE
+
+\begin{equation}
+c_t + \frac{1}{2}\sigma(S,t)^2c_{SS} = 0
+\end{equation}
+
+with initial condition $c(T,S(T)) = \max\{ S(T) - K, 0 \}$.
+
+
+
+
+
+\begin{thebibliography}{2}
+
+\bibitem{ql}QuantLib A free/open-source library for quantitative finance, http://www.quantlib.org
+
+\end{thebibliography}
+
+\end{document}
+
