@@ -11,11 +11,11 @@ int main() {
     Date maturity = evalDate + 10 * Years;
 
     const Real S0 = 100.0;
-    const Real K = 100.0;
+    const Real K = 120.0;
     const Real vol = 0.20;
 
-    const Size tGrid = 10.0 * 100.0;
-    const Size xGrid = 2.0 * 50.0 + 1.0;
+    const Size tGrid = 500*10;
+    const Size xGrid = 2* 50 + 1;
 
     const Handle<Quote> S0_q(boost::make_shared<SimpleQuote>(S0));
     const Handle<BlackVolTermStructure> blackVol(
@@ -40,5 +40,5 @@ int main() {
 
     option->setPricingEngine(engine);
 
-    std::cout << "c = " << option->NPV() << std::endl;
+    std::clog << "c = " << option->NPV() << std::endl;
 }

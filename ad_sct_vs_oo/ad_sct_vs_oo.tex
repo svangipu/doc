@@ -91,23 +91,24 @@ This is a case study in computing adjoint derivatives with (a) operator overload
 
 We consider a local volatility asset process 
 
-\begin{equation}
-dS = \sigma(S,t) dW
-\end{equation}
+\begin{eqnarray}
+dS &=& \sigma(S,t) S dW \\
+d\log(S) &=& -\frac{1}{2}\sigma(S,t)^2 dt + \sigma(S,t) dW
+\end{eqnarray}
 
-and the valuation of an american call option with maturity $T$ and strike $K$ in this model. We aim to compute the price using a simple Euler finite difference scheme. The call price $c = c(t,S(t))$ obeys
+and the valuation of an american call option with maturity $T$ and strike $K$ in this model. We aim to compute the price using a simple Euler finite difference scheme. The call price $c = c(t,X), X:=\log(S)$ obeys
 
 \begin{equation}
-dc = \left(c_t + \frac{1}{2} \sigma(S,t)^2 c_{SS}\right) dt + c_S \sigma(S,t) dW 
+dc = \left(c_t + \frac{1}{2} \sigma(S,t)^2 (c_{XX}-c_{X}) \right) dt + c_X \sigma(S,t) dW 
 \end{equation}
 
 from where we get the backward PDE
 
 \begin{equation}
-c_t + \frac{1}{2}\sigma(S,t)^2c_{SS} = 0
+c_t + \frac{1}{2}\sigma(S,t)^2(c_{XX}-c_X) = 0
 \end{equation}
 
-with initial condition $c(T,S(T)) = \max\{ S(T) - K, 0 \}$.
+with initial condition $c(T,X(T)) = \max\{ e^{X(T)}  - K, 0 \}$.
 
 
 
