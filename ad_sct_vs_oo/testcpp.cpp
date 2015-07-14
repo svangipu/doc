@@ -60,6 +60,7 @@ int main() {
     for (unsigned int i = 0; i < n; ++i)
         implVol[i] <<= 0.20;
 #endif
+
     unsigned int swap = 0;
 
     // initial values
