@@ -1,14 +1,28 @@
 // define to enable AD
-#define ADACTIVE
+//#define CPPAD
+
+// define to enable ADOL-C
+#define ADOLC
+
+// define for plain computation
+//#define PLAIN
 
 #include <iostream>
 #include <vector>
+#include <cmath>
 
-#ifdef ADACTIVE
+#ifdef CPPAD
 #include <cppad/cppad.hpp>
 using CppAD::AD;
 typedef AD<double> dbl;
-#else
+#endif
+
+#ifdef ADOLC
+#include <adolc/adolc.h>
+typedef adouble dbl;
+#endif
+
+#ifdef PLAIN
 typedef double dbl;
 #endif
 
@@ -29,12 +43,23 @@ dbl loc[sizeS + 1], c[2][sizeS], exerciseValue[sizeS];
 
 int main() {
 
+#ifdef PLAIN
     std::vector<dbl> implVol(n, 0.20);
+#endif
 
-#ifdef ADACTIVE
+#ifdef CPPAD
+    std::vector<dbl> implVol(n, 0.20);
     CppAD::Independent(implVol);
 #endif
 
+#ifdef ADOLC
+    int tag = 1, keep = 1;
+    adouble *implVol;
+    implVol = new adouble[n];
+    trace_on(tag, keep);
+    for (unsigned int i = 0; i < n; ++i)
+        implVol[i] <<= 0.20;
+#endif
     unsigned int swap = 0;
 
     // initial values
@@ -83,20 +108,38 @@ int main() {
     std::clog.precision(12);
     std::clog << "c(0,0) = " << c[swap][(sizeS - 1) / 2] << std::endl;
 
-#ifdef ADACTIVE
+#ifdef CPPAD
     std::vector<dbl> y(1);
     y[0] = c[swap][(sizeS - 1) / 2];
     CppAD::ADFun<double> f(implVol, y);
     std::vector<double> w(1, 1.0);
-    std::vector<double> vega(sizeT - 1);
+    std::vector<double> vega(n - 1);
     vega = f.Reverse(1, w);
-    std::vector<double> x0(sizeT - 1, 1.0);
-    // vega = f.Forward(1,x0);
+    double sum = 0.0;
+    for (unsigned int i = 0; i < n - 1; ++i) {
+        sum += vega[i];
+    }
+    // std::vector<double> x0(n - 1, 1.0);
+    // sum = f.Forward(1,x0);
+    std::clog << "vega =" << sum << std::endl;
+#endif
+
+#ifdef ADOLC
+    double yout;
+    c[swap][(sizeS - 1) / 2] >>= yout;
+    trace_off();
+    double u[1];
+    u[0] = 1.0;
+    double *vega = new double[n];
+    reverse(tag, 1, n, 0, u, vega);
+    std::clog << "computing vega...." << std::endl;
     double sum = 0.0;
     for (unsigned int i = 0; i < n; ++i) {
         sum += vega[i];
     }
     std::clog << "vega =" << sum << std::endl;
+    delete[] implVol;
+    delete[] vega;
 #endif
 
 } // main
