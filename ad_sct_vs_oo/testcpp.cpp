@@ -16,19 +16,20 @@ typedef double dbl;
 const dbl S0 = std::log(100.0);
 const double T = 10.0;
 const dbl K = std::log(120.0);
+const unsigned int n = 500; // sigma grid
 
 // PDE parameters
 const dbl Smin = 1.07555172964;
 const dbl Smax = 8.13478864234;
 const unsigned int sizeS = 2 * 50 + 1;
-const unsigned int sizeT = 500*10;
+const unsigned int sizeT = 500 * 10;
 
 // solution grid
-dbl loc[sizeS + 1], c[2][sizeS + 1], exerciseValue[sizeS + 1];
+dbl loc[sizeS + 1], c[2][sizeS], exerciseValue[sizeS];
 
 int main() {
 
-    std::vector<dbl> implVol(sizeT-1, 0.20);
+    std::vector<dbl> implVol(n, 0.20);
 
 #ifdef ADACTIVE
     CppAD::Independent(implVol);
@@ -50,8 +51,9 @@ int main() {
     for (unsigned int i = 0; i < sizeT; ++i) {
         // rollback
         for (unsigned int j = 0; j < sizeS; ++j) {
-            std::cout << i << " " << j << " " << c[swap][j] << std::endl;
-            const dbl v = implVol[i];
+            const dbl v = implVol[static_cast<int>(static_cast<double>(i) *
+                                                   static_cast<double>(n) /
+                                                   static_cast<double>(sizeT))];
             dbl d1, d2;
             if (j == 0 || j == sizeS - 1) {
                 d2 = 0.0;
@@ -86,17 +88,15 @@ int main() {
     y[0] = c[swap][(sizeS - 1) / 2];
     CppAD::ADFun<double> f(implVol, y);
     std::vector<double> w(1, 1.0);
-    std::vector<double> vega(sizeT-1);
-    vega = f.Reverse(1,w);
-    std::vector<double> x0(sizeT-1, 1.0);
-    //vega = f.Forward(1,x0);
-    std::clog << "vega:" << std::endl;
+    std::vector<double> vega(sizeT - 1);
+    vega = f.Reverse(1, w);
+    std::vector<double> x0(sizeT - 1, 1.0);
+    // vega = f.Forward(1,x0);
     double sum = 0.0;
-    for(unsigned int i=0;i<sizeT-1;++i) {
-        //std::clog << vega[i] << std::endl;
+    for (unsigned int i = 0; i < n; ++i) {
         sum += vega[i];
     }
-    std::clog << "sum=" << sum << std::endl;
+    std::clog << "vega =" << sum << std::endl;
 #endif
 
 } // main

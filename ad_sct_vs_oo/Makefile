@@ -18,5 +18,3 @@ clean:
 	rm -f ad_template* OAD_* w2f__* iaddr*
 	rm -f testf90.pre* *.B *.xaif *.o *.mod driver driverE *~
 .PHONY: clean toolChain
-# the following include has explicit rules that could replace the openad script
-# include MakeExplRules.inc

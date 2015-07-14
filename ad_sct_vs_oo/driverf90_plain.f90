@@ -2,9 +2,14 @@ program driver
 implicit none
 external toy_pde
 
-double precision::impliedVol(0:4999),price
+integer,parameter::n=500
+integer::i
+double precision::impliedVol(0:n-1),price
 
-impliedVol=0.20d0
+do i=0,n-1,1
+   impliedVol(i) = 0.20d0
+end do
+
 call toy_pde(impliedVol, price)
 
 write(*,*) 'c = ', price

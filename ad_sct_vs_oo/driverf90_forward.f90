@@ -1,6 +1,5 @@
 program driver
 use OAD_active
-use OAD_rev
 implicit none
 external toy_pde
 
@@ -13,16 +12,12 @@ integer::i
 
 do i=0,n-1,1
    impliedVol(i)%v=0.20d0
+   impliedVol(i)%d=1.0
 end do
-
-price%d=1.0d0
-our_rev_mode%tape=.true.
 
 call toy_pde(impliedVol, price)
 
-do i=0,n-1,1
-   vega = vega + impliedVol(i)%d
-end do
+vega = price%d
 
 write(*,*) 'c = ', price%v, ' dprice/dvol = ', vega
 
