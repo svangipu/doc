@@ -45,6 +45,7 @@
 \usepackage{epstopdf}
 \usepackage{longtable}
 \usepackage{minted}
+\usepackage{url}
 \definecolor{mintedBg}{rgb}{0.98,0.98,0.70}
 %------------------------------------------------------------
 % Theorem like environments
@@ -82,7 +83,7 @@
 \date{July 12, 2015}
 \dedicatory{First Version July 14, 2015 - This Version July 14, 2015}
 \begin{abstract}
-This is a case study in computing adjoint derivatives with (a) operator overloading using CppAD and ADOL-C and (b) source code transformation using OpenAD/F.
+This is a case study in computing adjoint derivatives with (a) operator overloading using CppAD \cite{CppAD} and ADOL-C \cite{ADOLC} and (b) source code transformation using OpenAD/F \cite{OpenAD}
 \end{abstract}
 
 \maketitle
@@ -98,7 +99,7 @@ dS &=& \sigma(S,t) S dW \\
 d\log(S) &=& -\frac{1}{2}\sigma(S,t)^2 dt + \sigma(S,t) dW
 \end{eqnarray}
 
-and the valuation of an american call option with maturity $T$ and strike $K$ in this model. We aim to compute the price using a simple Euler finite difference scheme. The call price $c = c(t,X), X:=\log(S)$ obeys
+and the valuation of an american call option with maturity $T$ and strike $K$ in this model. The call price $c = c(t,X), X:=\log(S)$ obeys
 
 \begin{equation}
 dc = \left(c_t + \frac{1}{2} \sigma(S,t)^2 (c_{XX}-c_{X}) \right) dt + c_X \sigma(S,t) dW 
@@ -112,26 +113,152 @@ c_t + \frac{1}{2}\sigma(S,t)^2(c_{XX}-c_X) = 0
 
 with initial condition $c(T,X(T)) = \max\{ e^{X(T)}  - K, 0 \}$.
 
+We aim to compute the price using a simple explicit Euler finite difference scheme and the sensitivity to $\sigma(S,t)$ (vega) using the forward and reverse modes of \ref{CppAD}, \ref{ADOLC} and \ref{OpenAD}. 
 
 
+\section{Test setup}
 
+We implement a solution to the problem using the high level objects of \ref{ql}, in particular the finite difference framework and an american option pricing engine. This is solely to generate a reference price against we can check the other ad-hoc implementations.
 
-\begin{thebibliography}{2}
+Next we implement a low level C++ solution from scratch without any external libraries. The test code allows for three modes which are
 
-\bibitem{ql}QuantLib A free/open-source library for quantitative finance, http://www.quantlib.org
+\begin{enumerate}
+\item \verb+PLAIN+ compute the option price using the standard \verb+double+ type
+\item \verb+CPPAD+ compute the option price and reverse (forward) mode sensitivities to $\sigma(S,t)$ using CppAD
+\item \verb+ADOLC+ compute the option price and reverse mode sensitivities to $\sigma(S,t)$ using ADOL-C
+\end{enumerate}
 
-\end{thebibliography}
+The last implementation is in Fortran90 which can be fed into the source code transformation engine of OpenAD/F to generate a differentiated version of the pricing code. The implementation is separated into a core which is used from three drivers
 
+\begin{enumerate}
+\item \verb+driverf90_plain.f90+ to compute the option price using the standard \verb+double precision+ type
+\item \verb+driverf90_forward.f90+ to compute forward mode sensitivities to $\sigma(S,t)$
+\item \verb+dirverf90.f90+ to compute reverse mode sensitivities to $\sigma(S,t)$
+\end{enumerate}
 
+The parameters for the problem are chosen to be $T=10$, $S(0)=100$ and $K=120$. The PDE uses $5000$ time steps and $101$ grid points to discretize $\log(S)$ in the interval $[1.07555172964,8.13478864234]$ (these values are copied from the used QuantLib engine which determines the bounds automatically). We use a uniform grid in time and spatial direction, while QuantLib uses a concentrating mesher around the strike for the asset grid, a minor difference which we ignore and which might explain the slight pricing differences we observe below.
+
+We use a flat volatility $\sigma(S,t) = 0.2$ for the pricing, but interpret the volatility to be piecewise constant on a grid of $500$ buckets (i.e. each bucket covers $10$ time steps in the pricing scheme) and compute the sensitivities to each of these buckets. This is to get a realistic test setup with a lot of sensitivities to compute, which is the main use case of the reverse mode of AD tools. Although we compute the bucketed vega we report only the sum of these bucket vegas in the results below.
+
+For the forward mode tests we compute only the total vega (i.e. only one forward sweep is executed where the dot product of the partial derivatives and $(1,\dots,1)$ is computed).
 
 \section{Test enviroment}
 
-Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz, single threaded, Ubuntu 14.04, gcc 4.9.2, ADOL-C-2.5.2, CppAD git repository 02a00a, optimization -O3
+Here we list the test enviroment's main characteristics:
+
+\begin{enumerate}
+\item CPU: Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz, single threaded,
+\item OS: Ubuntu 14.04
+\item Compiler: gcc (g++, gfortran) 4.9.2, optimization O3
+\item AD tools: ADOL-C-2.5.2, CppAD git repository 02a00a, Open AD/F svn revision 247
+\end{enumerate}
+
+\section{Test results}
+
+\begin{table}[ht]
+\begin{tabular}{l | r | r}
+Code & NPV & Total Vega \\ \hline
+QuantLib (pricing reference) & 18.4072 & na \\
+from scratch C++ / CppAD & 18.3746 & 126.0181 \\
+from scrach C++ / ADOL-C & 18.3746 & 126.0181   \\
+Fortran / OpenAD/F & 18.3746 & 126.0181 \\
+\end{tabular}
+\caption{Pricing results Quantlib, from scratch C++, Fortran}
+\end{table}
+
+\begin{table}[ht]
+\caption{Computation times (loop over 50 pde solutions) in milliseconds}
+\begin{tabular}{l | r | r | r | r}
+Test & QuantLib & f.s. C++ / CppAD & f.s. C++ / ADOL-C & Fortran / OpenAD/F \\ \hline
+Plain computation & 37.4 & \multicolumn{2}{c|}{7.0} &  7.1 \\ \hline
+Forward & na & 575.54 & 528.3 & 15.6 \\
+Reverse & na & 540.9 & 544.8 & 31.3
+\end{tabular}
+\label{computationTimes}
+\end{table}
+
+\begin{table}[ht]
+\caption{Computation time OpenAD/F averaged over different loop sizes in milliseconds}
+\begin{tabular}{r | r}
+Loop size & OpenAD/F Reverse \\ \hline
+1 & 216.0 \\
+2 & 125.0 \\
+3 & 86.7 \\
+4 & 76.5 \\
+5 & 66.6 \\
+10 & 47.9 \\
+50 & 33.2 \\
+100 & 30.11 \\
+500 & 28.7 \\
+1000 & 28.4 \\
+5000 & 28.3
+\end{tabular}
+\end{table}
+
+\section{Runtime problems with OpenAD/F}
+
+\begin{minted}{fortran}
+       if(j==0.or.j==sizeS-1) then
+          d2=0
+          d1=0 ! we do not really want this ...
+       else
+          d2=(c(swap,j+1)-2.0d0*c(swap,j)+c(swap,j-1))/hq
+          d1 = (c(swap,j+1)-c(swap,j-1))/(2.0d0*h)
+       endif
+       ! ... but the following code does not build with OpenAD:
+       ! if(j==0) d1 = (c(swap,j+1)-c(swap,j))/h
+       ! if(j==sizeS-1) d1 = (c(swap,j)-c(swap,j-1))/h
+       ! if(j>0.and.j<sizeS-1) d1 = (c(swap,j+1)-c(swap,j-1))/(2.0d0*h)
+\end{minted}
+
+\begin{minted}
+Program received signal SIGSEGV: Segmentation fault - invalid memory reference.
+
+Backtrace for this error:
+#0  0x7F5305DDD3B7
+#1  0x7F5305DDD9CE
+#2  0x7F53052DCD3F
+#3  0x41072F in toy_pde_ at testf90.pre.xb.x2w.w2f.post.f90:792
+#4  0x40F472 in driver at driverf90.f90:25
+Segmentation fault (core dumped)
+\end{minted}
+
+
+\begin{minted}{fortran}
+integer, parameter:: sizes = 101, sizet = 7000
+\end{minted}
+
+\begin{minted}
+Program received signal SIGBUS: Access to an undefined portion of a memory object.
+
+Backtrace for this error:
+#0  0x7F3E7E79B3B7
+#1  0x7F3E7E79B9CE
+#2  0x7F3E7DC9AD3F
+#3  0x410394 in toy_pde_ at testf90.pre.xb.x2w.w2f.post.f90:601
+#4  0x40F472 in driver at driverf90.f90:25
+Bus error (core dumped)
+\end{minted}
+
+\begin{thebibliography}{4}
+
+\bibitem{CppAD}\url{https://projects.coin-or.org/CPPAD}
+
+\bibitem{ADOLC}\url{https://projects.coin-or.org/ADOL-C}
+
+\bibitem{OpenAD}\url{http://www.mcs.anl.gov/OpenAD}
+
+\bibitem{ql}QuantLib A free/open-source library for quantitative finance, \url{http://www.quantlib.org}
+
+\end{thebibliography}
+
+\begin{appendix}
 
 \section{Source Code}
 
+In this section we list the full source code used in this paper. Since the OpenAD/F framework requires non-standard build steps we list the used make files as well.
 
-\subsection{CppAD, ADOL-C C++ code}
+\subsection{CppAD and ADOL-C C++ test code}
 
 File \verb+testcpp.cpp+
 
@@ -252,14 +379,14 @@ int main() {
     y[0] = c[swap][(sizeS - 1) / 2];
     CppAD::ADFun<double> f(implVol, y);
     std::vector<double> w(1, 1.0);
-    std::vector<double> vega(n - 1);
+    std::vector<double> vega(n);
     vega = f.Reverse(1, w);
     double sum = 0.0;
-    for (unsigned int i = 0; i < n - 1; ++i) {
+    for (unsigned int i = 0; i < n; ++i) {
         sum += vega[i];
     }
-    // std::vector<double> x0(n - 1, 1.0);
-    // sum = f.Forward(1,x0);
+    // std::vector<double> x0(n, 1.0);
+    // sum = f.Forward(1, x0)[0];
     std::clog << "vega =" << sum << std::endl;
 #endif
 
@@ -275,6 +402,13 @@ int main() {
     for (unsigned int i = 0; i < n; ++i) {
         sum += vega[i];
     }
+    // double x0[n], x1[n], y0[1], y1[1];
+    // for (unsigned int i = 0; i < n; ++i) {
+    //    x0[i] = 0.2;
+    //    x1[i] = 1.0;
+    // }
+    // fos_forward(tag, 1, n, 0, x0, x1, y0, y1);
+    // sum = y1[0];
     std::clog << "vega =" << sum << std::endl;
     delete[] implVol;
     delete[] vega;
@@ -283,7 +417,58 @@ int main() {
 } // main
 \end{minted}
 
-\subsection{OpenAD/F Fortran code, main part}
+\subsection{QuantLib C++ reference code}
+
+File \verb+testql.cpp+:
+
+\begin{minted}{c++}
+#include <ql/quantlib.hpp>
+
+#include <boost/make_shared.hpp>
+
+using namespace QuantLib;
+
+int main() {
+
+    Date evalDate(13, July, 2015);
+    Settings::instance().evaluationDate() = evalDate;
+    Date maturity = evalDate + 10 * Years;
+
+    const Real S0 = 100.0;
+    const Real K = 120.0;
+    const Real vol = 0.20;
+
+    const Size tGrid = 500 * 10;
+    const Size xGrid = 2 * 50 + 1;
+
+    const Handle<Quote> S0_q(boost::make_shared<SimpleQuote>(S0));
+    const Handle<BlackVolTermStructure> blackVol(
+        boost::make_shared<BlackConstantVol>(evalDate, NullCalendar(), vol,
+                                             Actual365Fixed()));
+    Handle<YieldTermStructure> zeroyts(
+        boost::make_shared<FlatForward>(evalDate, 0.0, Actual365Fixed()));
+
+    boost::shared_ptr<StrikedTypePayoff> payoff =
+        boost::make_shared<PlainVanillaPayoff>(Option::Call, K);
+    boost::shared_ptr<Exercise> exercise =
+        boost::make_shared<AmericanExercise>(maturity);
+    boost::shared_ptr<VanillaOption> option =
+        boost::make_shared<VanillaOption>(payoff, exercise);
+
+    boost::shared_ptr<BlackScholesProcess> p =
+        boost::make_shared<BlackScholesProcess>(S0_q, zeroyts, blackVol);
+
+    boost::shared_ptr<FdBlackScholesVanillaEngine> engine =
+        boost::make_shared<FdBlackScholesVanillaEngine>(
+            p, tGrid, xGrid, 0, FdmSchemeDesc::ExplicitEuler());
+
+    option->setPricingEngine(engine);
+
+    std::clog << "c = " << option->NPV() << std::endl;
+}
+\end{minted}
+
+\subsection{OpenAD/F calculation Fortran code}
 
 File \verb+testf90.f90+:
 
@@ -295,14 +480,11 @@ integer, parameter:: n = 500
 
 double precision:: impliedVol(0:n-1), price
 
-double precision, parameter:: s0=4.605170185988092d0,
-                              k=4.787491742782046, t=10.0d0
-double precision, parameter:: smin=1.07555172964d0, 
-                              smax=8.13478864234d0
+double precision, parameter:: s0=4.605170185988092d0, k=4.787491742782046, t=10.0d0
+double precision, parameter:: smin=1.07555172964d0, smax=8.13478864234d0
 integer, parameter:: sizes = 101, sizet = 5000
 
-double precision:: loc(0:sizes), c(0:1,0:sizes-1), 
-                   exerciseValue(0:sizes-1)
+double precision:: loc(0:sizes), c(0:1,0:sizes-1), exerciseValue(0:sizes-1)
 double precision:: h, hq, dt, d1, d2, v
 integer:: swap, i, j, ind
 
@@ -335,8 +517,7 @@ do i=0,sizeT-1,1
        ! ... but the following code does not build with OpenAD:
        ! if(j==0) d1 = (c(swap,j+1)-c(swap,j))/h
        ! if(j==sizeS-1) d1 = (c(swap,j)-c(swap,j-1))/h
-       ! if(j>0.and.j<sizeS-1) d1 = (c(swap,j+1)-c(swap,j-1))
-       !                                           /(2.0d0*h)
+       ! if(j>0.and.j<sizeS-1) d1 = (c(swap,j+1)-c(swap,j-1))/(2.0d0*h)
        c(1-swap,j)=c(swap,j) + 0.5 * dt * v*v * (d2-d1)
      end do
      do j=0,sizeS-1,1
@@ -353,7 +534,7 @@ price = c(swap,(sizeS-1)/2)
 end subroutine toy_pde
 \end{minted}
 
-\subsection{OpenAD/F Fortran code, driver plain computation}
+\subsection{OpenAD/F plain mode driver Fortran code}
 
 File \verb+driverf90_plain.f90+:
 
@@ -377,7 +558,7 @@ write(*,*) 'c = ', price
 end program driver
 \end{minted}
 
-\subsection{OpenAD/F Fortran code, driver forward mode}
+\subsection{OpenAD/F forward mode driver Fortran code}
 
 File \verb+driverf90_forward.f90+:
 
@@ -408,7 +589,7 @@ write(*,*) 'c = ', price%v, ' dprice/dvol = ', vega
 end program driver
 \end{minted}
 
-\subsection{OpenAD/F Fortran code, driver reverse mode}
+\subsection{OpenAD/F reverse mode driver Fortran code}
 
 File \verb+driverf90.f90+:
 
@@ -444,7 +625,7 @@ write(*,*) 'c = ', price%v, ' dprice/dvol = ', vega
 end program driver
 \end{minted}
 
-\subsection{OpenAD/F makefile plain computation}
+\subsection{OpenAD/F makefile plain mode}
 
 File \verb+Makefile_plain+:
 
@@ -511,6 +692,8 @@ clean:
 	rm -f testf90.pre* *.B *.xaif *.o *.mod driver driverE *~
 .PHONY: clean toolChain
 \end{minted}
+
+\end{appendix}
 
 
 \end{document}
