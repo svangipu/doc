@@ -14,8 +14,8 @@ int main() {
     const Real K = 120.0;
     const Real vol = 0.20;
 
-    const Size tGrid = 500*10;
-    const Size xGrid = 2* 50 + 1;
+    const Size tGrid = 500 * 10;
+    const Size xGrid = 2 * 50 + 1;
 
     const Handle<Quote> S0_q(boost::make_shared<SimpleQuote>(S0));
     const Handle<BlackVolTermStructure> blackVol(
@@ -34,11 +34,14 @@ int main() {
     boost::shared_ptr<BlackScholesProcess> p =
         boost::make_shared<BlackScholesProcess>(S0_q, zeroyts, blackVol);
 
-    boost::shared_ptr<FdBlackScholesVanillaEngine> engine =
-        boost::make_shared<FdBlackScholesVanillaEngine>(p, tGrid, xGrid, 0,
-                                                        FdmSchemeDesc::ExplicitEuler());
+    for (Size testrun = 0; testrun < 50; ++testrun) {
 
-    option->setPricingEngine(engine);
+        boost::shared_ptr<FdBlackScholesVanillaEngine> engine =
+            boost::make_shared<FdBlackScholesVanillaEngine>(
+                p, tGrid, xGrid, 0, FdmSchemeDesc::ExplicitEuler());
 
-    std::clog << "c = " << option->NPV() << std::endl;
+        option->setPricingEngine(engine);
+        option->NPV();
+        // std::clog << "c = " << option->NPV() << std::endl;
+    }
 }
