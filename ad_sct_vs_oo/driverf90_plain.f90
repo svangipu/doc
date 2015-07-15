@@ -13,7 +13,7 @@ do testrun=0,49,1
 
  call toy_pde(impliedVol, price)
 
- !write(*,*) 'c = ', price
+ write(*,*) 'c = ', price
 
 end do
 
