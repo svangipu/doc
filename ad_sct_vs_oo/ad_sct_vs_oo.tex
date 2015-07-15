@@ -77,13 +77,13 @@
 \DeclareMathOperator{\sign}{sign}
 %--------------------------------------------------------
 \begin{document}
-\title[AD]{Automatic Differentiation Case Study}
+\title[AD]{Automatic Differentiation Case Study: American option finite difference pde pricing with CppAD, ADOL-C and OpenAD/F}
 \author{P. Caspers}
 \email[P. Caspers]{pcaspers1973@googlemail.com}
 \date{July 12, 2015}
 \dedicatory{First Version July 14, 2015 - This Version July 14, 2015}
 \begin{abstract}
-This is a case study in computing adjoint derivatives with (a) operator overloading using CppAD \cite{CppAD} and ADOL-C \cite{ADOLC} and (b) source code transformation using OpenAD/F \cite{OpenAD}
+This is a case study in computing adjoint derivatives with (a) operator overloading using CppAD \cite{CppAD} and ADOL-C \cite{ADOLC} and (b) source code transformation using OpenAD/F \cite{OpenAD} for an american option priced with a finite difference pde.
 \end{abstract}
 
 \maketitle
@@ -113,12 +113,12 @@ c_t + \frac{1}{2}\sigma(S,t)^2(c_{XX}-c_X) = 0
 
 with initial condition $c(T,X(T)) = \max\{ e^{X(T)}  - K, 0 \}$.
 
-We aim to compute the price using a simple explicit Euler finite difference scheme and the sensitivity to $\sigma(S,t)$ (vega) using the forward and reverse modes of \ref{CppAD}, \ref{ADOLC} and \ref{OpenAD}. 
+We aim to compute the price using a simple explicit Euler finite difference scheme and the sensitivity to $\sigma(S,t)$ (vega) using the forward and reverse modes of \cite{CppAD}, \cite{ADOLC} and \cite{OpenAD}. 
 
 
 \section{Test setup}
 
-We implement a solution to the problem using the high level objects of \ref{ql}, in particular the finite difference framework and an american option pricing engine. This is solely to generate a reference price against we can check the other ad-hoc implementations.
+We implement a solution to the problem using the high level objects of \cite{ql}, in particular the finite difference framework and an american option pricing engine. This is solely to generate a reference price against we can check the other ad-hoc implementations.
 
 Next we implement a low level C++ solution from scratch without any external libraries. The test code allows for three modes which are
 
@@ -156,6 +156,7 @@ Here we list the test enviroment's main characteristics:
 \section{Test results}
 
 \begin{table}[ht]
+\caption{Pricing results Quantlib, from scratch C++, Fortran}
 \begin{tabular}{l | r | r}
 Code & NPV & Total Vega \\ \hline
 QuantLib (pricing reference) & 18.4072 & na \\
@@ -163,15 +164,14 @@ from scratch C++ / CppAD & 18.3746 & 126.0181 \\
 from scrach C++ / ADOL-C & 18.3746 & 126.0181   \\
 Fortran / OpenAD/F & 18.3746 & 126.0181 \\
 \end{tabular}
-\caption{Pricing results Quantlib, from scratch C++, Fortran}
 \end{table}
 
 \begin{table}[ht]
 \caption{Computation times (loop over 50 pde solutions) in milliseconds}
 \begin{tabular}{l | r | r | r | r}
-Test & QuantLib & f.s. C++ / CppAD & f.s. C++ / ADOL-C & Fortran / OpenAD/F \\ \hline
+Test & QuantLib & CppAD & ADOL-C & OpenAD/F \\ \hline
 Plain computation & 37.4 & \multicolumn{2}{c|}{7.0} &  7.1 \\ \hline
-Forward & na & 575.54 & 528.3 & 15.6 \\
+Forward & na & 575.5 & 528.3 & 15.6 \\
 Reverse & na & 540.9 & 544.8 & 31.3
 \end{tabular}
 \label{computationTimes}
@@ -187,8 +187,8 @@ Loop size & OpenAD/F Reverse \\ \hline
 4 & 76.5 \\
 5 & 66.6 \\
 10 & 47.9 \\
-50 & 33.2 \\
-100 & 30.11 \\
+50 & 31.3 \\
+100 & 30.1 \\
 500 & 28.7 \\
 1000 & 28.4 \\
 5000 & 28.3
@@ -211,7 +211,7 @@ Loop size & OpenAD/F Reverse \\ \hline
        ! if(j>0.and.j<sizeS-1) d1 = (c(swap,j+1)-c(swap,j-1))/(2.0d0*h)
 \end{minted}
 
-\begin{minted}
+\begin{verbatim}
 Program received signal SIGSEGV: Segmentation fault - invalid memory reference.
 
 Backtrace for this error:
@@ -221,14 +221,14 @@ Backtrace for this error:
 #3  0x41072F in toy_pde_ at testf90.pre.xb.x2w.w2f.post.f90:792
 #4  0x40F472 in driver at driverf90.f90:25
 Segmentation fault (core dumped)
-\end{minted}
+\end{verbatim}
 
 
 \begin{minted}{fortran}
 integer, parameter:: sizes = 101, sizet = 7000
 \end{minted}
 
-\begin{minted}
+\begin{verbatim}
 Program received signal SIGBUS: Access to an undefined portion of a memory object.
 
 Backtrace for this error:
@@ -238,7 +238,7 @@ Backtrace for this error:
 #3  0x410394 in toy_pde_ at testf90.pre.xb.x2w.w2f.post.f90:601
 #4  0x40F472 in driver at driverf90.f90:25
 Bus error (core dumped)
-\end{minted}
+\end{verbatim}
 
 \begin{thebibliography}{4}
 
