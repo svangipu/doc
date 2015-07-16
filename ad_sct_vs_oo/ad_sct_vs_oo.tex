@@ -80,8 +80,8 @@
 \title[AD]{Automatic Differentiation Case Study: American option finite difference pde pricing with CppAD, ADOL-C and OpenAD/F}
 \author{P. Caspers}
 \email[P. Caspers]{pcaspers1973@googlemail.com}
-\date{July 12, 2015}
-\dedicatory{First Version July 14, 2015 - This Version July 14, 2015}
+\date{July 15, 2015}
+\dedicatory{first version July 15, 2015 - this version July 15, 2015 \\ preliminary draft, has issues}
 \begin{abstract}
 This is a case study in computing adjoint derivatives with (a) operator overloading using CppAD \cite{CppAD} and ADOL-C \cite{ADOLC} and (b) source code transformation using OpenAD/F \cite{OpenAD} for an american option priced with a finite difference pde.
 \end{abstract}
@@ -111,10 +111,9 @@ from where we get the backward PDE
 c_t + \frac{1}{2}\sigma(S,t)^2(c_{XX}-c_X) = 0
 \end{equation}
 
-with initial condition $c(T,X(T)) = \max\{ e^{X(T)}  - K, 0 \}$.
+with initial condition $c(T,X(T)) = \max\{ e^{X(T)}  - K, 0 \}$ and update scheme $c(t,X(t)) \rightarrow \max \{ c(t,X(t)), e^{X(t)} - K \}$.
 
 We aim to compute the price using a simple explicit Euler finite difference scheme and the sensitivity to $\sigma(S,t)$ (vega) using the forward and reverse modes of \cite{CppAD}, \cite{ADOLC} and \cite{OpenAD}. 
-
 
 \section{Test setup}
 
@@ -136,7 +135,7 @@ The last implementation is in Fortran90 which can be fed into the source code tr
 \item \verb+dirverf90.f90+ to compute reverse mode sensitivities to $\sigma(S,t)$
 \end{enumerate}
 
-The parameters for the problem are chosen to be $T=10$, $S(0)=100$ and $K=120$. The PDE uses $5000$ time steps and $101$ grid points to discretize $\log(S)$ in the interval $[1.07555172964,8.13478864234]$ (these values are copied from the used QuantLib engine which determines the bounds automatically). We use a uniform grid in time and spatial direction, while QuantLib uses a concentrating mesher around the strike for the asset grid, a minor difference which we ignore and which might explain the slight pricing differences we observe below.
+The parameters for the problem are chosen to be $T=10$, $S(0)=100$ and $K=120$. The PDE uses $5000$ time steps and $101$ grid points to discretize $\log(S)$ in the interval $[1.07555172964,8.13478864234]$ (these values are copied from the QuantLib engine we use which determines the bounds automatically). We use a uniform grid in time and spatial direction, while QuantLib uses a concentrating mesher around the strike for the asset grid, a minor difference which we ignore and which might explain the slight pricing differences we observe below.
 
 We use a flat volatility $\sigma(S,t) = 0.2$ for the pricing, but interpret the volatility to be piecewise constant on a grid of $500$ buckets (i.e. each bucket covers $10$ time steps in the pricing scheme) and compute the sensitivities to each of these buckets. This is to get a realistic test setup with a lot of sensitivities to compute, which is the main use case of the reverse mode of AD tools. Although we compute the bucketed vega we report only the sum of these bucket vegas in the results below.
 
@@ -144,7 +143,7 @@ For the forward mode tests we compute only the total vega (i.e. only one forward
 
 \section{Test enviroment}
 
-Here we list the test enviroment's main characteristics:
+The test enviroment's main characteristics are:
 
 \begin{enumerate}
 \item CPU: Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz, single threaded,
@@ -155,6 +154,8 @@ Here we list the test enviroment's main characteristics:
 
 \section{Test results}
 
+Table \ref{pricing} shows the results for the price and vega produced in QuantLib (reference) and in the C++ and Fortran code that was written from scratch. The pricing is close and there are differences in the pde solver that might explain the difference, see above, so that we conclude that the code written from scratch is working correctly.
+
 \begin{table}[ht]
 \caption{Pricing results Quantlib, from scratch C++, Fortran}
 \begin{tabular}{l | r | r}
@@ -164,7 +165,10 @@ from scratch C++ / CppAD & 18.3746 & 126.0181 \\
 from scrach C++ / ADOL-C & 18.3746 & 126.0181   \\
 Fortran / OpenAD/F & 18.3746 & 126.0181 \\
 \end{tabular}
+\label{pricing}
 \end{table}
+
+Table \ref{computationTimes} shows the computation time for a single pricing and with AD enabled in both forward and reverse mode. The results are estimated using $50$ outer loops over the test programs.
 
 \begin{table}[ht]
 \caption{Computation times (loop over 50 pde solutions) in milliseconds}
@@ -176,6 +180,8 @@ Reverse & na & 540.9 & 544.8 & 31.3
 \end{tabular}
 \label{computationTimes}
 \end{table}
+
+While table \ref{computationTimes} suggests that OpenAD/F works close to the theoretical optimum speed (factor 4 in computation time for reverse mode), we observe that this optimum is only reached when a bigger number of outer loops is executed, while for one or only a few executions the computation time is much higer, see table \ref{loopsizes}. To be clarified.
 
 \begin{table}[ht]
 \caption{Computation time OpenAD/F averaged over different loop sizes in milliseconds}
@@ -193,52 +199,12 @@ Loop size & OpenAD/F Reverse \\ \hline
 1000 & 28.4 \\
 5000 & 28.3
 \end{tabular}
+\label{loopsizes}
 \end{table}
 
-\section{Runtime problems with OpenAD/F}
+\section{Tape size in OpenAD/F}
 
-\begin{minted}{fortran}
-       if(j==0.or.j==sizeS-1) then
-          d2=0
-          d1=0 ! we do not really want this ...
-       else
-          d2=(c(swap,j+1)-2.0d0*c(swap,j)+c(swap,j-1))/hq
-          d1 = (c(swap,j+1)-c(swap,j-1))/(2.0d0*h)
-       endif
-       ! ... but the following code does not build with OpenAD:
-       ! if(j==0) d1 = (c(swap,j+1)-c(swap,j))/h
-       ! if(j==sizeS-1) d1 = (c(swap,j)-c(swap,j-1))/h
-       ! if(j>0.and.j<sizeS-1) d1 = (c(swap,j+1)-c(swap,j-1))/(2.0d0*h)
-\end{minted}
-
-\begin{verbatim}
-Program received signal SIGSEGV: Segmentation fault - invalid memory reference.
-
-Backtrace for this error:
-#0  0x7F5305DDD3B7
-#1  0x7F5305DDD9CE
-#2  0x7F53052DCD3F
-#3  0x41072F in toy_pde_ at testf90.pre.xb.x2w.w2f.post.f90:792
-#4  0x40F472 in driver at driverf90.f90:25
-Segmentation fault (core dumped)
-\end{verbatim}
-
-
-\begin{minted}{fortran}
-integer, parameter:: sizes = 101, sizet = 7000
-\end{minted}
-
-\begin{verbatim}
-Program received signal SIGBUS: Access to an undefined portion of a memory object.
-
-Backtrace for this error:
-#0  0x7F3E7E79B3B7
-#1  0x7F3E7E79B9CE
-#2  0x7F3E7DC9AD3F
-#3  0x410394 in toy_pde_ at testf90.pre.xb.x2w.w2f.post.f90:601
-#4  0x40F472 in driver at driverf90.f90:25
-Bus error (core dumped)
-\end{verbatim}
+Some code changes (like changing the computation of \verb+d1+ to the usual one, which is commented out in the source, or like changing the number of time steps \verb+sizet+ from $5000$ to $7000$ produces runtime exceptions. This is due to hard coded maximum tape sizes defined in \verb+OAD_tape.f90+ (cf. Krishna's email 15-Jul-2015).
 
 \begin{thebibliography}{4}
 
@@ -262,7 +228,7 @@ In this section we list the full source code used in this paper. Since the OpenA
 
 File \verb+testcpp.cpp+
 
-\begin{minted}{c++}
+\begin{minted}[fontsize=\small]{c++}
 // define to enable AD
 //#define CPPAD
 
@@ -270,7 +236,7 @@ File \verb+testcpp.cpp+
 #define ADOLC
 
 // define for plain computation
-//#define PLAIN
+// #define PLAIN
 
 #include <iostream>
 #include <vector>
@@ -308,111 +274,112 @@ dbl loc[sizeS + 1], c[2][sizeS], exerciseValue[sizeS];
 
 int main() {
 
+    for (unsigned int testrun = 0; testrun < 1; ++testrun) {
+
 #ifdef PLAIN
-    std::vector<dbl> implVol(n, 0.20);
+        std::vector<dbl> implVol(n, 0.20);
 #endif
 
 #ifdef CPPAD
-    std::vector<dbl> implVol(n, 0.20);
-    CppAD::Independent(implVol);
+        std::vector<dbl> implVol(n, 0.20);
+        CppAD::Independent(implVol);
 #endif
 
 #ifdef ADOLC
-    int tag = 1, keep = 1;
-    adouble *implVol;
-    implVol = new adouble[n];
-    trace_on(tag, keep);
-    for (unsigned int i = 0; i < n; ++i)
-        implVol[i] <<= 0.20;
+        int tag = 1, keep = 1;
+        adouble implVol[n];
+        trace_on(tag, keep);
+        for (unsigned int i = 0; i < n; ++i)
+            implVol[i] <<= 0.20;
 #endif
 
-    unsigned int swap = 0;
+        unsigned int swap = 0;
 
-    // initial values
-    const dbl h = (Smax - Smin) / static_cast<dbl>(sizeS - 1);
-    const dbl hq = h * h;
-    for (unsigned int j = 0; j < sizeS; ++j) {
-        loc[j] = Smin + h * static_cast<double>(j);
-        c[swap][j] = exerciseValue[j] =
-            std::max<dbl>(exp(loc[j]) - exp(K), 0.0);
-    }
-
-    // PDE solver
-    const double dt = T / static_cast<double>(sizeT);
-    for (unsigned int i = 0; i < sizeT; ++i) {
-        // rollback
+        // initial values
+        const dbl h = (Smax - Smin) / static_cast<dbl>(sizeS - 1);
+        const dbl hq = h * h;
         for (unsigned int j = 0; j < sizeS; ++j) {
-            const dbl v = implVol[static_cast<int>(static_cast<double>(i) *
-                                                   static_cast<double>(n) /
-                                                   static_cast<double>(sizeT))];
-            dbl d1, d2;
-            if (j == 0 || j == sizeS - 1) {
-                d2 = 0.0;
-            } else {
-                d2 = (c[swap][j + 1] - 2.0 * c[swap][j] + c[swap][j - 1]) / hq;
-            }
-            if (j == 0) {
-                d1 = (c[swap][j + 1] - c[swap][j]) / h;
-            } else {
-                if (j == sizeS - 1) {
-                    d1 = (c[swap][j] - c[swap][j - 1]) / h;
+            loc[j] = Smin + h * static_cast<double>(j);
+            c[swap][j] = exerciseValue[j] =
+                std::max<dbl>(exp(loc[j]) - exp(K), 0.0);
+        }
+
+        // PDE solver
+        const double dt = T / static_cast<double>(sizeT);
+        for (unsigned int i = 0; i < sizeT; ++i) {
+            // rollback
+            for (unsigned int j = 0; j < sizeS; ++j) {
+                const dbl v = implVol[static_cast<int>(
+                    static_cast<double>(i) * static_cast<double>(n) /
+                    static_cast<double>(sizeT))];
+                dbl d1, d2;
+                if (j == 0 || j == sizeS - 1) {
+                    d2 = 0.0;
                 } else {
-                    d1 = (c[swap][j + 1] - c[swap][j - 1]) / (2.0 * h);
+                    d2 = (c[swap][j + 1] - 2.0 * c[swap][j] + c[swap][j - 1]) /
+                         hq;
                 }
+                if (j == 0) {
+                    d1 = (c[swap][j + 1] - c[swap][j]) / h;
+                } else {
+                    if (j == sizeS - 1) {
+                        d1 = (c[swap][j] - c[swap][j - 1]) / h;
+                    } else {
+                        d1 = (c[swap][j + 1] - c[swap][j - 1]) / (2.0 * h);
+                    }
+                }
+                // Euler
+                c[1 - swap][j] = c[swap][j] + 0.5 * dt * v * v * (d2 - d1);
             }
-            // Euler
-            c[1 - swap][j] = c[swap][j] + 0.5 * dt * v * v * (d2 - d1);
+            // update prices
+            for (unsigned int j = 0; j < sizeS; ++j) {
+                c[1 - swap][j] = std::max(c[1 - swap][j], exerciseValue[j]);
+            }
+            swap = 1 - swap;
         }
-        // update prices
-        for (unsigned int j = 0; j < sizeS; ++j) {
-            c[1 - swap][j] = std::max(c[1 - swap][j], exerciseValue[j]);
-        }
-        swap = 1 - swap;
-    }
 
-    // solution output
-    std::clog.precision(12);
-    std::clog << "c(0,0) = " << c[swap][(sizeS - 1) / 2] << std::endl;
+        // solution output
+       std::clog.precision(12);
+       std::clog << "c(0,0) = " << c[swap][(sizeS - 1) / 2] << std::endl;
 
 #ifdef CPPAD
-    std::vector<dbl> y(1);
-    y[0] = c[swap][(sizeS - 1) / 2];
-    CppAD::ADFun<double> f(implVol, y);
-    std::vector<double> w(1, 1.0);
-    std::vector<double> vega(n);
-    vega = f.Reverse(1, w);
-    double sum = 0.0;
-    for (unsigned int i = 0; i < n; ++i) {
-        sum += vega[i];
-    }
-    // std::vector<double> x0(n, 1.0);
-    // sum = f.Forward(1, x0)[0];
-    std::clog << "vega =" << sum << std::endl;
+        std::vector<dbl> y(1);
+        y[0] = c[swap][(sizeS - 1) / 2];
+        CppAD::ADFun<double> f(implVol, y);
+        // std::vector<double> w(1, 1.0);
+        // std::vector<double> vega(n);
+        // vega = f.Reverse(1, w);
+        double sum = 0.0;
+        // for (unsigned int i = 0; i < n; ++i) {
+        //     sum += vega[i];
+        // }
+        std::vector<double> x0(n, 1.0);
+        sum = f.Forward(1, x0)[0];
+        std::clog << "vega =" << sum << std::endl;
 #endif
 
 #ifdef ADOLC
-    double yout;
-    c[swap][(sizeS - 1) / 2] >>= yout;
-    trace_off();
-    double u[1];
-    u[0] = 1.0;
-    double *vega = new double[n];
-    reverse(tag, 1, n, 0, u, vega);
-    double sum = 0.0;
-    for (unsigned int i = 0; i < n; ++i) {
-        sum += vega[i];
-    }
-    // double x0[n], x1[n], y0[1], y1[1];
-    // for (unsigned int i = 0; i < n; ++i) {
-    //    x0[i] = 0.2;
-    //    x1[i] = 1.0;
-    // }
-    // fos_forward(tag, 1, n, 0, x0, x1, y0, y1);
-    // sum = y1[0];
-    std::clog << "vega =" << sum << std::endl;
-    delete[] implVol;
-    delete[] vega;
+        double yout;
+        c[swap][(sizeS - 1) / 2] >>= yout;
+        trace_off();
+        double u[1];
+        u[0] = 1.0;
+        double vega[n];
+        reverse(tag, 1, n, 0, u, vega);
+        double sum = 0.0;
+        for (unsigned int i = 0; i < n; ++i) {
+            sum += vega[i];
+        }
+        // double x0[n], x1[n], y0[1], y1[1];
+        // for (unsigned int i = 0; i < n; ++i) {
+        //     x0[i] = 0.2;
+        //     x1[i] = 1.0;
+        // }
+        // fos_forward(tag, 1, n, 0, x0, x1, y0, y1);
+        // sum = y1[0];
+        std::clog << "vega =" << sum << std::endl;
 #endif
+    }
 
 } // main
 \end{minted}
@@ -421,7 +388,7 @@ int main() {
 
 File \verb+testql.cpp+:
 
-\begin{minted}{c++}
+\begin{minted}[fontsize=\small]{c++}
 #include <ql/quantlib.hpp>
 
 #include <boost/make_shared.hpp>
@@ -472,7 +439,7 @@ int main() {
 
 File \verb+testf90.f90+:
 
-\begin{minted}{fortran}
+\begin{minted}[fontsize=\small]{fortran}
 subroutine toy_pde(impliedVol,price)
 implicit none
 
@@ -538,7 +505,7 @@ end subroutine toy_pde
 
 File \verb+driverf90_plain.f90+:
 
-\begin{minted}{fortran}
+\begin{minted}[fontsize=\small]{fortran}
 program driver
 implicit none
 external toy_pde
@@ -562,7 +529,7 @@ end program driver
 
 File \verb+driverf90_forward.f90+:
 
-\begin{minted}{fortran}
+\begin{minted}[fontsize=\small]{fortran}
 program driver
 use OAD_active
 implicit none
@@ -593,7 +560,7 @@ end program driver
 
 File \verb+driverf90.f90+:
 
-\begin{minted}{fortran}
+\begin{minted}[fontsize=\small]{fortran}
 program driver
 use OAD_active
 use OAD_rev
@@ -629,7 +596,7 @@ end program driver
 
 File \verb+Makefile_plain+:
 
-\begin{minted}{makefile}
+\begin{minted}[fontsize=\small]{makefile}
 ifndef F90C
 F90C=gfortran
 endif
@@ -647,7 +614,7 @@ clean:
 
 File \verb+Makefile_forward+:
 
-\begin{minted}{makefile}
+\begin{minted}[fontsize=\small]{makefile}
 ifndef F90C
 F90C=gfortran
 endif
@@ -670,7 +637,7 @@ clean:
 
 File \verb+Makefile+:
 
-\begin{minted}{makefile}
+\begin{minted}[fontsize=\small]{makefile}
 ifndef F90C
 F90C=gfortran
 endif

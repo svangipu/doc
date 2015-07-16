@@ -2,10 +2,10 @@
 //#define CPPAD
 
 // define to enable ADOL-C
-//#define ADOLC
+#define ADOLC
 
 // define for plain computation
- #define PLAIN
+// #define PLAIN
 
 #include <iostream>
 #include <vector>
@@ -56,8 +56,7 @@ int main() {
 
 #ifdef ADOLC
         int tag = 1, keep = 1;
-        adouble *implVol;
-        implVol = new adouble[n];
+        adouble implVol[n];
         trace_on(tag, keep);
         for (unsigned int i = 0; i < n; ++i)
             implVol[i] <<= 0.20;
@@ -109,8 +108,8 @@ int main() {
         }
 
         // solution output
-//        std::clog.precision(12);
-//        std::clog << "c(0,0) = " << c[swap][(sizeS - 1) / 2] << std::endl;
+        std::clog.precision(12);
+        std::clog << "c(0,0) = " << c[swap][(sizeS - 1) / 2] << std::endl;
 
 #ifdef CPPAD
         std::vector<dbl> y(1);
@@ -125,7 +124,7 @@ int main() {
         // }
         std::vector<double> x0(n, 1.0);
         sum = f.Forward(1, x0)[0];
-//        std::clog << "vega =" << sum << std::endl;
+        std::clog << "vega =" << sum << std::endl;
 #endif
 
 #ifdef ADOLC
@@ -134,7 +133,7 @@ int main() {
         trace_off();
         double u[1];
         u[0] = 1.0;
-        double *vega = new double[n];
+        double vega[n];
         reverse(tag, 1, n, 0, u, vega);
         double sum = 0.0;
         for (unsigned int i = 0; i < n; ++i) {
@@ -147,9 +146,7 @@ int main() {
         // }
         // fos_forward(tag, 1, n, 0, x0, x1, y0, y1);
         // sum = y1[0];
-//        std::clog << "vega =" << sum << std::endl;
-        delete[] implVol;
-        delete[] vega;
+        std::clog << "vega =" << sum << std::endl;
 #endif
     }
 
