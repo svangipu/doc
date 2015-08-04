@@ -73,7 +73,7 @@
 \author{Peter Caspers}
 \email[Peter Caspers]{pcaspers1973@gmail.com}
 \date{December 10, 2012}
-\dedicatory{First Version November 1, 2012 - This Version December 10, 2012}
+\dedicatory{First Version November 1, 2012 - This Version August 4, 2015}
 \begin{abstract}
 We derive a closed form expression for the convexity adjustment to be applied to a Libor coupon with non natural
 payment time. The model is a two dimensional lognormal model for the Libor rate and a forward rate
@@ -161,7 +161,7 @@ Z(t) = \left. \frac{d\mathbb{Q}^*}{d\mathbb{Q}} \right|_{\mathcal{F}_t} = \frac{
 which in terms of forward rates reads
 
 \begin{equation}
-Z(t) = \frac{P(0,t_e)}{P(0,t_p)} \frac{(1+\tau_F F(t))\textbf{1}_{t_p < t_e}}{1+\tau_{F^*} F^*(t)}
+Z(t) = \frac{P(0,t_e)}{P(0,t_p)} \frac{(1+\tau_F F(t)\textbf{1}_{t_p < t_e})}{1+\tau_{F^*} F^*(t)}
 \end{equation}
 
 with $\textbf{1}_A$ denoting the indicator function. We stress again that $\tau_X$ is the year fraction belonging to the index estimation period
@@ -178,13 +178,13 @@ of the respective forward $X$.
 We get $d\ln{Z}$ from that as
 
 \begin{equation}
-d\ln{Z(t)} = d\ln{(1+\tau_F F(t))}\textbf{1}_{t_p < t_e} - d\ln{(1+\tau_{F^*} F^*(t))}
+d\ln{Z(t)} = d\ln{(1+\tau_F F(t)\textbf{1}_{t_p < t_e})} - d\ln{(1+\tau_{F^*} F^*(t))}
 \end{equation}
 
 so the instantaneous quadratic covariation between $d\ln{Z}$ and $d\ln{F}$ is given by
 
 \begin{equation}
-\sigma dW (d\ln{(1+\tau_F F(t))}\textbf{1}_{t_p < t_e} - d\ln{(1+\tau_{F^*} F^*(t))})
+\sigma dW (d\ln{(1+\tau_F F(t)\textbf{1}_{t_p < t_e})} - d\ln{(1+\tau_{F^*} F^*(t))})
 \end{equation}
 
 Observing that
