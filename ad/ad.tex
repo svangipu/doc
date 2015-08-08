@@ -77,8 +77,8 @@
 \title[AD]{Automatic Differentiation}
 \author{P. Caspers}
 \email[P. Caspers]{pcaspers1973@googlemail.com}
-\date{July 12, 2014}
-\dedicatory{First Version July 12, 2015 - This Version July 12, 2015\\INCOMPLETE DRAFT}
+\date{August 8, 2015}
+\dedicatory{First Version July 12, 2015 - This Version August 8, 2015\\INCOMPLETE DRAFT}
 \begin{abstract}
 We summarize the ideas underlying automatic differentiation.
 \end{abstract}
@@ -107,44 +107,51 @@ We view the function $f$ as a composite of elementary operations
 u_k = \Phi_k( \{u_\kappa\}_{(\kappa,k) \in \Lambda})
 \end{equation}
 
-for $k > n$ where we set $u_k = x_k$ for $k=1,\dots,n$ (i.e. we reserve these indices for the start values of the computation) and $u_k = y_k$ for $k=K-m+1, \dots, K$ (i.e. these are the final results of the computation). The notation should suggest that $u_k$ depends on prior results $u_\kappa$ with $(\kappa,k)$ in some index set $\Lambda$. Note that if $(k,l)\in\Lambda$ and $(l,m)\in\Lambda$ then $(k,m)\in\Lambda$ because we account for indirect dependencies also in our notation.
+for $k > n$ where we set $u_k = x_k$ for $k=1,\dots,n$ (i.e. we reserve these indices for the start values of the computation) and $u_k = y_k$ for $k=K-m+1, \dots, K$ (i.e. these are the final results of the computation). The notation should suggest that $u_k$ depends on prior results $u_\kappa$ with $(\kappa,k)$ in some index set $\Lambda$. Note that if $(k,l)\in\Lambda$ this refers to a direct dependency of $u_l$ on $u_k$, i.e. if $u_k$ depends on $u_j$, but $u_j$ does not enter the calculation of $u_k$ directly then $(j,l) \notin \Lambda$.
 
-We can view the computation chain as a directed graph with vertices $u_k$ and edges $(k,l)$ if $(k,l)\in\Lambda$. There are no circles allowed in this graph and it consists of $K$ vertices. The graph is transitive closed in addition, cf. our previous comment on indirect dependencies above.
+We can view the computation chain as a directed graph with vertices $u_k$ and edges $(k,l)$ if $(k,l)\in\Lambda$. There are no circles allowed in this graph and it consists of $K$ vertices.
+
+We write $|i,j|$ for the length of the longest path from $u_i$ to $u_j$ and call that number the distance from $i$ to $j$. If $u_j$ is not reachable from $u_i$ we set $|i,j| = \infty$.
 
 \section{Forward mode}
 
-If we define the local partial derivative
-
-\begin{equation}
-c_{k,l} = \frac{\partial u_l}{\partial u_k}
-\end{equation}
-
-we can write the chain rule as
+we can compute a partial derivative $\partial u_m / \partial u_k$ using the chain rule
 
 \begin{equation}\label{forward_u}
-c_{k,m} = \frac{\partial u_m}{\partial u_k} = \sum_{l|(l,m)\in\Lambda} \frac{\partial u_m}{\partial u_l} \frac{\partial u_l}{\partial u_k} = \sum_{l|(l,m)\in\Lambda} c_{k,l}c_{l,m}
+\frac{\partial u_m}{\partial u_k} = \sum_{l|(l,m)\in\Lambda} \frac{\partial u_m}{\partial u_l} \frac{\partial u_l}{\partial u_k}
+\end{equation}
+This suggest a forward propagation scheme: We start at the initial nodes $u_1, ... , u_n$. For all nodes $u_l$ with maximum distance $1$ from all of these nodes we compute
+
+\begin{equation}
+c_l = \sum_{i=1,\dots,n} \frac{\partial u_l}{\partial u_i} c_{i} 
+\end{equation}
+where we can choose $c_i$ for $i=1,\dots,n$ freely at this stage. This assigns the dot product of the gradient of $u_l$ w.r.t. $x_1, \dots, x_n$ and $(c_1,\dots,c_n)$ to the node $u_l$. If we choose $c_k=1$ for one specific $k\in\{1,\dots,n\}$ and zero otherwise, we get the partial derivative of $u_l$ by $u_k$, but we can compute any other directional derivatives using other vectors $(c_1,\dots,c_n)$.
+
+Next we consider nodes with maximum distance $2$ from all nodes $u_1,\dots,u_n$. For such a node $u_l$
+
+\begin{equation}
+c_l = \sum_{i=1,\dots,n} \frac{\partial u_l}{\partial u_i} c_i = \sum_{i=1,\dots,n} \sum_{k|(k,l)\in\Lambda} \frac{\partial u_l}{\partial u_k} \frac{\partial u_k}{\partial u_i} c_i = \sum_{k|(k,l)\in\Lambda} \frac{\partial u_l}{\partial u_k} c_k
 \end{equation}
 
-This leads us to $c_{i,K-m+k} = \partial{y_k} / \partial{x_i}$ for $i=1,\dots,n$ and $k=K-m+1,\dots,K$, our desired final result, which we can compose from elementary local partial derivatives using \ref{forward_u}.
+where we can assume that the $c_k$ were computed in the previous step, because their maximum distance to all initial nodes $u_1,\dots,u_n$ muss be less than $2$, hence $1$. The same argument can be iterated for nodes with maximum distance $3, 4, \dots$ until we reach the final nodes $u_{K-m+1},\dots,u_K$. This way we can work forward through the computational graph and compute any prescribed directional derivative.
 
 \section{Backward mode}
 
-With so called adjoint variables $\overline{c_{\cdot,\cdot}}$ we define
-
-\begin{equation}\label{adjoint_u}
-\overline{c_{l,m}} = \sum_{m|(l,m)\in\Lambda} \frac{\partial u_m}{\partial u_l} \overline{c_{m,m}} 
-\end{equation}
-
-where $\Lambda^{-1}_l$ is the set of indices $m$ with $(l,m)\in\Lambda_m$, i.e. the $m$ for which $u_m$ depends on $u_l$. Note that the ``direction'' of equation \ref{adjoint_u} is opposite to \ref{forward_u} in the sense that $\overline{u}_l$ is computed from values $\overline{u}_m$ instead of the other way around, which is the ``natural'' direction of the chain rule.
-
-We apply the chain rule to \ref{adjoint_u} which yields
+We start at the final nodes and compute for all nodes $u_l$ with maximum distance $1$ from all of these nodes
 
 \begin{equation}
-\overline{c_{k,m}} = \sum_{m|(l,m)\in\Lambda} \frac{\partial u_m}{\partial u_l} \frac{\partial u_l}{\partial u_k} \overline{c_{m,m}} = \sum_{m|(l,m)\in{\Lambda}} c_{k,l} \overline{c_{l,m}}
+\overline{c_l} = \sum_{i=K-m+1,\dots,K} \frac{\partial u_i}{\partial u_l} \overline{c_i}
 \end{equation}
 
-Again this yields $\overline{c_{i,k}} = \partial{y_k}/\partial{x_i}$ for $i=1,\dots,n$ and $k=K-m+1,\dots,K$ as above, if we set $\overline{c_{k,k}} = 1$ for the desired $k$ and zero otherwise, now enabling us to compute the final result working backwards through the elememtary local partial derivatives.
+Note that we compute a weighted sum in the dependent variables now. By setting a specific $c_k$ to $1$ and the rest to zero again we can compute the partial derivatives of a single final variable. Again using the chain rule we can compute 
 
+\begin{equation}
+\overline{c_l} = \sum_{i=K-m+1,\dots,K} \frac{\partial u_i}{\partial u_l} \overline{c_i} = \sum_{i=K-m+1,\dots,K}\sum_{k|(l,k)\in\Lambda} \frac{\partial u_i}{\partial u_k}\frac{\partial u_k}{\partial u_l} \overline{c_i} = \sum_{k|(l,k)\in\Lambda} \frac{\partial u_k}{\partial u_l} \overline{c_k}
+\end{equation}
+
+for all nodes $u_l$ with maximum distance of $2$ from all the final node. Note that the chain rule formally requires to include all indices $k$ on which $u_i$ depends. Howvever if $u_k$ does not depend on $u_l$ the term will effectively be zero, so we can drop these summands from the beginning. Also we may include indices $k$ on which $u_i$ does not depend in the first place, which is not harmful for the same reason.
+
+As above we can assume all $\overline{c_k}$ to be computed in the previous step, so that we can iterate backwards to the inital nodes to get all partial derivatives of the weighted sum of the final nodes w.r.t. the initial nodes.
 
 
 
