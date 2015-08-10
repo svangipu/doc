@@ -149,7 +149,7 @@ Note that we compute a weighted sum in the dependent variables now. By setting a
 \overline{c_l} = \sum_{i=K-m+1,\dots,K} \frac{\partial u_i}{\partial u_l} \overline{c_i} = \sum_{i=K-m+1,\dots,K}\sum_{k|(l,k)\in\Lambda} \frac{\partial u_i}{\partial u_k}\frac{\partial u_k}{\partial u_l} \overline{c_i} = \sum_{k|(l,k)\in\Lambda} \frac{\partial u_k}{\partial u_l} \overline{c_k}
 \end{equation}
 
-for all nodes $u_l$ with maximum distance of $2$ from all the final node. Note that the chain rule formally requires to include all indices $k$ on which $u_i$ depends. Howvever if $u_k$ does not depend on $u_l$ the term will effectively be zero, so we can drop these summands from the beginning. Also we may include indices $k$ on which $u_i$ does not depend in the first place, which is not harmful for the same reason.
+for all nodes $u_l$ with maximum distance of $2$ from all the final nodes. Note that the chain rule formally requires to include all indices $k$ on which $u_i$ depends. Howvever if $u_k$ does not depend on $u_l$ the term will effectively be zero, so we can drop these summands from the beginning. Also we may include indices $k$ on which $u_i$ does not depend in the first place, which is not harmful for the same reason.
 
 As above we can assume all $\overline{c_k}$ to be computed in the previous step, so that we can iterate backwards to the inital nodes to get all partial derivatives of the weighted sum of the final nodes w.r.t. the initial nodes.
 
