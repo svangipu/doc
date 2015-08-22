@@ -1,0 +1,14 @@
+*~
+*w18-test-*.tex
+_region_*.*
+*.fmt
+*.log
+*.aux
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+\#*\#
+*gnuplottex-fig*.*
+*.dvi
