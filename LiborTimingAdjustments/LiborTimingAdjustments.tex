@@ -72,8 +72,8 @@
 \title[Libor Timing Adjustments]{Libor Timing Adjustments}
 \author{Peter Caspers}
 \email[Peter Caspers]{pcaspers1973@gmail.com}
-\date{December 10, 2012}
-\dedicatory{First Version November 1, 2012 - This Version August 4, 2015}
+\date{August 23, 2015}
+\dedicatory{First Version November 1, 2012 - This Version August 23, 2015}
 \begin{abstract}
 We derive a closed form expression for the convexity adjustment to be applied to a Libor coupon with non natural
 payment time. The model is a two dimensional lognormal model for the Libor rate and a forward rate
@@ -127,8 +127,8 @@ form expression for the convexity adjustment in a particularly basic model.
 \section{Lognormal adjustment}
 
 In addition to \ref{forward1} we introduce a second forward rate $F^*$ with estimation start date $t_s^*$ and estimation end
-date $t_e^* = t_p$ equal to the payment time of our coupon in question. We choose $t_s^* = t_e$ if $t_p > t_e$ (i.e. if we have
-a \textit{delayed} payment) and $t_s^* = t_s$ otherwise (i.e. if we have an \textit{early} payment).
+date $t_e^* = t_p$ equal to the payment time of our coupon in question. We choose $t_s^* = t_e$ if $t_p \geq t_e$ (i.e. if we have
+a \textit{delayed} (or natural) payment) and $t_s^* = t_s$ otherwise (i.e. if we have an \textit{early} payment).
 
 We let these two forward rates evolve according to 
 
@@ -216,7 +216,7 @@ with a $\mathbb{Q^*}$ - Brownian motion $W^\prime$.
 To get a closed formula for the adjusted rate we have to make the drift term in formula \ref{tpdynamic} deterministic. A standard approach to do this
 is to freeze the forwards at time zero. Doing so we get the convexity adjustment
 
-\begin{equation}
+\begin{equation}\label{adjustment}
 E^*(F(t_f)) - F(0) \approx t_f \left(\frac{\tau_F \sigma^2 F^2(0)}{1+\tau_F F(0)} \textbf{1}_{t_p<t_e} - \frac{\tau_{F^*} \rho\sigma\sigma^*F(0) F^*(0)}{1+\tau_{F^*} F^*(0)}\right)
 \end{equation}
 
@@ -230,6 +230,37 @@ adjustment is a continuous function in $t_p$ (with all other variables fixed) wi
 
 Concerning the model parameter $\sigma$ the obvious choice is the ATM caplet volatility for the index associated with $F$. For $\sigma^*$ some average
 over the same index caplet volatilities spanning the period of $F^*$ can be choosen, possibly accounting for correlations between the respective forward rates. Similarly the model parameter $\rho$ can be taken from some market model with swaption and / or cms spread option calibrated correlation structure. Again, we do not go into details here for now.
+
+\section{Shifted Lognormal and Normal Models}
+
+The discussion above is easily translated to the shifted lognormal case, i.e. we assume
+
+\begin{eqnarray}\label{model_sln}
+dF &=& \sigma (F+\alpha) dW \\
+dF^* &=& \sigma^* (F^*+\alpha) dW^* \\
+dW dW^* &=& \rho dt
+\end{eqnarray}
+
+with a positive shift $\alpha$. The adjustment is now written as (compare this to \ref{adjustment})
+
+\begin{equation}
+t_f\left(\frac{\tau_F \sigma^2 (F(0)+\alpha)^2}{1+\tau_F F(0)} \textbf{1}_{t_p<t_e} - \frac{\tau_{F^*} \rho\sigma\sigma^*(F(0)+\alpha)(F^*(0)+\alpha)}{1+\tau_{F^*} F^*(0)}\right)
+\end{equation}
+
+Likewise in the normal case, i.e.
+
+\begin{eqnarray}\label{model_n}
+dF &=& \sigma dW \\
+dF^* &=& \sigma^* dW^* \\
+dW dW^* &=& \rho dt
+\end{eqnarray}
+
+we get
+
+\begin{equation}
+t_f\left(\frac{\tau_F \sigma^2}{1+\tau_F F(0)} \textbf{1}_{t_p<t_e} - \frac{\tau_{F^*} \rho\sigma\sigma^*}{1+\tau_{F^*} F^*(0)}\right)
+\end{equation}
+
 
 \section{Open Points / To Do}
 
