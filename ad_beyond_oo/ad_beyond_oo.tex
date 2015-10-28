@@ -27,10 +27,10 @@
 \begin{frame}[fragile]
 \frametitle{AD in a nutshell}
 \begin{itemize}
-\item Compute derivatives by symbolic differentiation of the operation sequence using the chain rule
-\item Derivatives can be propagated in forward and reverse (adjoint) mode
-\item Results are exact up to machine precision, also for higher order derivatives
-\item Law of cheap gradient in adjoint mode (complexity = constant low multiple\footnote{theoretically bounded by 4} of one function evaluation)
+\item compute derivatives by symbolic differentiation of the operation sequence ($+*-/$, $\exp, \sin, ...$) using the chain rule
+\item derivatives can be propagated in forward and reverse (adjoint) mode
+\item results are exact up to machine precision, also for higher order derivatives
+\item law of cheap gradient in adjoint mode (complexity = constant low multiple\footnote{theory says that the multiple is bounded by 4} of one function evaluation)
 \end{itemize}
 \end{frame}
 
@@ -41,7 +41,7 @@
 \begin{itemize}
 \item just says \verb+typedef CppAD::AD<double> Real+
 \item it is a bit more complicated than that
-\item QuantLibAdjoint project, driven by CompatibL
+\item QuantLibAdjoint project (CompatibL)
 \item \textit{AD-or-not-AD} decision at compile time and globally, i.e. no selective activation of variables
 \end{itemize}
 \end{frame}
@@ -58,7 +58,8 @@
 \item \verb+T = double+: 764 ms
 \item \verb+T = CppAD::AD<double>:+ 8960 ms
 \item Penalty: 11.7x
-\item the compiler does not seem to apply certain optimizations to the active type that are possible for the native double (vectorization)
+\item the compiler does not seem to apply certain optimizations to the active type that are possible for the native double (SIMD instructions)
+\item this is not an exception, but seems to occur for every ``numerically intense'' code section (see below for a second example)
 \end{itemize}
 \end{frame}
 
@@ -78,10 +79,10 @@
 \frametitle{Expensive gradients with operator overloading}
 \begin{itemize}
 \item both approaches use operator overloading tools (like CppAD)
-\item for numerically intense algorithms, we observe dramatic performance loss (because less agressive optimizations can be applied by the compiler to non-native types)
-\item e.g. a convolution engine for bermudan swaptions may be 80x slower\footnote{see \tiny\url{https://quantlib.wordpress.com/2015/04/14/adjoint-greeks-iv-exotics}}
+\item for numerically intense algorithms, we observe dramatic performance loss (because less optimization can be applied to non-native types)
+\item e.g. a convolution engine for bermudan swaptions is 80x slower\footnote{see \tiny\url{https://quantlib.wordpress.com/2015/04/14/adjoint-greeks-iv-exotics}}
 in adjoint mode compared to one native-double pricing
-\item if AD is actually not needed, the template approach is the way out, otherwise we need other techniques, because operator overloading is not attractive any more
+\item if AD is actually not needed, the template approach is the way out, otherwise we need other techniques
 \end{itemize}
 \end{frame}
 
@@ -90,17 +91,17 @@ in adjoint mode compared to one native-double pricing
 \begin{frame}[fragile]
 \frametitle{Source Code Transformation}
 \begin{itemize}
-\item Generate adjoint code at compile time, which yields better performance
-\item However, does not work out of the box like OO tools
-\item No mature tool for C++ (ADIC 2.0 under development)
-\item Needs specific preparation of code before it can be applied
+\item generate adjoint code at compile time, which hopefully yields better performance
+\item however, does not work out of the box like OO tools
+\item no mature tool for C++ (ADIC 2.0 under development)
+\item needs specific preparation of code before it can be applied
 \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{OpenAD/F}
 \begin{itemize}
-\item OpenAD is a language independent AD backend working with abstract xml representations of the computational model (XAIF)
+\item OpenAD is a language independent AD backend working with abstract xml representations (XAIF) of the computational model
 \item OpenAD/F adds a Fortran 90 front end
 \item Open Source, proven on large scale real-world models
 \item \url{http://www.mcs.anl.gov/OpenAD}
@@ -108,7 +109,7 @@ in adjoint mode compared to one native-double pricing
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Strategy}
+\frametitle{Steps to use SCT}
 \begin{itemize}
 \item Isolate the core computational code and reimplement it in Fortran
 \item Use OpenAD/F to generate adjoint code, build a separate support library from that
@@ -122,7 +123,7 @@ in adjoint mode compared to one native-double pricing
 \item core computation can be implemented in around 200 lines
 \item native interface only using doubles and arrays of doubles
 \item input: relevant times $\{t_i\}$, model $\{(H(t_i), \zeta(t_i), P(0,t_i)\}$,
-Termsheet codified as index lists $\{k_i, l_i, ...\}$
+Termsheet, codified as index lists $\{k_i, l_i, ...\}$
 \item output: npv, gradient w.r.t. $\{(H(t_i), \zeta(t_i), P(0,t_i)\}$
 \end{itemize}
 \begin{minted}[bgcolor=mintedBg,fontsize=\footnotesize]{fortran}
@@ -133,6 +134,17 @@ subroutine lgm_swaption_engine(n_times, times, modpar, n_expiries, &
      fix_startidxes, n_fixs, fix_cpn, fix_tps, &
      integration_points, stddevs, res)
 \end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Building the AD support library}
+\resizebox{\textwidth}{!}{
+\begin{minipage}{3.5\textwidth}
+\begin{figure}
+    \centering
+        \includegraphics{oad_build.png}
+\end{figure}
+\end{minipage}}
 \end{frame}
 
 \begin{frame}[fragile]
@@ -164,25 +176,15 @@ void LgmSwaptionEngineAD::calculate() const {
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Building the AD support library}
-\resizebox{\textwidth}{!}{
-\begin{minipage}{3.5\textwidth}
-\begin{figure}
-    \centering
-        \includegraphics{oad_build.png}
-\end{figure}
-\end{minipage}}
-\end{frame}
-
-\begin{frame}[fragile]
 \frametitle{Performance}
 \begin{itemize}
 \item 10y bermudan swaption, yearly callable
 \item 49 grid points per expiry
-\item single pricing (non-transformed function): 4.2 ms
-\item pricing + full adjoint vector $\in \mathcal{R}^{105}$ w.r.t. $(H(\cdot),\zeta(\cdot),P(0,\cdot))$ : 25.6 ms
+\item single pricing (non-transformed code): 4.2 ms\footnote{Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz, single threaded}
+\item pricing + gradient $\in \mathbb{R}^{105}$: 25.6 ms
 \item additional stuff\footnote{gradients for calibrating swaptions, transformation of gradient w.r.t. model parameters to common vegas, see below}: 6.2 ms
 \item adjoint calculation multiple: 6.1x (7.6x including add. stuff)
+\item common, practical target for the adjoint multiple: 5x - 10x
 \end{itemize}
 \end{frame}
 
@@ -192,13 +194,14 @@ void LgmSwaptionEngineAD::calculate() const {
 \item apply AD only to differentiable programs
 \item avoid to push it through solvers, optimizers, etc.
 \item instead use the implicit function theorem to convert gradients w.r.t. calibrated variables to gradients w.r.t. market variables
-\item this is more efficient, less error prone (e.g. \verb+Bisection+ produces zero derivatives always), even technically necessary for the SCT approach shown before
+\item this is more efficient, less error prone (e.g. \verb+Bisection+ produces zero derivatives always, optimizations may produce bogus derivatives depending on the start value)
+\item in the case of SCT even necessary from a practical viewpoint
 \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Calibration of LGM model}
-Calibration to $n$ swaptions:
+Calibration to $n$ swaptions\footnote{recall that $\zeta(t)$ is the accumulated model variance up to time $t$}
 \begin{eqnarray*}
 \text{Black}(\sigma_1) - \text{Npv(LGM)}(\zeta_1) &=& 0 \\
 ... \\
@@ -223,19 +226,30 @@ and
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Pasting the market vega together}
+\frametitle{Pasting the vega together}
 \begin{equation*}
 \frac{\partial \text{Npv}_\text{Berm}}{\partial \sigma} = \frac{\partial \text{Npv}_\text{Berm}}{\partial \zeta} \frac{\partial \zeta}{\partial \sigma} = \frac{\partial \text{Npv}_\text{Berm}}{\partial \zeta} \left( \frac{\partial \text{Npv}_\text{Calib}}{\partial \zeta} \right) ^ {-1} \frac{\partial \text{Black}}{\partial \sigma}
 \end{equation*}
+\begin{itemize}
+\item the components can be calculated analytically (calibrating swaptions' market vegas) or using the ad engine (calibrating swaptions' $\zeta$-gradient)
+\item matrix inversion and multiplication is cheap
+\item the additional computation time is quite small (see the example above)
+\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Summary}
+\begin{itemize}
+\item global instrumentation (via typedefs) with active variables can lead to performance issues
+\item selective / mixed instrumentation (via templates) solves the issue, but leaves problems when AD is required for numerically intense parts of the code
+\item source code transformation can solve this issue, an example in terms of a bermudan swaption engine was given using OpenAD/F
+\end{itemize}
 \end{frame}
 
 \section{Questions}
 
 \begin{frame}[fragile]
 \frametitle{Questions / Discussion}
+\centerline{thank you for your attention}
 \end{frame}
 \end{document}
