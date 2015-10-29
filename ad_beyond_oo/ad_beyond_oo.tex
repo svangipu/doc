@@ -86,7 +86,7 @@ in adjoint mode compared to one native-double pricing
 \end{itemize}
 \end{frame}
 
-\section{Source Code Transformation}
+\section{Source code transformation}
 
 \begin{frame}[fragile]
 \frametitle{Source Code Transformation}
@@ -180,9 +180,9 @@ void LgmSwaptionEngineAD::calculate() const {
 \begin{itemize}
 \item 10y bermudan swaption, yearly callable
 \item 49 grid points per expiry
-\item single pricing (non-transformed code): 4.2 ms\footnote{Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz, single threaded}
+\item single pricing\footnote{Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz, single threaded} (non-transformed code): 4.2 ms
 \item pricing + gradient $\in \mathbb{R}^{105}$: 25.6 ms
-\item additional stuff\footnote{gradients for calibrating swaptions, transformation of gradient w.r.t. model parameters to common vegas, see below}: 6.2 ms
+\item additional stuff\footnote{transformation of gradient w.r.t. model parameters to usual vegas, see below}: 6.2 ms
 \item adjoint calculation multiple: 6.1x (7.6x including add. stuff)
 \item common, practical target for the adjoint multiple: 5x - 10x
 \end{itemize}
