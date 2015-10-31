@@ -36,9 +36,10 @@
 \begin{frame}[fragile]
 \frametitle{Implications of negative fixings}
 \begin{itemize}
-\item interest compounding on collateral accounts, ISDA negative rates protocol
-\item payment reversal in swaps under ISDA and DRV
-\item floored coupons for bonds, schuldscheindarlehen, loans, ...
+\item interest compounding on collateral accounts,\\
+ISDA negative rates protocol, DRV (?)
+\item payment reversal in swaps under ISDA and DRV (?)
+\item floored coupons for bonds, schuldscheindarlehen, loans, ... (?)
 \end{itemize}
 \end{frame}
 
@@ -47,7 +48,8 @@
 \begin{itemize}
 \item rate curves should allow for negative forwards
 \item lognormal models can not reproduce market prices for zero (or negative strike) floors
-\item lognormal models can even fail to produce high enough prices for boring forward levels like $F=1\%$ or $2\%$, because e.g. for shifted lognormal models with shift $d\geq0$, $c(K)/N(0)\rightarrow F+d$ if $\sigma\rightarrow\infty$. You could actually observe this recently by first exploding, then missing implied lognormal volatility quotes for EUR swaptions with long option tenor
+\item lognormal models can even fail to produce high enough prices for boring forward levels like $F=1\%$ or $2\%$, because e.g. for shifted lognormal models with shift $d\geq0$, $c(K)/N(0)\rightarrow F+d$ if $\sigma\rightarrow\infty$. 
+\item You could actually observe this recently by first exploding, then missing implied lognormal volatility quotes for EUR swaptions with long option tenor (``two holes'' in the quoted matrix)
 \end{itemize}
 \end{frame}
 
@@ -69,15 +71,15 @@
 \begin{itemize}
 \item \verb+QL_NEGATIVE_RATES+
 \item allows for negative zero yields, forwards, increasing discount factors
-\end{itemize}
-\begin{minted}[bgcolor=mintedBg,fontsize=\footnotesize]{diff}
+\item \scriptsize \begin{verbatim}
 +2012-07-31 14:11  Ferdinando Ametrano
 +
 +	* [r18305] ql/userconfig.hpp, test-suite/piecewiseyieldcurve.cpp:
 +
 +     defaulted to allow negative rates (define QL_NEGATIVE_RATES) as this
 +     is happening for EUR OIS, CHF and German treasury yields, etc.
-\end{minted}
+\end{verbatim}
+\end{itemize}
 \end{frame}
 
 
@@ -157,7 +159,7 @@ BlackIborCouponPricer(const Handle<OptionletVolatilityStructure> &v =
 \item swap rate adjustments use shifted lognormal or normal smiles to determine the drifts of the single swap rate models
 \item the bivariate model for the swap rates is still purely lognormal currently
 \item with negative 2Y fixings, we will neeed to extend this pricer as well
-\item plan: allow for shifts in the single rate models or for normal single rate models
+\item plan: allow for shifts in the single rate models or for normal single rate models, push to \#264
 \end{itemize}
 \end{frame}
 
