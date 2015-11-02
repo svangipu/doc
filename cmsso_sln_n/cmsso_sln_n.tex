@@ -89,13 +89,13 @@ We extend the cms spread option formula in \cite{brigo}, 13.16.2 to the case of 
 
 \section{Original lognormal model}
 
-The original model in \cite{brigo}, 13.16.2 for cms spread option pricing is as follows. If $S_i, i=1,2$ are the underlying swap rates, $t$ is the fixing time, $T$ the payment time of the coupon with payoff ($\phi\in\{-1,+1\}$)
+The original model in \cite{brigo}, 13.16.2 for cms spread option pricing is as follows. If $S_i, i=1,2$ are the underlying swap rates, $t$ is the fixing time, $T$ the payment time of the coupon with payoff ($a,b,K \in \mathbb{R}, \phi\in\{-1,+1\}$)
 
 \begin{equation}
 \Pi(t) = \max( \phi (a S_1(t) + b S_2(t) - K), 0 )
 \end{equation}
 
-then under the $T$-forward measure we assume
+then under the $T$-forward measure we assume (with $\mu_1, \mu_2 \in \mathbb{R}, \sigma_1, \sigma_2 > 0, \rho \in [-1,1]$)
 
 \begin{eqnarray}\label{origmodel}
 dS_1 &=& \mu_1 S_1 dt + \sigma_1 S_1 dZ_1 \\
@@ -103,13 +103,13 @@ dS_2 &=& \mu_2 S_2 dt + \sigma_2 S_2 dZ_2 \\
 dZ_1 dZ_2 &=& \rho dt
 \end{eqnarray}
 
-\cite{brigo} gives a formula for the price $P(0,T) E^T ( \Pi(t) )$ involving a one dimensional integral as formula (13.34). The drifts $\mu_i$ are implied from exogeneously given convexity adjustments for $S_i$, e.g. computed in a replication model on the respective underlying smiles).
+\cite{brigo} gives a formula for the price $P(0,T) E^T ( \Pi(t) )$ in formula (13.34). This involves a one dimensional integral, which can be efficiently calculated with a Gauss-Hermite scheme for example. Here, the drifts $\mu_i$ are implied from exogeneously given convexity adjustments for $S_i$, e.g. computed in a replication model on the respective underlying smiles.
 
-Note that the formulation is \cite{brigo} is a little more restrictive, because there it is assumed $t=T$. However, provided that the swap rate adjustments implying $\mu_i, i=1,2$ are computed w.r.T. the same fixing time $t$ and payment time $T>t$, one can just replace the pricing expectation $E^t$ by $E^T$ without changing anything (inside the expectation a factor $P(t,T) / P(t,T) = 1$ occurs, which doesn't change anything).
+Note that the formulation is \cite{brigo} is a little more restrictive, because $t=T$ is assumed. However, provided that the swap rate adjustments implying $\mu_i, i=1,2$ are computed w.r.T. the same fixing time $t$ and payment time $T>t$ as for the spread option, one can just replace the pricing expectation $E^t$ by $E^T$ without changing anything in the derivation (inside the expectation a factor $P(t,T) / P(t,T) = 1$ occurs, that's all).
 
 \section{Shifted lognormal extension}
 
-We look at the following straightforward extension of the model, introducing shifts for the underlying rates
+We look at the following straightforward extension of the model, introducing shifts $d_1, d_2 >0$ for the underlying rates
 
 \begin{eqnarray}
 dS_1 &=& \mu_1 (S_1 + d_1) dt + \sigma_1 (S_1 + d_1) dZ_1 \\
@@ -117,7 +117,7 @@ dS_2 &=& \mu_2 (S_2 + d_2) dt + \sigma_2 (S_2 + d_2) dZ_2 \\
 dZ_1 dZ_2 &=& \rho dt
 \end{eqnarray}
 
-with $d_1, d_2 \geq 0$, possibly different. Writing
+Writing
 
 \begin{eqnarray}
 X_1 &=& (S_1 + d_1) \\
@@ -131,7 +131,7 @@ we see that we can apply the original solution for \ref{origmodel} with underlyi
 \mu_i = \frac{\log( (S_i(0)+d_i+c_i) / (S_i(0)+d_i) )}{t} = \frac{\log( (X_i(0)+c_i) / (X_i(0)) )}{t} 
 \end{equation}
 
-for $i=1,2$ accordingly with $c_i$ denoting the convexity adjustment applicable to rate $S_i$.
+for $i=1,2$ accordingly with $c_i = E^T(S_i(t)) - S_i(0)$ denoting the convexity adjustment applicable to the rate $S_i$ (note that the expectaion here is taken in the external model for the single swap rate adjustments respectively).
 
 \section{Normal extension}
 
@@ -149,7 +149,7 @@ with drifts now given by
 \mu_i = c_i / t
 \end{equation}
 
-with $c_i$ again denoting the exogeneously given convexity adjustment for rate $S_i, i=1,2$.
+with $c_i$ again denoting the exogeneously given convexity adjustment for rate $S_i$ with $i=1,2$, see above.
 
 The option price $\nu$ is given by
 
@@ -157,26 +157,26 @@ The option price $\nu$ is given by
 \nu = P(0,T) E^T \left( (\phi(aS_1(t) + bS_2(t) - K))^+ \right)
 \end{equation}
 
-The expectation can, more explicity, written as
+The expectation can be written as
 
 \begin{equation}\label{normalintegral}
 \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} (\phi(as_1+bs_2-K))^+ p(s_1,s_2) ds_1 ds_2
 \end{equation}
 
-with $p$ denoting a bivariate normal distribution with expectation $\mu$ and covariance matirx $\Sigma$
+with $p$ denoting a bivariate normal distribution
 
 \begin{equation}
-\mu = \begin{pmatrix} \mu_1t \\ \mu_2t \end{pmatrix}, 
-\Sigma = \begin{pmatrix} \sigma_1^2t & \rho\sigma_1\sigma_2t \\ \rho\sigma_1\sigma_2t & \sigma_2^2t \end{pmatrix}
+p \sim \mathcal{N}\left( \begin{pmatrix} S_1(0) + \mu_1t \\ S_2(0) + \mu_2t \end{pmatrix}, 
+\begin{pmatrix} \sigma_1^2t & \rho\sigma_1\sigma_2t \\ \rho\sigma_1\sigma_2t & \sigma_2^2t \end{pmatrix} \right)
 \end{equation}
 
 It is well known that the distribution of $S_1(t)$ conditional on $S_2(t) = s_2$ is given by
 
 \begin{equation}
-S_1(t) | \{ S_2(t) = s_2 \} \sim \mathcal{N}\left( \mu_1t + \frac{\rho\sigma_1}{\sigma_2}(s_2-\mu_2t) , \sigma_1^2t (1-\rho^2)\right)
+S_1(t) | \{ S_2(t) = s_2 \} \sim \mathcal{N}\left( S_1(0) + \mu_1t + \frac{\rho\sigma_1}{\sigma_2}(s_2-\mu_2t-S_2(0)) , \sigma_1^2t (1-\rho^2)\right)
 \end{equation}
 
-We denote the density of this distribution by $p_{s_2}$ We continue to compute the inner integral in \ref{normalintegral} for a fixed $S_2(t) = s_2$, i.e.
+We denote the density of this distribution by $p_{s_2}$. We continue to compute the inner integral in \ref{normalintegral} for a fixed $S_2(t) = s_2$, i.e.
 
 \begin{equation}\label{innerintegral}
 \int_{-\infty}^{\infty} (\phi(as_1+bs_2-K))^+ p_{s_2}(s_1) ds_1
@@ -188,9 +188,9 @@ We have the following
 \label{linearnormalintegral}
 For $\alpha, \beta \in \mathbb{R}$ we have
 \begin{equation}
-\frac{1}{\sqrt{2 \pi}} \int_{\mathbb{R}} (\alpha x+\beta)^+ e^{-x^2/2} dx = \phi \frac{\alpha}{\sqrt{2\pi}}e^{-\beta^2/(2\alpha^2)} + \beta \phi (1-N(-\beta/\alpha))
+\frac{1}{\sqrt{2 \pi}} \int_{\mathbb{R}} (\alpha x+\beta)^+ e^{-x^2/2} dx = \psi \frac{\alpha}{\sqrt{2\pi}}e^{-\beta^2/(2\alpha^2)} + \phi (1-N(-\psi\beta/\alpha))
 \end{equation}
-where $\phi = \sign(\alpha) \in \{+1,-1\}$ and $N$ denotes the cumulative normal distribution function. For $\alpha=0$ the right hand side simplifies to $\beta^+$.
+where $\psi = \sign(\alpha) \in \{+1,-1\}$ and $N$ denotes the cumulative normal distribution function. For $\alpha=0$ the right hand should be read simply as $\beta^+$.
 \end{lemma}
 \begin{proof}
 Let $\alpha>0$. The proof for $\alpha<0$ is similar and the case $\alpha=0$ is obvious from the following steps as well. Obviously $\alpha x+\beta > 0$ iff $x > -\beta/\alpha$, so the integral can be written as
@@ -203,53 +203,54 @@ Furthermore,
 \end{equation}
 and
 \begin{equation}
-\int_{-\beta/\alpha}^\infty e^{-x^2/2} dx = 1 - N(-\beta/\alpha)
+\frac{1}{\sqrt{2\pi}}\int_{-\beta/\alpha}^\infty e^{-x^2/2} dx = 1 - N(-\beta/\alpha)
 \end{equation}
 which proves the identity.
 \end{proof}
 
-THe integral \ref{innerintegral} is
+The integral \ref{innerintegral} is
 
 \begin{equation}
-\frac{1}{\sqrt{2\pi}} v \int_{-\infty}^\infty (\phi(as_1+bs_2-K))^+ e^{-\frac{(s1-\mu)^2}{2v^2}} ds_1
+\frac{1}{v\sqrt{2\pi}} \int_{-\infty}^\infty (\phi(as_1+bs_2-K))^+ e^{-\frac{(s1-\mu)^2}{2v^2}} ds_1
 \end{equation}
 
-with $\mu=\mu_1t+\rho\sigma_1/\sigma_2(s_2-\mu_2t)$ and $v^2=\sigma_1^2t(1-\rho^2)$.
+with $\mu=S_1(0)+\mu_1t+\rho\sigma_1/\sigma_2(s_2-\mu_2t-S_2(0))$ and $v^2=\sigma_1^2t(1-\rho^2)$.
 
 Substituting $x=(s_1-\mu)/v$ this becomes
 
 \begin{equation}
-\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty} (\phi a(\mu+vx)+bs_2-K)^+ e^{-x^2/2} dx
+\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{\infty} \left(\phi (a(\mu+vx)+bs_2-K)\right)^+ e^{-x^2/2} dx
 \end{equation}
 
-Setting $\alpha=\phi a v$ and $\beta=\phi a \mu + b s_2 - K$ and $\psi = \sign(\alpha)$ we can write the npv (using lemma \ref{linearnormalintegral}) $\nu$ as 
+Setting $\alpha=\phi a v$ and $\beta=\phi (a \mu + b s_2 - K)$ and $\psi = \sign(\alpha)$ we can write the npv (using lemma \ref{linearnormalintegral}) $\nu$ as 
 
 \begin{equation}
-P(0,T) \frac{1}{\sigma_2\sqrt{2\pi t}} \int_{-\infty}^\infty \psi\left[\frac{\alpha}{\sqrt{2\pi}}e^{-\beta^2/(2\alpha^2)}+\beta(1-N(-\beta/\alpha))\right]e^{-\frac{(s_2-\mu_2t)^2}{2\sigma_2^2 t}} ds_2
+P(0,T) \frac{1}{\sigma_2\sqrt{2\pi t}} \int_{-\infty}^\infty \psi\frac{\alpha}{\sqrt{2\pi}}e^{-\beta^2/(2\alpha^2)}+\beta(1-N(-\psi\beta/\alpha))e^{-\frac{(s_2-\mu_2t-S_2(0))^2}{2\sigma_2^2 t}} ds_2
 \end{equation}
 
 with
 
 \begin{eqnarray}
 \alpha &=& \phi a \sigma_1 \sqrt{t(1-\rho^2)} \\
-\beta &=& \phi a (\mu_1 t + \rho\sigma_1/\sigma_2(s_2-\mu_2t)) + bs_2 - K \\
+\beta &=& \phi \left( a (S_1(0) + \mu_1 t + \rho\sigma_1/\sigma_2(s_2- S_2(0) - \mu_2t)) + bs_2 - K \right) \\
 \psi &=& \sign(\alpha)
 \end{eqnarray}
 
-A final substitution $s = (s_2 - \mu_2t) / (\sigma_2\sqrt{t})$ yields
+Substituting $s = (s_2 - \mu_2t - S_2(0)) / (\sigma_2\sqrt{t})$ yields
 
 \begin{equation}
-\nu = P(0,T) \frac{1}{\sigma_2\sqrt{2\pi t}} \int_{-\infty}^\infty \psi\left[\frac{\alpha}{\sqrt{2\pi}}e^{-\beta^2/(2\alpha^2)}+\beta(1-N(-\beta/\alpha))\right]e^{-s^2/2} ds
+\nu = P(0,T) \frac{1}{\sqrt{2\pi}} \int_{-\infty}^\infty \psi\frac{\alpha}{\sqrt{2\pi}}e^{-\beta^2/(2\alpha^2)}+\beta(1-N(-\psi\beta/\alpha))e^{-s^2/2} ds
 \end{equation}
 
 with
 
 \begin{eqnarray}
 \alpha &=& \phi a \sigma_1 \sqrt{t(1-\rho^2)} \\
-\beta &=& \phi a (\mu_1 t + \rho\sigma_1/\sigma_2^2s\sqrt{t}) + b(s\sigma_2\sqrt{t}+\mu_2t) - K \\
+\beta &=& \phi \left(a (S_1(0) + \mu_1 t) + b (S_2(0) + \mu_2t) - K +  \sqrt{t}(\rho\sigma_1+b\sigma_2) s \right) \\
 \psi &=& \sign(\alpha)
 \end{eqnarray}
 
+which is the final version of our cms spread option formula under bivariate normal dynamics.
 
 \begin{thebibliography}{1}
 \bibitem{brigo}Brigo, Mercurio: Interst Rate Models - Theory and Practice, 2nd Edition, Springer, 2006
