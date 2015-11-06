@@ -74,13 +74,13 @@
 \DeclareMathOperator{\sign}{sign}
 %--------------------------------------------------------
 \begin{document}
-\title[Cms spread option pricing with normal and shifted lognormal dynamics]{Cms spread option pricing with normal and shifted lognormal dynamics}
-\author{P. Caspers}
-\email[P. Caspers]{pcaspers1973@googlemail.com}
+\title[Farmer's CMS spread option formula for negative rates]{Farmer's CMS spread option formula for negative rates}
+\author{Peter Caspers}
+\email[Peter Caspers]{pcaspers1973@googlemail.com}
 \date{October 29, 2015}
 \dedicatory{First Version October 29, 2015 - This Version October 29, 2015}
 \begin{abstract}
-We extend the cms spread option formula in \cite{brigo}, 13.16.2 to the case of shifted lognormal or normal swap rate dynamics.
+We extend the cms spread option formula in \cite{brigo}, 13.16.2 to the case of shifted lognormal or normal swap rate dynamics and describe the implementation in \cite{ql}.
 \end{abstract}
 
 \maketitle
@@ -105,7 +105,7 @@ dZ_1 dZ_2 &=& \rho dt
 
 \cite{brigo} gives a formula for the price $P(0,T) E^T ( \Pi(t) )$ in formula (13.34). This involves a one dimensional integral, which can be efficiently calculated with a Gauss-Hermite scheme for example. Here, the drifts $\mu_i$ are implied from exogeneously given convexity adjustments for $S_i$, e.g. computed in a replication model on the respective underlying smiles.
 
-Note that the formulation is \cite{brigo} is a little more restrictive, because $t=T$ is assumed. However, provided that the swap rate adjustments implying $\mu_i, i=1,2$ are computed w.r.T. the same fixing time $t$ and payment time $T>t$ as for the spread option, one can just replace the pricing expectation $E^t$ by $E^T$ without changing anything in the derivation (inside the expectation a factor $P(t,T) / P(t,T) = 1$ occurs, that's all).
+Note that the formulation in \cite{brigo} is a little more restrictive, because $t=T$ is assumed. However, provided that the swap rate adjustments implying $\mu_i, i=1,2$ are computed w.r.t. the same fixing time $t$ and payment time $T>t$ as for the spread option, one can just replace the pricing expectation $E^t$ by $E^T$ without changing anything in the derivation (inside the expectation a factor $P(t,T) / P(t,T) = 1$ occurs, that's all).
 
 \section{Shifted lognormal extension}
 
@@ -154,13 +154,13 @@ with $c_i$ again denoting the exogeneously given convexity adjustment for rate $
 The option price $\nu$ is given by
 
 \begin{equation}
-\nu = P(0,T) E^T \left( (\phi(aS_1(t) + bS_2(t) - K))^+ \right)
+\nu = P(0,T) E^T \left( \Pi(t) \right)
 \end{equation}
 
 The expectation can be written as
 
 \begin{equation}\label{normalintegral}
-\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} (\phi(as_1+bs_2-K))^+ p(s_1,s_2) ds_1 ds_2
+\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} (\Pi(t) p(s_1,s_2) ds_1 ds_2
 \end{equation}
 
 with $p$ denoting a bivariate normal distribution
@@ -179,7 +179,7 @@ S_1(t) | \{ S_2(t) = s_2 \} \sim \mathcal{N}\left( S_1(0) + \mu_1t + \frac{\rho\
 We denote the density of this distribution by $p_{s_2}$. We continue to compute the inner integral in \ref{normalintegral} for a fixed $S_2(t) = s_2$, i.e.
 
 \begin{equation}\label{innerintegral}
-\int_{-\infty}^{\infty} (\phi(as_1+bs_2-K))^+ p_{s_2}(s_1) ds_1
+\int_{-\infty}^{\infty} \Pi(t) p_{s_2}(s_1) ds_1
 \end{equation}
 
 We have the following
@@ -252,8 +252,17 @@ with
 
 which is the final version of our cms spread option formula under bivariate normal dynamics.
 
+\section{Implementation in QuantLib}
+
+All three variants of the cms spread option model described above (lognormal, shifted lognormal and normal bivariate dynamics) are implemented in \cite{ql} in the class \verb+LognormalCmsSpreadPricer+, which is a coupon pricer applicable to coupons of type \verb+CmsSpreadCoupon+ and \verb+CapFlooredCmsSpreadCoupon+. Note that the latter class by default represents capped / floored cms spread coupons. The embedded option can easily be isolated using the class \verb+StrippedCappedFlooredCoupon+ though (which is more generally applicable to all cap / floored coupons).
+
+By default the cms spread pricer inherits the volatility type, and in case of shifted lognormal volatilities the respective shifts applicable to the underlyings,  from the volatility structure used in the \verb+CmsCouponPricer+ that produces the swap rate adjustments from which the drifts $\mu_i$ (see above) are implied.
+
+However this can also be overridden with a custom volatility type and shifts. Note that this only applies to the bivariate dynamics, but not to the computation of the single rates' convexity adjustments, which are always relying on the beforehand mentioned volatility structure w.r.t. volatility type and shifts.
+
 \begin{thebibliography}{1}
 \bibitem{brigo}Brigo, Mercurio: Interst Rate Models - Theory and Practice, 2nd Edition, Springer, 2006
+\bibitem{ql}QuantLib A free/open-source library for quantitative finance, http://www.quantlib.org
 \end{thebibliography}
 
 \end{document}

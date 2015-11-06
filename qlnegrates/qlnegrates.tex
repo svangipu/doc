@@ -15,7 +15,7 @@
 \begin{document}
 \title{Negative rates in QuantLib}
 \author{Peter Caspers}
-\institute{Quaternion}
+\institute{Quaternion Risk Management}
 \date{November 30, 2015}
 
 \frame{\titlepage}
@@ -49,7 +49,7 @@ ISDA negative rates protocol, DRV (?)
 \item rate curves should allow for negative forwards
 \item lognormal models can not reproduce market prices for zero (or negative strike) floors
 \item lognormal models can even fail to produce high enough prices for boring forward levels like $F=1\%$ or $2\%$, because e.g. for shifted lognormal models with shift $d\geq0$, $c(K)/N(0)\rightarrow F+d$ if $\sigma\rightarrow\infty$. 
-\item You could actually observe this recently by first exploding, then missing implied lognormal volatility quotes for EUR swaptions with long option tenor (``two holes'' in the quoted matrix)
+\item you could actually observe this recently by first exploding, then missing implied lognormal volatility quotes for EUR swaptions with long option tenor (``two holes'' in the quoted matrix)
 \end{itemize}
 \end{frame}
 
@@ -146,10 +146,11 @@ BlackIborCouponPricer(const Handle<OptionletVolatilityStructure> &v =
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Linear TSR pricer}
+\frametitle{Linear TSR pricer for CMS coupons}
 \begin{itemize}
 \item volatility type is recognized through the abstraction of \verb+SmileSection+
-\item the replication range is shifted by the appropriate (i.e. user bounds set to $[0,200\%]$ and transformed to $[-1\%,199\%]$ automatically if the applicable shift is $1\%$ (to keep the user input universal under changing shifts in market quotations)
+\item the replication range is shifted appropriately (e.g. user bounds set to $[0,200\%]$ are transformed to $[-1\%,199\%]$ automatically if the applicable shift is $1\%$ to keep the user input universal under changing shifts in market quotations)
+\item for a normal model, the replication domain extends to $(-\infty,\infty)$
 \end{itemize}
 \end{frame}
 
@@ -157,9 +158,9 @@ BlackIborCouponPricer(const Handle<OptionletVolatilityStructure> &v =
 \frametitle{CMS spread option pricer}
 \begin{itemize}
 \item swap rate adjustments use shifted lognormal or normal smiles to determine the drifts of the single swap rate models
-\item the bivariate model for the swap rates is still purely lognormal currently
-\item with negative 2Y fixings, we will neeed to extend this pricer as well
-\item plan: allow for shifts in the single rate models or for normal single rate models, push to \#264
+\item the bivariate model for the swap rates is still purely lognormal currently, which works technically as long as the underlying forward levels are still positive
+\item with negative 2Y fixings, we will neeed to extend this pricer as well!
+\item PR \#264 allow for shifts in the single rate models or for normal single rate models\footnote{see \url{http://ssrn.com/abstract=2686998}}
 \end{itemize}
 \end{frame}
 

@@ -13,9 +13,9 @@
 \definecolor{mintedBg}{rgb}{0.98,0.98,0.70}
 
 \begin{document}
-\title{Automatic Differentiation beyond typedef and operator overloading}
+\title{Automatic differentiation beyond typedef and operator overloading}
 \author{Peter Caspers}
-\institute{Quaternion}
+\institute{Quaternion Risk Management}
 \date{November 30, 2015}
 
 \frame{\titlepage}
@@ -25,13 +25,25 @@
 \section{Introduction to AD}
 
 \begin{frame}[fragile]
-\frametitle{AD in a nutshell}
+\frametitle{AD in a nutshell 1/2}
 \begin{itemize}
 \item compute derivatives by symbolic differentiation of an operation sequence ($+*-/$, $\exp, \sin, ...$) using the chain rule
-\item derivatives can be propagated in forward and reverse (adjoint) mode
-\item results are exact up to machine precision, also for higher order derivatives
-\item law of cheap gradient in adjoint mode (complexity = constant low multiple\footnote{theory claims that the multiple is bounded by 4} of one function evaluation)
-\item implementation by hand coded derivative code, operator overloading tools instrumenting code at runtime or source code transformation generating derivative code at compile time
+\item results are exact up to machine precision, also in higher orders
+\item implementation: \begin{itemize}
+\item operator overloading tools instrumenting the double type (e.g. CppAD, ADOL-C, Adept, dco, proprietary tools)
+\item source code transformation tools (e.g. ADIC, OpenAD/F)
+\item coding by hand
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{AD in a nutshell 2/2}
+\begin{itemize}
+\item one forward sweep yields one directional derivative of the vector of output variables
+\item one reverse sweep yields the gradient w.r.t. all input variables of a linear combination of the output variables
+\item the complexity for one (forward or reverse) sweep is a constant, low multiple of the complexity for one function evaluation\footnote{theory claims that the multiple in adjoint mode is bounded by 4}
+\item in particular: law of cheap gradient !
 \end{itemize}
 \end{frame}
 
@@ -42,7 +54,7 @@
 \begin{itemize}
 \item just says \verb+typedef CppAD::AD<double> Real+
 \item it is a bit more complicated than that
-\item QuantLibAdjoint project (CompatibL / Alex Sokol), with additional logic (Tapescript project)
+\item QuantLibAdjoint (CompatibL / Alex Sokol), with additional logic (tapescript)
 \item \textit{AD-or-not-AD} decision at compile time and globally, i.e. no selective activation of variables
 \end{itemize}
 \end{frame}
@@ -58,7 +70,7 @@
 \begin{itemize}
 \item \verb+T = double+: 764 ms
 \item \verb+T = CppAD::AD<double>:+ 8960 ms
-\item Penalty: 11.7x\footnote{\tiny different OO tools my show different penalties; a MinimalWrapper consisting of a double and a native MinimalWrapper - pointer (which is null always), the penalty is around 2.0x}
+\item Penalty: 11.7x\footnote{\tiny different OO tools my show different penalties; for a MinimalWrapper consisting of a double and a native MinimalWrapper - pointer (which is null always), the penalty is around 2.0x}
 \item the compiler does not seem to apply certain optimizations to the active type that are possible for the native double (SIMD instructions)
 \item this is not an exception, but seems to occur for every ``numerically intense'' code section (see below for a second example)
 \end{itemize}
@@ -71,7 +83,7 @@
 \item for backward compatibility, \verb+typedef Matrix_t<Real> Matrix+
 \item it is a bit more complicated than that
 \item allows mixing of active and native classes, as required, i.e. activation of variables in selected parts of the application only
-\item currently not finalized, but basic IRD stuff works (like yield and volatility termstructures, swaps, CMS coupons, GSR model)
+\item work in progress, but basic IRD stuff works (like yield and volatility termstructures, swaps, CMS coupons, GSR model)
 \item \footnotesize \url{https://github.com/pcaspers/quantlib/tree/adjoint}
 \item \footnotesize \url{https://quantlib.wordpress.com/tag/automatic-differentiation/}
 \end{itemize}
@@ -95,7 +107,7 @@ in adjoint mode compared to one native-double pricing
 \begin{itemize}
 \item generate adjoint code at compile time, which may yield better performance
 \item however, does not work out of the box like OO tools
-\item no mature tool for C++ (ADIC 2.0 under development)
+\item no mature tool for C++ (ADIC 2.0 = ``OpenAD/Cpp'' under development)
 \item needs specific preparation of code before it can be applied
 \end{itemize}
 \end{frame}
@@ -113,11 +125,11 @@ in adjoint mode compared to one native-double pricing
 \begin{frame}[fragile]
 \frametitle{From QuantLib to SCT}
 \begin{itemize}
-\item Isolate the core computational code and reimplement it in Fortran
-\item Use OpenAD/F to generate adjoint code, build a separate support library from that
-\item Use a wrapper class on the QuantLib side to communicate with the support libary
-\item Minimal library example \footnote{\tiny\url{https://github.com/pcaspers/quantlib/tree/master/QuantLibOAD/simplelib}} and LGM swaption engine\footnote{\tiny\url{https://github.com/pcaspers/quantlib/tree/master/QuantLibOAD/lgm}} available
-\item Build via \verb+make+ (AD support library) or \verb+make plain+ (without OpenAD - transformation, for testing)
+\item isolate the core computational code and reimplement it in Fortran
+\item use OpenAD/F to generate adjoint code, build a separate support library from that
+\item use a wrapper class on the QuantLib side to communicate with the support libary
+\item minimal library example \footnote{\tiny\url{https://github.com/pcaspers/quantlib/tree/master/QuantLibOAD/simplelib}} and LGM swaption engine\footnote{\tiny\url{https://github.com/pcaspers/quantlib/tree/master/QuantLibOAD/lgm}} available
+\item build via \verb+make+ (AD support library) or \verb+make plain+ (without OpenAD - transformation, for testing)
 \end{itemize}
 \end{frame}
 
@@ -155,7 +167,7 @@ subroutine lgm_swaption_engine(n_times, times, modpar, n_expiries, &
 \frametitle{LGM Bermudan swaption convolution engine}
 \begin{itemize}
 \item C++ wrapper is a normal QuantLib pricing engine
-\item precomputes the values for the Fortran interface
+\item precomputes the values and organizes them in arrays for the Fortran core
 \item invokes the Fotran routine
 \item stores the npv and the adjoint gradient as results
 \end{itemize}
@@ -184,7 +196,7 @@ void LgmSwaptionEngineAD::calculate() const {
 \begin{itemize}
 \item 10y bermudan swaption, yearly callable
 \item 49 grid points per expiry
-\item single pricing\footnote{Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz, single threaded} (non-transformed code): 4.2 ms
+\item single pricing\footnote{Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz, using one thread} (non-transformed code): 4.2 ms
 \item pricing + gradient $\in \mathbb{R}^{105}$: 25.6 ms
 \item additional stuff\footnote{transformation of gradient w.r.t. model parameters to usual vegas, see below}: 6.2 ms
 \item adjoint calculation multiple: 6.1x (7.6x including add. stuff)
@@ -193,19 +205,22 @@ void LgmSwaptionEngineAD::calculate() const {
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{Where to use AD and where not}
+\frametitle{How not to use AD}
 \begin{itemize}
-\item apply AD only to differentiable programs
-\item avoid to push it through solvers, optimizers, etc.
-\item instead use the implicit function theorem to convert gradients w.r.t. calibrated variables to gradients w.r.t. market variables
+\item avoid to record tapes that go through solvers, optimizers, etc.\footnote{not to be confused with feeding AD - derivatives of the target function to optimizers like Levenberg-Marquardt or Newton-style solvers}
+\begin{itemize}
+\item instead use the implicit function theorem to convert gradients w.r.t. calibrated (model) variables to gradients w.r.t. market variables
 \item this is more efficient, less error prone (e.g. \verb+Bisection+ produces zero derivatives always, optimizations may produce bogus derivatives depending on the start value)
-\item in the case of SCT even necessary from a practical viewpoint
+\item in the case of SCT as described above this is even necessary from a practical viewpoint
+\end{itemize}
+\item apply AD only to differentiable programs (replace a digital payoff for example by a call spread)
+\item avoid to record \textit{long} tapes (e.g. for \textit{all} paths of a MC simulation), reuse a tape recorded (in a \textit{tape-safe} way) on one path
 \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{Calibration of LGM model}
-Calibration to $n$ swaptions\footnote{recall that $\zeta(t)$ is the accumulated model variance up to time $t$}
+To illustrate the usage of the implicit function theorem, consider the calibration to $n$ swaptions\footnote{recall that $\zeta(t)$ is the accumulated model variance up to time $t$}
 \begin{eqnarray*}
 \text{Black}(\sigma_1) - \text{Npv}_{\text{LGM}}(\zeta_1) &=& 0 \\
 ... \\
@@ -237,7 +252,7 @@ and
 \begin{itemize}
 \item the components can be calculated analytically (calibrating swaptions' market vegas) or using the ad engine (calibrating swaptions' $\zeta$-gradient, but this is much cheaper than for the bermudan case)
 \item matrix inversion and multiplication is cheap
-\item the additional computation time is quite small (see the example above, the addtional costs are similar to 1.5x original NPV calculations)
+\item the additional computation time is quite small (see the example above, the addtional costs are the same as for 1.5x original NPV calculations)
 \end{itemize}
 \end{frame}
 
@@ -246,7 +261,7 @@ and
 \begin{itemize}
 \item global instrumentation (via typedefs) with active variables can lead to performance (and memory) issues
 \item selective / mixed instrumentation (via templates) solves the issue, but leaves problems when AD is required for numerically intense parts of the code
-\item source code transformation can solve this issue, we gave an example in terms of a bermudan swaption engine transformed using OpenAD/F yielding an adjoint multiple of 6.1 compared to 80 with CppAD
+\item source code transformation can solve this issue, we gave an example in terms of a bermudan swaption engine transformed using OpenAD/F yielding an adjoint multiple of 6.1 compared to 80 with operator overloading (using CppAD)
 \end{itemize}
 \end{frame}
 
