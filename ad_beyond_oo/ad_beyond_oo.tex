@@ -70,9 +70,29 @@
 \begin{itemize}
 \item \verb+T = double+: 764 ms
 \item \verb+T = CppAD::AD<double>:+ 8960 ms
-\item Penalty: 11.7x\footnote{\tiny different OO tools my show different penalties; for a MinimalWrapper consisting of a double and a native MinimalWrapper - pointer (which is null always), the penalty is around 2.0x}
-\item the compiler does not seem to apply certain optimizations to the active type that are possible for the native double (SIMD instructions)
+\item penalty: 11.7x
 \item this is not an exception, but seems to occur for every ``numerically intense'' code section (see below for a second example)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Active doubles vs. native doubles 1/2}
+\begin{itemize}
+\item for a \verb+MinimalWrapper+ consisting of a \verb+double+ and a pointer \verb+MinimalWrapper*+ (set to \verb+nullptr+ always), the penalty is around 2.1x
+\item for this gcc generates \textit{scalar} double instructions (\verb+mulsd+, \verb+addsd+)
+\item for the native \verb+double+ gcc generates \textit{packed} double instructions (\verb+mulpd+, \verb+addpd+)
+\item in addtion the more involved data layout of the \verb+MinimalWrapper+ (placing a pointer after each native \verb+double+) leads to more instructions in the innermost loop
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Active doubles vs. native doubles 2/2}
+\begin{itemize}
+\item (current) compilers seem to generate more instructions and possibly less efficient instructions for non-native double wrappers
+\item memory consumption will go up, too
+\item it is not clear what the ``best possible'' OO tool can achieve, but probably it will be something between 2x and 12x
+\item 2x is already too much, if we do not get anything for that
+\item we can easily avoid this useless overhead
 \end{itemize}
 \end{frame}
 
@@ -197,7 +217,7 @@ void LgmSwaptionEngineAD::calculate() const {
 \item 10y bermudan swaption, yearly callable
 \item 49 grid points per expiry
 \item single pricing\footnote{Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz, using one thread} (non-transformed code): 4.2 ms
-\item pricing + gradient $\in \mathbb{R}^{105}$: 25.6 ms
+\item pricing + gradient $\in \mathbb{R}^{105}$: 25.6 ms\footnote{to achieve this, the runtime configuration of OpenAD/F has to be modified}
 \item additional stuff\footnote{transformation of gradient w.r.t. model parameters to usual vegas, see below}: 6.2 ms
 \item adjoint calculation multiple: 6.1x (7.6x including add. stuff)
 \item common, practical target for the adjoint multiple: 5x - 10x
