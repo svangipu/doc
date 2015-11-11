@@ -27,8 +27,10 @@
 \begin{frame}[fragile]
 \frametitle{AD in a nutshell 1/2}
 \begin{itemize}
-\item compute derivatives by symbolic differentiation of an operation sequence ($+*-/$, $\exp, \sin, ...$) using the chain rule
-\item results are exact up to machine precision, also in higher orders
+\item for a computer program computing some function ...
+\item ... compute in addition derivatives by symbolic differentiation of the program's sequence of basic operations ($+*-/$, $\exp, \sin, ...$) ...
+\item ... using the chain rule
+\item results are exact up to machine precision, also for higher order derivatives
 \item implementation: \begin{itemize}
 \item operator overloading tools instrumenting the double type (e.g. CppAD, ADOL-C, Adept, dco, proprietary tools)
 \item source code transformation tools (e.g. ADIC, OpenAD/F)
@@ -40,6 +42,7 @@
 \begin{frame}[fragile]
 \frametitle{AD in a nutshell 2/2}
 \begin{itemize}
+\item local jacobians can be propagated from independent to dependent variables (forward mode) or from dependent to independent variables (reverse or adjoint mode)
 \item one forward sweep yields one directional derivative of the vector of output variables
 \item one reverse sweep yields the gradient w.r.t. all input variables of a linear combination of the output variables
 \item the complexity for one (forward or reverse) sweep is a constant, low multiple of the complexity for one function evaluation\footnote{theory claims that the multiple in adjoint mode is bounded by 4}
