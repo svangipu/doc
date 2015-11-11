@@ -12,3 +12,4 @@ _region_*.*
 \#*\#
 *gnuplottex-fig*.*
 *.dvi
+*_minted*
