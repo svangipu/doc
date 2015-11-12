@@ -8,6 +8,7 @@
 \ShellEscapetrue
 \usepackage{epstopdf}
 \usepackage{minted}
+\usepackage{xcolor}
 
 \usemintedstyle{manni}
 \definecolor{mintedBg}{rgb}{0.98,0.98,0.70}
@@ -25,28 +26,34 @@
 \section{Introduction to AD}
 
 \begin{frame}[fragile]
-\frametitle{AD in a nutshell 1/2}
+\frametitle{AD in a nutshell 1/3}
 \begin{itemize}
-\item for a computer program computing some function ...
-\item ... compute in addition derivatives by symbolic differentiation of the program's sequence of basic operations ($+*-/$, $\exp, \sin, ...$) ...
-\item ... using the chain rule
+\item for a computer program $f:\mathbb{R}^n\rightarrow\mathbb{R}^m$, compute $\partial f / \partial x$
+\item $...$ by looking at the program's sequence of basic operations ($+-*/, \exp ...$) and using basic calculus in each step
+\item $...$ and stitching everything together with the \textcolor{purple}{chain rule}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{AD in a nutshell 2/3}
+\begin{itemize}
 \item results are exact up to machine precision, also for higher order derivatives
 \item implementation: \begin{itemize}
-\item operator overloading tools instrumenting the double type (e.g. CppAD, ADOL-C, Adept, dco, proprietary tools)
-\item source code transformation tools (e.g. ADIC, OpenAD/F)
+\item operator overloading instrumenting the double type\footnote{e.g. CppAD, ADOL-C, Adept, dco, proprietary tools}
+\item source code transformation tools\footnote{e.g. ADIC, OpenAD/F}
 \item coding by hand
 \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]
-\frametitle{AD in a nutshell 2/2}
+\frametitle{AD in a nutshell 3/3}
 \begin{itemize}
-\item local jacobians can be propagated from independent to dependent variables (forward mode) or from dependent to independent variables (reverse or adjoint mode)
-\item one forward sweep yields one directional derivative of the vector of output variables
-\item one reverse sweep yields the gradient w.r.t. all input variables of a linear combination of the output variables
-\item the complexity for one (forward or reverse) sweep is a constant, low multiple of the complexity for one function evaluation\footnote{theory claims that the multiple in adjoint mode is bounded by 4}
-\item in particular: law of cheap gradient !
+\item local jacobians can be propagated forward ($x\leadsto y$) (that's intuitive)  or backward \footnote{\tiny\url{https://quantlib.wordpress.com/2015/08/09/backward-automatic-differentiation-explained/}} ($y\leadsto x$) in a dual or \textcolor{purple}{\textit{adjoint}} fashion
+\item one \textit{forward} sweep yields one directional derivative of your choice of the vector of output variables
+\item one \textit{reverse} sweep yields the gradient w.r.t. all input variables of one linear combination of the output variables
+\item the complexity for one (forward or reverse) sweep is a constant, low multiple of the complexity for one function evaluation\footnote{theory tells us that the multiple in adjoint mode is bounded by 4}
+\item in particular: \textbf{law of cheap gradient} !
 \end{itemize}
 \end{frame}
 
@@ -57,7 +64,7 @@
 \begin{itemize}
 \item just says \verb+typedef CppAD::AD<double> Real+
 \item it is a bit more complicated than that
-\item QuantLibAdjoint (CompatibL / Alex Sokol), with additional logic (tapescript)
+\item QuantLibAdjoint (CompatibL), with additional logic (tapescript)
 \item \textit{AD-or-not-AD} decision at compile time and globally, i.e. no selective activation of variables
 \end{itemize}
 \end{frame}
@@ -82,8 +89,8 @@
 \frametitle{Active doubles vs. native doubles 1/2}
 \begin{itemize}
 \item for a \verb+MinimalWrapper+ consisting of a \verb+double+ and a pointer \verb+MinimalWrapper*+ (set to \verb+nullptr+ always), the penalty is around 2.1x
-\item for this gcc generates \textit{scalar} double instructions (\verb+mulsd+, \verb+addsd+)
-\item for the native \verb+double+ gcc generates \textit{packed} double instructions (\verb+mulpd+, \verb+addpd+)
+\item for this gcc generates \textit{scalar} double instructions (\textcolor{blue}{mulsd}, \textcolor{blue}{addsd})
+\item for the native \verb+double+ gcc generates \textit{packed} double instructions (\textcolor{blue}{mulpd}, \textcolor{blue}{addpd})
 \item in addtion the more involved data layout of the \verb+MinimalWrapper+ (placing a pointer after each native \verb+double+) leads to more instructions in the innermost loop
 \end{itemize}
 \end{frame}
@@ -106,7 +113,7 @@
 \item for backward compatibility, \verb+typedef Matrix_t<Real> Matrix+
 \item it is a bit more complicated than that
 \item allows mixing of active and native classes, as required, i.e. activation of variables in selected parts of the application only
-\item work in progress, but basic IRD stuff works (like yield and volatility termstructures, swaps, CMS coupons, GSR model)
+\item work in progress\footnote{conversion rate $\approx$ 2000 LOC / day (manual + an Elisp-little-helper)}, but basic IRD stuff works (like yield and volatility termstructures, swaps, CMS coupons, GSR model)
 \item \footnotesize \url{https://github.com/pcaspers/quantlib/tree/adjoint}
 \item \footnotesize \url{https://quantlib.wordpress.com/tag/automatic-differentiation/}
 \end{itemize}
@@ -117,7 +124,7 @@
 \begin{itemize}
 \item the typedef as well as the template approach use operator overloading tools (like CppAD)
 \item for numerically intense algorithms, we observe dramatic performance loss (because less optimization can be applied to non-native types)
-\item e.g. a convolution engine for bermudan swaptions is 80x slower\footnote{see \tiny\url{https://quantlib.wordpress.com/2015/04/14/adjoint-greeks-iv-exotics}}
+\item e.g. a convolution engine for bermudan swaptions is \textbf{80x slower}\footnote{see \tiny\url{https://quantlib.wordpress.com/2015/04/14/adjoint-greeks-iv-exotics}}
 in adjoint mode compared to one native-double pricing
 \item if AD is actually not needed, the template approach is the way out, otherwise we need other techniques
 \end{itemize}
@@ -220,9 +227,9 @@ void LgmSwaptionEngineAD::calculate() const {
 \item 10y bermudan swaption, yearly callable
 \item 49 grid points per expiry
 \item single pricing\footnote{Intel(R) Core(TM) i7-2760QM CPU @ 2.40GHz, using one thread} (non-transformed code): 4.2 ms
-\item pricing + gradient $\in \mathbb{R}^{105}$: 25.6 ms\footnote{to achieve this, the runtime configuration of OpenAD/F has to be modified}
+\item pricing + gradient $\in \mathbb{R}^{105}$: \textcolor{purple}{\textbf{25.6 ms}}\footnote{to achieve this, the runtime configuration of OpenAD/F has to be modified}
 \item additional stuff\footnote{transformation of gradient w.r.t. model parameters to usual vegas, see below}: 6.2 ms
-\item adjoint calculation multiple: 6.1x (7.6x including add. stuff)
+\item adjoint calculation multiple: \textcolor{purple}{\textbf{6.1x}} (7.6x including add. stuff)
 \item common, practical target for the adjoint multiple: 5x - 10x
 \end{itemize}
 \end{frame}
@@ -232,9 +239,9 @@ void LgmSwaptionEngineAD::calculate() const {
 \begin{itemize}
 \item avoid to record tapes that go through solvers, optimizers, etc.\footnote{not to be confused with feeding AD - derivatives of the target function to optimizers like Levenberg-Marquardt or Newton-style solvers}
 \begin{itemize}
-\item instead use the implicit function theorem to convert gradients w.r.t. calibrated (model) variables to gradients w.r.t. market variables
+\item instead use the \textcolor{purple}{implicit function theorem} to convert gradients w.r.t. calibrated (model) variables to gradients w.r.t. market variables
 \item this is more efficient, less error prone (e.g. \verb+Bisection+ produces zero derivatives always, optimizations may produce bogus derivatives depending on the start value)
-\item in the case of SCT as described above this is even necessary from a practical viewpoint
+\item in the case of SCT applied as above this is even necessary from a practical viewpoint
 \end{itemize}
 \item apply AD only to differentiable programs (replace a digital payoff for example by a call spread)
 \item avoid to record \textit{long} tapes (e.g. for \textit{all} paths of a MC simulation), reuse a tape recorded (in a \textit{tape-safe} way) on one path
@@ -284,7 +291,7 @@ and
 \begin{itemize}
 \item global instrumentation (via typedefs) with active variables can lead to performance (and memory) issues
 \item selective / mixed instrumentation (via templates) solves the issue, but leaves problems when AD is required for numerically intense parts of the code
-\item source code transformation can solve this issue, we gave an example in terms of a bermudan swaption engine transformed using OpenAD/F yielding an adjoint multiple of 6.1 compared to 80 with operator overloading (using CppAD)
+\item source code transformation can solve this issue, we gave an example in terms of a bermudan swaption engine transformed using OpenAD/F yielding an adjoint multiple of \textbf{\textcolor{purple}{6.1}} compared to \textbf{\textcolor{purple}{80}} with operator overloading (using CppAD)
 \end{itemize}
 \end{frame}
 
@@ -292,6 +299,6 @@ and
 
 \begin{frame}[fragile]
 \frametitle{Questions / Discussion}
-\centerline{thank you for your attention}
+\centerline{Thank you for your attention}
 \end{frame}
 \end{document}
