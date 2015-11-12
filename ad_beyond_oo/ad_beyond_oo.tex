@@ -28,7 +28,7 @@
 \begin{frame}[fragile]
 \frametitle{AD in a nutshell 1/3}
 \begin{itemize}
-\item for a computer program $f:\mathbb{R}^n\rightarrow\mathbb{R}^m$, compute $\partial f / \partial x$
+\item for a computer program $f:\mathbb{R}^n\rightarrow\mathbb{R}^m$, compute $\partial_{x} f$
 \item $...$ by looking at the program's sequence of basic operations ($+-*/, \exp ...$) and using basic calculus in each step
 \item $...$ and stitching everything together with the \textcolor{purple}{chain rule}
 \end{itemize}
@@ -57,6 +57,70 @@
 \end{itemize}
 \end{frame}
 
+\begin{frame}[fragile]
+\frametitle{Adjoint mode example}
+\begin{itemize}
+\item program $f:\mathbb{R}^n\rightarrow\mathbb{R}$: $y = \exp\left( \prod_{i=0}^n x_i \right) \sin\left( \prod_{i=0}^n x_i \right)$
+\item imagine $n$ to be large, like $1000$
+\item evaluation complexity: $n+4=\textcolor{purple}{O(n)}$ operations $\in \{*, \exp, \sin \}$
+\item goal: compute $\partial_x f \in \mathbb{R}^n$
+\item finite difference approach: $(n+1)(n+4) = \textcolor{purple}{O(n^2)}$ operations in addition to the evaluation
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Adjoint mode example - distance 1 nodes}
+\begin{itemize}
+\item init $\partial_y y = 1$
+\item first break down is $y = u*v$, $u=\exp\left( \prod_{i=0}^n x_i \right)$, $v=\sin\left( \prod_{i=0}^n x_i \right)$
+\item $\partial_u y = v$, $\partial_v y = u$
+\item $2$ operations assuming we have performed a forward sweep, so we
+\begin{itemize}
+\item know the value of $u$ and $v$ and
+\item have built the computational graph and
+\item know the ``analytics'' for the local derivatives
+\end{itemize}
+\item we are not overly pedantic on how to count the operations in this example here ...
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Adjoint mode example - distance 2 nodes}
+\begin{itemize}
+\item second break down $u = \exp(x), v= \sin(x)$
+\item $\partial_x u = \exp(x), \partial_x v = \cos(x)$
+\item $\partial_x y = \partial_u y \partial_x u + \partial_v y \partial_x v = \sin(x)\exp(x)+\exp(x)\cos(x)$
+\item again, we know $x$ from the forward sweep
+\item $5$ operations (total operations count $7$)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Adjoint mode example - distance 3 nodes}
+\begin{itemize}
+\item third break down $x = x_0 h_0$
+\item $\partial_{x_0} x = h_0, \partial_{h_0} x = x_0$
+\item $\partial_{x_0} y = \partial_x y \partial_{x_0} x = [\sin(x)\exp(x)+\exp(x)\cos(x)] h_0$
+\item $\partial_{h_0} y = \partial_x y \partial_{x_0} h_0 = [\sin(x)\exp(x)+\exp(x)\cos(x)] x_0$
+\item ... we know $h_0$ from the forward sweep ...
+\item $4$ operations (total operations count $11$)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Adjoint mode example - nodes with distance n+2}
+\begin{itemize}
+\item continue like in the third break down until we arrive at $h_{n-1} = x_n$
+\item $\partial_{x_i} y = [\sin(\prod x_i)\exp(\prod x_i)+\exp(\prod x_i)\cos(\prod x_i)] \prod_{j\neq i} x_i$
+\item $4(n-2)$ operations from the third break down on
+\item total operations count $4(n-2)+7 = \textcolor{purple}{4n-1}$
+\item one function evaluation was $\textcolor{purple}{n+4}$ operations
+\item naive approach for gradient calculation was $\textcolor{purple}{(n+1)(n+4)}$ operations
+\end{itemize}
+\end{frame}
+
+\frame{\frametitle{Table of contents}\tableofcontents[hideallsubsections]}
+
 \section{Approaches in QuantLib}
 
 \begin{frame}[fragile]
@@ -81,6 +145,7 @@
 \item \verb+T = double+: 764 ms
 \item \verb+T = CppAD::AD<double>:+ 8960 ms
 \item penalty: 11.7x
+\item note that we do not get anything for that (AD is disabled)
 \item this is not an exception, but seems to occur for every ``numerically intense'' code section (see below for a second example)
 \end{itemize}
 \end{frame}
@@ -129,6 +194,8 @@ in adjoint mode compared to one native-double pricing
 \item if AD is actually not needed, the template approach is the way out, otherwise we need other techniques
 \end{itemize}
 \end{frame}
+
+\frame{\frametitle{Table of contents}\tableofcontents[hideallsubsections]}
 
 \section{Source code transformation}
 
@@ -294,6 +361,8 @@ and
 \item source code transformation can solve this issue, we gave an example in terms of a bermudan swaption engine transformed using OpenAD/F yielding an adjoint multiple of \textbf{\textcolor{purple}{6.1}} compared to \textbf{\textcolor{purple}{80}} with operator overloading (using CppAD)
 \end{itemize}
 \end{frame}
+
+\frame{\frametitle{Table of contents}\tableofcontents[hideallsubsections]}
 
 \section{Questions}
 
