@@ -73,7 +73,7 @@
 \begin{itemize}
 \item init $\partial_y y = 1$
 \item first break down is $y = u*v$, $u=\exp\left( \prod_{i=0}^n x_i \right)$, $v=\sin\left( \prod_{i=0}^n x_i \right)$
-\item $\partial_u y = v$, $\partial_v y = u$
+\item $\partial_u y = \partial_y y \partial _u y = v$, $\partial_v y = \partial_y y \partial _v y = u$
 \item $2$ operations assuming we have performed a forward sweep, so we
 \begin{itemize}
 \item know the value of $u$ and $v$ and
@@ -111,9 +111,9 @@
 \frametitle{Adjoint mode example - nodes with distance n+2}
 \begin{itemize}
 \item continue like in the third break down until we arrive at $h_{n-1} = x_n$
-\item $\partial_{x_i} y = [\sin(\prod x_i)\exp(\prod x_i)+\exp(\prod x_i)\cos(\prod x_i)] \prod_{j\neq i} x_i$
+\item $\partial_{x_i} y = \left[\sin(\prod x_i)\exp(\prod x_i)+\exp(\prod x_i)\cos(\prod x_i)\right] \prod_{j\neq i} x_i$
 \item $4(n-2)$ operations from the third break down on
-\item total operations count $4(n-2)+7 = \textcolor{purple}{4n-1}$
+\item total operations count $4(n-1)+7 = \textcolor{purple}{4n+3}$
 \item one function evaluation was $\textcolor{purple}{n+4}$ operations
 \item naive approach for gradient calculation was $\textcolor{purple}{(n+1)(n+4)}$ operations
 \end{itemize}
@@ -155,7 +155,7 @@
 \begin{itemize}
 \item for a \verb+MinimalWrapper+ consisting of a \verb+double+ and a pointer \verb+MinimalWrapper*+ (set to \verb+nullptr+ always), the penalty is around 2.1x
 \item for this gcc generates \textit{scalar} double instructions (\textcolor{blue}{mulsd}, \textcolor{blue}{addsd})
-\item for the native \verb+double+ gcc generates \textit{packed} double instructions (\textcolor{blue}{mulpd}, \textcolor{blue}{addpd})
+\item for the native \verb+double+ gcc generates \textit{packed} double instructions (\textcolor{blue}{mulpd}, \textcolor{blue}{addpd})\footnote{with -O3}
 \item in addtion the more involved data layout of the \verb+MinimalWrapper+ (placing a pointer after each native \verb+double+) leads to more instructions in the innermost loop
 \end{itemize}
 \end{frame}
@@ -231,10 +231,22 @@ in adjoint mode compared to one native-double pricing
 \end{frame}
 
 \begin{frame}[fragile]
+\frametitle{By the way ... different motivation, but same idea ?}
+\resizebox{\textwidth}{!}{
+\begin{minipage}{5.0\textwidth}
+\begin{figure}
+    \centering
+        \includegraphics{luigi_objects_vs_math.png}
+\end{figure}
+\end{minipage}}
+(taken from from Luigi's talk at the 11th FI conference, 2015, Paris)
+\end{frame}
+
+\begin{frame}[fragile]
 \frametitle{LGM Bermudan swaption convolution engine}
 \begin{itemize}
 \item core computation can be implemented in around 200 lines
-\item native interface only using doubles and arrays of doubles
+\item native interface only using (arrays of) doubles and integers
 \item input: relevant times $\{t_i\}$, model $\{(H(t_i), \zeta(t_i), P(0,t_i)\}$,\\
 Termsheet, codified as index lists $\{k_i, l_i, ...\}$
 \item output: npv, gradient w.r.t. $\{(H(t_i), \zeta(t_i), P(0,t_i)\}$
@@ -252,7 +264,7 @@ subroutine lgm_swaption_engine(n_times, times, modpar, n_expiries, &
 \begin{frame}[fragile]
 \frametitle{Building the AD support library}
 \resizebox{\textwidth}{!}{
-\begin{minipage}{3.5\textwidth}
+\begin{minipage}{3.8\textwidth}
 \begin{figure}
     \centering
         \includegraphics{oad_build.png}
@@ -338,6 +350,11 @@ g(\sigma_1, ... , \sigma_n) = (\zeta_1, ..., \zeta_n)
 and
 \begin{equation}
 \frac{\partial g}{\partial \sigma} = \left( \frac{\partial \text{Npv}_{\text{LGM}}}{\partial \zeta} \right) ^ {-1} \frac{\partial \text{Black}}{\partial \sigma}
+\end{equation}
+Informally, $g = \zeta(\sigma)$ and
+\begin{equation}
+\frac{\partial \zeta}{\partial \sigma} = \frac{\partial \zeta}{\partial \text{NPV}} \frac{\partial \text{NPV}}{\partial \sigma} = 
+\left( \frac{\partial \text{NPV}}{\partial \zeta}\right)^{-1} \frac{\partial \text{NPV}}{\partial \sigma}
 \end{equation}
 \end{frame}
 
