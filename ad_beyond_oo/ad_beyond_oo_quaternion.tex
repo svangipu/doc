@@ -204,10 +204,10 @@
 \begin{frame}[fragile]
 \frametitle{Adjoint mode example}
 \begin{itemize}
-\item program $f:\mathbb{R}^n\rightarrow\mathbb{R}$: $y = \exp\left( \prod_{i=0}^n x_i \right) \sin\left( \prod_{i=0}^n x_i \right)$
+\item program $f:\mathbb{R}^{n+1}\rightarrow\mathbb{R}$: $y = \exp\left( \prod_{i=0}^n x_i \right) \sin\left( \prod_{i=0}^n x_i \right)$
 \item imagine $n$ to be large, like $1000$
 \item evaluation complexity: $n+4=\textcolor{purple}{O(n)}$ operations $\in \{*, \exp, \sin \}$
-\item goal: compute $\partial_x f \in \mathbb{R}^n$
+\item goal: compute $\partial_x f \in \mathbb{R}^{n+1}$
 \item finite difference approach: $(n+1)(n+4) = \textcolor{purple}{O(n^2)}$ operations in addition to the evaluation
 \end{itemize}
 \end{frame}
