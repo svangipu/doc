@@ -504,7 +504,7 @@ Informally, $g = \zeta(\sigma)$ and
 \frac{\partial \text{Npv}_\text{Berm}}{\partial \sigma} = \frac{\partial \text{Npv}_\text{Berm}}{\partial \zeta} \frac{\partial \zeta}{\partial \sigma} = \frac{\partial \text{Npv}_\text{Berm}}{\partial \zeta} \left( \frac{\partial \text{Npv}_\text{Calib}}{\partial \zeta} \right) ^ {-1} \frac{\partial \text{Black}}{\partial \sigma}
 \end{equation*}
 \begin{itemize}
-\item the components can be calculated analytically (calibrating swaptions' market vegas) or using the ad engine (calibrating swaptions' $\zeta$-gradient, but this is much cheaper than for the Bermudan case)
+\item the components can be calculated analytically (calibrating swaptions' market vegas) or using the ad engine\footnote{in this particular case, bump and revalue would be even cheaper (since we are only sensitive to one $\zeta$ per swaption, so only one additional evaluation is needed)} (calibrating swaptions' $\zeta$-gradient, but this is much cheaper than for the Bermudan case)
 \item matrix inversion and multiplication is cheap
 \item the additional computation time is quite small (see the example above, the addtional costs are the same as for 1.5x original NPV calculations)
 \end{itemize}
