@@ -1,0 +1,378 @@
+\documentclass[10pt,German]{beamer}
+
+% ===================================
+% add peter
+% ===================================
+
+\usepackage[miktex]{gnuplottex}
+\ShellEscapetrue
+\usepackage{epstopdf}
+\usepackage{minted}
+\usepackage{xcolor}
+
+\usemintedstyle{manni}
+\definecolor{mintedBg}{rgb}{0.98,0.98,0.70}
+
+% ===================================
+% end add peter
+% ===================================
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{soul}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{dsfont}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage[english]{babel}
+\usepackage{times}
+\usepackage{german}
+
+\usefonttheme[onlymath]{serif}
+
+\newcommand\E{\ensuremath{\mathbb{E}}}
+\newcommand\Q{\ensuremath{\mathbb{Q}}}
+\newcommand\snp{\ensuremath{\hat{S}_{n+1}}}
+\newcommand\sn{\ensuremath{\hat{S}_{n}}}
+\newcommand\I{\mathds{1}}
+\newcommand\V{\mathds{V}}
+\newcommand\F{\ensuremath{\mathcal F}}
+\newcommand\G{\ensuremath{\mathcal G}}
+\newcommand{\NPV}{\mathit{NPV}}
+\newcommand{\CVA}{\mathit{CVA}}
+\newcommand{\DVA}{\mathit{DVA}}
+\newcommand{\FVA}{\mathit{FVA}}
+\newcommand{\FCA}{\mathit{FCA}}
+\newcommand{\FBA}{\mathit{FBA}}
+\newcommand{\BCVA}{\mathit{BCVA}}
+\newcommand{\bit}{\begin{itemize}}
+\newcommand{\eit}{\end{itemize}}
+
+\def\boldsymbol#1{{\mbox{\boldmath$#1$}}}
+\def\r{{\boldsymbol{r}}}
+\def\R{{\boldsymbol{R}}}
+\def\n{{\boldsymbol{n}}}
+\def\j{{\boldsymbol{j}}}
+\def\e{{\boldsymbol{e}}}
+\def\ma{\begin{equation}}
+\def\me{\end{equation}}
+\newcommand\Prob{\ensuremath{\mathbb{P}}}
+
+\definecolor{mycolor}{RGB}{0,0,0}
+\setbeamercolor{frametitle}{fg=white}
+\setbeamercolor{title}{fg=white}
+\setbeamercolor{author}{fg=white}
+\setbeamercolor{date}{fg=white}
+\setbeamercolor{institute}{fg=white}
+\setbeamercolor{toc}{fg=white}
+\setbeamercolor{section in toc}{fg=white}
+\setbeamercolor{section in toc shaded}{fg=mycolor}
+\setbeamercolor{subsection in toc}{fg=white}
+\setbeamercolor{subsection in toc shaded}{fg=mycolor}
+
+%\setbeamertemplate{section in toc shaded}[default][50]
+
+\addtobeamertemplate{frametitle}{\vskip+0.78cm}{}
+
+%\addtobeamertemplate{footnote}{}{\vspace{2ex}}
+\addtobeamertemplate{footnote}{\vspace{-6pt}\advance\hsize-0.5cm}{\vspace{6pt}}
+\renewcommand*{\footnoterule}{ \hrule \kern 8pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title, Author etc
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Negative rates in QuantLib}
+\author[QRM]{Peter Caspers}
+\institute{\normalsize Quaternion Risk Management}
+\date[Short Occasion]{\small 1 December 2015}
+
+\AtBeginSection[]
+{
+\usebackgroundtemplate{{\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]
+{/home/peter/Quaternion/master_outline.pdf}}}
+\begin{frame}<beamer>{Agenda}
+\tableofcontents[currentsection]
+\end{frame}
+\usebackgroundtemplate{{\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]
+{/home/peter/Quaternion/master_body.pdf}}}
+}
+
+\AtBeginSubsection[]
+{
+%\usebackgroundtemplate{{\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]
+%{master_outline.pdf}}}
+%\begin{frame}<beamer>{Outline}
+%\tableofcontents[currentsubsection]
+%\end{frame}
+%\usebackgroundtemplate{{\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]
+%{master_body.pdf}}}
+}
+
+%\setbeamertemplate{navigation symbols}{}
+\beamertemplatenavigationsymbolsempty
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setbeamertemplate{footline}[text line]{}
+\usebackgroundtemplate{{\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]
+{/home/peter/Quaternion/master_title.pdf}}}
+\begin{frame}
+\vskip 3.5cm
+{\bf
+\titlepage
+}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table of contents
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usebackgroundtemplate{{\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]
+{/home/peter/Quaternion/master_outline.pdf}}}
+
+\setbeamertemplate{footline}[text line]{
+%\parbox{\linewidth}
+%{\color{white}
+%\vspace*{-6pt}\copyright{} 2013 Quaternion Risk Management Ltd.
+%\hfill All Rights Reserved. 
+%\hfill \insertpagenumber}
+\parbox{\linewidth}
+{\color{white}
+\fontfamily{phv}\selectfont
+\vspace*{-6pt}\copyright{} 2015 Quaternion Risk Management Ltd. 
+%\hfill\insertshortauthor\hfill\insertpagenumber}
+\hfill\insertauthor
+\hfill\insertpagenumber}
+}
+
+\begin{frame}{Agenda}
+\tableofcontents
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Body of the document
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usebackgroundtemplate{{\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]
+{/home/peter/Quaternion/master_body.pdf}}}
+
+\section{Negative fixings and implications}
+
+\begin{frame}[fragile]
+\frametitle{History of negative fixings}
+\begin{itemize}
+\item it started with negative EONIA fixings end of 2014
+\item then we had negative Euribor 1m fixings, later 3m, even 6m
+\item as of 27-Oct-2015 we have a negative CMS2Y fixing (at -3.5 bp)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Implications of negative fixings}
+\begin{itemize}
+\item interest compounding on collateral accounts under
+\begin{itemize}
+\item ISDA negative rates protocol (no floor),
+\item DRV (currently still floored, will probably change)
+\end{itemize}
+\item payment reversal in swaps under 
+\begin{itemize}
+\item ISDA (yes),
+\item DRV (most probably yes)
+\end{itemize}
+\item floored coupons $@0.00\%$ for 
+\begin{itemize}
+\item bonds 
+\item schuldscheindarlehen
+\item loans
+\end{itemize}
+(probably yes, but to be confirmed from the legal side)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Implications on pricing 1/2}
+\begin{itemize}
+\item rate curves should allow for negative forwards
+\item lognormal models can not reproduce market prices for zero (or negative strike) floors
+\item lognormal models can even fail to produce high enough prices for boring forward levels like $F=1\%$ or $2\%$, because e.g. for shifted lognormal models with shift $d\geq0$, $c(K)/N(0)\rightarrow F+d$ if $\sigma\rightarrow\infty$. 
+\item you could actually observe this recently by first exploding, then missing implied lognormal volatility quotes for EUR swaptions with long option tenors like 15y+ (``two holes'' in the quoted matrix)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Implications on pricing 2/2}
+\begin{itemize}
+\item shifted Black76 and normal Black76 models were established as market models for low and negative rates
+\item shifting is generic, e.g. the shifted SABR model has also become part of the new basic standard of market models
+\item with a different motivation (produce skew) a shift was introduced in Libor forward models a long time ago
+\item new models / model variants are discovered to handle negative rates in a more sophisticated way (free boundary SABR, mixed SABR)
+\item other models need adjustments as well (cms replication coupon pricers, Markov functional model)
+\end{itemize}
+\end{frame}
+
+\section{QuantLib implementation}
+
+\begin{frame}[fragile]
+\frametitle{Negative rates switch}
+\begin{itemize}
+\item \verb+QL_NEGATIVE_RATES+
+\item allows for negative zero yields, forwards, increasing discount factors
+\item \tiny \begin{verbatim}
++2012-07-31 14:11  Ferdinando Ametrano
++
++	* [r18305] ql/userconfig.hpp, test-suite/piecewiseyieldcurve.cpp:
++
++     defaulted to allow negative rates (define QL_NEGATIVE_RATES) as this
++     is happening for EUR OIS, CHF and German treasury yields, etc.
+\end{verbatim}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]
+\frametitle{Volatility type}
+\begin{itemize}
+\item \footnotesize\verb+ql/termstructures/volatility/volatilitytype.hpp+
+\item distinguishes between normal and (shifted) lognormal volatilities
+\end{itemize}
+\begin{minted}[bgcolor=mintedBg,fontsize=\footnotesize]{c++}
+    enum VolatilityType { ShiftedLognormal, Normal };
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Cap floor volatilities}
+\begin{itemize}
+\item market quotes normal or shifted lognormal volatilities, with a constant shift across strikes and tenors
+\end{itemize}
+\begin{minted}[bgcolor=mintedBg,fontsize=\scriptsize]{c++}
+OptionletStripper(const boost::shared_ptr<CapFloorTermVolSurface>&,
+                  const boost::shared_ptr<IborIndex>& iborIndex_,
+                  const Handle<YieldTermStructure>& discount =
+                                         Handle<YieldTermStructure>(),
+                  const VolatilityType type = ShiftedLognormal,
+                  const Real displacement = 0.0);
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Swaption volatilities}
+\begin{itemize}
+\item market quotes normal or shifted lognormal volatilities, with different shifts per underlying
+\item swaption cubes inherit the shift structure from their embedded atm matrix
+\item swaption volatility cube 1 uses shifted SABR models
+\item the shift is bilinearly interpolated in (option, underlying) space
+\end{itemize}
+\begin{minted}[bgcolor=mintedBg,fontsize=\footnotesize]{c++}
+SwaptionVolatilityMatrix(
+            const Calendar& calendar,
+            BusinessDayConvention bdc,
+            ...
+            const VolatilityType type = ShiftedLognormal,
+            const std::vector<std::vector<Real> >& shifts
+                        = std::vector<std::vector<Real> >());
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Libor in arrears adjustments}
+\begin{itemize}
+\item convexity adjustment is amended in a straightforward way for  shifted lognormal or normal volatilities
+\item timing adjustment is generalized at the same time for arbitrary non-natural fixing times\footnote{see \url{http://ssrn.com/abstract=2170721}}
+\end{itemize}
+\begin{minted}[bgcolor=mintedBg,fontsize=\scriptsize]{c++}
+enum TimingAdjustment { Black76,
+                        BivariateLognormal };
+BlackIborCouponPricer(const Handle<OptionletVolatilityStructure> &v =
+                   Handle<OptionletVolatilityStructure>(),
+                   const TimingAdjustment timingAdjustment = Black76,
+                   const Handle<Quote> correlation =
+                   Handle<Quote>(boost::make_shared<SimpleQuote>(1.0)))
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Linear TSR pricer for cms coupons}
+\begin{itemize}
+\item volatility type is recognized through the abstraction of \verb+SmileSection+
+\item the replication range is shifted appropriately (e.g. user bounds set to $[0,200\%]$ are transformed to $[-1\%,199\%]$ automatically if the applicable shift is $1\%$ to keep the user input universal under changing shifts in market quotations)
+\item for a normal model, the replication domain extends to $(-\infty,\infty)$
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{CMS spread option pricer}
+\begin{itemize}
+\item swap rate adjustments use shifted lognormal or normal smiles to determine the drifts of the single swap rate models
+\item the bivariate model for the swap rates is still purely lognormal currently, which works technically as long as the underlying forward levels are still positive
+\item with negative 2Y fixings, we will neeed to extend this pricer as well!
+\item PR \#264 allow for shifts in the single rate models or for normal single rate models\footnote{see \url{http://ssrn.com/abstract=2686998}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Calibration helpers}
+\begin{itemize}
+\item can be set up with normal and shifted lognormal volatilities
+\item cooperative with \verb+HullWhite+, \verb+Gsr+, \verb+Lgm+, \verb+MarkovFunctional+ models
+\end{itemize}
+\begin{minted}[bgcolor=mintedBg,fontsize=\footnotesize]{c++}
+SwaptionHelper(const Period& maturity,
+               const Period& length,
+               const Handle<Quote>& volatility,
+               ...
+               const VolatilityType type = ShiftedLognormal,
+               const Real shift = 0.0);
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{Markov functional model}
+\begin{itemize}
+\item replicates a market smile / density per expiry via the numeraire calibration
+\item therefore also replicates the density for negative strike ranges
+\item currently, only shifted lognormal smile input allowed
+\item todo: allow normal smile input for numeraire calibration
+\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Last frame: Contact page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setbeamertemplate{footline}[text line]{}
+\usebackgroundtemplate{{\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]
+{/home/peter/Quaternion/master_contact.pdf}}}
+
+%--------------------------------------------------------------------
+\begin{frame}{}
+%--------------------------------------------------------------------
+
+{\tiny
+\color{white}
+\begin{center}
+\hspace{-0.49cm}
+\begin{tabular}{ccc}
+{\bf UK}                           & {\bf Germany}           &  {\bf Ireland} \\
+29th Floor, 1 Canada Square        & Maurenbrecherstrasse 16 & 54 Fitzwilliam Square\\
+Canary Wharf, London E145DY        & 47803 Krefeld           & Dublin 2\\
++44 207 712 1645                   & +49 2151 9284 800       & +353 1 678 7922\\
+caroline.tonkin@quaternionrisk.com & heidy.koenings@quaternionrisk.com & joelle.higgins@quaternionrisk.com\\
+\end{tabular}
+\end{center}
+}
+
+\end{frame}
+
+\end{document}
