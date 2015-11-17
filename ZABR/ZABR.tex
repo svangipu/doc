@@ -79,7 +79,10 @@
 \maketitle
 
 \begin{abstract}
-We describe the implementation of the ZABR model \cite{zabr} and give numerical examples.
+This is mainly a repeat of \cite{zabr} inserting some more intermediate steps in 
+the calculations and a test of the numerical examples in the original paper against 
+our own implementation
+in \cite{ql}.
 \end{abstract}
 
 \section{Model description}
@@ -198,7 +201,7 @@ Setting $x(t) = x(f(t),v(t))$, one gets $dx=x_fdf+x_vdv+\textnormal{... }dt$, th
 1 = \sigma_x = \frac{dx dx}{dt} = x_f^2\sigma(f)^2v^2+x_v^2\epsilon(v)^2+2x_fx_v\rho\sigma(f) v \epsilon(v)
 \end{equation}
 
-This is a nonlinear partial differential equation in the dummy variables $(fv)$, which can be solved using boundary condition
+This is a nonlinear partial differential equation in the (dummy) variables $(f,v)$, which can be solved using boundary condition
 
 \begin{equation}
 x(f=K,v) = 0
@@ -603,6 +606,8 @@ Next we use this local vol and \ref{DupirePde} to produce a volatility smile. Th
 \begin{thebibliography}{1}
 
 \bibitem{zabr}Andreasen, Jesper and Huge, Brian: ZABR -- Expansions for the Masses, SSRN id 1980726, December 2011
+
+\bibitem{ql}QuantLib A free/open-source library for quantitative finance, http://www.quantlib.org
 
 \end{thebibliography}
 
