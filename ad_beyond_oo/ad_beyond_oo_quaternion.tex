@@ -256,8 +256,8 @@
 \begin{itemize}
 \item continue like in the third break down until we arrive at $h_{n-1} = x_n$
 \item $\partial_{x_i} y = \left[\sin(\prod x_i)\exp(\prod x_i)+\exp(\prod x_i)\cos(\prod x_i)\right] \prod_{j\neq i} x_i$
-\item $4(n-1)$ operations from the third break down on
-\item total operations count $4(n-1)+7 = \textcolor{purple}{4n+3}$
+\item $4n$ operations from the third break down on
+\item total operations count $\textcolor{purple}{4n+7}$
 \item one function evaluation was $\textcolor{purple}{n+4}$ operations
 \item naive approach for gradient calculation was $\textcolor{purple}{(n+1)(n+4)}$ operations
 \end{itemize}
