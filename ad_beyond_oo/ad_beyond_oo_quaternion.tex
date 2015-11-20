@@ -220,9 +220,9 @@
 \item $\partial_u y = \partial_y y \partial _u y = v$, $\partial_v y = \partial_y y \partial _v y = u$
 \item $2$ operations assuming we have
 \begin{itemize}
-\item evaluated the function and at the same time built the computational graph so that we know
-\item the value of $u$ and $v$ and
-\item the ``analytics'' for the local derivatives
+\item evaluated the function and at the same time built the computational graph so that we know ...
+\item ... the value of $u$ and $v$ and
+\item ... the ``analytics'' for the local derivatives
 \end{itemize}
 \item \textit{(disclaimer: we are not overly pedantic on how to count the operations in this example here ...)}
 \end{itemize}
@@ -235,7 +235,7 @@
 \item $\partial_x u = \exp(x), \partial_x v = \cos(x)$
 \item $\partial_x y = \partial_u y \partial_x u + \partial_v y \partial_x v = \sin(x)\exp(x)+\exp(x)\cos(x)$
 \item again, we know $x$ from the initial function evaluation
-\item $5$ operations (total operations count $7$)
+\item $4$ operations (total operations count $6$)
 \end{itemize}
 \end{frame}
 
@@ -247,7 +247,7 @@
 \item $\partial_{x_0} y = \partial_x y \partial_{x_0} x = [\sin(x)\exp(x)+\exp(x)\cos(x)] h_0$
 \item $\partial_{h_0} y = \partial_x y \partial_{x_0} h_0 = [\sin(x)\exp(x)+\exp(x)\cos(x)] x_0$
 \item ... we know $h_0$ from the forward sweep ...
-\item $4$ operations (total operations count $11$)
+\item $2$ operations (total operations count $8$)
 \end{itemize}
 \end{frame}
 
@@ -256,8 +256,8 @@
 \begin{itemize}
 \item continue like in the third break down until we arrive at $h_{n-1} = x_n$
 \item $\partial_{x_i} y = \left[\sin(\prod x_i)\exp(\prod x_i)+\exp(\prod x_i)\cos(\prod x_i)\right] \prod_{j\neq i} x_i$
-\item $4n$ operations from the third break down on
-\item total operations count $\textcolor{purple}{4n+7}$
+\item $2n$ operations from the third break down on
+\item total operations count $\textcolor{purple}{2n+6}$
 \item one function evaluation was $\textcolor{purple}{n+4}$ operations
 \item naive approach for gradient calculation was $\textcolor{purple}{(n+1)(n+4)}$ operations
 \end{itemize}
