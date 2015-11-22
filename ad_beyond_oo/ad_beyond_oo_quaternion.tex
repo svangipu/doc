@@ -297,8 +297,8 @@
 \begin{itemize}
 \item for a \verb+MinimalWrapper+ consisting of a \verb+double+ and a pointer \verb+MinimalWrapper*+ (set to \verb+nullptr+ always), the penalty is around 2.1x
 \item for this gcc generates \textit{scalar} double instructions (\textcolor{blue}{mulsd}, \textcolor{blue}{addsd})
-\item for the native \verb+double+ gcc generates \textit{packed} double instructions (\textcolor{blue}{mulpd}, \textcolor{blue}{addpd})\footnote{with -O3}
-\item in addtion the more involved data layout of the \verb+MinimalWrapper+ (placing a pointer after each native \verb+double+) leads to more instructions in the innermost loop
+\item for the native \verb+double+ gcc generates \textit{packed} double instructions (\textcolor{blue}{mulpd}, \textcolor{blue}{addpd})\footnote{with -O3, a similar observation will probably hold for -ffast-math}
+\item in addtion the more involved data layout of the \verb+MinimalWrapper+ (placing a pointer after each native \verb+double+) leads to more instructions in the innermost loop\footnote{however, cachegrind does not report a significantly higher rate of cache misses}
 \end{itemize}
 \end{frame}
 
@@ -321,8 +321,8 @@
 \item it is a bit more complicated than that
 \item allows mixing of active and native classes, as required, i.e. activation of variables in selected parts of the application only
 \item work in progress\footnote{conversion rate $\approx$ 2000 LOC / day (manual + an Elisp-little-helper)}, but basic IRD stuff works (like yield and volatility termstructures, swaps, CMS coupons, GSR model)
-\item \tiny \url{https://github.com/pcaspers/quantlib/tree/adjoint}
-\item \tiny \url{https://quantlib.wordpress.com/tag/automatic-differentiation/}
+\item \scriptsize \url{https://github.com/pcaspers/quantlib/tree/adjoint}
+\item \scriptsize \url{https://quantlib.wordpress.com/tag/automatic-differentiation/}
 \end{itemize}
 \end{frame}
 
