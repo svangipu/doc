@@ -298,7 +298,7 @@
 \item for a \verb+MinimalWrapper+ consisting of a \verb+double+ and a pointer \verb+MinimalWrapper*+ (set to \verb+nullptr+ always), the penalty is around 2.1x
 \item for this gcc generates \textit{scalar} double instructions (\textcolor{blue}{mulsd}, \textcolor{blue}{addsd})
 \item for the native \verb+double+ gcc generates \textit{packed} double instructions (\textcolor{blue}{mulpd}, \textcolor{blue}{addpd})\footnote{with -O3, a similar observation will probably hold for -ffast-math}
-\item in addtion the more involved data layout of the \verb+MinimalWrapper+ (placing a pointer after each native \verb+double+) leads to more instructions in the innermost loop\footnote{however, cachegrind does not report a significantly higher rate of cache misses}
+\item in addtion the more involved data layout of the \verb+MinimalWrapper+ (placing a pointer after each native \verb+double+) leads to more instructions in the innermost loop\footnote{we note that cachegrind does not report a higher rate of cache misses though}
 \end{itemize}
 \end{frame}
 
