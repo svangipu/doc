@@ -94,7 +94,7 @@
 \title{Negative rates in QuantLib}
 \author[QRM]{Peter Caspers}
 \institute{\normalsize Quaternion Risk Management}
-\date[Short Occasion]{\small 1 December 2015}
+\date[Short Occasion]{\small 01 December 2015}
 
 \AtBeginSection[]
 {
@@ -146,12 +146,12 @@
 %\parbox{\linewidth}
 %{\color{white}
 %\vspace*{-6pt}\copyright{} 2013 Quaternion Risk Management Ltd.
-%\hfill All Rights Reserved. 
+%\hfill All Rights Reserved.
 %\hfill \insertpagenumber}
 \parbox{\linewidth}
 {\color{white}
 \fontfamily{phv}\selectfont
-\vspace*{-6pt}\copyright{} 2015 Quaternion Risk Management Ltd. 
+\vspace*{-6pt}\copyright{} 2015 Quaternion Risk Management Ltd.
 %\hfill\insertshortauthor\hfill\insertpagenumber}
 \hfill\insertauthor
 \hfill\insertpagenumber}
@@ -184,16 +184,16 @@
 \item interest compounding on collateral accounts under
 \begin{itemize}
 \item ISDA negative rates protocol (no floor),
-\item DRV (currently still floored, will probably change)
+\item DRV (currently still floored $@0\%$, will probably change)
 \end{itemize}
-\item payment reversal in swaps under 
+\item payment reversal in swaps under
 \begin{itemize}
 \item ISDA (yes),
 \item DRV (most probably yes)
 \end{itemize}
-\item floored coupons $@0.00\%$ for 
+\item floored coupons $@0\%$ for
 \begin{itemize}
-\item bonds 
+\item bonds
 \item schuldscheindarlehen
 \item loans
 \end{itemize}
@@ -205,8 +205,9 @@
 \frametitle{Implications on pricing 1/2}
 \begin{itemize}
 \item rate curves should allow for negative forwards
-\item lognormal models can not reproduce market prices for zero (or negative strike) floors
-\item lognormal models can even fail to produce high enough prices for boring forward levels like $F=1\%$ or $2\%$, because e.g. for shifted lognormal models with shift $d\geq0$, $c(K)/N(0)\rightarrow F+d$ if $\sigma\rightarrow\infty$. 
+\item lognormal models can not reproduce market prices for zero (or negative strike) floors and break for negative forwards
+\item lognormal models can even fail to produce high enough prices for forward levels like $F=+1\%$ or $+2\%$, because e.g. for shifted lognormal models with shift $d\geq0$, $K\geq-d$
+\begin{equation}c(K)/N(0)\xrightarrow{\sigma\rightarrow\infty} F+d\end{equation}
 \item you could actually observe this recently by first exploding, then missing implied lognormal volatility quotes for EUR swaptions with long option tenors like 15y+ (``two holes'' in the quoted matrix)
 \end{itemize}
 \end{frame}
