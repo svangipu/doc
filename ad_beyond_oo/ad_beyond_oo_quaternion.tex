@@ -206,9 +206,9 @@
 \begin{itemize}
 \item program $f:\mathbb{R}^{n+1}\rightarrow\mathbb{R}$: $y = \exp\left( \prod_{i=0}^n x_i \right) \sin\left( \prod_{i=0}^n x_i \right)$
 \item imagine $n$ to be large, like $1000$
-\item evaluation complexity: $n+4=\textcolor{purple}{O(n)}$ operations $\in \{*, \exp, \sin \}$
+\item evaluation complexity: $n+3=\textcolor{purple}{O(n)}$ operations $\in \{*, \exp, \sin \}$
 \item goal: compute $\partial_x f \in \mathbb{R}^{n+1}$
-\item finite difference approach: $(n+1)(n+4) = \textcolor{purple}{O(n^2)}$ operations in addition to the evaluation
+\item finite difference approach: $(n+1)(n+3) = \textcolor{purple}{O(n^2)}$ operations in addition to the evaluation
 \end{itemize}
 \end{frame}
 
@@ -258,8 +258,8 @@
 \item $\partial_{x_i} y = \left[\sin(\prod x_i)\exp(\prod x_i)+\exp(\prod x_i)\cos(\prod x_i)\right] \prod_{j\neq i} x_i$
 \item $2n$ operations from the third break down on
 \item total operations count $\textcolor{purple}{2n+6}$
-\item one function evaluation was $\textcolor{purple}{n+4}$ operations
-\item naive approach for gradient calculation was $\textcolor{purple}{(n+1)(n+4)}$ operations
+\item one function evaluation was $\textcolor{purple}{n+3}$ operations
+\item naive approach for gradient calculation was $\textcolor{purple}{(n+1)(n+3)}$ operations
 \end{itemize}
 \end{frame}
 
@@ -297,7 +297,7 @@
 \begin{itemize}
 \item for a \verb+MinimalWrapper+ consisting of a \verb+double+ and a pointer \verb+MinimalWrapper*+ (set to \verb+nullptr+ always), the penalty is around 2.1x
 \item for this gcc generates \textit{scalar} double instructions (\textcolor{blue}{mulsd}, \textcolor{blue}{addsd})
-\item for the native \verb+double+ gcc generates \textit{packed} double instructions (\textcolor{blue}{mulpd}, \textcolor{blue}{addpd})\footnote{with -O3, a similar observation will probably hold for -ffast-math}
+\item for the native \verb+double+ gcc generates \textit{packed} double instructions (\textcolor{blue}{mulpd}, \textcolor{blue}{addpd})\footnote{with -ftree-vectorize, a similar observation holds for -ffast-math optimizations}
 \item in addtion the more involved data layout of the \verb+MinimalWrapper+ (placing a pointer after each native \verb+double+) leads to more instructions in the innermost loop\footnote{we note that cachegrind does not report a higher rate of cache misses though}
 \end{itemize}
 \end{frame}
@@ -365,7 +365,7 @@ in adjoint mode compared to one native-double pricing
 \item isolate the core computational code and reimplement it in Fortran
 \item use OpenAD/F to generate adjoint code, build a separate support library from that
 \item use a wrapper class on the QuantLib side to communicate with the support libary
-\item minimal library example \footnote{\tiny\url{https://github.com/pcaspers/quantlib/tree/master/QuantLibOAD/simplelib}} and LGM swaption engine\footnote{\tiny\url{https://github.com/pcaspers/quantlib/tree/master/QuantLibOAD/lgm}} available
+\item minimal library example\footnote{\tiny\url{https://github.com/pcaspers/quantlib/tree/master/QuantLibOAD/simplelib}} and LGM swaption engine\footnote{\tiny\url{https://github.com/pcaspers/quantlib/tree/master/QuantLibOAD/lgm}} available
 \item build via \verb+make+ (AD support library) or \verb+make plain+ (without OpenAD - transformation, for testing)
 \end{itemize}
 \end{frame}
@@ -379,7 +379,7 @@ in adjoint mode compared to one native-double pricing
         \includegraphics{luigi_objects_vs_math.png}
 \end{figure}
 \end{minipage}}
-(taken from from Luigi's talk at the 11th FI conference, 2015, Paris)
+(taken from Luigi's talk at the 11th FI conference, 2015, Paris)
 \end{frame}
 
 \begin{frame}[fragile]
