@@ -208,7 +208,7 @@
 \item imagine $n$ to be large, like $1000$
 \item evaluation complexity: $n+3=\textcolor{purple}{O(n)}$ operations $\in \{*, \exp, \sin \}$
 \item goal: compute $\partial_x f \in \mathbb{R}^{n+1}$
-\item finite difference approach: $(n+1)(n+3) = \textcolor{purple}{O(n^2)}$ operations in addition to the evaluation
+\item finite difference approach: $(n+1)(n+3) + 2(n+1) = \textcolor{purple}{O(n^2)}$ operations in addition to the evaluation
 \end{itemize}
 \end{frame}
 
@@ -259,7 +259,7 @@
 \item $2n$ operations from the third break down on
 \item total operations count $\textcolor{purple}{2n+6}$
 \item one function evaluation was $\textcolor{purple}{n+3}$ operations
-\item naive approach for gradient calculation was $\textcolor{purple}{(n+1)(n+3)}$ operations
+\item naive approach for gradient calculation was $\textcolor{purple}{(n+1)(n+3)+2(n+1)}$ operations
 \end{itemize}
 \end{frame}
 
